@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
     @Query(value = "select * from role where id=?1", nativeQuery = true)
-    public Role getByRoleId(Long roleId);
+    Role getByRoleId(Long roleId);
     @Query(value = "select *from role where name=?1", nativeQuery = true)
-    public Role getByRoleName(String roleName);
+    Role getByRoleName(String roleName);
 }

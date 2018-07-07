@@ -62,7 +62,7 @@ public class UserController {
                    response.addHeader(RESPONSE_MESSAGE, USER_REGISTRATION_SUCCESS);
 
                    //TwilioSms.sendSMS(addedUser.getPhone(), "Your verification code is "+addedUser.getVerificationCode());
-                   // TODO: 07/07/2018 SEND VERIFICATION CODE VIA SMS 
+                   // TODO: 07/07/2018 SEND VERIFICATION CODE VIA SMS
                    return ResponseEntity.status(201).body(userService.addUser(addedUser));
                }else{
                    response.addHeader(RESPONSE_CODE,RESPONSE_FAILURE);
@@ -162,21 +162,11 @@ public class UserController {
 
     public boolean isPhoneNumberTaken(String phoneNumber){
         Optional<AppUser> user = userService.findByPhoneNumber(phoneNumber);
-        if(user.isPresent()){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return user.isPresent();
     }
 
     public boolean isPhoneNumberValid(String phoneNumber){
-        if (phoneNumber.startsWith("+") && phoneNumber.length()>10 && phoneNumber.length()==13){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return phoneNumber.startsWith("+") && phoneNumber.length() > 10 && phoneNumber.length() == 13;
     }
 
 

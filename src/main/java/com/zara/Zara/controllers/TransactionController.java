@@ -321,7 +321,7 @@ public class TransactionController {
                 if (bCryptPasswordEncoder.matches(senderPin, senderUser.getPin())){
                     if(!agentNumber.equals(senderUser.getAccountNumber())){
 
-                        receiverUser = userService.findByAgentNumber(agentNumber).get();
+                        receiverUser = (appUser.isPresent()?userService.findByAgentNumber(agentNumber).get():null);
                         senderExistingBalance = senderUser.getBalance();
                         receiverExistingBalance = receiverUser.getBalance();
                         sendingAmount = Double.parseDouble(amount);
@@ -408,12 +408,7 @@ public class TransactionController {
     public boolean isAccountVerified(String accountNumber){
 
         AppUser appUser = userService.findByAccountNumber(accountNumber);
-        if (appUser.isVerified()){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return appUser.isVerified();
     }
 
 

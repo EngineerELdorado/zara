@@ -20,7 +20,7 @@ public class TransactionNumberGenerator implements IdentifierGenerator {
     public Serializable generate(SharedSessionContractImplementor  session, Object arg1)
             throws HibernateException {
         String transaction_number = "";
-        String digits = "";
+        String digits;
         Connection con = session.connection();
         try {
             java.sql.PreparedStatement pst = con

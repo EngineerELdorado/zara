@@ -23,7 +23,7 @@ public class AppEventListener implements CommandLineRunner {
     Logger LOGGER = LogManager.getLogger(AppEventListener.class);
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         LOGGER.info("............APP HAS STARTED...........");
 
        Collection<Role> roles= roleService.all();
