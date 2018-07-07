@@ -4,7 +4,6 @@ import com.zara.Zara.models.AppUser;
 import com.zara.Zara.models.Role;
 import com.zara.Zara.services.IRoleService;
 import com.zara.Zara.services.IUserService;
-import com.zara.Zara.utils.AfricasTalkingSms;
 import com.zara.Zara.utils.GenerateRandomStuff;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -63,7 +62,7 @@ public class UserController {
                    response.addHeader(RESPONSE_MESSAGE, USER_REGISTRATION_SUCCESS);
 
                    //TwilioSms.sendSMS(addedUser.getPhone(), "Your verification code is "+addedUser.getVerificationCode());
-                   AfricasTalkingSms.sendSms(addedUser.getPhone(), YOUR_VERIFICATION_CODE_IS+" "+addedUser.getVerificationCode());
+                   // TODO: 07/07/2018 SEND VERIFICATION CODE VIA SMS 
                    return ResponseEntity.status(201).body(userService.addUser(addedUser));
                }else{
                    response.addHeader(RESPONSE_CODE,RESPONSE_FAILURE);
