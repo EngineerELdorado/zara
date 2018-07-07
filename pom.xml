@@ -63,11 +63,6 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.7.0</version>
 		</dependency>
-		<dependency>
-			<groupId>com.twilio.sdk</groupId>
-			<artifactId>twilio-java-sdk</artifactId>
-			<version>3.4.5</version>
-		</dependency>
 	</dependencies>
 
 	<build>
