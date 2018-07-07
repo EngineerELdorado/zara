@@ -1,17 +1,13 @@
 package com.zara.Zara.controllers;
 
-import com.sun.xml.internal.ws.util.CompletedFuture;
-import com.zara.Zara.checks.CheckingUtils;
 import com.zara.Zara.models.AppUser;
 import com.zara.Zara.models.Transaction;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.IUserService;
-import com.zara.Zara.utils.AfricasTalkingSms;
 import com.zara.Zara.utils.GenerateRandomStuff;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -88,13 +84,9 @@ public class TransactionController {
                            LOGGER.info("transaction number "+transaction.getTransactionNumber()+"\n Dear "+senderUser.getFullName()+ " You have sent "+sendingAmount + " to "+
                                    receiverUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
                                    updatedSender.getBalance()+" USD\n");
-                           AfricasTalkingSms.sendSms(senderUser.getPhone(),"transaction number "+transaction.getTransactionNumber()+"\n Dear "+senderUser.getFullName()+ " You have sent "+sendingAmount + " to "+
-                           receiverUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
-                           updatedSender.getBalance()+" USD");
 
-                           AfricasTalkingSms.sendSms(senderUser.getPhone(),"transaction number "+transaction.getTransactionNumber()+"\n Dear"+receiverUser.getFullName()+ " You have received "+sendingAmount + " from "+
-                                   senderUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
-                                   updatedReceiver.getBalance()+" USD");
+                           // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER 
+
                            LOGGER.info("transaction number "+transaction.getTransactionNumber()+"\n Dear "+receiverUser.getFullName()+ " You have received "+sendingAmount + " from "+
                                    senderUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
                                    updatedReceiver.getBalance()+" USD\n");
@@ -181,13 +173,7 @@ public class TransactionController {
                             LOGGER.info("transaction number "+transaction.getTransactionNumber()+"\n Dear "+senderUser.getFullName()+ " You have sent "+sendingAmount + " to "+
                                     receiverUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
                                     updatedSender.getBalance()+" USD\n");
-                            AfricasTalkingSms.sendSms(senderUser.getPhone(),"transaction number "+transaction.getTransactionNumber()+"\n Dear "+senderUser.getFullName()+ " You have sent "+sendingAmount + " to "+
-                                    receiverUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
-                                    updatedSender.getBalance()+" USD");
-
-                            AfricasTalkingSms.sendSms(senderUser.getPhone(),"transaction number "+transaction.getTransactionNumber()+"\n Dear"+receiverUser.getFullName()+ " You have received "+sendingAmount + " from "+
-                                    senderUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
-                                    updatedReceiver.getBalance()+" USD");
+                            // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER  
                             LOGGER.info("transaction number "+transaction.getTransactionNumber()+"\n Dear "+receiverUser.getFullName()+ " You have received "+sendingAmount + " from "+
                                     senderUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
                                     updatedReceiver.getBalance()+" USD\n");
@@ -275,13 +261,8 @@ public class TransactionController {
                             LOGGER.info(TRANSACTION_NUMBER+transaction.getTransactionNumber()+"\n"+DEAR+senderUser.getFullName()+ YOU_HAVE_PAID+sendingAmount + TO +
                                     receiverUser.getFullName()+ ON + transaction.getCreatedOn().toString()+FOR+description+"\n"+
                                     updatedSender.getBalance()+" USD\n");
-                            AfricasTalkingSms.sendSms(senderUser.getPhone(),TRANSACTION_NUMBER+transaction.getTransactionNumber()+"\n"+DEAR+senderUser.getFullName()+ YOU_HAVE_PAID+sendingAmount + TO +
-                                    receiverUser.getFullName()+ ON + transaction.getCreatedOn().toString()+FOR+description+"\n"+
-                                    updatedSender.getBalance()+" USD\n");
 
-                            AfricasTalkingSms.sendSms(senderUser.getPhone(),TRANSACTION_NUMBER+transaction.getTransactionNumber()+"\n"+DEAR+receiverUser.getFullName()+ YOU_HAVE_BEEN_PAID+sendingAmount + BY +
-                                    senderUser.getFullName()+ ON + transaction.getCreatedOn().toString()+FOR+description+"\n"+
-                                    updatedSender.getBalance()+" USD\n");
+                            // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER  
                             LOGGER.info(TRANSACTION_NUMBER+transaction.getTransactionNumber()+"\n"+DEAR+receiverUser.getFullName()+ YOU_HAVE_BEEN_PAID+sendingAmount + BY +
                                     senderUser.getFullName()+ ON + transaction.getCreatedOn().toString()+FOR+description+"\n"+
                                     updatedSender.getBalance()+" USD\n");
@@ -368,13 +349,7 @@ public class TransactionController {
                             LOGGER.info("transaction number "+transaction.getTransactionNumber()+"\n Dear "+senderUser.getFullName()+ " You have withdrawn "+sendingAmount + " from Agent "+
                                     receiverUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
                                     updatedSender.getBalance()+" USD\n");
-                            AfricasTalkingSms.sendSms(senderUser.getPhone(),"transaction number "+transaction.getTransactionNumber()+"\n Dear "+senderUser.getFullName()+ " You have withdrawn from Agent "+sendingAmount + " to "+
-                                    receiverUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
-                                    updatedSender.getBalance()+" USD");
-
-                            AfricasTalkingSms.sendSms(senderUser.getPhone(),"transaction number "+transaction.getTransactionNumber()+"\n Dear"+receiverUser.getFullName()+ " You have received a withdrawal of  "+sendingAmount + " done by "+
-                                    senderUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
-                                    updatedReceiver.getBalance()+" USD");
+                            // TODO: 07/07/2018 SEND SMS TO BOTH THE WITHDRAWER AND THE AGENT 
                             LOGGER.info("transaction number "+transaction.getTransactionNumber()+"\n Dear "+receiverUser.getFullName()+ " You have received a withdrawal of   "+sendingAmount + " done by "+
                                     senderUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
                                     updatedReceiver.getBalance()+" USD\n");
