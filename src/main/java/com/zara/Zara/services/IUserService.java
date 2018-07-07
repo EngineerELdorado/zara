@@ -7,10 +7,10 @@ import java.util.Optional;
 
 public interface IUserService {
 
-    public AppUser addUser(AppUser appUser);
-    public AppUser findByAccountNumber(String accounNumber);
-    public Optional<AppUser> findByPhoneNumber(String phoneNumber);
-    public Optional<AppUser>findByAgentNumber(String agentNumber);
-    public Double getUserBalance(String accountNumber);
+    AppUser addUser(AppUser appUser);
+    AppUser findByAccountNumber(String accounNumber);
+    Optional<AppUser> findByPhoneNumber(String phoneNumber);
+    Optional<AppUser>findByAgentNumber(String agentNumber);
+    Double getUserBalance(String accountNumber);
     Collection<AppUser> getAll();
 }

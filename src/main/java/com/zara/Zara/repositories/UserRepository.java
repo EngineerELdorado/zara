@@ -9,11 +9,11 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<AppUser,String> {
 
     @Query(value = "select * from app_user where account_number =?1 or phone=?1 limit 1", nativeQuery = true)
-    public AppUser findByAccountNumber(String accountNumber);
+    AppUser findByAccountNumber(String accountNumber);
     @Query(value = "select * from app_user where phone =?1", nativeQuery = true)
-    public Optional<AppUser> findByPhoneNumber(String phoneNumber);
+    Optional<AppUser> findByPhoneNumber(String phoneNumber);
     @Query(value = "select * from app_user where agent_number=?1", nativeQuery = true)
-    public Optional<AppUser>findByAgentNumber(String agentNumber);
+    Optional<AppUser>findByAgentNumber(String agentNumber);
     @Query(value = "select balance from app_user where account_number=?1 or phone=?1", nativeQuery = true)
-    public Double getUserBalance(String accountNumber);
+    Double getUserBalance(String accountNumber);
 }
