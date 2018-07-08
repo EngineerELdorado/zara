@@ -27,4 +27,9 @@ public class TransactionServiceImp implements ITransactionService {
         return transactionRepository.findByTransactionNumber(transactionNumber);
     }
 
+    @Override
+    public Collection<Transaction> getMiniStatement(Long id) {
+        return transactionRepository.getMiniStatement(id);
+    }
+
 }

@@ -383,7 +383,12 @@ public class TransactionController {
         return null;
     }
 
+    @GetMapping("/ministatement/{id}")
+    public ResponseEntity<?>getMiniStatement(@PathVariable Long id){
 
+        return ResponseEntity.status(200).body(transactionService.getMiniStatement(id));
+
+    }
 
 
 
@@ -402,9 +407,6 @@ public class TransactionController {
         }
         return null;
     }
-
-
-
     public boolean isAccountVerified(String accountNumber){
 
         AppUser appUser = userService.findByAccountNumber(accountNumber);
