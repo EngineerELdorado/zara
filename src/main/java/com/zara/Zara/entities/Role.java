@@ -1,4 +1,4 @@
-package com.zara.Zara.models;
+package com.zara.Zara.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

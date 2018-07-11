@@ -1,6 +1,5 @@
 package com.zara.Zara.checks;
 
-import com.zara.Zara.models.AppUser;
 import com.zara.Zara.services.IUserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

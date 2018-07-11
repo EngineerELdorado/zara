@@ -1,6 +1,6 @@
 package com.zara.Zara.services;
 
-import com.zara.Zara.models.Role;
+import com.zara.Zara.entities.Role;
 
 import java.util.Collection;
 

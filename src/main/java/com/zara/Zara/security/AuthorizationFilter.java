@@ -32,10 +32,10 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
         String header = req.getHeader(HEADER_STRING);
-        LOGGER.info("header: "+ header);
+        //OGGER.info("header: "+ header);
         if (header == null || !header.startsWith(TOKEN_PREFIX)) {
             chain.doFilter(req, res);
-            LOGGER.info("invalid token ");
+            //LOGGER.info("invalid token ");
             return;
         }
 

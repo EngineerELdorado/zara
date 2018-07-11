@@ -1,8 +1,7 @@
-package com.zara.Zara.models;
+package com.zara.Zara.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
