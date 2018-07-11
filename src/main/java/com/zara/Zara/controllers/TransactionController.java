@@ -1,19 +1,24 @@
 package com.zara.Zara.controllers;
 
-import com.zara.Zara.models.AppUser;
-import com.zara.Zara.models.Transaction;
+import com.zara.Zara.entities.AppUser;
+import com.zara.Zara.entities.Transaction;
+import com.zara.Zara.models.TransactionRequestBody;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.IUserService;
 import com.zara.Zara.utils.GenerateRandomStuff;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.Optional;
 
@@ -31,14 +36,16 @@ public class TransactionController {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
     Logger LOGGER = LogManager.getLogger(TransactionController.class);
-    @PostMapping("/sending")
-    public ResponseEntity<?> sending(HttpServletRequest request, HttpServletResponse response){
+    HttpHeaders responseHeaders = new HttpHeaders();
+    @PostMapping("/adminTransfer")
+    public ResponseEntity<?> adminTransfer(
+           @RequestBody TransactionRequestBody body) throws UnsupportedEncodingException {
         AppUser senderUser;
         AppUser receiverUser;
-        String senderAccountNumber = request.getHeader("senderAccountNumber");
-        String receiverAccountNumber = request.getHeader("receiverAccountNumber");
-        String senderPin = request.getHeader("senderPin");
-        String amount = request.getHeader("amount");
+        String senderAccountNumber = URLDecoder.decode(body.getSender(), "UTF-8");;
+        String receiverAccountNumber = URLDecoder.decode(body.getReceiver(), "UTF-8");;
+        String senderPin = body.getPin();
+        String amnt = body.getAmount();
         Double senderExistingBalance;
         Double receiverExistingBalance;
         Double sendingAmount;
@@ -46,109 +53,239 @@ public class TransactionController {
         Double updatedReceiverBalance;
 
 
-
-        Optional<AppUser>appUser = Optional.of(userService.findByAccountNumber(senderAccountNumber));
-        if(appUser.isPresent()){
-           senderUser = appUser.get();
-
-           LOGGER.info("...................acc no "+senderAccountNumber);
-           if(isAccountVerified(senderAccountNumber)){
-               if (bCryptPasswordEncoder.matches(senderPin, senderUser.getPin())){
-                   if(!receiverAccountNumber.equals(senderUser.getAccountNumber())){
-
-                       receiverUser = userService.findByAccountNumber(receiverAccountNumber);
-                       senderExistingBalance = senderUser.getBalance();
-                       receiverExistingBalance = receiverUser.getBalance();
-                       sendingAmount = Double.parseDouble(amount);
-                       if(senderExistingBalance>=sendingAmount){
-
-                           Transaction transaction = new Transaction();
-                           transaction.setCreatedOn(new Date());
-                           transaction.setTransactionType(TRANSACTION_SEND);
-                           transaction.setCreatedBy(senderUser);
-                           transaction.setReceiver(receiverUser);
-                           transaction.setAmount(sendingAmount);
-                           transaction.setTransactionNumber(generateTransationNumber());
-                           updatedSenderBalance = senderExistingBalance-sendingAmount;
-                           senderUser.setBalance(updatedSenderBalance);
-
-                           updatedReceiverBalance = receiverExistingBalance+sendingAmount;
-                           receiverUser.setBalance(updatedReceiverBalance);
-
-                           transactionService.addTransaction(transaction);
-                           userService.addUser(receiverUser);
-                           AppUser updatedSender =userService.addUser(senderUser);
-                           AppUser updatedReceiver =userService.addUser(receiverUser);
-                           response.addHeader(RESPONSE_CODE, RESPONSE_SUCCESS);
-                           response.addHeader(RESPONSE_MESSAGE, SENDIND_SUCCEEDED);
-                           LOGGER.info("transaction number "+transaction.getTransactionNumber()+"\n Dear "+senderUser.getFullName()+ " You have sent "+sendingAmount + " to "+
-                                   receiverUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
-                                   updatedSender.getBalance()+" USD\n");
-
-                           // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER 
-
-                           LOGGER.info("transaction number "+transaction.getTransactionNumber()+"\n Dear "+receiverUser.getFullName()+ " You have received "+sendingAmount + " from "+
-                                   senderUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
-                                   updatedReceiver.getBalance()+" USD\n");
-                           return ResponseEntity.status(201).body(transaction);
-
-                       }else{
-                           response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                           response.addHeader(RESPONSE_MESSAGE, INSUFICIENT_FUNDS);
-                       }
-                   }else{
-                       response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                       response.addHeader(RESPONSE_MESSAGE, IMPOSSIBLE_OPERATION);
-                   }
-
-               }else{
-                   response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                   response.addHeader(RESPONSE_MESSAGE, INCORRECT_PIN);
-               }
-           }
-           else{
-               response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-               response.addHeader(RESPONSE_MESSAGE, ACCOUNT_NOT_VERIFIED);
-           }
-
-        }
-        else{
-            response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-            response.addHeader(RESPONSE_MESSAGE, USER_NOT_FOUND);
-        }
-
-        return null;
-    }
-
-    @PostMapping("/deposit")
-    public ResponseEntity<?> deposit(HttpServletRequest request, HttpServletResponse response){
-        AppUser senderUser;
-        AppUser receiverUser;
-        String senderAccountNumber = request.getHeader("senderAccountNumber");
-        String receiverAccountNumber = request.getHeader("receiverAccountNumber");
-        String senderPin = request.getHeader("senderPin");
-        String amount = request.getHeader("amount");
-        Double senderExistingBalance;
-        Double receiverExistingBalance;
-        Double sendingAmount;
-        Double updatedSenderBalance;
-        Double updatedReceiverBalance;
-
-
-
+        LOGGER.info(senderAccountNumber.trim() +" "+receiverAccountNumber+" "+senderPin+" "+amnt);
         Optional<AppUser>appUser = Optional.of(userService.findByAccountNumber(senderAccountNumber));
         if(appUser.isPresent()){
             senderUser = appUser.get();
-
+            if (senderUser==null){
+                responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                responseHeaders.set(RESPONSE_MESSAGE, YOUR_ACCOUNT_IS_NOT_FOUND);
+                return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+            }
             LOGGER.info("...................acc no "+senderAccountNumber);
             if(isAccountVerified(senderAccountNumber)){
                 if (bCryptPasswordEncoder.matches(senderPin, senderUser.getPin())){
-                    if(!receiverAccountNumber.equals(senderUser.getAccountNumber())){
+                    if(!receiverAccountNumber.equals(senderUser.getAccountNumber())
+                            &&!receiverAccountNumber.equals(senderUser.getPhone())){
 
                         receiverUser = userService.findByAccountNumber(receiverAccountNumber);
+                        if (receiverUser==null){
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                            responseHeaders.set(RESPONSE_MESSAGE, USER_NOT_FOUND);
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+                        }
                         senderExistingBalance = senderUser.getBalance();
                         receiverExistingBalance = receiverUser.getBalance();
-                        sendingAmount = Double.parseDouble(amount);
+                        sendingAmount = Double.parseDouble(amnt);
+                        if(senderExistingBalance>=sendingAmount){
+
+                            Transaction transaction = new Transaction();
+                            transaction.setCreatedOn(new Date());
+                            transaction.setTransactionType(TRANSACTION_ADMIN_TRANSFERT);
+                            transaction.setCreatedBy(senderUser);
+                            transaction.setReceiver(receiverUser);
+                            transaction.setAmount(sendingAmount);
+                            transaction.setTransactionNumber(generateTransationNumber());
+                            updatedSenderBalance = senderExistingBalance-sendingAmount;
+                            senderUser.setBalance(updatedSenderBalance);
+
+                            updatedReceiverBalance = receiverExistingBalance+sendingAmount;
+                            receiverUser.setBalance(updatedReceiverBalance);
+
+                            transactionService.addTransaction(transaction);
+                            userService.addUser(receiverUser);
+                            AppUser updatedSender =userService.addUser(senderUser);
+                            AppUser updatedReceiver =userService.addUser(receiverUser);
+
+                            // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER
+
+
+                            String responseToSend=TRANSACTION_NUMBER+transaction.getTransactionNumber()+". "+DEAR+senderUser.getFullName()+ YOU_HAVE_SENT+sendingAmount + TO+
+                                    receiverUser.getFullName()+ ON + transaction.getCreatedOn().toString()+". "+YOUR_NEW_BALANCE_IS+
+                                    updatedSender.getBalance()+" $";
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                            responseHeaders.set(RESPONSE_MESSAGE, responseToSend);
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+
+                        }else{
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                            responseHeaders.set(RESPONSE_MESSAGE, INSUFICIENT_FUNDS+" "+senderUser.getBalance()+"$");
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+                        }
+                    }else{
+                        LOGGER.info("....CANNOT SEND MONEY TO YOURSELF....");
+                        responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                        responseHeaders.set(RESPONSE_MESSAGE, CANNOT_SEND_MONEY_YOUR_OWN_ACC);
+                        return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+                    }
+
+                }else{
+                    LOGGER.info("....WRONG PIN....");
+                    responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                    responseHeaders.set(RESPONSE_MESSAGE, "Wrong Pin");
+                    return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+                }
+            }
+            else{
+                responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                responseHeaders.set(RESPONSE_MESSAGE, ACCOUNT_NOT_VERIFIED);
+                return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+            }
+
+        }
+        else{
+            responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+            responseHeaders.set(RESPONSE_MESSAGE, USER_NOT_FOUND);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+        }
+
+        //return null;
+    }
+    @GetMapping("/sending")
+    public ResponseEntity<?> sending(
+            @RequestBody TransactionRequestBody body) throws UnsupportedEncodingException {
+        AppUser senderUser;
+        AppUser receiverUser;
+        String senderAccountNumber = URLDecoder.decode(body.getSender(), "UTF-8");;
+        String receiverAccountNumber = URLDecoder.decode(body.getReceiver(), "UTF-8");;
+        String senderPin = body.getPin();
+        String amnt = body.getAmount();
+        Double senderExistingBalance;
+        Double receiverExistingBalance;
+        Double sendingAmount;
+        Double updatedSenderBalance;
+        Double updatedReceiverBalance;
+
+
+        LOGGER.info(senderAccountNumber.trim() +" "+receiverAccountNumber+" "+senderPin+" "+amnt);
+        Optional<AppUser>appUser = Optional.of(userService.findByAccountNumber(senderAccountNumber));
+        if(appUser.isPresent()){
+            senderUser = appUser.get();
+            if (senderUser==null){
+                responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                responseHeaders.set(RESPONSE_MESSAGE, YOUR_ACCOUNT_IS_NOT_FOUND);
+                return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+            }
+            LOGGER.info("...................acc no "+senderAccountNumber);
+            if(isAccountVerified(senderAccountNumber)){
+                if (bCryptPasswordEncoder.matches(senderPin, senderUser.getPin())){
+                    if(!receiverAccountNumber.equals(senderUser.getAccountNumber())
+                            &&!receiverAccountNumber.equals(senderUser.getPhone())){
+
+                        receiverUser = userService.findByAccountNumber(receiverAccountNumber);
+                        if (receiverUser==null){
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                            responseHeaders.set(RESPONSE_MESSAGE, USER_NOT_FOUND);
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+                        }
+                        senderExistingBalance = senderUser.getBalance();
+                        receiverExistingBalance = receiverUser.getBalance();
+                        sendingAmount = Double.parseDouble(amnt);
+                        if(senderExistingBalance>=sendingAmount){
+
+                            Transaction transaction = new Transaction();
+                            transaction.setCreatedOn(new Date());
+                            transaction.setTransactionType(TRANSACTION_SEND);
+                            transaction.setCreatedBy(senderUser);
+                            transaction.setReceiver(receiverUser);
+                            transaction.setAmount(sendingAmount);
+                            transaction.setTransactionNumber(generateTransationNumber());
+                            updatedSenderBalance = senderExistingBalance-sendingAmount;
+                            senderUser.setBalance(updatedSenderBalance);
+
+                            updatedReceiverBalance = receiverExistingBalance+sendingAmount;
+                            receiverUser.setBalance(updatedReceiverBalance);
+
+                            transactionService.addTransaction(transaction);
+                            userService.addUser(receiverUser);
+                            AppUser updatedSender =userService.addUser(senderUser);
+                            AppUser updatedReceiver =userService.addUser(receiverUser);
+
+                            // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER
+
+
+                            String responseToSend=TRANSACTION_NUMBER+transaction.getTransactionNumber()+". "+DEAR+senderUser.getFullName()+ YOU_HAVE_SENT+sendingAmount + TO+
+                                    receiverUser.getFullName()+ ON + transaction.getCreatedOn().toString()+". "+YOUR_NEW_BALANCE_IS+
+                                    updatedSender.getBalance()+" $";
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                            responseHeaders.set(RESPONSE_MESSAGE, responseToSend);
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+
+                        }else{
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                            responseHeaders.set(RESPONSE_MESSAGE, INSUFICIENT_FUNDS+" "+senderUser.getBalance()+"$");
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+                        }
+                    }else{
+                        LOGGER.info("....CANNOT SEND MONEY TO YOURSELF....");
+                        responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                        responseHeaders.set(RESPONSE_MESSAGE, CANNOT_SEND_MONEY_YOUR_OWN_ACC);
+                        return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+                    }
+
+                }else{
+                    LOGGER.info("....WRONG PIN....");
+                    responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                    responseHeaders.set(RESPONSE_MESSAGE, "Wrong Pin");
+                    return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+                }
+            }
+            else{
+                responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                responseHeaders.set(RESPONSE_MESSAGE, ACCOUNT_NOT_VERIFIED);
+                return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+            }
+
+        }
+        else{
+            responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+            responseHeaders.set(RESPONSE_MESSAGE, USER_NOT_FOUND);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+        }
+
+        //return null;
+    }
+
+    @PostMapping("/deposit")
+    public ResponseEntity<?> deposit(
+            @RequestBody TransactionRequestBody body) throws UnsupportedEncodingException {
+        AppUser senderUser;
+        AppUser receiverUser;
+        String senderAccountNumber = URLDecoder.decode(body.getSender(), "UTF-8");;
+        String receiverAccountNumber = URLDecoder.decode(body.getReceiver(), "UTF-8");;
+        String senderPin = body.getPin();
+        String amnt = body.getAmount();
+        Double senderExistingBalance;
+        Double receiverExistingBalance;
+        Double sendingAmount;
+        Double updatedSenderBalance;
+        Double updatedReceiverBalance;
+
+
+        LOGGER.info(senderAccountNumber.trim() +" "+receiverAccountNumber+" "+senderPin+" "+amnt);
+        Optional<AppUser>appUser = Optional.of(userService.findByAccountNumber(senderAccountNumber));
+        if(appUser.isPresent()){
+            senderUser = appUser.get();
+            if (senderUser==null){
+                responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                responseHeaders.set(RESPONSE_MESSAGE, YOUR_ACCOUNT_IS_NOT_FOUND);
+                return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+            }
+            LOGGER.info("...................acc no "+senderAccountNumber);
+            if(isAccountVerified(senderAccountNumber)){
+                if (bCryptPasswordEncoder.matches(senderPin, senderUser.getPin())){
+                    if(!receiverAccountNumber.equals(senderUser.getAccountNumber())
+                            &&!receiverAccountNumber.equals(senderUser.getPhone())){
+
+                        receiverUser = userService.findByAccountNumber(receiverAccountNumber);
+                        if (receiverUser==null){
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                            responseHeaders.set(RESPONSE_MESSAGE, USER_NOT_FOUND);
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+                        }
+                        senderExistingBalance = senderUser.getBalance();
+                        receiverExistingBalance = receiverUser.getBalance();
+                        sendingAmount = Double.parseDouble(amnt);
                         if(senderExistingBalance>=sendingAmount){
 
                             Transaction transaction = new Transaction();
@@ -168,54 +305,61 @@ public class TransactionController {
                             userService.addUser(receiverUser);
                             AppUser updatedSender =userService.addUser(senderUser);
                             AppUser updatedReceiver =userService.addUser(receiverUser);
-                            response.addHeader(RESPONSE_CODE, RESPONSE_SUCCESS);
-                            response.addHeader(RESPONSE_MESSAGE, SENDIND_SUCCEEDED);
-                            LOGGER.info("transaction number "+transaction.getTransactionNumber()+"\n Dear "+senderUser.getFullName()+ " You have sent "+sendingAmount + " to "+
-                                    receiverUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
-                                    updatedSender.getBalance()+" USD\n");
-                            // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER  
-                            LOGGER.info("transaction number "+transaction.getTransactionNumber()+"\n Dear "+receiverUser.getFullName()+ " You have received "+sendingAmount + " from "+
-                                    senderUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
-                                    updatedReceiver.getBalance()+" USD\n");
-                            return ResponseEntity.status(201).body(transaction);
+
+                            // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER
+
+
+                            String responseToSend=TRANSACTION_NUMBER+transaction.getTransactionNumber()+". "+DEAR+senderUser.getFullName()+ YOU_HAVE_SENT+sendingAmount + TO+
+                                    receiverUser.getFullName()+ ON + transaction.getCreatedOn().toString()+". "+YOUR_NEW_BALANCE_IS+
+                                    updatedSender.getBalance()+" $";
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                            responseHeaders.set(RESPONSE_MESSAGE, responseToSend);
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
 
                         }else{
-                            response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                            response.addHeader(RESPONSE_MESSAGE, INSUFICIENT_FUNDS);
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                            responseHeaders.set(RESPONSE_MESSAGE, INSUFICIENT_FUNDS+" "+senderUser.getBalance()+"$");
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
                         }
                     }else{
-                        response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                        response.addHeader(RESPONSE_MESSAGE, IMPOSSIBLE_OPERATION);
+                        LOGGER.info("....CANNOT SEND MONEY TO YOURSELF....");
+                        responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                        responseHeaders.set(RESPONSE_MESSAGE, CANNOT_SEND_MONEY_YOUR_OWN_ACC);
+                        return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
                     }
 
                 }else{
-                    response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                    response.addHeader(RESPONSE_MESSAGE, INCORRECT_PIN);
+                    LOGGER.info("....WRONG PIN....");
+                    responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                    responseHeaders.set(RESPONSE_MESSAGE, "Wrong Pin");
+                    return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
                 }
             }
             else{
-                response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                response.addHeader(RESPONSE_MESSAGE, ACCOUNT_NOT_VERIFIED);
+                responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                responseHeaders.set(RESPONSE_MESSAGE, ACCOUNT_NOT_VERIFIED);
+                return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
             }
 
         }
         else{
-            response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-            response.addHeader(RESPONSE_MESSAGE, USER_NOT_FOUND);
+            responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+            responseHeaders.set(RESPONSE_MESSAGE, USER_NOT_FOUND);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
         }
 
-        return null;
+        //return null;
     }
 
     @PostMapping("/onlinePayment")
-    public ResponseEntity<?> onlinePayment(HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<?> onlinePayment(
+            @RequestBody TransactionRequestBody body) throws UnsupportedEncodingException {
         AppUser senderUser;
         AppUser receiverUser;
-        String senderAccountNumber = request.getHeader("senderAccountNumber");
-        String receiverAccountNumber = request.getHeader("receiverAccountNumber");
-        String description = request.getHeader("description");
-        String senderPin = request.getHeader("senderPin");
-        String amount = request.getHeader("amount");
+        String senderAccountNumber = URLDecoder.decode(body.getSender(), "UTF-8");;
+        String receiverAccountNumber = URLDecoder.decode(body.getReceiver(), "UTF-8");;
+        String senderPin = body.getPin();
+        String amnt = body.getAmount();
         Double senderExistingBalance;
         Double receiverExistingBalance;
         Double sendingAmount;
@@ -223,20 +367,30 @@ public class TransactionController {
         Double updatedReceiverBalance;
 
 
-
+        LOGGER.info(senderAccountNumber.trim() +" "+receiverAccountNumber+" "+senderPin+" "+amnt);
         Optional<AppUser>appUser = Optional.of(userService.findByAccountNumber(senderAccountNumber));
         if(appUser.isPresent()){
             senderUser = appUser.get();
-
+            if (senderUser==null){
+                responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                responseHeaders.set(RESPONSE_MESSAGE, YOUR_ACCOUNT_IS_NOT_FOUND);
+                return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+            }
             LOGGER.info("...................acc no "+senderAccountNumber);
             if(isAccountVerified(senderAccountNumber)){
                 if (bCryptPasswordEncoder.matches(senderPin, senderUser.getPin())){
-                    if(!receiverAccountNumber.equals(senderUser.getAccountNumber())){
+                    if(!receiverAccountNumber.equals(senderUser.getAccountNumber())
+                            &&!receiverAccountNumber.equals(senderUser.getPhone())){
 
                         receiverUser = userService.findByAccountNumber(receiverAccountNumber);
+                        if (receiverUser==null){
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                            responseHeaders.set(RESPONSE_MESSAGE, USER_NOT_FOUND);
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+                        }
                         senderExistingBalance = senderUser.getBalance();
                         receiverExistingBalance = receiverUser.getBalance();
-                        sendingAmount = Double.parseDouble(amount);
+                        sendingAmount = Double.parseDouble(amnt);
                         if(senderExistingBalance>=sendingAmount){
 
                             Transaction transaction = new Transaction();
@@ -245,6 +399,7 @@ public class TransactionController {
                             transaction.setCreatedBy(senderUser);
                             transaction.setReceiver(receiverUser);
                             transaction.setAmount(sendingAmount);
+                            transaction.setDescription(body.getDescription());
                             transaction.setTransactionNumber(generateTransationNumber());
                             updatedSenderBalance = senderExistingBalance-sendingAmount;
                             senderUser.setBalance(updatedSenderBalance);
@@ -256,54 +411,60 @@ public class TransactionController {
                             userService.addUser(receiverUser);
                             AppUser updatedSender =userService.addUser(senderUser);
                             AppUser updatedReceiver =userService.addUser(receiverUser);
-                            response.addHeader(RESPONSE_CODE, RESPONSE_SUCCESS);
-                            response.addHeader(RESPONSE_MESSAGE, SENDIND_SUCCEEDED);
-                            LOGGER.info(TRANSACTION_NUMBER+transaction.getTransactionNumber()+"\n"+DEAR+senderUser.getFullName()+ YOU_HAVE_PAID+sendingAmount + TO +
-                                    receiverUser.getFullName()+ ON + transaction.getCreatedOn().toString()+FOR+description+"\n"+
-                                    updatedSender.getBalance()+" USD\n");
 
-                            // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER  
-                            LOGGER.info(TRANSACTION_NUMBER+transaction.getTransactionNumber()+"\n"+DEAR+receiverUser.getFullName()+ YOU_HAVE_BEEN_PAID+sendingAmount + BY +
-                                    senderUser.getFullName()+ ON + transaction.getCreatedOn().toString()+FOR+description+"\n"+
-                                    updatedSender.getBalance()+" USD\n");
-                            return ResponseEntity.status(201).body(transaction);
+                            // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER
+
+
+                            String responseToSend=TRANSACTION_NUMBER+transaction.getTransactionNumber()+". "+DEAR+senderUser.getFullName()+ YOU_HAVE_SENT+sendingAmount + TO+
+                                    receiverUser.getFullName()+ ON + transaction.getCreatedOn().toString()+". "+YOUR_NEW_BALANCE_IS+
+                                    updatedSender.getBalance()+" $";
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                            responseHeaders.set(RESPONSE_MESSAGE, responseToSend);
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
 
                         }else{
-                            response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                            response.addHeader(RESPONSE_MESSAGE, INSUFICIENT_FUNDS);
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                            responseHeaders.set(RESPONSE_MESSAGE, INSUFICIENT_FUNDS+" "+senderUser.getBalance()+"$");
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
                         }
                     }else{
-                        response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                        response.addHeader(RESPONSE_MESSAGE, IMPOSSIBLE_OPERATION);
+                        LOGGER.info("....CANNOT SEND MONEY TO YOURSELF....");
+                        responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                        responseHeaders.set(RESPONSE_MESSAGE, CANNOT_SEND_MONEY_YOUR_OWN_ACC);
+                        return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
                     }
 
                 }else{
-                    response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                    response.addHeader(RESPONSE_MESSAGE, INCORRECT_PIN);
+                    LOGGER.info("....WRONG PIN....");
+                    responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                    responseHeaders.set(RESPONSE_MESSAGE, "Wrong Pin");
+                    return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
                 }
             }
             else{
-                response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                response.addHeader(RESPONSE_MESSAGE, ACCOUNT_NOT_VERIFIED);
+                responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                responseHeaders.set(RESPONSE_MESSAGE, ACCOUNT_NOT_VERIFIED);
+                return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
             }
 
         }
         else{
-            response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-            response.addHeader(RESPONSE_MESSAGE, USER_NOT_FOUND);
+            responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+            responseHeaders.set(RESPONSE_MESSAGE, USER_NOT_FOUND);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
         }
 
-        return null;
+        //return null;
     }
-
     @PostMapping("/withdraw")
-    public ResponseEntity<?> withdraw(HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<?> withdraw(
+            @RequestBody TransactionRequestBody body) throws UnsupportedEncodingException {
         AppUser senderUser;
         AppUser receiverUser;
-        String senderAccountNumber = request.getHeader("senderAccountNumber");
-        String agentNumber = request.getHeader("agentNumber");
-        String senderPin = request.getHeader("senderPin");
-        String amount = request.getHeader("amount");
+        String senderAccountNumber = URLDecoder.decode(body.getSender(), "UTF-8");;
+        String receiverAccountNumber = URLDecoder.decode(body.getReceiver(), "UTF-8");;
+        String senderPin = body.getPin();
+        String amnt = body.getAmount();
         Double senderExistingBalance;
         Double receiverExistingBalance;
         Double sendingAmount;
@@ -311,25 +472,35 @@ public class TransactionController {
         Double updatedReceiverBalance;
 
 
-
+        LOGGER.info(senderAccountNumber.trim() +" "+receiverAccountNumber+" "+senderPin+" "+amnt);
         Optional<AppUser>appUser = Optional.of(userService.findByAccountNumber(senderAccountNumber));
         if(appUser.isPresent()){
             senderUser = appUser.get();
-
+            if (senderUser==null){
+                responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                responseHeaders.set(RESPONSE_MESSAGE, YOUR_ACCOUNT_IS_NOT_FOUND);
+                return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+            }
             LOGGER.info("...................acc no "+senderAccountNumber);
             if(isAccountVerified(senderAccountNumber)){
                 if (bCryptPasswordEncoder.matches(senderPin, senderUser.getPin())){
-                    if(!agentNumber.equals(senderUser.getAccountNumber())){
+                    if(!receiverAccountNumber.equals(senderUser.getAccountNumber())
+                            &&!receiverAccountNumber.equals(senderUser.getPhone())){
 
-                        receiverUser = (appUser.isPresent()?userService.findByAgentNumber(agentNumber).get():null);
+                        receiverUser = userService.findByAgentNumber(body.getAgentNumber());
+                        if (receiverUser==null){
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                            responseHeaders.set(RESPONSE_MESSAGE, AGENT_NOT_FOUND);
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+                        }
                         senderExistingBalance = senderUser.getBalance();
                         receiverExistingBalance = receiverUser.getBalance();
-                        sendingAmount = Double.parseDouble(amount);
+                        sendingAmount = Double.parseDouble(amnt);
                         if(senderExistingBalance>=sendingAmount){
 
                             Transaction transaction = new Transaction();
                             transaction.setCreatedOn(new Date());
-                            transaction.setTransactionType(TRANSACTION_WITHDRAWAL);
+                            transaction.setTransactionType(TRANSACTION_ADMIN_TRANSFERT);
                             transaction.setCreatedBy(senderUser);
                             transaction.setReceiver(receiverUser);
                             transaction.setAmount(sendingAmount);
@@ -344,43 +515,50 @@ public class TransactionController {
                             userService.addUser(receiverUser);
                             AppUser updatedSender =userService.addUser(senderUser);
                             AppUser updatedReceiver =userService.addUser(receiverUser);
-                            response.addHeader(RESPONSE_CODE, RESPONSE_SUCCESS);
-                            response.addHeader(RESPONSE_MESSAGE, SENDIND_SUCCEEDED);
-                            LOGGER.info("transaction number "+transaction.getTransactionNumber()+"\n Dear "+senderUser.getFullName()+ " You have withdrawn "+sendingAmount + " from Agent "+
-                                    receiverUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
-                                    updatedSender.getBalance()+" USD\n");
-                            // TODO: 07/07/2018 SEND SMS TO BOTH THE WITHDRAWER AND THE AGENT 
-                            LOGGER.info("transaction number "+transaction.getTransactionNumber()+"\n Dear "+receiverUser.getFullName()+ " You have received a withdrawal of   "+sendingAmount + " done by "+
-                                    senderUser.getFullName()+ " on "+ transaction.getCreatedOn().toString()+"\n your new balance is "+
-                                    updatedReceiver.getBalance()+" USD\n");
-                            return ResponseEntity.status(201).body(transaction);
+
+                            // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER
+
+
+                            String responseToSend=TRANSACTION_NUMBER+transaction.getTransactionNumber()+". "+DEAR+senderUser.getFullName()+ YOU_HAVE_SENT+sendingAmount + TO+
+                                    receiverUser.getFullName()+ ON + transaction.getCreatedOn().toString()+". "+YOUR_NEW_BALANCE_IS+
+                                    updatedSender.getBalance()+" $";
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                            responseHeaders.set(RESPONSE_MESSAGE, responseToSend);
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
 
                         }else{
-                            response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                            response.addHeader(RESPONSE_MESSAGE, INSUFICIENT_FUNDS);
+                            responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                            responseHeaders.set(RESPONSE_MESSAGE, INSUFICIENT_FUNDS+" "+senderUser.getBalance()+"$");
+                            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
                         }
                     }else{
-                        response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                        response.addHeader(RESPONSE_MESSAGE, IMPOSSIBLE_OPERATION);
+                        LOGGER.info("....CANNOT SEND MONEY TO YOURSELF....");
+                        responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                        responseHeaders.set(RESPONSE_MESSAGE, CANNOT_SEND_MONEY_YOUR_OWN_ACC);
+                        return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
                     }
 
                 }else{
-                    response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                    response.addHeader(RESPONSE_MESSAGE, INCORRECT_PIN);
+                    LOGGER.info("....WRONG PIN....");
+                    responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                    responseHeaders.set(RESPONSE_MESSAGE, "Wrong Pin");
+                    return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
                 }
             }
             else{
-                response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-                response.addHeader(RESPONSE_MESSAGE, ACCOUNT_NOT_VERIFIED);
+                responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                responseHeaders.set(RESPONSE_MESSAGE, ACCOUNT_NOT_VERIFIED);
+                return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
             }
 
         }
         else{
-            response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-            response.addHeader(RESPONSE_MESSAGE, USER_NOT_FOUND);
+            responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+            responseHeaders.set(RESPONSE_MESSAGE, USER_NOT_FOUND);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
         }
 
-        return null;
+        //return null;
     }
 
     @GetMapping("/ministatement/{id}")
@@ -388,6 +566,10 @@ public class TransactionController {
 
         return ResponseEntity.status(200).body(transactionService.getMiniStatement(id));
 
+    }
+    @GetMapping("/getAll")
+    public ResponseEntity<?>getAll(){
+        return ResponseEntity.status(200).body(transactionService.getAll());
     }
 
 

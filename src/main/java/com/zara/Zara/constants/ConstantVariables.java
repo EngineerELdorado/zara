@@ -16,6 +16,7 @@ public class ConstantVariables {
     public static String TRANSACTION_WITHDRAWAL="WITHDRAWAL";
     public static String TRANSACTION_SEND="SEND MONEY";
     public static String TRANSACTION_BALANCE="BALANCE ENQUIRY";
+    public static String TRANSACTION_ADMIN_TRANSFERT="ADMIN TRANSFER";
 
 
 }

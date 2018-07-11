@@ -1,6 +1,6 @@
 package com.zara.Zara.services;
 
-import com.zara.Zara.models.AppUser;
+import com.zara.Zara.entities.AppUser;
 import com.zara.Zara.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class UserServiceImp implements IUserService {
     }
 
     @Override
-    public Optional<AppUser> findByAgentNumber(String agentNumber) {
+    public AppUser findByAgentNumber(String agentNumber) {
         return userRepository.findByAgentNumber(agentNumber);
     }
 
@@ -40,7 +40,7 @@ public class UserServiceImp implements IUserService {
 
     @Override
     public Collection<AppUser> getAll() {
-        return userRepository.findAll();
+        return userRepository.getAll();
     }
 
 

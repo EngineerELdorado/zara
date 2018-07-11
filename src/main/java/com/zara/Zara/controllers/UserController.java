@@ -1,7 +1,7 @@
 package com.zara.Zara.controllers;
 
-import com.zara.Zara.models.AppUser;
-import com.zara.Zara.models.Role;
+import com.zara.Zara.entities.AppUser;
+import com.zara.Zara.entities.Role;
 import com.zara.Zara.services.IRoleService;
 import com.zara.Zara.services.IUserService;
 import com.zara.Zara.utils.GenerateRandomStuff;
@@ -149,8 +149,8 @@ public class UserController {
 
     public String generateAgentNumber(){
         String agentNumber = ACCOUNT_NUMBER_PREFIX+String.valueOf(GenerateRandomStuff.getRandomNumber(10000));
-        Optional<AppUser> appUser = userService.findByAgentNumber(agentNumber);
-        if(!appUser.isPresent()){
+        AppUser appUser = userService.findByAgentNumber(agentNumber);
+        if(appUser==null){
             return agentNumber;
 
         }

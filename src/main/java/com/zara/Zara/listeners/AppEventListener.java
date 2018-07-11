@@ -1,7 +1,7 @@
 package com.zara.Zara.listeners;
 
 
-import com.zara.Zara.models.Role;
+import com.zara.Zara.entities.Role;
 import com.zara.Zara.services.IRoleService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

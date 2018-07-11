@@ -1,6 +1,6 @@
 package com.zara.Zara.repositories;
 
-import com.zara.Zara.models.Role;
+import com.zara.Zara.entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

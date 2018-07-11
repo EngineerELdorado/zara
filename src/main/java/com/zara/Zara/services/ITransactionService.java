@@ -1,6 +1,6 @@
 package com.zara.Zara.services;
 
-import com.zara.Zara.models.Transaction;
+import com.zara.Zara.entities.Transaction;
 
 import java.util.Collection;
 

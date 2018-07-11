@@ -1,7 +1,7 @@
 package com.zara.Zara.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zara.Zara.models.AppUser;
+import com.zara.Zara.entities.AppUser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -77,7 +76,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .setExpiration(new Date(System.currentTimeMillis()+ EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
                 .compact();
-        response.addHeader("Access-Control-Expose-Headers", "Authorization");
+        response.addHeader("Access-Control-Expose-Headers", HEADER_STRING);
         response.addHeader(HEADER_STRING, TOKEN_PREFIX+ token);
         response.addHeader(RESPONSE_CODE,RESPONSE_SUCCESS);
         response.addHeader(RESPONSE_MESSAGE,LOGIN_SUCCESS);
