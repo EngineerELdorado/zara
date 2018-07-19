@@ -49,7 +49,12 @@ public class AppEventListener implements CommandLineRunner {
            Role roleAgent= new Role();
            roleAgent.setName(ROLE_AGENT);
            roleService.add(roleAgent);
-           LOGGER.info("............ADDED USER ROLE...........");
+           LOGGER.info("............ADDED AGENT ROLE...........");
+
+           Role roleMassPayer= new Role();
+           roleAgent.setName(ROLE_MASS_PAYER);
+           roleService.add(roleMassPayer);
+           LOGGER.info("............ADDED USER MASS PAYER ROLE...........");
 
        }
        else {

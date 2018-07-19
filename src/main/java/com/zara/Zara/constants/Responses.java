@@ -4,9 +4,14 @@ public class Responses {
 
     public static String USER_REGISTRATION_SUCCESS ="User Successfully Registered";
     public static String PHONE_NUMBER_ALREADY_TAKEN ="This Phone Number Is Already Taken";
-    public static String PHONE_NUMBER_FORMAT_INVALID ="Please provide a valid phone number format. make sure you start " +
-            "with the country code. eg(243909090567)";
+    public static String PHONE_NUMBER_FORMAT_INVALID ="Numero De Telephone Invalid. Veillez fournir un numero avec ce format" +
+            " +254994341484";
     public static String USER_REGISTRATION_FAILED="THe User Registration Has Failed";
+    public static String USER_UPDATED="Info sauvegardee...";
+    public static String USER_UPDATED_NEED_TO_VERIFY_PHONE="Info sauvegardee... mais l'utilisateur devra encore faire verifier son nouveau numero";
+    public static String BLOCK_USER="Ce compte vient d'etre bloquE ";
+    public static String UNBLOCK_USER="Ce compte vient d'etre debloquE ";
+    public static String CANNOT_BLOCK_YOURSELF="Vous ne Pouvez pas vous bloquer vous meme ";
     public static String LOGIN_SUCCESS="Login Successful";
     public static String USER_NOT_FOUND="Ce Numero n'a pas ete trouve dans le system";
     public static String AGENT_NOT_FOUND="Cet agent n'a pas ete trouve dans le system";
