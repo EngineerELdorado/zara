@@ -29,13 +29,25 @@ public class AppUser {
     @NotEmpty
     @Column(unique = true)
     private String phone;
-    @NotEmpty
+    //@NotEmpty
     private String pin;
     private Double balance;
     private Date dob;
     private Date createdOn;
     private boolean isVerified;
+    private String tempPin;
+    public  boolean needToChangePin;
+    public boolean isLocked;
+    @OneToOne
+    public AppUser lockedBy;
+    @OneToOne
+    public AppUser unlockedBy;
+    public Date lockedOn;
+    public Date unlockedOn;
     private String verificationCode;
+    @Transient
+    @JsonIgnore
+    private String role;
     @ManyToMany
     private Collection<Role>roles;
     @JsonIgnore

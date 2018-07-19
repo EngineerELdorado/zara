@@ -24,7 +24,7 @@ public class UserServiceImp implements IUserService {
     }
 
     @Override
-    public Optional<AppUser> findByPhoneNumber(String phoneNumber) {
+    public AppUser findByPhoneNumber(String phoneNumber) {
         return userRepository.findByPhoneNumber(phoneNumber);
     }
 
