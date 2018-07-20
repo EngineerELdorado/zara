@@ -16,6 +16,7 @@ public class Responses {
     public static String USER_NOT_FOUND="Ce Numero n'a pas ete trouve dans le system";
     public static String AGENT_NOT_FOUND="Cet agent n'a pas ete trouve dans le system";
     public static String YOUR_ACCOUNT_IS_NOT_FOUND="Ton compte n'a pas ete trouve";
+    public static String ACCOUNT_LOCKED="Ton compte a ete bloquE par l'admin";
     public static String VERIFICATION_CODE_SUCCESS="verification reussie";
     public static String VERIFICATION_CODE_FAILURE="Echec de verification. code incorrect";
     public static String VERIFICATION_CODE_RESENT="Un nouveau code A ete envoyE a votre numero ";

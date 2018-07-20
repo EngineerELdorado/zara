@@ -206,4 +206,30 @@ public class UserController {
 
         return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
     }
+
+    @GetMapping("/checkLocked/{accountNumber}")
+    public ResponseEntity<?>isLocked(@PathVariable String accountNumber){
+        AppUser user = userService.findByAccountNumber(accountNumber);
+        if (user.isLocked()){
+            responseHeaders.set(RESPONSE_MESSAGE, "yes");
+        }
+        else{
+            responseHeaders.set(RESPONSE_MESSAGE, "no");
+        }
+
+        return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/checkResetPin/{accountNumber}")
+    public ResponseEntity<?>isNeedToChangePin(@PathVariable String accountNumber){
+        AppUser user = userService.findByAccountNumber(accountNumber);
+        if (user.isNeedToChangePin()){
+            responseHeaders.set(RESPONSE_MESSAGE, "yes");
+        }
+        else{
+            responseHeaders.set(RESPONSE_MESSAGE, "no");
+        }
+
+        return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+    }
 }

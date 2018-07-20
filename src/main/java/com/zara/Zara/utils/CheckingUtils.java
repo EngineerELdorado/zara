@@ -34,4 +34,16 @@ public class CheckingUtils {
         AppUser appUser = userService.findByAccountNumber(accountNumber);
         return appUser.isVerified();
     }
+
+    public static boolean isAccountLocked(String accountNumber, IUserService userService){
+
+        AppUser appUser = userService.findByAccountNumber(accountNumber);
+        return appUser.isLocked();
+    }
+
+    public static boolean doesAccountNeedToResetPin(String accountNumber, IUserService userService){
+
+        AppUser appUser = userService.findByAccountNumber(accountNumber);
+        return appUser.isNeedToChangePin();
+    }
 }
