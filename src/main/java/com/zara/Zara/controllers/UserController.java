@@ -64,7 +64,7 @@ public class UserController {
                    appUser.setCreatedOn(new Date());
                    appUser.setVerificationCode(String.valueOf(GenerateRandomStuff.getRandomNumber(5000)));
                    appUser.setAccountNumber(generateAccountNumber(userService));
-                   if(generatePin.equals("true")){
+                   if(generatePin!=null && generatePin.equals("true")){
                        String tempPin =String.valueOf(GenerateRandomStuff.getRandomNumber(1000));
                        appUser.setPin(bCryptPasswordEncoder.encode(tempPin));
                        appUser.setNeedToChangePin(true);
