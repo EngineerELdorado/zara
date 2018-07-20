@@ -44,13 +44,15 @@
 			<!--<scope>runtime</scope>-->
 		<!--</dependency>-->
 		<!-- Oracle JDBC driver -->
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc7</artifactId>
-			<!--<version>LATEST</version>-->
-		</dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.noraui/ojdbc7 -->
+        <dependency>
+            <groupId>com.github.noraui</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <version>12.1.0.2</version>
+        </dependency>
 
-		<!-- Common DBCP2 connection pool -->
+
+        <!-- Common DBCP2 connection pool -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-dbcp2</artifactId>
