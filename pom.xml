@@ -37,11 +37,24 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+         <!--POSTGRES DB-->
+		<!--<dependency>-->
+			<!--<groupId>org.postgresql</groupId>-->
+			<!--<artifactId>postgresql</artifactId>-->
+			<!--<scope>runtime</scope>-->
+		<!--</dependency>-->
+		<!-- Oracle JDBC driver -->
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc7</artifactId>
+			<version>LATEST</version>
+		</dependency>
+
+		<!-- Common DBCP2 connection pool -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<version>2.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

@@ -17,7 +17,8 @@ public class Responses {
     public static String AGENT_NOT_FOUND="Cet agent n'a pas ete trouve dans le system";
     public static String YOUR_ACCOUNT_IS_NOT_FOUND="Ton compte n'a pas ete trouve";
     public static String VERIFICATION_CODE_SUCCESS="verification reussie";
-    public static String VERIFICATION_CODE_FAILURE="Echec de verification";
+    public static String VERIFICATION_CODE_FAILURE="Echec de verification. code incorrect";
+    public static String VERIFICATION_CODE_RESENT="Un nouveau code A ete envoyE a votre numero ";
     public static String INSUFICIENT_FUNDS="Tu n'as pas assez d'argent dans ton compte. Votre solde est de ";
     public static String CANNOT_SEND_MONEY_YOUR_OWN_ACC ="Operation impossible. vous ne pouvez pas envoyer de l'argent a votre propre compte";
     public static String SENDIND_SUCCEEDED="You have successfully sent money";

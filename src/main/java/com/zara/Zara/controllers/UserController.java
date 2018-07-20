@@ -108,21 +108,22 @@ public class UserController {
             appUser.setVerified(true);
             appUser.setVerificationCode(null);
             userService.addUser(appUser);
-            return ResponseEntity.status(302).header(RESPONSE_MESSAGE,VERIFICATION_CODE_SUCCESS).body(null);
-
+            responseHeaders.set(RESPONSE_MESSAGE, VERIFICATION_CODE_SUCCESS);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
         }
         else{
-            return ResponseEntity.status(400).header(RESPONSE_MESSAGE,VERIFICATION_CODE_FAILURE).body(null);
-
+            responseHeaders.set(RESPONSE_MESSAGE, VERIFICATION_CODE_FAILURE);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
         }
 
     }
     @GetMapping("/resendVerificationCode/{accountNumber}")
-    public void resendVerificationCode(@PathVariable String accountNumber){
+    public ResponseEntity<?> resendVerificationCode(@PathVariable String accountNumber){
         AppUser appUser = userService.findByAccountNumber(accountNumber);
         appUser.setVerificationCode(String.valueOf(GenerateRandomStuff.getRandomNumber(50000)));
         AppUser updatedUser =  userService.addUser(appUser);
-        LOGGER.info("RESENT VERIFICATION CODE "+updatedUser.getVerificationCode());
+        responseHeaders.set(RESPONSE_MESSAGE, VERIFICATION_CODE_RESENT+" :+"+updatedUser.getPhone());
+        return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
 
     }
 
@@ -193,5 +194,16 @@ public class UserController {
         responseHeaders.set(RESPONSE_MESSAGE, USER_UPDATED);
         return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
     }
+    @GetMapping("/checkVerified/{accountNumber}")
+    public ResponseEntity<?>isVerified(@PathVariable String accountNumber){
+        AppUser user = userService.findByAccountNumber(accountNumber);
+        if (user.isVerified()){
+            responseHeaders.set(RESPONSE_MESSAGE, "yes");
+        }
+        else{
+            responseHeaders.set(RESPONSE_MESSAGE, "no");
+        }
 
+        return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+    }
 }
