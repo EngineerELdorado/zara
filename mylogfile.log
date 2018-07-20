@@ -52,7 +52,7 @@
 2018-07-07 00:19:38.426  INFO 7408 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
 2018-07-07 00:19:38.462  INFO 7408 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 36 ms
 2018-07-07 00:19:38.521  INFO 7408 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 00:19:41.591  INFO 7408 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 00:19:41.591  INFO 7408 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 00:24:01.626  INFO 5804 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 5804 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 00:24:01.630  INFO 5804 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 00:24:01.706  INFO 5804 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@1f3f4916: startup date [Sat Jul 07 00:24:01 EAT 2018]; root of context hierarchy
@@ -107,7 +107,7 @@
 2018-07-07 00:32:05.103  INFO 5804 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
 2018-07-07 00:32:05.129  INFO 5804 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 26 ms
 2018-07-07 00:32:05.167  INFO 5804 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 00:32:08.058  INFO 5804 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 00:32:08.058  INFO 5804 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 00:34:23.423  INFO 13812 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 13812 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 00:34:23.431  INFO 13812 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 00:34:23.499  INFO 13812 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4ddced80: startup date [Sat Jul 07 00:34:23 EAT 2018]; root of context hierarchy
@@ -162,9 +162,9 @@
 2018-07-07 00:35:29.799  INFO 13812 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
 2018-07-07 00:35:29.819  INFO 13812 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 20 ms
 2018-07-07 00:35:29.854  INFO 13812 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 00:35:32.007  INFO 13812 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 00:35:32.007  INFO 13812 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 00:35:48.068  INFO 13812 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 00:35:48.920  INFO 13812 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 00:35:48.920  INFO 13812 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 00:37:16.045  INFO 7572 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 7572 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 00:37:16.047  INFO 7572 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 00:37:16.124  INFO 7572 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@433d61fb: startup date [Sat Jul 07 00:37:16 EAT 2018]; root of context hierarchy
@@ -269,9 +269,9 @@
 2018-07-07 00:38:52.616  INFO 10280 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
 2018-07-07 00:38:52.646  INFO 10280 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 30 ms
 2018-07-07 00:38:52.694  INFO 10280 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 00:38:55.268  INFO 10280 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 00:38:55.268  INFO 10280 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 00:39:10.366  INFO 10280 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 00:39:11.264  INFO 10280 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 00:39:11.264  INFO 10280 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 00:41:26.670  INFO 12020 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 12020 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 00:41:26.674  INFO 12020 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 00:41:26.744  INFO 12020 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@3c419631: startup date [Sat Jul 07 00:41:26 EAT 2018]; root of context hierarchy
@@ -326,7 +326,7 @@
 2018-07-07 00:42:03.434  INFO 12020 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
 2018-07-07 00:42:03.457  INFO 12020 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 23 ms
 2018-07-07 00:42:03.490  INFO 12020 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 00:42:05.412  INFO 12020 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 00:42:05.412  INFO 12020 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 01:16:42.690  WARN 12020 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=8m13s251ms7µs700ns).
 2018-07-07 02:06:44.848  INFO 3080 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 3080 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 02:06:44.851  INFO 3080 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
@@ -384,10 +384,10 @@
 2018-07-07 02:07:42.999  INFO 3080 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 24 ms
 2018-07-07 02:07:43.028  INFO 3080 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 02:07:43.112  INFO 3080 --- [http-nio-5050-exec-1] c.z.Z.controllers.TransactionController  : ...................acc no E6N402367
-2018-07-07 02:07:45.369  INFO 3080 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:07:45.369  INFO 3080 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:08:47.727  INFO 3080 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 02:08:47.732  INFO 3080 --- [http-nio-5050-exec-2] c.z.Z.controllers.TransactionController  : ...................acc no E6N402367
-2018-07-07 02:08:47.844  INFO 3080 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:08:47.844  INFO 3080 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:10:14.630  INFO 14628 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 14628 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 02:10:14.633  INFO 14628 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 02:10:14.696  INFO 14628 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@6fe7aac8: startup date [Sat Jul 07 02:10:14 EAT 2018]; root of context hierarchy
@@ -422,7 +422,7 @@
 2018-07-07 02:10:19.714  INFO 14628 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@6fe7aac8: startup date [Sat Jul 07 02:10:14 EAT 2018]; root of context hierarchy
 2018-07-07 02:10:19.744  WARN 14628 --- [main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
 2018-07-07 02:10:19.777  INFO 14628 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/transactions/sending],methods=[POST]}" onto public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.TransactionController.deposit(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
-2018-07-07 02:10:19.779  WARN 14628 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'transactionController' method 
+2018-07-07 02:10:19.779  WARN 14628 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'transactionController' method
 public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.TransactionController.sending(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
 to {[/transactions/sending],methods=[POST]}: There is already 'transactionController' bean method
 public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.TransactionController.deposit(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) mapped.
@@ -430,12 +430,12 @@ public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.Tran
 2018-07-07 02:10:19.780  INFO 14628 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2018-07-07 02:10:19.786  INFO 14628 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
 2018-07-07 02:10:19.797  INFO 14628 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
-2018-07-07 02:10:19.818  INFO 14628 --- [main] ConditionEvaluationReportLoggingListener : 
+2018-07-07 02:10:19.818  INFO 14628 --- [main] ConditionEvaluationReportLoggingListener :
 
 Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
 2018-07-07 02:10:19.849 ERROR 14628 --- [main] o.s.boot.SpringApplication               : Application run failed
 
-org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'transactionController' method 
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'transactionController' method
 public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.TransactionController.sending(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
 to {[/transactions/sending],methods=[POST]}: There is already 'transactionController' bean method
 public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.TransactionController.deposit(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) mapped.
@@ -456,7 +456,7 @@ public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.Tran
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1255) [spring-boot-2.0.3.RELEASE.jar:2.0.3.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1243) [spring-boot-2.0.3.RELEASE.jar:2.0.3.RELEASE]
 	at com.zara.Zara.ZaraApplication.main(ZaraApplication.java:12) [classes/:na]
-Caused by: java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'transactionController' method 
+Caused by: java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'transactionController' method
 public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.TransactionController.sending(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
 to {[/transactions/sending],methods=[POST]}: There is already 'transactionController' bean method
 public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.TransactionController.deposit(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) mapped.
@@ -529,24 +529,24 @@ public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.Tran
 2018-07-07 02:13:57.546  INFO 14884 --- [http-nio-5050-exec-2] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 25 ms
 2018-07-07 02:13:57.560  INFO 14884 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 02:13:57.633  INFO 14884 --- [http-nio-5050-exec-2] c.z.Z.controllers.TransactionController  : ...................acc no E6N402367
-2018-07-07 02:13:59.579  INFO 14884 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:13:59.579  INFO 14884 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:14:35.937  INFO 14884 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 02:14:35.947  INFO 14884 --- [http-nio-5050-exec-1] c.z.Z.controllers.TransactionController  : ...................acc no E6N980894
-2018-07-07 02:14:35.949  INFO 14884 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:14:35.949  INFO 14884 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:16:09.758  INFO 14884 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 02:16:09.781  INFO 14884 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:16:09.781  INFO 14884 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:16:43.808  INFO 14884 --- [http-nio-5050-exec-5] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 02:16:43.812  INFO 14884 --- [http-nio-5050-exec-5] c.z.Z.controllers.TransactionController  : ...................acc no E6N980894
-2018-07-07 02:16:43.928  INFO 14884 --- [http-nio-5050-exec-5] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:16:43.928  INFO 14884 --- [http-nio-5050-exec-5] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:16:54.442  INFO 14884 --- [http-nio-5050-exec-6] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 02:16:54.447  INFO 14884 --- [http-nio-5050-exec-6] c.z.Z.controllers.TransactionController  : ...................acc no E6N980894
-2018-07-07 02:16:54.614  INFO 14884 --- [http-nio-5050-exec-6] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:16:54.614  INFO 14884 --- [http-nio-5050-exec-6] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:17:26.033  INFO 14884 --- [http-nio-5050-exec-8] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 02:17:26.037  INFO 14884 --- [http-nio-5050-exec-8] c.z.Z.controllers.TransactionController  : ...................acc no E6N980894
-2018-07-07 02:17:26.145  INFO 14884 --- [http-nio-5050-exec-8] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:17:26.145  INFO 14884 --- [http-nio-5050-exec-8] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:17:36.721  INFO 14884 --- [http-nio-5050-exec-7] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 02:17:36.725  INFO 14884 --- [http-nio-5050-exec-7] c.z.Z.controllers.TransactionController  : ...................acc no E6N980894
-2018-07-07 02:17:38.673  INFO 14884 --- [http-nio-5050-exec-7] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:17:38.673  INFO 14884 --- [http-nio-5050-exec-7] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:19:34.707  INFO 15240 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 15240 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 02:19:34.725  INFO 15240 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 02:19:34.846  INFO 15240 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@2ea227af: startup date [Sat Jul 07 02:19:34 EAT 2018]; root of context hierarchy
@@ -603,7 +603,7 @@ public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.Tran
 2018-07-07 02:20:13.494  INFO 15240 --- [http-nio-5050-exec-2] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 31 ms
 2018-07-07 02:20:13.680  INFO 15240 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 02:20:13.754  INFO 15240 --- [http-nio-5050-exec-2] c.z.Z.controllers.TransactionController  : ...................acc no +2439978765478
-2018-07-07 02:20:15.547  INFO 15240 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:20:15.547  INFO 15240 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:21:46.322  INFO 11288 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 11288 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 02:21:46.328  INFO 11288 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 02:21:46.411  INFO 11288 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@3c22fc4c: startup date [Sat Jul 07 02:21:46 EAT 2018]; root of context hierarchy
@@ -835,9 +835,9 @@ javax.persistence.NonUniqueResultException: query did not return a unique result
 	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_151]
 
 2018-07-07 02:29:28.177  INFO 10148 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 02:29:29.712  INFO 10148 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:29:29.712  INFO 10148 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:29:32.519  INFO 10148 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 02:29:32.524  INFO 10148 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:29:32.524  INFO 10148 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:31:23.292  INFO 12820 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 12820 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 02:31:23.297  INFO 12820 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 02:31:23.391  INFO 12820 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@1622f1b: startup date [Sat Jul 07 02:31:23 EAT 2018]; root of context hierarchy
@@ -902,7 +902,7 @@ javax.persistence.NonUniqueResultException: query did not return a unique result
  DearLydie KetyaYou have received 50.0 from Danny Izinga on Sat Jul 07 02:32:06 EAT 2018
  your new balance is 50.0 USD
 
-2018-07-07 02:32:07.976  INFO 12820 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:32:07.976  INFO 12820 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:34:19.621  INFO 3436 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 3436 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 02:34:19.625  INFO 3436 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 02:34:19.817  INFO 3436 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@6ef888f6: startup date [Sat Jul 07 02:34:19 EAT 2018]; root of context hierarchy
@@ -967,7 +967,7 @@ javax.persistence.NonUniqueResultException: query did not return a unique result
  Dear Lydie Ketya You have received 50.0 from Danny Izinga on Sat Jul 07 02:34:33 EAT 2018
  your new balance is 100.0 USD
 
-2018-07-07 02:34:35.729  INFO 3436 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:34:35.729  INFO 3436 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:35:30.389  INFO 15476 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 15476 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 02:35:30.395  INFO 15476 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 02:35:30.474  INFO 15476 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@1534f01b: startup date [Sat Jul 07 02:35:30 EAT 2018]; root of context hierarchy
@@ -1024,7 +1024,7 @@ javax.persistence.NonUniqueResultException: query did not return a unique result
 2018-07-07 02:35:56.971  INFO 15476 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 27 ms
 2018-07-07 02:35:57.000  INFO 15476 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 02:35:57.060  INFO 15476 --- [http-nio-5050-exec-1] c.z.Z.controllers.TransactionController  : ...................acc no +2439978765478
-2018-07-07 02:35:57.161  INFO 15476 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:35:57.161  INFO 15476 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:37:00.052  INFO 15476 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 02:37:00.057  INFO 15476 --- [http-nio-5050-exec-4] c.z.Z.controllers.TransactionController  : ...................acc no +2439978765478
 2018-07-07 02:37:00.312  INFO 15476 --- [http-nio-5050-exec-4] c.z.Z.controllers.TransactionController  : transaction number PAA9191W385
@@ -1035,7 +1035,7 @@ javax.persistence.NonUniqueResultException: query did not return a unique result
  Dear Lydie Ketya You have received 10.0 from Danny Izinga on Sat Jul 07 02:37:00 EAT 2018
  your new balance is 110.0 USD
 
-2018-07-07 02:37:01.976  INFO 15476 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:37:01.976  INFO 15476 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:38:59.238  INFO 7864 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 7864 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 02:38:59.248  INFO 7864 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 02:38:59.403  INFO 7864 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@418e7838: startup date [Sat Jul 07 02:38:59 EAT 2018]; root of context hierarchy
@@ -1092,7 +1092,7 @@ javax.persistence.NonUniqueResultException: query did not return a unique result
 2018-07-07 02:39:17.517  INFO 7864 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 18 ms
 2018-07-07 02:39:17.546  INFO 7864 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 02:39:17.609  INFO 7864 --- [http-nio-5050-exec-1] c.z.Z.controllers.TransactionController  : ...................acc no +2439978765478
-2018-07-07 02:39:19.629  INFO 7864 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:39:19.629  INFO 7864 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 02:40:33.434  INFO 13260 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 13260 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 02:40:33.440  INFO 13260 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 02:40:33.550  INFO 13260 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@7adda9cc: startup date [Sat Jul 07 02:40:33 EAT 2018]; root of context hierarchy
@@ -1157,7 +1157,7 @@ javax.persistence.NonUniqueResultException: query did not return a unique result
  Dear Lydie Ketya You have received 10.0 from Danny Izinga on Sat Jul 07 02:40:57 EAT 2018
  your new balance is 130.0 USD
 
-2018-07-07 02:40:59.271  INFO 13260 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 02:40:59.271  INFO 13260 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 11:56:18.596  WARN 13260 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=8h25m12s413ms958µs600ns).
 2018-07-07 12:11:53.093  INFO 12908 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 12908 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 12:11:53.100  INFO 12908 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
@@ -1224,7 +1224,7 @@ javax.persistence.NonUniqueResultException: query did not return a unique result
  Dear Lydie Ketya You have received 10.0 from Danny Izinga on Sat Jul 07 12:19:41 EAT 2018
  your new balance is 140.0 USD
 
-2018-07-07 12:19:44.521  INFO 12908 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 12:19:44.521  INFO 12908 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 12:21:00.482  INFO 12908 --- [http-nio-5050-exec-3] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 12:21:00.486  INFO 12908 --- [http-nio-5050-exec-3] c.z.Z.controllers.TransactionController  : ...................acc no +2439978765478
 2018-07-07 12:21:02.033  INFO 12908 --- [http-nio-5050-exec-3] c.z.Z.controllers.TransactionController  : transaction number GTK926H5189
@@ -1235,10 +1235,10 @@ javax.persistence.NonUniqueResultException: query did not return a unique result
  Dear Lydie Ketya You have received 10.0 from Danny Izinga on Sat Jul 07 12:21:00 EAT 2018
  your new balance is 150.0 USD
 
-2018-07-07 12:21:03.239  INFO 12908 --- [http-nio-5050-exec-3] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 12:21:03.239  INFO 12908 --- [http-nio-5050-exec-3] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 12:21:18.297  INFO 12908 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 12:21:18.302  INFO 12908 --- [http-nio-5050-exec-4] c.z.Z.controllers.TransactionController  : ...................acc no +2439978765478
-2018-07-07 12:21:18.408  INFO 12908 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 12:21:18.408  INFO 12908 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 12:39:35.434  INFO 14696 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 14696 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 12:39:35.438  INFO 14696 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 12:39:35.521  INFO 14696 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@65466a6a: startup date [Sat Jul 07 12:39:35 EAT 2018]; root of context hierarchy
@@ -1504,7 +1504,7 @@ java.util.NoSuchElementException: No value present
 2018-07-07 12:43:50.452  INFO 11372 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
 2018-07-07 12:43:50.479  INFO 11372 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 27 ms
 2018-07-07 12:43:50.517  INFO 11372 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 12:44:23.625  INFO 11372 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 12:44:23.625  INFO 11372 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 12:50:21.915  INFO 14728 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 14728 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 12:50:21.922  INFO 14728 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 12:50:22.005  INFO 14728 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4b0b0854: startup date [Sat Jul 07 12:50:22 EAT 2018]; root of context hierarchy
@@ -1662,7 +1662,7 @@ java.lang.NullPointerException: null
 
 2018-07-07 12:51:20.311  INFO 14728 --- [http-nio-5050-exec-3] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 12:51:20.316  INFO 14728 --- [http-nio-5050-exec-3] c.z.Z.controllers.TransactionController  : ...................acc no +2439978765478
-2018-07-07 12:51:20.442  INFO 14728 --- [http-nio-5050-exec-3] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 12:51:20.442  INFO 14728 --- [http-nio-5050-exec-3] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 12:52:01.517  INFO 14728 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 12:52:01.521  INFO 14728 --- [http-nio-5050-exec-2] c.z.Z.controllers.TransactionController  : ...................acc no +2439978765478
 2018-07-07 12:52:02.255  INFO 14728 --- [http-nio-5050-exec-2] c.z.Z.controllers.TransactionController  : transaction number SEH614GD401
@@ -1673,7 +1673,7 @@ java.lang.NullPointerException: null
  Dear Jack Kahunda You have received 10.0 from Danny Izinga on Sat Jul 07 12:52:01 EAT 2018
  your new balance is 10.0 USD
 
-2018-07-07 12:52:04.311  INFO 14728 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 12:52:04.311  INFO 14728 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 12:55:08.450  INFO 15644 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 15644 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 12:55:08.453  INFO 15644 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 12:55:08.512  INFO 15644 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@3c419631: startup date [Sat Jul 07 12:55:08 EAT 2018]; root of context hierarchy
@@ -1740,7 +1740,7 @@ java.lang.NullPointerException: null
  Dear Jack Kahunda You have received a withdrawal of   10.0 done by Danny Izinga on Sat Jul 07 12:55:46 EAT 2018
  your new balance is 20.0 USD
 
-2018-07-07 12:55:48.693  INFO 15644 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 12:55:48.693  INFO 15644 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 13:09:35.296  INFO 14100 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 14100 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 13:09:35.300  INFO 14100 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 13:09:35.470  INFO 14100 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4690b489: startup date [Sat Jul 07 13:09:35 EAT 2018]; root of context hierarchy
@@ -1906,7 +1906,7 @@ java.lang.NullPointerException: null
  Dear Ali Moise You have been paid 10.0 by Danny Izinga on Sat Jul 07 13:11:03 EAT 2018 for OZO BETA MABE (KIVUZIK)
 470.0 USD
 
-2018-07-07 13:11:05.496  INFO 14100 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 13:11:05.496  INFO 14100 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 13:17:32.761  INFO 16364 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 16364 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 13:17:32.765  INFO 16364 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 13:17:32.833  INFO 16364 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@794cb805: startup date [Sat Jul 07 13:17:32 EAT 2018]; root of context hierarchy
@@ -1966,7 +1966,7 @@ java.lang.NullPointerException: null
 2018-07-07 13:19:31.889  INFO 16364 --- [http-nio-5050-exec-2] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 22 ms
 2018-07-07 13:19:31.920  INFO 16364 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 13:19:31.992  INFO 16364 --- [http-nio-5050-exec-2] c.z.Z.controllers.TransactionController  : ...................acc no 07137484
-2018-07-07 13:19:31.997  INFO 16364 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 13:19:31.997  INFO 16364 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 13:20:16.808  INFO 16152 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 16152 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 13:20:16.847  INFO 16152 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 13:20:16.943  INFO 16152 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@1534f01b: startup date [Sat Jul 07 13:20:16 EAT 2018]; root of context hierarchy
@@ -2025,12 +2025,12 @@ java.lang.NullPointerException: null
 2018-07-07 13:21:02.434  INFO 16152 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
 2018-07-07 13:21:02.455  INFO 16152 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 21 ms
 2018-07-07 13:21:02.475  INFO 16152 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 13:21:02.506  INFO 16152 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 13:21:02.506  INFO 16152 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 13:21:11.184  INFO 16152 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 13:21:11.318  INFO 16152 --- [http-nio-5050-exec-2] c.zara.Zara.controllers.UserController   : RESENT VERIFICATION CODE 15486
-2018-07-07 13:21:11.322  INFO 16152 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 13:21:11.322  INFO 16152 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 13:22:02.038  INFO 16152 --- [http-nio-5050-exec-3] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 13:22:02.060  INFO 16152 --- [http-nio-5050-exec-3] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 13:22:02.060  INFO 16152 --- [http-nio-5050-exec-3] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 13:22:50.918  INFO 16152 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : header: null
 2018-07-07 13:22:50.924  INFO 16152 --- [http-nio-5050-exec-4] c.z.Z.controllers.TransactionController  : ...................acc no 07137484
 2018-07-07 13:22:52.770  INFO 16152 --- [http-nio-5050-exec-4] c.z.Z.controllers.TransactionController  : transaction number CGE791TN352
@@ -2041,7 +2041,7 @@ java.lang.NullPointerException: null
  Dear Jack Kahunda You have received a withdrawal of   10.0 done by Ali Moise on Sat Jul 07 13:22:51 EAT 2018
  your new balance is 30.0 USD
 
-2018-07-07 13:22:54.851  INFO 16152 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 13:22:54.851  INFO 16152 --- [http-nio-5050-exec-4] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 13:24:43.664  INFO 10348 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 10348 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 13:24:43.668  INFO 10348 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 13:24:43.839  INFO 10348 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@1d119efb: startup date [Sat Jul 07 13:24:43 EAT 2018]; root of context hierarchy
@@ -2100,7 +2100,7 @@ java.lang.NullPointerException: null
 2018-07-07 13:26:28.864  INFO 10348 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
 2018-07-07 13:26:28.895  INFO 10348 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 31 ms
 2018-07-07 13:26:28.949  INFO 10348 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 13:26:29.155  INFO 10348 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 13:26:29.155  INFO 10348 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 13:33:35.864  INFO 7408 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 7408 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 13:33:35.868  INFO 7408 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 13:33:35.951  INFO 7408 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@3c22fc4c: startup date [Sat Jul 07 13:33:35 EAT 2018]; root of context hierarchy
@@ -2159,7 +2159,7 @@ java.lang.NullPointerException: null
 2018-07-07 13:34:02.470  INFO 7408 --- [http-nio-5050-exec-3] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
 2018-07-07 13:34:02.489  INFO 7408 --- [http-nio-5050-exec-3] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 18 ms
 2018-07-07 13:34:02.514  INFO 7408 --- [http-nio-5050-exec-3] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 13:34:02.631  INFO 7408 --- [http-nio-5050-exec-3] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 13:34:02.631  INFO 7408 --- [http-nio-5050-exec-3] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 13:34:51.618  INFO 9784 --- [main] com.zara.Zara.ZaraApplication            : Starting ZaraApplication on PSD0010 with PID 9784 (C:\Users\denis.kalenga\Documents\3D\Zara\target\classes started by denis.kalenga in C:\Users\denis.kalenga\Documents\3D\Zara)
 2018-07-07 13:34:51.622  INFO 9784 --- [main] com.zara.Zara.ZaraApplication            : No active profile set, falling back to default profiles: default
 2018-07-07 13:34:51.691  INFO 9784 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@7f552bd3: startup date [Sat Jul 07 13:34:51 EAT 2018]; root of context hierarchy
@@ -2273,6 +2273,6 @@ java.lang.NullPointerException: null
 2018-07-07 13:41:55.294  INFO 6684 --- [http-nio-5050-exec-2] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
 2018-07-07 13:41:55.316  INFO 6684 --- [http-nio-5050-exec-2] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 21 ms
 2018-07-07 13:41:55.337  INFO 6684 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 13:41:55.361  INFO 6684 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 13:41:55.361  INFO 6684 --- [http-nio-5050-exec-2] c.z.Zara.security.AuthorizationFilter    : invalid token
 2018-07-07 13:42:03.739  INFO 6684 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : header: null
-2018-07-07 13:42:03.838  INFO 6684 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token 
+2018-07-07 13:42:03.838  INFO 6684 --- [http-nio-5050-exec-1] c.z.Zara.security.AuthorizationFilter    : invalid token
