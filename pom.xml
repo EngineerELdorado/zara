@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc7</artifactId>
-			<version>LATEST</version>
+			<!--<version>LATEST</version>-->
 		</dependency>
 
 		<!-- Common DBCP2 connection pool -->
