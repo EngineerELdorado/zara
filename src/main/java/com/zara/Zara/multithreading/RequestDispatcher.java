@@ -5,7 +5,7 @@ import java.util.concurrent.Callable;
 public class RequestDispatcher implements Callable<Object> {
 
     @Override
-    public Object call() throws Exception {
+    public Object call() {
 
         return null;
     }

@@ -16,13 +16,12 @@ public class AccountNumberGenerator implements IdentifierGenerator {
 
 
     private String defaultPrefix = Keys.ACCOUNT_NUMBER_PREFIX;
-    private int defaultNumber = 1;
 
     @Override
     public Serializable generate(SharedSessionContractImplementor  session, Object arg1)
             throws HibernateException {
         String userId = "";
-        String digits = "";
+        String digits;
         Connection con = session.connection();
         try {
             java.sql.PreparedStatement pst = con
@@ -36,6 +35,7 @@ public class AccountNumberGenerator implements IdentifierGenerator {
                 digits = String.format("%04d", Integer.parseInt(str[1]) + 1);
                 userId = prefix.concat(digits);
             } else {
+                int defaultNumber = 1;
                 digits = String.format("%04d", defaultNumber);
                 userId = defaultPrefix.concat(digits);
             }

@@ -1,4 +1,4 @@
-package com.zara.Zara.models;
+package com.zara.Zara.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -14,6 +14,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
     private String name;
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")

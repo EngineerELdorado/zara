@@ -1,13 +1,13 @@
 package com.zara.Zara.services;
 
-import com.zara.Zara.models.Transaction;
+import com.zara.Zara.entities.Transaction;
 
 import java.util.Collection;
 
 public interface ITransactionService {
 
-    public Transaction addTransaction(Transaction transaction);
-    public Collection<Transaction>getAll();
-    public Transaction findByTransactionNumber(String transactionNumber);
-
+    Transaction addTransaction(Transaction transaction);
+    Collection<Transaction>getAll();
+    Transaction findByTransactionNumber(String transactionNumber);
+    Collection<Transaction>getMiniStatement(Long id);
 }

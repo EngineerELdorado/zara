@@ -1,25 +1,29 @@
 package com.zara.Zara.controllers;
 
-import com.zara.Zara.models.AppUser;
-import com.zara.Zara.models.Role;
+import com.zara.Zara.entities.AppUser;
+import com.zara.Zara.entities.Role;
 import com.zara.Zara.services.IRoleService;
 import com.zara.Zara.services.IUserService;
-import com.zara.Zara.utils.AfricasTalkingSms;
 import com.zara.Zara.utils.GenerateRandomStuff;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
+import static com.zara.Zara.utils.BusinessNumbersGenerator.generateAccountNumber;
+import static com.zara.Zara.utils.BusinessNumbersGenerator.generateAgentNumber;
+import static com.zara.Zara.utils.CheckingUtils.isPhoneNumberTaken;
+import static com.zara.Zara.utils.CheckingUtils.isPhoneNumberValid;
 import static com.zara.Zara.constants.ConstantVariables.ROLE_AGENT;
 import static com.zara.Zara.constants.Keys.*;
 import static com.zara.Zara.constants.Responses.*;
@@ -36,51 +40,66 @@ public class UserController {
     @Autowired
     IRoleService roleService;
     String userRole;
+    HttpHeaders responseHeaders = new HttpHeaders();
     Logger LOGGER = LogManager.getLogger(UserController.class);
 
     @PostMapping("/add")
     public ResponseEntity<?>addUser(@RequestBody AppUser appUser,
-                                    HttpServletRequest request,
-                                    HttpServletResponse response){
+                                    @RequestParam String role,
+                                    @RequestParam(required = false) String generatePin){
 
 
            if(isPhoneNumberValid(appUser.getPhone())){
-               if(!isPhoneNumberTaken(appUser.getPhone())){
-                   userRole = request.getHeader("role");
+
+               if(!isPhoneNumberTaken(appUser.getPhone().substring(1),userService)){
+                   userRole = role;
                    Collection<Role>roles = new ArrayList<>();
                    roles.add(roleService.getByName(userRole));
+                   appUser.setPhone(appUser.getPhone().substring(1));
                    appUser.setBalance(0D);
                    appUser.setRoles(roles);
-                   if(request.getHeader("role").equals(ROLE_AGENT)){
-                       appUser.setAgentNumber(generateAgentNumber());
+                   if(role.equals(ROLE_AGENT)){
+                       appUser.setAgentNumber(generateAgentNumber(userService));
                    }
                    appUser.setCreatedOn(new Date());
                    appUser.setVerificationCode(String.valueOf(GenerateRandomStuff.getRandomNumber(5000)));
-                   appUser.setAccountNumber(generateAccountNumber());
-                   appUser.setPin(bCryptPasswordEncoder.encode(appUser.getPin()));
+                   appUser.setAccountNumber(generateAccountNumber(userService));
+                   if(generatePin.equals("true")){
+                       String tempPin =String.valueOf(GenerateRandomStuff.getRandomNumber(1000));
+                       appUser.setPin(bCryptPasswordEncoder.encode(tempPin));
+                       appUser.setNeedToChangePin(true);
+                       appUser.setTempPin(tempPin);
+                   }
+                   else{
+                       appUser.setPin(bCryptPasswordEncoder.encode(appUser.getPin()));
+                   }
+
                    AppUser addedUser = userService.addUser(appUser);
-                   response.addHeader(RESPONSE_CODE,RESPONSE_SUCCESS);
-                   response.addHeader(RESPONSE_MESSAGE, USER_REGISTRATION_SUCCESS);
 
                    //TwilioSms.sendSMS(addedUser.getPhone(), "Your verification code is "+addedUser.getVerificationCode());
-                   AfricasTalkingSms.sendSms(addedUser.getPhone(), YOUR_VERIFICATION_CODE_IS+" "+addedUser.getVerificationCode());
-                   return ResponseEntity.status(201).body(userService.addUser(addedUser));
-               }else{
-                   response.addHeader(RESPONSE_CODE,RESPONSE_FAILURE);
-                   response.addHeader(RESPONSE_MESSAGE, PHONE_NUMBER_ALREADY_TAKEN);
-                   return null;
+                   // TODO: 07/07/2018 SEND VERIFICATION CODE VIA SMS
+                   responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+                   responseHeaders.set(RESPONSE_MESSAGE, USER_REGISTRATION_SUCCESS+" "+appUser.getFullName());
+                   return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+               }
+
+                   else{
+                   responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+                   responseHeaders.set(RESPONSE_MESSAGE, PHONE_NUMBER_ALREADY_TAKEN);
+                   return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
                }
            }
            else{
-               response.addHeader(RESPONSE_CODE,RESPONSE_FAILURE);
-               response.addHeader(RESPONSE_MESSAGE, PHONE_NUMBER_FORMAT_INVALID);
-               return null;
+               responseHeaders.set(RESPONSE_CODE,RESPONSE_FAILURE);
+               responseHeaders.set(RESPONSE_MESSAGE, PHONE_NUMBER_FORMAT_INVALID);
+               return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
            }
 
     }
 
     @GetMapping("/verifyAccount")
-    public void veryAccount(@RequestParam String accountNumber,
+    public ResponseEntity<?> veryAccount(
+                            @RequestParam String accountNumber,
                             @RequestParam String verificationCode,
                             HttpServletResponse response){
 
@@ -89,21 +108,22 @@ public class UserController {
             appUser.setVerified(true);
             appUser.setVerificationCode(null);
             userService.addUser(appUser);
-            response.addHeader(RESPONSE_CODE, RESPONSE_SUCCESS);
-            response.addHeader(RESPONSE_MESSAGE, VERIFICATION_CODE_SUCCESS);
+            responseHeaders.set(RESPONSE_MESSAGE, VERIFICATION_CODE_SUCCESS);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
         }
         else{
-            response.addHeader(RESPONSE_CODE, RESPONSE_SUCCESS);
-            response.addHeader(RESPONSE_MESSAGE, VERIFICATION_CODE_FAILURE);
+            responseHeaders.set(RESPONSE_MESSAGE, VERIFICATION_CODE_FAILURE);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
         }
 
     }
     @GetMapping("/resendVerificationCode/{accountNumber}")
-    public void resendVerificationCode(@PathVariable String accountNumber){
+    public ResponseEntity<?> resendVerificationCode(@PathVariable String accountNumber){
         AppUser appUser = userService.findByAccountNumber(accountNumber);
         appUser.setVerificationCode(String.valueOf(GenerateRandomStuff.getRandomNumber(50000)));
         AppUser updatedUser =  userService.addUser(appUser);
-        LOGGER.info("RESENT VERIFICATION CODE "+updatedUser.getVerificationCode());
+        responseHeaders.set(RESPONSE_MESSAGE, VERIFICATION_CODE_RESENT+" :+"+updatedUser.getPhone());
+        return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
 
     }
 
@@ -117,12 +137,11 @@ public class UserController {
 
         Optional<AppUser>appUser = Optional.of(userService.findByAccountNumber(accountNumber));
         if(appUser.isPresent()){
-            return ResponseEntity.status(200).body(appUser.get());
+            return ResponseEntity.status(200).header(RESPONSE_MESSAGE, "User Found").body(appUser.get());
         }
         else{
-            response.addHeader(RESPONSE_CODE, RESPONSE_FAILURE);
-            response.addHeader(RESPONSE_MESSAGE, USER_NOT_FOUND);
-            return ResponseEntity.status(404).body(USER_NOT_FOUND);
+            return ResponseEntity.status(404).header(RESPONSE_MESSAGE,USER_NOT_FOUND).body(null);
+
         }
     }
 
@@ -132,53 +151,59 @@ public class UserController {
         return ResponseEntity.status(200).body(userService.getUserBalance(accountNumber));
     }
 
-
-
-
-    public String generateAccountNumber(){
-        String accountNumber = ACCOUNT_NUMBER_PREFIX+String.valueOf(GenerateRandomStuff.getRandomNumber(1000000));
-        AppUser appUser = userService.findByAccountNumber(accountNumber);
-        if(appUser==null){
-            return accountNumber;
-
+    @GetMapping("/lockUnlock")
+    public ResponseEntity<?> lockOrUnlockAccount(@RequestParam String accountNumber,@RequestParam String doneBy){
+        AppUser user = userService.findByAccountNumber(accountNumber);
+        AppUser by = userService.findByAccountNumber(doneBy);
+        if(user.isLocked){
+            user.setLocked(false);
+            user.setUnlockedBy(by);
+            user.setLockedOn(new Date());
+            responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+            responseHeaders.set(RESPONSE_MESSAGE, BLOCK_USER+" "+user.getFullName());
+            LOGGER.info("ACCOUNT UNLOCKED");
         }
         else{
-            generateAccountNumber();
+            user.setLocked(true);
+            user.setLockedBy(by);
+            user.setUnlockedOn(new Date());
+
+            responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
+            responseHeaders.set(RESPONSE_MESSAGE, UNBLOCK_USER+" "+user.getFullName());
+            LOGGER.info("ACCOUNT LOCKED");
         }
-        return null;
-    }
-
-    public String generateAgentNumber(){
-        String agentNumber = ACCOUNT_NUMBER_PREFIX+String.valueOf(GenerateRandomStuff.getRandomNumber(10000));
-        Optional<AppUser> appUser = userService.findByAgentNumber(agentNumber);
-        if(!appUser.isPresent()){
-            return agentNumber;
-
+        if(!user.getAccountNumber().equals(by.getAccountNumber()))
+        {
+            userService.addUser(user);
         }
         else{
-            generateAgentNumber();
+
+            responseHeaders.set(RESPONSE_MESSAGE, CANNOT_BLOCK_YOURSELF);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
         }
-        return null;
+
+        return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
     }
 
-    public boolean isPhoneNumberTaken(String phoneNumber){
-        Optional<AppUser> user = userService.findByPhoneNumber(phoneNumber);
-        if(user.isPresent()){
-            return true;
+    @PostMapping("/update/{accountNumber}")
+    public ResponseEntity<?>updateUserDetails(@RequestBody AppUser appUser,@PathVariable String accountNumber){
+
+        AppUser existingUser = userService.findByAccountNumber(accountNumber);
+        existingUser.setFullName(appUser.getFullName());
+        userService.addUser(existingUser);
+        responseHeaders.set(RESPONSE_MESSAGE, USER_UPDATED);
+        return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+    }
+    @GetMapping("/checkVerified/{accountNumber}")
+    public ResponseEntity<?>isVerified(@PathVariable String accountNumber){
+        AppUser user = userService.findByAccountNumber(accountNumber);
+        if (user.isVerified()){
+            responseHeaders.set(RESPONSE_MESSAGE, "yes");
         }
         else{
-            return false;
+            responseHeaders.set(RESPONSE_MESSAGE, "no");
         }
+
+        return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
     }
-
-    public boolean isPhoneNumberValid(String phoneNumber){
-        if (phoneNumber.startsWith("+") && phoneNumber.length()>10 && phoneNumber.length()==13){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-
 }

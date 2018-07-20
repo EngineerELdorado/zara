@@ -1,7 +1,7 @@
 package com.zara.Zara.listeners;
 
 
-import com.zara.Zara.models.Role;
+import com.zara.Zara.entities.Role;
 import com.zara.Zara.services.IRoleService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +23,7 @@ public class AppEventListener implements CommandLineRunner {
     Logger LOGGER = LogManager.getLogger(AppEventListener.class);
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         LOGGER.info("............APP HAS STARTED...........");
 
        Collection<Role> roles= roleService.all();
@@ -49,7 +49,12 @@ public class AppEventListener implements CommandLineRunner {
            Role roleAgent= new Role();
            roleAgent.setName(ROLE_AGENT);
            roleService.add(roleAgent);
-           LOGGER.info("............ADDED USER ROLE...........");
+           LOGGER.info("............ADDED AGENT ROLE...........");
+
+           Role roleMassPayer= new Role();
+           roleAgent.setName(ROLE_MASS_PAYER);
+           roleService.add(roleMassPayer);
+           LOGGER.info("............ADDED USER MASS PAYER ROLE...........");
 
        }
        else {

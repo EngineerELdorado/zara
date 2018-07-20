@@ -1,7 +1,7 @@
 package com.zara.Zara.security;
 
-import com.zara.Zara.models.AppUser;
-import com.zara.Zara.models.Role;
+import com.zara.Zara.entities.AppUser;
+import com.zara.Zara.entities.Role;
 import com.zara.Zara.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,4 +41,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     }
+
+
 }

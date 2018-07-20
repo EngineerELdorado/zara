@@ -1,6 +1,6 @@
 package com.zara.Zara.services;
 
-import com.zara.Zara.models.Role;
+import com.zara.Zara.entities.Role;
 import com.zara.Zara.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
