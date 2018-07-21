@@ -10,6 +10,9 @@ public class Responses {
     public static String USER_UPDATED="Info sauvegardee...";
     public static String USER_UPDATED_NEED_TO_VERIFY_PHONE="Info sauvegardee... mais l'utilisateur devra encore faire verifier son nouveau numero";
     public static String BLOCK_USER="Ce compte vient d'etre bloquE ";
+    public static String WRING_OLD_PIN="pin actuel incorrect";
+    public static String PIN_CHANGED="votre pin vient d'etre changE";
+    public static String PIN_RESET="le pin vient d'etre mis A jour";
     public static String UNBLOCK_USER="Ce compte vient d'etre debloquE ";
     public static String CANNOT_BLOCK_YOURSELF="Vous ne Pouvez pas vous bloquer vous meme ";
     public static String LOGIN_SUCCESS="Login Successful";

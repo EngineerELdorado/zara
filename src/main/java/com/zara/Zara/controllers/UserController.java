@@ -2,6 +2,7 @@ package com.zara.Zara.controllers;
 
 import com.zara.Zara.entities.AppUser;
 import com.zara.Zara.entities.Role;
+import com.zara.Zara.models.ChangePinRequest;
 import com.zara.Zara.services.IRoleService;
 import com.zara.Zara.services.IUserService;
 import com.zara.Zara.utils.GenerateRandomStuff;
@@ -230,6 +231,35 @@ public class UserController {
             responseHeaders.set(RESPONSE_MESSAGE, "no");
         }
 
+        return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/changePin/{accountNumber}")
+    public ResponseEntity<?>changePin(@RequestBody ChangePinRequest changePinRequest,@PathVariable String accountNumber){
+        AppUser user = userService.findByAccountNumber(accountNumber);
+        LOGGER.info(user.getPin()+" / "+ bCryptPasswordEncoder.encode(changePinRequest.getOldPin()));
+        if (bCryptPasswordEncoder.matches(changePinRequest.getOldPin(), user.getPin())){
+            user.setPin(bCryptPasswordEncoder.encode(changePinRequest.getNewPin()));
+            user.setNeedToChangePin(false);
+            user.setTempPin(null);
+            userService.addUser(user);
+            responseHeaders.set(RESPONSE_MESSAGE, PIN_CHANGED);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+        }
+        else{
+            responseHeaders.set(RESPONSE_MESSAGE, WRING_OLD_PIN);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("/resetPin/{accountNumber}")
+    public ResponseEntity<?>resetPin(@PathVariable String accountNumber){
+        AppUser user = userService.findByAccountNumber(accountNumber);
+        String tempPin = String.valueOf(GenerateRandomStuff.getRandomNumber(5000));
+        user.setPin(bCryptPasswordEncoder.encode(tempPin));
+        user.setNeedToChangePin(true);
+        user.setTempPin(tempPin);
+        userService.addUser(user);
+        responseHeaders.set(RESPONSE_MESSAGE, PIN_RESET+" "+tempPin);
         return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
     }
 }
