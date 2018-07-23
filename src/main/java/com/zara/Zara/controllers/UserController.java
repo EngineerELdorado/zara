@@ -81,7 +81,7 @@ public class UserController {
                    // TODO: 07/07/2018 SEND VERIFICATION CODE VIA SMS
                    responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
                    responseHeaders.set(RESPONSE_MESSAGE, USER_REGISTRATION_SUCCESS+" "+appUser.getFullName());
-                   return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+                   return new ResponseEntity<>(addedUser,responseHeaders, HttpStatus.CREATED);
                }
 
                    else{
