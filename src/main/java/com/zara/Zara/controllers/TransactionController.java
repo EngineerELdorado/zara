@@ -142,7 +142,7 @@ public class TransactionController {
 
     }
 
-    @GetMapping("/sending")
+    @PostMapping("/sending")
     public ResponseEntity<?> sending(
             @RequestBody TransactionRequestBody body) throws UnsupportedEncodingException {
          senderNumber = URLDecoder.decode(body.getSender(), "UTF-8");
