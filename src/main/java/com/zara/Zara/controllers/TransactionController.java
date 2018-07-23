@@ -157,7 +157,7 @@ public class TransactionController {
                 return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
             }
             LOGGER.info("...................acc no " + senderNumber);
-            if (isAccountVerified(senderNumber, userService)) {
+            if (isAccountVerified(senderNumber.substring(1), userService)) {
                 if (!isAccountLocked(senderNumber.substring(1),userService))
                 {
                     if (bCryptPasswordEncoder.matches(senderPin, senderUser.getPin())) {
