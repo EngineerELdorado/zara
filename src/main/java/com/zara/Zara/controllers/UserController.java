@@ -262,4 +262,12 @@ public class UserController {
         responseHeaders.set(RESPONSE_MESSAGE, PIN_RESET+" "+tempPin);
         return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
     }
+    @GetMapping("/updatePic")
+    public ResponseEntity<?>updatePic(@RequestParam String accountNumber,@RequestParam String picUrl){
+        AppUser user = userService.findByAccountNumber(accountNumber);
+        user.setPicUrl(picUrl);
+        userService.addUser(user);
+        responseHeaders.set(RESPONSE_MESSAGE, PICTURE_UPDATED);
+        return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+    }
 }

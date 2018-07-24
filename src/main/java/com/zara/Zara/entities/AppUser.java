@@ -45,6 +45,7 @@ public class AppUser {
     public Date lockedOn;
     public Date unlockedOn;
     private String verificationCode;
+    private String picUrl;
     @Transient
     @JsonIgnore
     private String role;
