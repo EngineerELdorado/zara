@@ -13,4 +13,16 @@ public class TransactionRequestBody {
     private String pin;
     private String description;
     private String amount;
+
+    @Override
+    public String toString() {
+        return "TransactionRequestBody{" +
+                "sender='" + sender + '\'' +
+                ", receiver='" + receiver + '\'' +
+                ", agentNumber='" + agentNumber + '\'' +
+                ", pin='" + pin + '\'' +
+                ", description='" + description + '\'' +
+                ", amount='" + amount + '\'' +
+                '}';
+    }
 }

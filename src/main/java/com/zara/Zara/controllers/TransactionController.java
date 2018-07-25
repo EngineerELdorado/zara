@@ -347,6 +347,7 @@ public class TransactionController {
     public ResponseEntity<?> deposit(
             @RequestBody TransactionRequestBody body) throws UnsupportedEncodingException {
 
+        LOGGER.debug(body);
         senderNumber = body.getAgentNumber();
         if(body.getReceiver().startsWith("+")){
             receiverNumber = body.getReceiver().substring(1);
