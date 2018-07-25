@@ -12,7 +12,7 @@ import static com.zara.Zara.constants.Keys.ACCOUNT_NUMBER_PREFIX;
 public class BusinessNumbersGenerator {
 
     public static String generateAccountNumber(IUserService userService){
-        String accountNumber = ACCOUNT_NUMBER_PREFIX+String.valueOf(GenerateRandomStuff.getRandomNumber(1000000));
+        String accountNumber = String.valueOf(GenerateRandomStuff.getRandomNumber(1000000));
         AppUser appUser = userService.findByAccountNumber(accountNumber);
         if(appUser==null){
             return accountNumber;
@@ -25,7 +25,7 @@ public class BusinessNumbersGenerator {
     }
 
     public static String generateAgentNumber(IUserService userService){
-        String agentNumber = ACCOUNT_NUMBER_PREFIX+String.valueOf(GenerateRandomStuff.getRandomNumber(10000));
+        String agentNumber = String.valueOf(GenerateRandomStuff.getRandomNumber(10000));
         AppUser appUser = userService.findByAgentNumber(agentNumber);
         if(appUser==null){
             return agentNumber;
