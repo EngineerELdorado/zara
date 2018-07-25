@@ -49,7 +49,6 @@ public class TransactionController {
     @PostMapping("/adminTransfer")
     public ResponseEntity<?> adminTransfer(
             @RequestBody TransactionRequestBody body) throws UnsupportedEncodingException {
-
         senderNumber = URLDecoder.decode(body.getSender(), "UTF-8");
       receiverNumber = URLDecoder.decode(body.getReceiver(), "UTF-8");
       senderPin = body.getPin();
