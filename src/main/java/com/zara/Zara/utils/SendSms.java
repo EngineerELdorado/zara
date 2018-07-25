@@ -20,7 +20,7 @@ public class SendSms {
         try{
             try{
                 URL smslink = new
-                        URL(MOVE_SMS_URL+"?action=compose&"+"username="+MOVE_SMS_USERNAME+"&api_key="+MOVE_SMS_API_KEY+"&sender="+MOVE_SMS_SENDER_ID+"&to="+phonenumber+"&message="+java.net.URLEncoder.encode(msg, "UTF-8")+"");
+                        URL(MOVE_SMS_URL+"compose?"+"username="+MOVE_SMS_USERNAME+"&api_key="+MOVE_SMS_API_KEY+"&sender="+MOVE_SMS_SENDER_ID+"&to="+phonenumber+"&message="+java.net.URLEncoder.encode(msg, "UTF-8")+"&msgtype=5&dlr=0");
                 BufferedReader in = new BufferedReader(
                 new InputStreamReader(
                         smslink.openStream()));
