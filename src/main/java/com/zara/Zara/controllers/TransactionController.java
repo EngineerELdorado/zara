@@ -304,7 +304,7 @@ public class TransactionController {
                             // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER
 
 
-                            String responseToSend = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_WITHDRAWN + amnt + FROM +
+                            String responseToSend = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_WITHDRAWN + amnt + TO +
                                     receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                     updatedSender.getBalance() + " $";
                             responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
@@ -348,11 +348,16 @@ public class TransactionController {
     public ResponseEntity<?> deposit(
             @RequestBody TransactionRequestBody body) throws UnsupportedEncodingException {
 
-        senderNumber = URLDecoder.decode(body.getSender(), "UTF-8");
-        receiverNumber = URLDecoder.decode(body.getReceiver(), "UTF-8");
+        senderNumber = body.getAgentNumber();
+        if(body.getReceiver().startsWith("+")){
+            receiverNumber = body.getReceiver().substring(1);
+        }
+        else{
+            receiverNumber = body.getReceiver();
+        }
         senderPin = body.getPin();
-         amnt = Double.parseDouble(body.getAmount());
-        senderUser = userService.findByAccountNumber(senderNumber.substring(1));
+        amnt = Double.parseDouble(body.getAmount());
+        senderUser = userService.findByAgentNumber(senderNumber);
             if (senderUser == null) {
                 responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
                 responseHeaders.set(RESPONSE_MESSAGE, YOUR_ACCOUNT_IS_NOT_FOUND);
@@ -360,12 +365,12 @@ public class TransactionController {
             }
             LOGGER.info("...................acc no " + senderNumber);
             if (isAccountVerified(senderNumber, userService)) {
-                if(!isAccountLocked(senderNumber.substring(1), userService)){
+                if(!isAccountLocked(senderNumber, userService)){
                     if (bCryptPasswordEncoder.matches(senderPin, senderUser.getPin())) {
                         if (!receiverNumber.equals(senderUser.getAccountNumber())
                                 && !receiverNumber.equals(senderUser.getPhone())) {
 
-                            receiverUser = userService.findByAccountNumber(receiverNumber.substring(1));
+                            receiverUser = userService.findByAccountNumber(receiverNumber);
                             if (receiverUser == null) {
                                 responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
                                 responseHeaders.set(RESPONSE_MESSAGE, USER_NOT_FOUND);
