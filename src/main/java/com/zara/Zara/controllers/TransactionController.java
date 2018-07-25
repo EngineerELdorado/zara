@@ -347,7 +347,7 @@ public class TransactionController {
     public ResponseEntity<?> deposit(
             @RequestBody TransactionRequestBody body) throws UnsupportedEncodingException {
 
-        LOGGER.debug(".............REQUEST BODY: "+body.toString());
+        LOGGER.info(".............REQUEST BODY: "+body.toString());
         senderNumber = body.getAgentNumber();
         if(body.getReceiver().startsWith("+")){
             receiverNumber = body.getReceiver().substring(1);
@@ -364,7 +364,7 @@ public class TransactionController {
                 return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
             }
             LOGGER.info("...................acc no " + senderNumber);
-            if (isAccountVerified(senderNumber, userService)) {
+            if (isAccountVerified(senderUser.getPhone(), userService)) {
                 if(!isAccountLocked(senderNumber, userService)){
                     if (bCryptPasswordEncoder.matches(senderPin, senderUser.getPin())) {
                         if (!receiverNumber.equals(senderUser.getAccountNumber())
