@@ -285,7 +285,7 @@ public class TransactionController {
 
                             Transaction transaction = new Transaction();
                             transaction.setCreatedOn(new Date());
-                            transaction.setTransactionType(TRANSACTION_ADMIN_TRANSFERT);
+                            transaction.setTransactionType(TRANSACTION_WITHDRAWAL);
                             transaction.setCreatedBy(senderUser);
                             transaction.setReceiver(receiverUser);
                             transaction.setAmount(amnt);
@@ -304,7 +304,7 @@ public class TransactionController {
                             // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER
 
 
-                            String responseToSend = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_SENT + amnt + TO +
+                            String responseToSend = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_WITHDRAWN + amnt + FROM +
                                     receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                     updatedSender.getBalance() + " $";
                             responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);

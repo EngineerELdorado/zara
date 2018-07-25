@@ -32,6 +32,7 @@ public class Responses {
     public static String TRANSACTION_NUMBER="Numero de transaction ";
     public static String DEAR=" Cher(e) ";
     public static String YOU_HAVE_SENT=" Vous avez envoye ";
+    public static String YOU_HAVE_WITHDRAWN=" Vous avez retire ";
     public static String YOU_HAVE_RECEIVED=" Vous avez recu ";
     public static String YOU_HAVE_PAID=" Vous avez paye ";
     public static String YOU_HAVE_BEEN_PAID=" Vous avez ete paye ";
