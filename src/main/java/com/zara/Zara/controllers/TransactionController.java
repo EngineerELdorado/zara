@@ -365,7 +365,7 @@ public class TransactionController {
             }
             LOGGER.info("...................acc no " + senderNumber);
             if (isAccountVerified(senderUser.getPhone(), userService)) {
-                if(!isAccountLocked(senderNumber, userService)){
+                if(!isAccountLocked(senderUser.getPhone(), userService)){
                     if (bCryptPasswordEncoder.matches(senderPin, senderUser.getPin())) {
                         if (!receiverNumber.equals(senderUser.getAccountNumber())
                                 && !receiverNumber.equals(senderUser.getPhone())) {
