@@ -250,7 +250,12 @@ public class TransactionController {
     public ResponseEntity<?> withdraw(
             @RequestBody TransactionRequestBody body) throws UnsupportedEncodingException {
 
-        senderNumber = body.getSender().substring(1);
+        if(body.getSender().startsWith("+")){
+            senderNumber = body.getSender().substring(1);
+        }
+        else{
+            senderNumber = body.getSender();
+        }
         receiverNumber = body.getAgentNumber();
         senderPin = body.getPin();
         amnt = Double.parseDouble(body.getAmount());
