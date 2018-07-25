@@ -107,7 +107,7 @@ public class TransactionController {
 
                                 String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt+" $" + FROM +
                                         receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
-                                        updatedSender.getBalance() + " $";
+                                        updatedReceiver.getBalance() + " $";
 
                                 SendSms.send("+"+senderUser.getPhone(), messageToSender);
                                 SendSms.send("+"+receiverUser.getPhone(), messageToReceiver);
@@ -208,7 +208,7 @@ public class TransactionController {
 
                                 String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt+" $" + FROM +
                                         receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
-                                        updatedSender.getBalance() + " $";
+                                        updatedReceiver.getBalance() + " $";
                                 SendSms.send(senderUser.getPhone(), messageToSender);
                                 SendSms.send(receiverUser.getPhone(), messageToReceiver);
                                 responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
@@ -323,7 +323,7 @@ public class TransactionController {
 
                             String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt+" $" + FROM +
                                     receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
-                                    updatedSender.getBalance() + " $";
+                                    updatedReceiver.getBalance() + " $";
                             SendSms.send(senderUser.getPhone(), messageToSender);
                             SendSms.send(receiverUser.getPhone(), messageToReceiver);
                             responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
@@ -427,7 +427,7 @@ public class TransactionController {
 
                                 String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt+" $" + FROM +
                                         receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
-                                        updatedSender.getBalance() + " $";
+                                        updatedReceiver.getBalance() + " $";
                                 SendSms.send(senderUser.getPhone(), messageToSender);
                                 SendSms.send(receiverUser.getPhone(), messageToReceiver);
                                 responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
