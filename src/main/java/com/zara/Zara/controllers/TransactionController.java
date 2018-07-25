@@ -101,11 +101,11 @@ public class TransactionController {
                                 // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER
 
 
-                                String messageToSender = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_SENT + amnt + TO +
+                                String messageToSender = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_SENT + amnt +" $" + TO +
                                         receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                         updatedSender.getBalance() + " $";
 
-                                String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt + FROM +
+                                String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt+" $" + FROM +
                                         receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                         updatedSender.getBalance() + " $";
 
@@ -202,12 +202,17 @@ public class TransactionController {
                                 // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER
 
 
-                                String responseToSend = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_SENT + amnt + TO +
+                                String messageToSender = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_SENT + amnt +" $" + TO +
                                         receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                         updatedSender.getBalance() + " $";
-                                SendSms.send("+"+senderUser.getPhone(), responseToSend);
+
+                                String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt+" $" + FROM +
+                                        receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
+                                        updatedSender.getBalance() + " $";
+                                SendSms.send(senderUser.getPhone(), messageToSender);
+                                SendSms.send(receiverUser.getPhone(), messageToReceiver);
                                 responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
-                                responseHeaders.set(RESPONSE_MESSAGE, responseToSend);
+                                responseHeaders.set(RESPONSE_MESSAGE, messageToSender);
                                 return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
 
                             } else {
@@ -312,11 +317,17 @@ public class TransactionController {
                             // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER
 
 
-                            String responseToSend = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_WITHDRAWN + amnt + TO +
+                            String messageToSender = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_WITHDRAWN + amnt +" $" + TO +
                                     receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                     updatedSender.getBalance() + " $";
+
+                            String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt+" $" + FROM +
+                                    receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
+                                    updatedSender.getBalance() + " $";
+                            SendSms.send(senderUser.getPhone(), messageToSender);
+                            SendSms.send(receiverUser.getPhone(), messageToReceiver);
                             responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
-                            responseHeaders.set(RESPONSE_MESSAGE, responseToSend);
+                            responseHeaders.set(RESPONSE_MESSAGE, messageToSender);
                             return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
 
                         } else {
@@ -410,11 +421,17 @@ public class TransactionController {
                                 // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER
 
 
-                                String responseToSend = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_SENT + amnt + TO +
+                                String messageToSender = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_SENT+ amnt +" $" + TO +
                                         receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                         updatedSender.getBalance() + " $";
+
+                                String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt+" $" + FROM +
+                                        receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
+                                        updatedSender.getBalance() + " $";
+                                SendSms.send(senderUser.getPhone(), messageToSender);
+                                SendSms.send(receiverUser.getPhone(), messageToReceiver);
                                 responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
-                                responseHeaders.set(RESPONSE_MESSAGE, responseToSend);
+                                responseHeaders.set(RESPONSE_MESSAGE, messageToSender);
                                 return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
 
                             } else {
