@@ -13,10 +13,8 @@ public class Keys {
             GenerateRandomStuff.getRandomString(2).toUpperCase()
                     +String.valueOf( GenerateRandomStuff.getRandomNumber(10)).toUpperCase();
 
-    public static final String TWILIO_ACCOUNT_SID = "AC22eab31833b47b1ba1bd10b989d18845";
-    public static final String TWILIO_AUTH_TOKEN = "c9d6524d81a85a83d0e0e3b84e4d9fd7";
-    public static final String TWILIO_NUMBER = "+254203892394";
-
-    public static final String AFRICAS_TALKING_USERNAME="Sandbox";
-    public static final String AFRICAS_TALKING_KEY="4cc0d9391b4958b664626fe16cbe996bc27539b799bdde05f4710ca12b24f400";
+    public static String MOVE_SMS_URL="https://sms.movesms.co.ke/api/";
+    public static String MOVE_SMS_SENDER_ID="SMARTLINK";
+    public static String MOVE_SMS_USERNAME="DenisEldorado";
+    public static String MOVE_SMS_API_KEY="mZt0gTtslM9JZC8Cp6PGrZu4UBpVuPmiaZccQhI23RmwXo3eU6";
 }

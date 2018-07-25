@@ -5,6 +5,7 @@ import com.zara.Zara.entities.Transaction;
 import com.zara.Zara.models.TransactionRequestBody;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.IUserService;
+import com.zara.Zara.utils.SendSms;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,11 +101,18 @@ public class TransactionController {
                                 // TODO: 07/07/2018 SEND SMS TO BOTH THE SENDER AND THE RECEIVER
 
 
-                                String responseToSend = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_SENT + amnt + TO +
+                                String messageToSender = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_SENT + amnt + TO +
                                         receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                         updatedSender.getBalance() + " $";
+
+                                String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt + FROM +
+                                        receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
+                                        updatedSender.getBalance() + " $";
+
+                                SendSms.send("+"+senderUser.getPhone(), messageToSender);
+                                SendSms.send("+"+receiverUser.getPhone(), messageToReceiver);
                                 responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
-                                responseHeaders.set(RESPONSE_MESSAGE, responseToSend);
+                                responseHeaders.set(RESPONSE_MESSAGE, messageToSender);
                                 return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
 
                             } else {
@@ -197,6 +205,7 @@ public class TransactionController {
                                 String responseToSend = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + senderUser.getFullName() + YOU_HAVE_SENT + amnt + TO +
                                         receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                         updatedSender.getBalance() + " $";
+                                SendSms.send("+"+senderUser.getPhone(), responseToSend);
                                 responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
                                 responseHeaders.set(RESPONSE_MESSAGE, responseToSend);
                                 return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
