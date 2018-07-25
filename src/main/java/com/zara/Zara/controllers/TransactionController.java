@@ -106,7 +106,7 @@ public class TransactionController {
                                         updatedSender.getBalance() + " $";
 
                                 String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt+" $" + FROM +
-                                        receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
+                                        senderUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                         updatedReceiver.getBalance() + " $";
 
                                 SendSms.send("+"+senderUser.getPhone(), messageToSender);
