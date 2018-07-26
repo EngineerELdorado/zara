@@ -47,4 +47,10 @@ public class SettingController {
         responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
         return new ResponseEntity<>(settingService.allSettings(),responseHeaders, HttpStatus.CREATED);
     }
+
+    @GetMapping("/getOne/{id}")
+    public ResponseEntity<?>getOne(@PathVariable String id){
+        responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
+        return new ResponseEntity<>(settingService.getSettingById(Long.parseLong(id)),responseHeaders, HttpStatus.CREATED);
+    }
 }
