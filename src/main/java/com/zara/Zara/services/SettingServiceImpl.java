@@ -5,6 +5,8 @@ import com.zara.Zara.repositories.SettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+
 @Service
 public class SettingServiceImpl implements ISettingService {
 
@@ -18,5 +20,10 @@ public class SettingServiceImpl implements ISettingService {
     @Override
     public Setting add(Setting setting) {
         return settingRepository.save(setting);
+    }
+
+    @Override
+    public Collection<Setting> allSettings() {
+        return settingRepository.findAll();
     }
 }
