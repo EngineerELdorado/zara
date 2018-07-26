@@ -288,6 +288,9 @@ public class UserController {
         }
         else{
             userRoles.add(comingRole);
+            if(roleName.equals(ROLE_AGENT) && user.getAgentNumber()==null){
+                user.setAgentNumber(generateAgentNumber(userService));
+            }
             responseHeaders.set(RESPONSE_MESSAGE, ROLE_ADDED);
         }
 
