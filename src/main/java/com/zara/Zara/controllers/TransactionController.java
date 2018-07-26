@@ -3,6 +3,7 @@ package com.zara.Zara.controllers;
 import com.zara.Zara.entities.AppUser;
 import com.zara.Zara.entities.Transaction;
 import com.zara.Zara.models.TransactionRequestBody;
+import com.zara.Zara.services.ISettingService;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.IUserService;
 import com.zara.Zara.utils.SendSms;
@@ -36,6 +37,8 @@ public class TransactionController {
     ITransactionService transactionService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    ISettingService settingService;
     Logger LOGGER = LogManager.getLogger(TransactionController.class);
     HttpHeaders responseHeaders = new HttpHeaders();
     String senderNumber,receiverNumber,senderPin;
@@ -109,8 +112,8 @@ public class TransactionController {
                                         senderUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                         updatedReceiver.getBalance() + " $";
 
-                                SendSms.send("+"+senderUser.getPhone(), messageToSender);
-                                SendSms.send("+"+receiverUser.getPhone(), messageToReceiver);
+                                SendSms.send("+"+senderUser.getPhone(), messageToSender, settingService);
+                                SendSms.send("+"+receiverUser.getPhone(), messageToReceiver,settingService);
                                 responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
                                 responseHeaders.set(RESPONSE_MESSAGE, messageToSender);
                                 return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
@@ -209,8 +212,8 @@ public class TransactionController {
                                 String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt+" $" + FROM +
                                         receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                         updatedReceiver.getBalance() + " $";
-                                SendSms.send(senderUser.getPhone(), messageToSender);
-                                SendSms.send(receiverUser.getPhone(), messageToReceiver);
+                                SendSms.send(senderUser.getPhone(), messageToSender,settingService);
+                                SendSms.send(receiverUser.getPhone(), messageToReceiver,settingService);
                                 responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
                                 responseHeaders.set(RESPONSE_MESSAGE, messageToSender);
                                 return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
@@ -324,8 +327,8 @@ public class TransactionController {
                             String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt+" $" + FROM +
                                     receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                     updatedReceiver.getBalance() + " $";
-                            SendSms.send(senderUser.getPhone(), messageToSender);
-                            SendSms.send(receiverUser.getPhone(), messageToReceiver);
+                            SendSms.send(senderUser.getPhone(), messageToSender,settingService);
+                            SendSms.send(receiverUser.getPhone(), messageToReceiver,settingService);
                             responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
                             responseHeaders.set(RESPONSE_MESSAGE, messageToSender);
                             return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
@@ -428,8 +431,8 @@ public class TransactionController {
                                 String messageToReceiver = TRANSACTION_NUMBER + transaction.getTransactionNumber() + ". " + DEAR + receiverUser.getFullName() + YOU_HAVE_RECEIVED + amnt+" $" + FROM +
                                         receiverUser.getFullName() + ON + transaction.getCreatedOn().toString() + ". " + YOUR_NEW_BALANCE_IS +
                                         updatedReceiver.getBalance() + " $";
-                                SendSms.send(senderUser.getPhone(), messageToSender);
-                                SendSms.send(receiverUser.getPhone(), messageToReceiver);
+                                SendSms.send(senderUser.getPhone(), messageToSender,settingService);
+                                SendSms.send(receiverUser.getPhone(), messageToReceiver,settingService);
                                 responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
                                 responseHeaders.set(RESPONSE_MESSAGE, messageToSender);
                                 return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
