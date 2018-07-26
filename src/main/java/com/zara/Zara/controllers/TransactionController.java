@@ -84,7 +84,7 @@ public class TransactionController {
                         if (!receiverNumber.equals(senderUser.getAccountNumber())
                                 && !receiverNumber.equals(senderUser.getPhone())) {
 
-                            receiverUser = userService.findByAccountNumber(receiverNumber.substring(1));
+                            receiverUser = userService.findByAccountNumber(receiverNumber);
                             if (receiverUser == null) {
                                 responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
                                 responseHeaders.set(RESPONSE_MESSAGE, USER_NOT_FOUND);
