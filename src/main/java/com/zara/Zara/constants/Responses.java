@@ -45,4 +45,6 @@ public class Responses {
     public static String PICTURE_UPDATED="La photo a ete mise A jour";
     public static String SMS_ENABLED="Les SMS viennent d'etre activEs";
     public static String SMS_DISABLED="Les SMS viennent d'etre desactivEs";
+    public static String ROLE_REMOVED="Le Role vient d'etre retirE de cet utilisateur";
+    public static String ROLE_ADDED="Le Role vient d'etre ajoutE A cet utilisateur";
 }

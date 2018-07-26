@@ -270,4 +270,31 @@ public class UserController {
         responseHeaders.set(RESPONSE_MESSAGE, PICTURE_UPDATED);
         return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
     }
+
+    @GetMapping("/addRemoveRoles")
+    public ResponseEntity<?>toggleRoles(@RequestParam String accountNumber,@RequestParam String roleName){
+        AppUser user = userService.findByAccountNumber(accountNumber);
+        Role comingRole = roleService.getByName(roleName);
+        Collection<Role>userRoles= user.getRoles();
+        StringBuilder rolesStringBuilder= new StringBuilder();
+        for (Role role: userRoles){
+            rolesStringBuilder.append(role.getName());
+        }
+        String rolesString = rolesStringBuilder.toString();
+
+        if(rolesString.contains(roleName)){
+            userRoles.remove(comingRole);
+            responseHeaders.set(RESPONSE_MESSAGE, ROLE_REMOVED);
+        }
+        else{
+            userRoles.add(comingRole);
+            responseHeaders.set(RESPONSE_MESSAGE, ROLE_ADDED);
+        }
+
+        user.setRoles(userRoles);
+        AppUser updatedUser= userService.addUser(user);
+        return new ResponseEntity<>(updatedUser,responseHeaders, HttpStatus.CREATED);
+
+
+    }
 }
