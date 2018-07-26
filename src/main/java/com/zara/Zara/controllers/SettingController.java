@@ -31,8 +31,8 @@ public class SettingController {
         if(setting.isSmsEnabled()){
             setting.setSmsEnabled(false);
             responseHeaders.set(RESPONSE_MESSAGE, SMS_DESABLED);
-            settingService.add(setting);
-            return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+           Setting newSetting= settingService.add(setting);
+            return new ResponseEntity<>(newSetting,responseHeaders, HttpStatus.CREATED);
         }
         else{
             setting.setSmsEnabled(true);
