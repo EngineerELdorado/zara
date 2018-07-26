@@ -53,13 +53,24 @@ public class TransactionController {
     @PostMapping("/adminTransfer")
     public ResponseEntity<?> adminTransfer(
             @RequestBody TransactionRequestBody body) throws UnsupportedEncodingException {
-        senderNumber = URLDecoder.decode(body.getSender(), "UTF-8");
-      receiverNumber = URLDecoder.decode(body.getReceiver(), "UTF-8");
+        if(body.getSender().startsWith("+")){
+            senderNumber=body.getSender().substring(1);
+        }
+        else{
+            senderNumber=body.getSender();
+        }
+
+        if(body.getReceiver().startsWith("+")){
+            receiverNumber=body.getReceiver().substring(1);
+        }
+        else{
+            receiverNumber=body.getReceiver();
+        }
       senderPin = body.getPin();
       amnt = Double.parseDouble(body.getAmount());
 
         LOGGER.info(senderNumber.trim() + " " + receiverNumber + " " + senderPin + " " + amnt);
-       senderUser = userService.findByAccountNumber(senderNumber.substring(1));
+       senderUser = userService.findByAccountNumber(senderNumber);
 
             if (senderUser == null) {
                 responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
@@ -67,8 +78,8 @@ public class TransactionController {
                 return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
             }
             LOGGER.info("...................acc no " + senderNumber);
-            if (isAccountVerified(senderNumber.substring(1), userService)) {
-                if(!isAccountLocked(senderNumber.substring(1),userService)){
+            if (isAccountVerified(senderNumber, userService)) {
+                if(!isAccountLocked(senderNumber,userService)){
                     if (bCryptPasswordEncoder.matches(senderPin, senderUser.getPin())) {
                         if (!receiverNumber.equals(senderUser.getAccountNumber())
                                 && !receiverNumber.equals(senderUser.getPhone())) {
