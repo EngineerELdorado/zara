@@ -272,17 +272,6 @@ public class TransactionController {
 
 
     }
-    @GetMapping("/ministatement/{id}")
-    public ResponseEntity<?> getMiniStatement(@PathVariable Long id) {
-
-        return ResponseEntity.status(200).body(transactionService.getMiniStatement(id));
-
-    }
-
-    @GetMapping("/getAll")
-    public ResponseEntity<?> getAll() {
-        return ResponseEntity.status(200).body(transactionService.getAll());
-    }
 
     @PostMapping("/withdraw")
     public ResponseEntity<?> withdraw(
@@ -308,7 +297,7 @@ public class TransactionController {
         if (isAccountVerified(senderNumber, userService)) {
             if(!isAccountLocked(senderNumber,userService)){
                 if (bCryptPasswordEncoder.matches(senderPin, senderUser.getPin())) {
-                    if (!receiverNumber.equals(senderUser.getAccountNumber())
+                    if (!receiverNumber.equals(senderUser.getAgentNumber())
                             && !receiverNumber.equals(senderUser.getPhone())) {
 
                         receiverUser = userService.findByAgentNumber(body.getAgentNumber());
@@ -580,5 +569,16 @@ public class TransactionController {
     }
 
 
+    @GetMapping("/ministatement/{id}")
+    public ResponseEntity<?> getMiniStatement(@PathVariable Long id) {
+
+        return ResponseEntity.status(200).body(transactionService.getMiniStatement(id));
+
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.status(200).body(transactionService.getAll());
+    }
 
 }

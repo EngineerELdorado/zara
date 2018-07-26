@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.zara.Zara.constants.Keys.RESPONSE_CODE;
 import static com.zara.Zara.constants.Keys.RESPONSE_MESSAGE;
 import static com.zara.Zara.constants.Keys.RESPONSE_SUCCESS;
-import static com.zara.Zara.constants.Responses.SMS_DESABLED;
+import static com.zara.Zara.constants.Responses.SMS_DISABLED;
 import static com.zara.Zara.constants.Responses.SMS_ENABLED;
 
 @RestController
@@ -30,17 +30,17 @@ public class SettingController {
         Setting setting = settingService.getSettingById(Long.parseLong(id));
         if(setting.isSmsEnabled()){
             setting.setSmsEnabled(false);
-            responseHeaders.set(RESPONSE_MESSAGE, SMS_DESABLED);
+            responseHeaders.set(RESPONSE_MESSAGE, SMS_DISABLED);
            Setting newSetting= settingService.add(setting);
             return new ResponseEntity<>(newSetting,responseHeaders, HttpStatus.CREATED);
         }
-        else{
+        else if (!setting.isSmsEnabled()){
             setting.setSmsEnabled(true);
             responseHeaders.set(RESPONSE_MESSAGE, SMS_ENABLED);
             settingService.add(setting);
             return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
         }
-
+       return null;
     }
     @GetMapping("/all")
     public ResponseEntity<?>getAllSettings(){
