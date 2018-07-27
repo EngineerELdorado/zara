@@ -284,7 +284,7 @@ public class UserController {
 
         if(rolesString.contains(roleName)){
             userRoles.remove(comingRole);
-            user.setAgentAccountLocked(false);
+            user.setAgentAccountLocked(true);
             responseHeaders.set(RESPONSE_MESSAGE, ROLE_REMOVED);
         }
         else{
