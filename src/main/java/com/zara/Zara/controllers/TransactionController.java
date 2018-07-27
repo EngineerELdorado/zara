@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Date;
-import java.util.Optional;
 
 import static com.zara.Zara.constants.ConstantVariables.*;
 import static com.zara.Zara.constants.Keys.*;
@@ -293,7 +292,7 @@ public class TransactionController {
             responseHeaders.set(RESPONSE_MESSAGE, YOUR_ACCOUNT_IS_NOT_FOUND);
             return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
         }
-        if (receiverUser.isAgentAccountBlocked()) {
+        if (receiverUser.isAgentAccountLocked()) {
             responseHeaders.set(RESPONSE_MESSAGE, AGENT_LOCKED);
             return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
         }
@@ -402,7 +401,7 @@ public class TransactionController {
                 return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
             }
 
-        if (senderUser.isAgentAccountBlocked()) {
+        if (senderUser.isAgentAccountLocked()) {
             responseHeaders.set(RESPONSE_MESSAGE, YOU_NO_LONGER_AN_AGENT);
             return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
         }
