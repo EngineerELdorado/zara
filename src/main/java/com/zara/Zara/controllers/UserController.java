@@ -289,9 +289,12 @@ public class UserController {
         }
         else{
             userRoles.add(comingRole);
-            if(roleName.equals(ROLE_AGENT) && user.getAgentNumber()==null){
+            if(roleName.equals(ROLE_AGENT)){
                 user.setAgentAccountLocked(false);
-                user.setAgentNumber(generateAgentNumber(userService));
+                if(user.getAgentNumber()==null){
+                    user.setAgentNumber(generateAgentNumber(userService));
+                }
+
             }
             responseHeaders.set(RESPONSE_MESSAGE, ROLE_ADDED);
         }
