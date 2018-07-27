@@ -401,7 +401,7 @@ public class TransactionController {
                 return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
             }
 
-        if (senderUser.isAgentAccountLocked()) {
+            else if (senderUser.isAgentAccountLocked()) {
             responseHeaders.set(RESPONSE_MESSAGE, YOU_NO_LONGER_AN_AGENT);
             return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
         }
