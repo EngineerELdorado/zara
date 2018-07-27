@@ -24,6 +24,7 @@ public class AppUser {
     private String accountNumber;
     @Column(name = "agent_number")
     private String agentNumber;
+    private boolean isAgentAccountBlocked;
     @NotEmpty
     private String fullName;
     @NotEmpty

@@ -284,11 +284,13 @@ public class UserController {
 
         if(rolesString.contains(roleName)){
             userRoles.remove(comingRole);
+            user.setAgentAccountBlocked(false);
             responseHeaders.set(RESPONSE_MESSAGE, ROLE_REMOVED);
         }
         else{
             userRoles.add(comingRole);
             if(roleName.equals(ROLE_AGENT) && user.getAgentNumber()==null){
+                user.setAgentAccountBlocked(false);
                 user.setAgentNumber(generateAgentNumber(userService));
             }
             responseHeaders.set(RESPONSE_MESSAGE, ROLE_ADDED);

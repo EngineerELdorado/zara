@@ -288,9 +288,13 @@ public class TransactionController {
         amnt = Double.parseDouble(body.getAmount());
 
         senderUser = userService.findByAccountNumber(senderNumber);
+        receiverUser = userService.findByAgentNumber(body.getAgentNumber());
         if (senderUser == null) {
-            responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
             responseHeaders.set(RESPONSE_MESSAGE, YOUR_ACCOUNT_IS_NOT_FOUND);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+        }
+        if (receiverUser.isAgentAccountBlocked()) {
+            responseHeaders.set(RESPONSE_MESSAGE, AGENT_LOCKED);
             return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
         }
         LOGGER.info("...................acc no " + senderNumber);
@@ -300,7 +304,7 @@ public class TransactionController {
                     if (!receiverNumber.equals(senderUser.getAgentNumber())
                             && !receiverNumber.equals(senderUser.getPhone())) {
 
-                        receiverUser = userService.findByAgentNumber(body.getAgentNumber());
+
                         if (receiverUser == null) {
                             responseHeaders.set(RESPONSE_CODE, RESPONSE_SUCCESS);
                             responseHeaders.set(RESPONSE_MESSAGE, AGENT_NOT_FOUND);
@@ -397,6 +401,11 @@ public class TransactionController {
                 responseHeaders.set(RESPONSE_MESSAGE, YOUR_ACCOUNT_IS_NOT_FOUND);
                 return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
             }
+
+        if (senderUser.isAgentAccountBlocked()) {
+            responseHeaders.set(RESPONSE_MESSAGE, YOU_NO_LONGER_AN_AGENT);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.BAD_REQUEST);
+        }
             LOGGER.info("...................acc no " + senderNumber);
             if (isAccountVerified(senderUser.getPhone(), userService)) {
                 if(!isAccountLocked(senderUser.getPhone(), userService)){
