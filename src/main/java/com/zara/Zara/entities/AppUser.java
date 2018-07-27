@@ -30,7 +30,7 @@ public class AppUser {
     @NotEmpty
     @Column(unique = true)
     private String phone;
-    //@NotEmpty
+    @NotEmpty
     private String pin;
     private Double balance;
     private Date dob;
