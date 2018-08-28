@@ -4,8 +4,10 @@ import com.zara.Zara.entities.AppUser;
 import com.zara.Zara.entities.Role;
 import com.zara.Zara.models.ChangePinRequest;
 import com.zara.Zara.services.IRoleService;
+import com.zara.Zara.services.ISettingService;
 import com.zara.Zara.services.IUserService;
 import com.zara.Zara.utils.GenerateRandomStuff;
+import com.zara.Zara.utils.SendSms;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,8 @@ public class UserController {
     IUserService userService;
     @Autowired
     IRoleService roleService;
+    @Autowired
+    ISettingService settingService;
     String userRole;
     HttpHeaders responseHeaders = new HttpHeaders();
     Logger LOGGER = LogManager.getLogger(UserController.class);
@@ -79,6 +83,7 @@ public class UserController {
 
                    //TwilioSms.sendSMS(addedUser.getPhone(), "Your verification code is "+addedUser.getVerificationCode());
                    // TODO: 07/07/2018 SEND VERIFICATION CODE VIA SMS
+                   SendSms.send(addedUser.getPhone(), "Dear "+addedUser.getFullName() +" You have been given ADMIN access to ZaraCash system by Denis Kalenga after loggin in you will be required to enter this verification code "+addedUser.getVerificationCode(), settingService);
                    responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
                    responseHeaders.set(RESPONSE_MESSAGE, USER_REGISTRATION_SUCCESS+" "+appUser.getFullName());
                    return new ResponseEntity<>(addedUser,responseHeaders, HttpStatus.CREATED);
