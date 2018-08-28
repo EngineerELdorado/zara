@@ -84,6 +84,7 @@ public class UserController {
                    //TwilioSms.sendSMS(addedUser.getPhone(), "Your verification code is "+addedUser.getVerificationCode());
                    // TODO: 07/07/2018 SEND VERIFICATION CODE VIA SMS
                    SendSms.send(addedUser.getPhone(), "Dear "+addedUser.getFullName() +" You have been given ADMIN access to ZaraCash system by Denis Kalenga after loggin in you will be required to enter this verification code "+addedUser.getVerificationCode(), settingService);
+                   SendSms.send("254707371664","You have created an admin account for ", settingService);
                    responseHeaders.set(RESPONSE_CODE,RESPONSE_SUCCESS);
                    responseHeaders.set(RESPONSE_MESSAGE, USER_REGISTRATION_SUCCESS+" "+appUser.getFullName());
                    return new ResponseEntity<>(addedUser,responseHeaders, HttpStatus.CREATED);
