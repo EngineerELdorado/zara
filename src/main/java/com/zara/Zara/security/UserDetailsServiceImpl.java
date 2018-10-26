@@ -25,13 +25,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
             LOGGER.info("BEFORE LOADING USER "+username);
-            AppUser applicationUser = userRepository.findByAccountNumber(username);
+            AppUser applicationUser = userRepository.findByUsername(username);
             LOGGER.info("LOADED USER BY USERNAME---> "+applicationUser.getFullName());
             Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
             for (Role role : applicationUser.getRoles()){
                 grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
             }
-            return new User(applicationUser.getAccountNumber(), applicationUser.getPin(), grantedAuthorities);
+            return new User(applicationUser.getUsername(), applicationUser.getPin(), grantedAuthorities);
         }
         catch (Exception e)
         {

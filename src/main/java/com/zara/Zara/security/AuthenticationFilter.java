@@ -50,7 +50,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
            }
            else {
                return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                       appUser.getAccountNumber(), appUser.getPin(),new ArrayList<>()
+                       appUser.getUsername(), appUser.getPin(),new ArrayList<>()
                ));
            }
 
@@ -71,8 +71,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         String token = Jwts.builder()
                 .setSubject(((User) authResult.getPrincipal()).getUsername())
                 .claim("roles", ((User) authResult.getPrincipal()).getAuthorities().toString())
-                .claim("Firstname", appUser.getFullName())
-                .claim("phone", appUser.getPhone())
+                .claim("fullName", appUser.getFullName())
                 .setExpiration(new Date(System.currentTimeMillis()+ EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
                 .compact();

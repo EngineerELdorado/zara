@@ -1,4 +1,4 @@
-package com.zara.Zara.controllers;
+package com.zara.Zara.controllers.management;
 
 import com.zara.Zara.services.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;

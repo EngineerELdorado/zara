@@ -8,9 +8,5 @@ import java.util.Optional;
 public interface IUserService {
 
     AppUser addUser(AppUser appUser);
-    AppUser findByAccountNumber(String accounNumber);
-    AppUser findByPhoneNumber(String phoneNumber);
-    AppUser findByAgentNumber(String agentNumber);
-    Double getUserBalance(String accountNumber);
     Collection<AppUser> getAll();
 }

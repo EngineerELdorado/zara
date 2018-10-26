@@ -19,26 +19,6 @@ public class UserServiceImp implements IUserService {
     }
 
     @Override
-    public AppUser findByAccountNumber(String accountNumber) {
-        return userRepository.findByAccountNumber(accountNumber);
-    }
-
-    @Override
-    public AppUser findByPhoneNumber(String phoneNumber) {
-        return userRepository.findByPhoneNumber(phoneNumber);
-    }
-
-    @Override
-    public AppUser findByAgentNumber(String agentNumber) {
-        return userRepository.findByAgentNumber(agentNumber);
-    }
-
-    @Override
-    public Double getUserBalance(String accountNumber) {
-        return userRepository.getUserBalance(accountNumber);
-    }
-
-    @Override
     public Collection<AppUser> getAll() {
         return userRepository.getAll();
     }

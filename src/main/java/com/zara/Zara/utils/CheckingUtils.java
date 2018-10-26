@@ -12,42 +12,6 @@ public class CheckingUtils {
 
    public static Logger LOGGER = LogManager.getLogger(CheckingUtils.class);
 
-
-    public static boolean isPhoneNumberValid(String phoneNumber){
-        LOGGER.info("input phone number for format validation"+phoneNumber);
-        return phoneNumber.startsWith("+") && phoneNumber.length() ==13;
-    }
-
-    public static boolean isPhoneNumberTaken(String phoneNumber, IUserService userService){
-        LOGGER.info("input phone number for availability"+phoneNumber);
-        AppUser user =userService.findByPhoneNumber(phoneNumber);
-        if(user!=null){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    public static boolean isAccountVerified(String accountNumber, IUserService userService){
-
-        AppUser appUser = userService.findByAccountNumber(accountNumber);
-        return appUser.isVerified();
-    }
-
-    public static boolean isAccountLocked(String accountNumber, IUserService userService){
-
-        AppUser appUser = userService.findByAccountNumber(accountNumber);
-        return appUser.isLocked();
-    }
-
-    public static boolean doesAccountNeedToResetPin(String accountNumber, IUserService userService){
-
-        AppUser appUser = userService.findByAccountNumber(accountNumber);
-        return appUser.isNeedToChangePin();
-    }
-
-    //if phone number starts with 0 or +
     public static String formatPhoneNumber(String msisdn) {
         String start_char = String.valueOf(msisdn.charAt(0));
 

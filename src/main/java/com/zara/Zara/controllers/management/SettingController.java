@@ -1,4 +1,4 @@
-package com.zara.Zara.controllers;
+package com.zara.Zara.controllers.management;
 
 import com.zara.Zara.entities.Setting;
 import com.zara.Zara.services.ISettingService;

@@ -7,14 +7,15 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity
+@Entity(name = "ROLES")
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
     private Long id;
-    @Column(unique = true)
+    @Column(unique = true, name = "NAME")
     private String name;
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")
