@@ -37,4 +37,5 @@ public class Responses {
     public static String ON=" en date du ";
     public static String FOR=" pour ";
     public static String YOUR_NEW_BALANCE_IS=" Votre nouveau solde est de ";
+    public static String WRONG_PIN="Pin Incorrect";
 }
