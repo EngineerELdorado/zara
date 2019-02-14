@@ -1,3 +1,4 @@
+/**
 package com.zara.Zara.security;
 
 import io.jsonwebtoken.Jwts;
@@ -68,3 +69,4 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         return null;
     }
 }
+    */

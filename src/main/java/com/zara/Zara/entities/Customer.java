@@ -1,0 +1,30 @@
+package com.zara.Zara.entities;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
+
+@Data
+@Entity(name = "customers")
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Customer {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    private String fullName;
+    @Column(unique = true)
+    private String phoneNumber;
+    private String pin;
+    private String role;
+    private String status;
+    private String statusDescription;
+    private Date creationDate;
+    private BigDecimal balance;
+
+}

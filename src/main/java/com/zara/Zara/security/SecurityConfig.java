@@ -1,4 +1,4 @@
-package com.zara.Zara.security;
+ package com.zara.Zara.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-
+/**
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
@@ -35,7 +35,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
+ */
 
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    http
+            .authorizeRequests()
+            .antMatchers("/auth/*").authenticated()
+            .anyRequest().permitAll()
+            .and()
+            .httpBasic()
+            .and()
+            .csrf().disable();
+}
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
@@ -49,3 +61,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 }
+
+

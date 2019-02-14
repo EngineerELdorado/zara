@@ -1,4 +1,5 @@
-package com.zara.Zara.security;
+/**
+ * package com.zara.Zara.security;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,3 +49,4 @@ public class CORSFilter implements Filter {
     }
 
 }
+*/
