@@ -3,8 +3,14 @@ package com.zara.Zara.controllers;
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Customer;
 import com.zara.Zara.models.OtpObject;
+import com.zara.Zara.models.Sms;
 import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.utils.OtpService;
+import com.zara.Zara.services.utils.SmsService;
+import okhttp3.Call;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +81,10 @@ public class CustomerController {
         int otp = otpService.generateOTP(otpObject.getPhoneNumber());
          apiResponse.setResponseCode("00");
          apiResponse.setResponseMessage("Otp successfully generated");
-         LOG.info("OTP==> "+String.valueOf(otp)+" for "+otpObject.getPhoneNumber());
+        Sms sms = new Sms();
+        sms.setTo(otpObject.getPhoneNumber());
+        sms.setMessage("votre code de verification pour PesaPay est: "+String.valueOf(otp));
+        SmsService.sendSms(sms);
          return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
     }
@@ -98,6 +107,11 @@ public class CustomerController {
                         apiResponse.setResponseCode("00");
                         apiResponse.setResponseMessage("SUCCESS");
                         apiResponse.setCustomer(customer);
+                        Sms sms = new Sms();
+                        sms.setTo(otpObject.getPhoneNumber());
+                        sms.setMessage("Cher "+customer.getFullName()+" Bievenu sur PesaPay. maintenant vous pouvez retirer, deposer," +
+                                "payer en ligne, transferer ainsi effectuer tout gendre de payment avec votre telephone.");
+                        SmsService.sendSms(sms);
                     }else{
                         apiResponse.setResponseCode("01");
                         apiResponse.setResponseMessage("USER NOT FOUND");
