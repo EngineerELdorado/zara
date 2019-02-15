@@ -74,14 +74,17 @@ public class CustomerController {
         if (customer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("numero introuvable");
+            LOG.info("LOGIN FAILED FOR==> "+loginObject.getPhoneNumber()+" PHONE NUMBER NOT FOUND");
         }else{
             if (bCryptPasswordEncoder.matches(loginObject.getPin(), customer.getPin())){
                 apiResponse.setResponseCode("00");
                 apiResponse.setResponseMessage("Bienvenu");
                 apiResponse.setCustomer(customer);
+                LOG.info("LOGIN SUCCESSFUL FOR==> "+loginObject.getPhoneNumber()+" "+customer.getFullName());
             }else {
                 apiResponse.setResponseCode("01");
                 apiResponse.setResponseMessage("pin incorrect");
+                LOG.info("LOGIN FAILED FOR==> "+loginObject.getPhoneNumber()+" PIN INCORRECT");
             }
         }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
