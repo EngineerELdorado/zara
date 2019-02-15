@@ -23,6 +23,7 @@ public class Customer {
     private String pin;
     private String role;
     private String status;
+    private boolean verified;
     private String statusDescription;
     private Date creationDate;
     private BigDecimal balance;

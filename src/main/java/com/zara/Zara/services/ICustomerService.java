@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public interface ICustomerService {
 
-    Customer addUser(Customer appUser);
+    Customer save(Customer appUser);
     Customer findByPhoneNumber(String phoneNumber);
     BigDecimal getBalance(Long  customerId);
     Collection<Customer> findAll();

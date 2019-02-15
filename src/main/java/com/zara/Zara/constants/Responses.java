@@ -6,7 +6,7 @@ public class Responses {
     public static String USER_REGISTRATION_FAILED ="Echec de creation du compte.";
     public static String PHONE_NUMBER_ALREADY_TAKEN ="ce numero n'est plus disponible";
     public static String PHONE_NUMBER_FORMAT_INVALID ="Numero De Telephone Invalid. Veillez fournir un numero avec ce format" +
-            " +254994341484";
+            " +243994341484";
     public static String USER_UPDATED="Info sauvegardee...";
     public static String USER_UPDATED_NEED_TO_VERIFY_PHONE="Info sauvegardee... mais l'utilisateur devra encore faire verifier son nouveau numero";
     public static String BLOCK_USER="Ce compte vient d'etre bloquE ";

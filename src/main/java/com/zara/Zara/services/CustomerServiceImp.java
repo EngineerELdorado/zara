@@ -12,7 +12,7 @@ public class CustomerServiceImp implements ICustomerService {
     @Autowired
     CustomerRepository customerRepository;
     @Override
-    public Customer addUser(Customer customer) {
+    public Customer save(Customer customer) {
         return customerRepository.save(customer);
     }
 
