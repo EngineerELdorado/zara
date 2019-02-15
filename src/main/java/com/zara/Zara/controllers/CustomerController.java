@@ -2,6 +2,7 @@ package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Customer;
+import com.zara.Zara.models.LoginObject;
 import com.zara.Zara.models.OtpObject;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.services.ICustomerService;
@@ -67,6 +68,24 @@ public class CustomerController {
 
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?>login(@RequestBody LoginObject loginObject){
+        Customer customer = customerService.findByPhoneNumber(loginObject.getPhoneNumber());
+        if (customer==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("numero introuvable");
+        }else{
+            if (bCryptPasswordEncoder.matches(loginObject.getPin(), customer.getPin())){
+                apiResponse.setResponseCode("00");
+                apiResponse.setResponseMessage("Bienvenu");
+                apiResponse.setCustomer(customer);
+            }else {
+                apiResponse.setResponseCode("01");
+                apiResponse.setResponseMessage("pin incorrect");
+            }
+        }
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 
     public boolean isPhoneTaken(String phoneNumber){
        Customer customer = customerService.findByPhoneNumber(phoneNumber);
