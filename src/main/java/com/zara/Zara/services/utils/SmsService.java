@@ -11,11 +11,14 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import static com.zara.Zara.constants.ConstantVariables.*;
 
 public class SmsService {
     static Logger LOG = LogManager.getLogger(SmsService.class);
-    public static void sendSms(Sms sms){
+    public static void sendSms(Sms sms) throws UnsupportedEncodingException {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 
@@ -23,7 +26,7 @@ public class SmsService {
                 .queryParam("username", BUDGET_SMS_USERNAME)
                 .queryParam("userid", BUDGET_SMS_USER_ID)
                 .queryParam("handle", BUDGET_SMS_HANDLE)
-                .queryParam("msg", sms.getMessage())
+                .queryParam("msg", URLEncoder.encode(sms.getMessage(), "UTF-8"))
                 .queryParam("from", BUDGET_SMS_USER_ID)
                 .queryParam("to", sms.getTo());
 

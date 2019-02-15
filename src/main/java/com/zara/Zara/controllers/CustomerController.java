@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -77,7 +78,7 @@ public class CustomerController {
     }
 
     @PostMapping("/generateOtp")
-    public ResponseEntity<?> generateOtp(@RequestBody OtpObject otpObject){
+    public ResponseEntity<?> generateOtp(@RequestBody OtpObject otpObject) throws UnsupportedEncodingException {
         int otp = otpService.generateOTP(otpObject.getPhoneNumber());
          apiResponse.setResponseCode("00");
          apiResponse.setResponseMessage("Otp successfully generated");
@@ -89,7 +90,7 @@ public class CustomerController {
 
     }
     @PostMapping("/validateOtp")
-    public ResponseEntity <?> validateOtp(@RequestBody OtpObject otpObject){
+    public ResponseEntity <?> validateOtp(@RequestBody OtpObject otpObject) throws UnsupportedEncodingException {
 
 //Validate the Otp
         if(otpObject.getOtp() >= 0){
