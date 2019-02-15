@@ -70,12 +70,12 @@ public class CustomerController {
        }
     }
 
-    @GetMapping("/generateOtp")
-    public ResponseEntity<?> generateOtp(@RequestParam(name = "phoneNumber") String phoneNumber){
-        int otp = otpService.generateOTP(phoneNumber);
+    @PostMapping("/generateOtp")
+    public ResponseEntity<?> generateOtp(@RequestBody OtpObject otpObject){
+        int otp = otpService.generateOTP(otpObject.getPhoneNumber());
          apiResponse.setResponseCode("00");
          apiResponse.setResponseMessage("Otp successfully generated");
-         LOG.info("OTP==> "+String.valueOf(otp)+" for "+phoneNumber);
+         LOG.info("OTP==> "+String.valueOf(otp)+" for "+otpObject.getPhoneNumber());
          return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
     }
