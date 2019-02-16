@@ -56,30 +56,23 @@ public class CustomerTransferController {
             apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
             LOGGER.info("SENDER ACCOUNT NOT ACTIVE FOR "+request.getReceiver());
         }else if (!senderCustomer.isVerified()){
-            apiResponse.setResponseCode("02");
-            apiResponse.setResponseMessage("Votre compte n'est pas encore verifie");
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+            apiResponse.setResponseMessage("Votre compte n'est pas encore verifie");
             LOGGER.info("SENDER ACCOUNT NOT VERIFIED FOR "+request.getReceiver());
 
         }else if (senderCustomer.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
            apiResponse.setResponseCode("01");
            apiResponse.setResponseMessage("Vous n'avez pas assez d'argent pour effectuer ce transfert. votre solde est de "+senderCustomer.getBalance()+" USD");
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+
             LOGGER.info("SENDER BALANCE INSUFFICIENT "+request.getSender());
         }else if (!bCryptPasswordEncoder.matches(request.getPin(), senderCustomer.getPin())){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("votre pin est incorrect");
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
             LOGGER.info("WRONG PIN FOR "+request.getSender());
         }
         else if (receiverCustomer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce compte n'existe pas");
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
             LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getReceiver());
 
         }
