@@ -50,8 +50,6 @@ public class AppUser {
     private String role;
     @ManyToMany
     private Collection<Role>roles;
-    @JsonIgnore
-    @OneToMany(mappedBy = "createdBy")
-    private Collection<Transaction>transactions;
+    
 
 }
