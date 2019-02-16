@@ -50,6 +50,6 @@ public class AppUser {
     private String role;
     @ManyToMany
     private Collection<Role>roles;
-    
+
 
 }

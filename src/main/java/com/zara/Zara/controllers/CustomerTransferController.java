@@ -121,7 +121,7 @@ public class CustomerTransferController {
 
             Transaction createdTransaction = transactionService.addTransaction(transaction);
             senderCustomer.setBalance(senderCustomer.getBalance().subtract(new BigDecimal(request.getAmount())));
-            receiverCustomer.setBalance(senderCustomer.getBalance().add(new BigDecimal(request.getAmount())));
+            receiverCustomer.setBalance(receiverCustomer.getBalance().add(new BigDecimal(request.getAmount())));
             if (createdTransaction==null){
                 apiResponse.setResponseCode("01");
                 apiResponse.setResponseMessage("Transaction echoue pour des raisons techniques");
