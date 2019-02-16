@@ -9,6 +9,8 @@ import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.utils.SmsService;
 import com.zara.Zara.utils.GenerateRandomStuff;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,7 @@ public class CustomerTransferController {
     ITransactionService transactionService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
 
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {
@@ -46,24 +49,38 @@ public class CustomerTransferController {
         if (senderCustomer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
+            LOGGER.info("SENDER ACCOUNT NOT FOUND FOR "+request.getReceiver());
         }
         else if (!senderCustomer.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+            LOGGER.info("SENDER ACCOUNT NOT ACTIVE FOR "+request.getReceiver());
         }else if (!senderCustomer.isVerified()){
             apiResponse.setResponseCode("02");
             apiResponse.setResponseMessage("Votre compte n'est pas encore verifie");
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+            LOGGER.info("SENDER ACCOUNT NOT VERIFIED FOR "+request.getReceiver());
 
         }else if (senderCustomer.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
            apiResponse.setResponseCode("01");
            apiResponse.setResponseMessage("Vous n'avez pas assez d'argent pour effectuer ce transfert. votre solde est de "+senderCustomer.getBalance()+" USD");
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+            LOGGER.info("SENDER BALANCE INSUFFICIENT "+request.getSender());
         }else if (!bCryptPasswordEncoder.matches(request.getPin(), senderCustomer.getPin())){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("votre pin est incorrect");
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+            LOGGER.info("WRONG PIN FOR "+request.getSender());
         }
         else if (receiverCustomer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce compte n'existe pas");
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+            LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getReceiver());
 
         }
         else if (!receiverCustomer.isVerified()){
@@ -73,6 +90,10 @@ public class CustomerTransferController {
             sms.setMessage(receiverCustomer.getFullName()+" "+senderCustomer.getFullName()+" essaye de vous transferer de l'argent mais votre compte n'est pas verifie." +
                     " veillez faire verifier votre compte");
             SmsService.sendSms(sms);
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+
+            LOGGER.info("RECEIVER ACCOUNT NOT VERIFIED FOR "+request.getReceiver());
         }
         else if (!receiverCustomer.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
@@ -81,6 +102,9 @@ public class CustomerTransferController {
             sms.setMessage(receiverCustomer.getFullName()+" "+senderCustomer.getFullName()+" essaye de vous transferer de l'argent mais votre compte n'est pas actif." +
                     " veillez faire faire activer votre compte");
             SmsService.sendSms(sms);
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+            LOGGER.info("RECEIVER ACCOUNT NOT ACTIVE FOR "+request.getReceiver());
         }
         else{
 
@@ -95,6 +119,9 @@ public class CustomerTransferController {
             if (createdTransaction==null){
                 apiResponse.setResponseCode("01");
                 apiResponse.setResponseMessage("Transaction echoue pour des raisons techniques");
+                apiResponse.setResponseCode("01");
+                apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+                LOGGER.info("TRANSDACTION FAILED FOR UNKNOWN REASON. PLEASE CHECK THE DATABASE CONNECTION");
             }else{
                 apiResponse.setResponseCode("00");
                 apiResponse.setResponseMessage("Transfert Reussi");
@@ -109,6 +136,9 @@ public class CustomerTransferController {
                 sms2.setMessage("Vous avez envoye "+request.getAmount()+" A "+receiverCustomer.getFullName()+"" +
                         "Date: "+String.valueOf(new Date()));
                 SmsService.sendSms(sms2);
+                apiResponse.setResponseCode("01");
+                apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+                LOGGER.info("TRANSACTION SUCCESSFUL. "+request.getAmount()+" USD sent from "+senderCustomer.getFullName()+" to "+receiverCustomer.getFullName());
             }
 
         }
