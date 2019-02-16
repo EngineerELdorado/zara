@@ -84,7 +84,7 @@ public class AdminTransferController {
                             transaction.setTransactionType(TRANSACTION_ADMIN_TRANSFERT);
                             transaction.setCreatedBy(senderUser);
                             transaction.setReceiver(receiverUser);
-                            transaction.setAmount(amnt);
+                            //transaction.setAmount(amnt);
                             transaction.setTransactionNumber(generateTransationNumber(transactionService));
                             updatedSenderBalance = senderExistingBalance - amnt;
                             senderUser.setBalance(updatedSenderBalance);

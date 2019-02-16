@@ -81,7 +81,7 @@ public class OnlinePaymentController {
                             transaction.setTransactionType(TRANSACTION_PAYMENT);
                             transaction.setCreatedBy(senderUser);
                             transaction.setReceiver(receiverUser);
-                            transaction.setAmount(amnt);
+                            //transaction.setAmount(amnt);
                             transaction.setDescription(body.getDescription());
                             transaction.setTransactionNumber(generateTransationNumber(transactionService));
                             updatedSenderBalance = senderExistingBalance - amnt;

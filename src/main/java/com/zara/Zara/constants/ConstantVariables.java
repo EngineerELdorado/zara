@@ -14,9 +14,9 @@ public class ConstantVariables {
     public static String TRANSACTION_DEPOSIT="DEPOSIT";
     public static String TRANSACTION_PAYMENT="ONLINE PAYMENT";
     public static String TRANSACTION_WITHDRAWAL="WITHDRAWAL";
-    public static String TRANSACTION_SEND="SEND MONEY";
-    public static String TRANSACTION_BALANCE="BALANCE ENQUIRY";
-    public static String TRANSACTION_ADMIN_TRANSFERT="ADMIN TRANSFER";
+    public static String TRANSACTION_CUSTOMER_RANSFER="CUSTOMER_TRANSFER";
+    public static String TRANSACTION_BALANCE="BALANCE_ENQUIRY";
+    public static String TRANSACTION_ADMIN_TRANSFERT="ADMIN_TRANSFER";
     public static String BUDGET_SMS_URL="https://api.budgetsms.net/sendsms/";
     public static String BUDGET_SMS_USERNAME="feljor";
     public static String BUDGET_SMS_USER_ID="16513";

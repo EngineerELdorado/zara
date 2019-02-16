@@ -79,7 +79,7 @@ public class DepositController {
                             transaction.setTransactionType(TRANSACTION_DEPOSIT);
                             transaction.setCreatedBy(senderUser);
                             transaction.setReceiver(receiverUser);
-                            transaction.setAmount(amnt);
+                            //transaction.setAmount(amnt);
                             transaction.setTransactionNumber(generateTransationNumber(transactionService));
                             updatedSenderBalance = senderExistingBalance - amnt;
                             senderUser.setBalance(updatedSenderBalance);
