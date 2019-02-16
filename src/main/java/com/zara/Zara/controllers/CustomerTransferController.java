@@ -51,6 +51,10 @@ public class CustomerTransferController {
             apiResponse.setResponseMessage("Votre compte n'existe pas");
             LOGGER.info("SENDER ACCOUNT NOT FOUND FOR "+request.getReceiver());
         }
+        else if (senderCustomer.getPhoneNumber().equals(receiverCustomer.getPhoneNumber())){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Transaction impossible. meme numeros de telephone");
+        }
         else if (!senderCustomer.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
@@ -67,7 +71,7 @@ public class CustomerTransferController {
         }
         else if (senderCustomer.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
            apiResponse.setResponseCode("01");
-           apiResponse.setResponseMessage("Vous n'avez pas assez d'argent pour effectuer ce transfert. votre solde est de "+senderCustomer.getBalance()+" USD");
+           apiResponse.setResponseMessage("Solde insuffisant: "+senderCustomer.getBalance()+" USD");
 
             LOGGER.info("SENDER BALANCE INSUFFICIENT "+request.getSender());
         }
