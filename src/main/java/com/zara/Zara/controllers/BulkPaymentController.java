@@ -84,8 +84,8 @@ public class BulkPaymentController {
                         Transaction transaction = new Transaction();
                         transaction.setCreatedOn(new Date());
                         transaction.setTransactionType(TRANSACTION_ADMIN_TRANSFERT);
-                        transaction.setCreatedBy(senderUser);
-                        transaction.setReceiver(receiverUser);
+                        //transaction.setCreatedBy(senderUser);
+                        //transaction.setReceiver(receiverUser);
                         //transaction.setAmount(amnt);
                         transaction.setTransactionNumber(generateTransationNumber(transactionService));
                         updatedSenderBalance = senderExistingBalance - amnt;

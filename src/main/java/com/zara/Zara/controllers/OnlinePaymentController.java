@@ -79,8 +79,8 @@ public class OnlinePaymentController {
                             Transaction transaction = new Transaction();
                             transaction.setCreatedOn(new Date());
                             transaction.setTransactionType(TRANSACTION_PAYMENT);
-                            transaction.setCreatedBy(senderUser);
-                            transaction.setReceiver(receiverUser);
+                            //transaction.setCreatedBy(senderUser);
+                            //transaction.setReceiver(receiverUser);
                             //transaction.setAmount(amnt);
                             transaction.setDescription(body.getDescription());
                             transaction.setTransactionNumber(generateTransationNumber(transactionService));
