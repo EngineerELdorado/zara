@@ -60,15 +60,16 @@ public class CustomerTransferController {
             apiResponse.setResponseMessage("Votre compte n'est pas encore verifie");
             LOGGER.info("SENDER ACCOUNT NOT VERIFIED FOR "+request.getReceiver());
 
-        }else if (senderCustomer.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
-           apiResponse.setResponseCode("01");
-           apiResponse.setResponseMessage("Vous n'avez pas assez d'argent pour effectuer ce transfert. votre solde est de "+senderCustomer.getBalance()+" USD");
-
-            LOGGER.info("SENDER BALANCE INSUFFICIENT "+request.getSender());
         }else if (!bCryptPasswordEncoder.matches(request.getPin(), senderCustomer.getPin())){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("votre pin est incorrect");
             LOGGER.info("WRONG PIN FOR "+request.getSender());
+        }
+        else if (senderCustomer.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
+           apiResponse.setResponseCode("01");
+           apiResponse.setResponseMessage("Vous n'avez pas assez d'argent pour effectuer ce transfert. votre solde est de "+senderCustomer.getBalance()+" USD");
+
+            LOGGER.info("SENDER BALANCE INSUFFICIENT "+request.getSender());
         }
         else if (receiverCustomer==null){
             apiResponse.setResponseCode("01");
