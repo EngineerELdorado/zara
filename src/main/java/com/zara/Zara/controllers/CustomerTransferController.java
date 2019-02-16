@@ -113,8 +113,12 @@ public class CustomerTransferController {
             transaction.setAmount(new BigDecimal(request.getAmount()));
             transaction.setStatus("00");
             transaction.setDescription("Transaction Reussie");
-            transaction.setTransactionNumber(GenerateRandomStuff.getRandomString(5));
+            transaction.setCreatedCustomer(senderCustomer);
+            transaction.setReceivedByCustomer(receiverCustomer);
+            transaction.setTransactionNumber(GenerateRandomStuff.getRandomString(10));
+
             transaction.setTransactionType(TRANSACTION_CUSTOMER_RANSFER);
+
             Transaction createdTransaction = transactionService.addTransaction(transaction);
             senderCustomer.setBalance(senderCustomer.getBalance().subtract(new BigDecimal(request.getAmount())));
             receiverCustomer.setBalance(senderCustomer.getBalance().add(new BigDecimal(request.getAmount())));
@@ -126,11 +130,10 @@ public class CustomerTransferController {
                 LOGGER.info("TRANSDACTION FAILED FOR UNKNOWN REASON. PLEASE CHECK THE DATABASE CONNECTION");
             }else{
                 customerService.save(senderCustomer);
-                Sms sms2 = new Sms();
-                sms2.setTo(senderCustomer.getPhoneNumber());
-                sms2.setMessage("Vous avez envoye "+request.getAmount()+" A "+receiverCustomer.getFullName()+"" +
-                        "Date "+String.valueOf(new Date()));
-                SmsService.sendSms(sms2);
+                Sms sms1 = new Sms();
+                sms1.setTo(senderCustomer.getPhoneNumber());
+                sms1.setMessage("Vous avez envoye "+request.getAmount()+" USD A "+receiverCustomer.getFullName());
+                SmsService.sendSms(sms1);
                 apiResponse.setResponseCode("01");
                 apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
                 LOGGER.info("TRANSACTION SUCCESSFUL. "+request.getAmount()+" USD sent from "+senderCustomer.getFullName()+" to "+receiverCustomer.getFullName());
@@ -138,11 +141,10 @@ public class CustomerTransferController {
                 customerService.save(receiverCustomer);
                 apiResponse.setResponseCode("00");
                 apiResponse.setResponseMessage("Transfert Reussi");
-                Sms sms1 = new Sms();
-                sms1.setTo(receiverCustomer.getPhoneNumber());
-                sms1.setMessage("Vous avez recu "+request.getAmount()+" venant de "+senderCustomer.getFullName()+"" +
-                        "Date "+String.valueOf(new Date()));
-                SmsService.sendSms(sms1);
+                Sms sms2 = new Sms();
+                sms2.setTo(receiverCustomer.getPhoneNumber());
+                sms2.setMessage("Vous avez recu "+request.getAmount()+"USD venant de "+senderCustomer.getFullName());
+                SmsService.sendSms(sms2);
 
                }
 

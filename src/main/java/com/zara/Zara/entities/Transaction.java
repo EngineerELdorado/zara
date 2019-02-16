@@ -20,10 +20,10 @@ public class Transaction {
     public String status;
     public Date createdOn;
     @ManyToOne
-    public AppUser createdBy;
+    public Customer createdCustomer;
     public String transactionType;
     @OneToOne
-    public AppUser receiver;
+    public Customer receivedByCustomer;
     public BigDecimal amount;
 
 }
