@@ -57,6 +57,9 @@ public class AgentController {
         }else{
             initials = firstPart+GenerateRandomStuff.getRandomString(1);
         }
+        if (initials ==null){
+            initials = GenerateRandomStuff.getRandomString(2);
+        }
         agent.setAgentNumber(BusinessNumbersGenerator.generateAgentNumber(agentService, initials.toUpperCase()));
         agent.setPin(bCryptPasswordEncoder.encode(agent.getPin()));
         agent.setStatus("ACTIVE");
