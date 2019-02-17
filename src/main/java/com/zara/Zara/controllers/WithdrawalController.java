@@ -83,7 +83,7 @@ public class WithdrawalController {
         }
         else if (customer.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Solde Insuffisant "+agent.getBalance()+" USD");
+            apiResponse.setResponseMessage("Solde Insuffisant "+customer.getBalance()+" USD");
             LOGGER.info("CUSTOMER BALANCE INSUFFICIENT FOR CUSTOMER "+customer.getFullName());
         }else if (!bCryptPasswordEncoder.matches(request.getPin(), customer.getPin())){
             apiResponse.setResponseCode("01");
