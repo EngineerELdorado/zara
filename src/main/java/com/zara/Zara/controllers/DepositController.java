@@ -28,7 +28,7 @@ import java.util.Date;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_CUSTOMER_RANSFER;
 
 @RestController
-@RequestMapping("/customerTransfers")
+@RequestMapping("/deposits")
 public class DepositController {
 
 

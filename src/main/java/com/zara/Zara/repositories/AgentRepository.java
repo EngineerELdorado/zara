@@ -15,6 +15,6 @@ public interface AgentRepository extends JpaRepository<Agent, Long> {
     Collection<Agent>findByStatus(String status);
 
     @Override
-    @Query("select * from agent order by id desc")
+    @Query(value = "select * from agent order by id desc", nativeQuery = true)
     List<Agent> findAll();
 }
