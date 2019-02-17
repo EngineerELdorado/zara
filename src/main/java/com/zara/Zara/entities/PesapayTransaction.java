@@ -7,10 +7,10 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Entity
+@Entity(name = "transaction")
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Transaction {
+public class PesapayTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

@@ -1,5 +1,6 @@
 package com.zara.Zara.constants;
 
+import com.zara.Zara.entities.Agent;
 import com.zara.Zara.entities.Customer;
 import lombok.Data;
 
@@ -9,6 +10,8 @@ public class ApiResponse {
     private String responseCode;
     private String responseMessage;
     private Customer customer;
+    private Agent agent;
+
 
 
 

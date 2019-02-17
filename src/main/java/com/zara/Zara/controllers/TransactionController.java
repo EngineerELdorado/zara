@@ -1,8 +1,5 @@
 package com.zara.Zara.controllers;
 
-import com.zara.Zara.entities.AppUser;
-import com.zara.Zara.entities.Transaction;
-import com.zara.Zara.models.TransactionRequestBody;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.IUserService;
 import org.apache.logging.log4j.LogManager;

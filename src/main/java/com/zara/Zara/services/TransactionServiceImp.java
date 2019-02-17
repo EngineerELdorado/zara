@@ -1,6 +1,6 @@
 package com.zara.Zara.services;
 
-import com.zara.Zara.entities.Transaction;
+import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,22 +13,22 @@ public class TransactionServiceImp implements ITransactionService {
     @Autowired
     TransactionRepository transactionRepository;
     @Override
-    public Transaction addTransaction(Transaction transaction) {
+    public PesapayTransaction addTransaction(PesapayTransaction transaction) {
         return transactionRepository.save(transaction);
     }
 
     @Override
-    public Collection<Transaction> getAll() {
+    public Collection<PesapayTransaction> getAll() {
         return transactionRepository.getAll();
     }
 
     @Override
-    public Transaction findByTransactionNumber(String transactionNumber) {
+    public PesapayTransaction findByTransactionNumber(String transactionNumber) {
         return transactionRepository.findByTransactionNumber(transactionNumber);
     }
 
     @Override
-    public Collection<Transaction> getMiniStatement(Long id) {
+    public Collection<PesapayTransaction> getMiniStatement(Long id) {
         return transactionRepository.getMiniStatement(id);
     }
 

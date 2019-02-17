@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @Entity(name = "agents")
@@ -25,4 +26,9 @@ public class Agent {
     private String pin;
     private String role;
     private BigDecimal balance;
+    private Date createdOn;
+    private String status;
+    private String statusDescription;
+    private boolean verified;
+
 }

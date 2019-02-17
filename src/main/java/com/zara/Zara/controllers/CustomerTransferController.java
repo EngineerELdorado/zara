@@ -2,7 +2,7 @@ package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Customer;
-import com.zara.Zara.entities.Transaction;
+import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
 import com.zara.Zara.services.ICustomerService;
@@ -106,7 +106,7 @@ public class CustomerTransferController {
         }
         else{
 
-            Transaction transaction = new Transaction();
+            PesapayTransaction transaction = new PesapayTransaction();
             transaction.setCreatedOn(new Date());
             transaction.setAmount(new BigDecimal(request.getAmount()));
             transaction.setStatus("00");
@@ -117,7 +117,7 @@ public class CustomerTransferController {
 
             transaction.setTransactionType(TRANSACTION_CUSTOMER_RANSFER);
 
-            Transaction createdTransaction = transactionService.addTransaction(transaction);
+            PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
             senderCustomer.setBalance(senderCustomer.getBalance().subtract(new BigDecimal(request.getAmount())));
             receiverCustomer.setBalance(receiverCustomer.getBalance().add(new BigDecimal(request.getAmount())));
             if (createdTransaction==null){

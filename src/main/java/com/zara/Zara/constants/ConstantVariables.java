@@ -22,5 +22,7 @@ public class ConstantVariables {
     public static String BUDGET_SMS_USER_ID="16513";
     public static String BUDGET_SMS_FROM="PesaPay";
     public static String BUDGET_SMS_HANDLE="2100bae8f1878eb8b2aaf6c4993fdece";
+    public String PAYPAL_CLIENT_ID = "ASe5tZS_UuGeNckjVSaLhfsXzFLATBqMyXwE5KAfuZJjOUR0StT9OjQSZlONP6aKIvKusuK_S_IC0PSY";
+    public String PAYPAL_CLIENT_SECRET = "EKWviatv0cLKIwZDrBwqUZ0mKQhrk1RG983z-5XsfYA72hQ-aY2HHPc2UY5oni-ZMlea3F2COIReaP9h";
 
 }
