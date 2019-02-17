@@ -51,12 +51,12 @@ public class DepositController {
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {
 
-        Agent agent = agentService.findByAgentNumber(request.getAgentNumber());
+        Agent agent = agentService.findByAgentNumber(request.getSender());
         Customer customer = customerService.findByPhoneNumber(request.getReceiver());
         if (agent==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero agent n'existe pas");
-            LOGGER.info("AGENT NUMBER NOT FOUND FOR "+ request.getAgentNumber());
+            LOGGER.info("AGENT NUMBER NOT FOUND FOR "+ request.getSender());
         }else if (!agent.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Cet compte agent est bloquE");

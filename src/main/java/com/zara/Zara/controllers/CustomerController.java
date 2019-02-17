@@ -130,6 +130,7 @@ public class CustomerController {
                         apiResponse.setResponseCode("00");
                         apiResponse.setResponseMessage("SUCCESS");
                         apiResponse.setCustomer(customer);
+                        otpService.clearOTP(otpObject.getPhoneNumber());
                         Sms sms = new Sms();
                         sms.setTo(otpObject.getPhoneNumber());
                         sms.setMessage("Cher "+customer.getFullName()+" Bievenu sur PesaPay. maintenant vous pouvez retirer deposer " +

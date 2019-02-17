@@ -52,12 +52,12 @@ public class WithdrawalController {
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {
 
-        Agent agent = agentService.findByAgentNumber(request.getAgentNumber());
+        Agent agent = agentService.findByAgentNumber(request.getReceiver());
         Customer customer = customerService.findByPhoneNumber(request.getSender());
         if (agent==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero agent n'existe pas");
-            LOGGER.info("AGENT NUMBER NOT FOUND FOR "+ request.getAgentNumber());
+            LOGGER.info("AGENT NUMBER NOT FOUND FOR "+ request.getReceiver());
         }else if (!agent.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Cet compte agent est bloquE");
