@@ -80,15 +80,15 @@ public class WithdrawalController {
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Le compte du client n'est pas encore verifie\n "+customer.getStatusDescription());
             LOGGER.info("CUSTOMER ACCOUNT NOT VERIFIED");
+        }else if (!bCryptPasswordEncoder.matches(request.getPin(), customer.getPin())){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Pin Incorrect");
+            LOGGER.info("INCORRECT PIN FOR CUSTOMER "+ agent.getAgentNumber());
         }
         else if (customer.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Solde Insuffisant "+customer.getBalance()+" USD");
             LOGGER.info("CUSTOMER BALANCE INSUFFICIENT FOR CUSTOMER "+customer.getFullName());
-        }else if (!bCryptPasswordEncoder.matches(request.getPin(), customer.getPin())){
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Pin Incorrect");
-            LOGGER.info("INCORRECT PIN FOR CUSTOMER "+ agent.getAgentNumber());
         }else{
             PesapayTransaction transaction = new PesapayTransaction();
             transaction.setAmount(new BigDecimal(request.getAmount()));
