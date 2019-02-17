@@ -41,14 +41,15 @@ public class AgentController {
     String firstPart;
     String secondPart;
     ApiResponse apiResponse = new ApiResponse();
+    Sms sms = new Sms();
     Logger LOG = LogManager.getLogger(CustomerController.class);
     @PostMapping("/post")
-    public ResponseEntity<?>createAgent(@RequestBody Agent agent){
+    public ResponseEntity<?>createAgent(@RequestBody Agent agent) throws UnsupportedEncodingException {
 
         String [] arr = agent.getFullName().split(" ");
         if (arr.length>1){
-            firstPart = arr[0];
-            secondPart = arr[1];
+            firstPart = arr[0].substring(0);
+            secondPart = arr[1].substring(0);
             if (secondPart.equals("")||secondPart.isEmpty()||secondPart==null){
                 secondPart= GenerateRandomStuff.getRandomString(1);
             }
@@ -67,6 +68,16 @@ public class AgentController {
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Enregistrement Reussi");
             apiResponse.setAgent(createdAgent);
+            sms.setTo(agent.getPhoneNumber());
+            sms.setMessage(agent.getFullName()+" Bievenu sur PesaPay. vous avez maintenant un compte AGENT. votre numero agent" +
+                    " est "+createdAgent.getAgentNumber());
+            SmsService.sendSms(sms);
+
+            apiResponse.setAgent(createdAgent);
+            sms.setTo("+243898295051");
+            sms.setMessage(agent.getFullName()+" Bievenu sur PesaPay. vous avez maintenant un compte AGENT. votre numero agent" +
+                    " est "+createdAgent.getAgentNumber());
+            SmsService.sendSms(sms);
         }else{
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Enregistrement Echoue");
