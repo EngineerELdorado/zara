@@ -26,15 +26,15 @@ public class BusinessNumbersGenerator {
         return null;
     }
 
-    public static String generateAgentNumber(IAgentService agentService, String initials){
-        String agentNumber = initials+String.format("%04d", new Random().nextInt(1000));
+    public static String generateAgentNumber(IAgentService agentService){
+        String agentNumber = String.format("%06d", new Random().nextInt(10000));
         Agent agent = agentService.findByAgentNumber(agentNumber);
         if(agent==null){
             return agentNumber;
 
         }
         else{
-            generateAgentNumber(agentService, initials);
+            generateAgentNumber(agentService);
         }
         return null;
     }

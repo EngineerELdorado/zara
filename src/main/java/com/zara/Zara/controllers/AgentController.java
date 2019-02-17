@@ -46,21 +46,8 @@ public class AgentController {
     @PostMapping("/post")
     public ResponseEntity<?>createAgent(@RequestBody Agent agent) throws UnsupportedEncodingException {
 
-        String [] arr = agent.getFullName().split(" ");
-        if (arr.length>1){
-            firstPart = arr[0].substring(0,1);
-            secondPart = arr[1].substring(0,1);
-            if (secondPart.equals("")||secondPart.isEmpty()||secondPart==null){
-                secondPart= GenerateRandomStuff.getRandomString(1);
-            }
-            initials = firstPart+""+secondPart;
-        }else{
-            initials = firstPart+GenerateRandomStuff.getRandomString(1);
-        }
-        if (initials ==null){
-            initials = GenerateRandomStuff.getRandomString(2);
-        }
-        agent.setAgentNumber(BusinessNumbersGenerator.generateAgentNumber(agentService, initials.toUpperCase()));
+
+        agent.setAgentNumber(BusinessNumbersGenerator.generateAgentNumber(agentService));
         agent.setPin(bCryptPasswordEncoder.encode(agent.getPin()));
         agent.setStatus("ACTIVE");
         agent.setVerified(true);
