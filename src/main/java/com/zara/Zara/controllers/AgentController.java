@@ -48,8 +48,8 @@ public class AgentController {
 
         String [] arr = agent.getFullName().split(" ");
         if (arr.length>1){
-            firstPart = arr[0].substring(0);
-            secondPart = arr[1].substring(0);
+            firstPart = arr[0].substring(0,1);
+            secondPart = arr[1].substring(0,1);
             if (secondPart.equals("")||secondPart.isEmpty()||secondPart==null){
                 secondPart= GenerateRandomStuff.getRandomString(1);
             }
