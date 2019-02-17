@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/agents")
@@ -39,8 +40,16 @@ public class AgentController {
     Logger LOG = LogManager.getLogger(CustomerController.class);
     @PostMapping("/post")
     public ResponseEntity<?>createAgent(@RequestBody Agent agent){
+
+        String [] arr = agent.getFullName().split(" ");
+        String firstPart = arr[0];
+        String secondPart = arr[1];
+        if (secondPart.equals("")||secondPart.isEmpty()||secondPart==null){
+           secondPart= GenerateRandomStuff.getRandomString(1);
+        }
+        String initials = firstPart+""+secondPart;
         agent.setPin(bCryptPasswordEncoder.encode(agent.getPin()));
-        agent.setAgentNumber(GenerateRandomStuff.getRandomString(4).toUpperCase());
+        agent.setAgentNumber(initials.toUpperCase()+String.format("%04d", new Random().nextInt(1000)));
         agent.setStatus("ACTIVE");
         agent.setVerified(true);
         agent.setCreatedOn(new Date());
