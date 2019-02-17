@@ -56,30 +56,38 @@ public class DepositController {
         if (agent==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero agent n'existe pas");
+            LOGGER.info("AGENT NUMBER NOT FOUND FOR "+ request.getAgentNumber());
         }else if (!agent.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Cet compte agent est bloquE");
+            LOGGER.info("ACCOUNT NOT ACTIVE FOR AGENT "+agent.getAgentNumber());
         }else if (!agent.isVerified()){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Agent non verifiE");
+            LOGGER.info("ACCOUNT NOT VERIFIED FOR AGENT "+agent.getAgentNumber());
         }else if (!bCryptPasswordEncoder.matches(request.getPin(), agent.getPin())){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Pin Incorrect");
+            LOGGER.info("INCORRECT PIN FOR AGENT "+ agent.getAgentNumber());
         }
         else if (customer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero de client n'existe pas");
+            LOGGER.info("CUSTOMER ACCOUNT NOT FOUND");
         }
         else if (!customer.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Le compte du client n'est pas actif\n "+customer.getStatusDescription());
+            LOGGER.info("CUSTOMER ACCOUNT NOT ACTIVE");
         }else if (!customer.isVerified()){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Le compte du client n'est pas encore verifie\n "+customer.getStatusDescription());
+            LOGGER.info("CUSTOMER ACCOUNT NOT VERIFIED");
         }
         else if (agent.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Solde Insuffisant "+agent.getBalance()+" USD");
+            LOGGER.info("AGENT BALANCE INSUFFICIENT FOR AGENT "+agent.getAgentNumber());
         }else{
             PesapayTransaction transaction = new PesapayTransaction();
             transaction.setAmount(new BigDecimal(request.getAmount()));
@@ -95,10 +103,11 @@ public class DepositController {
             if (createdTransaction==null){
                 apiResponse.setResponseCode("01");
                 apiResponse.setResponseMessage("ECHEC");
+                LOGGER.info("TRANSACTION FAILED TO PERSIST TO DATABASE");
             }else {
 
                 agent.setBalance(agent.getBalance().subtract(new BigDecimal(request.getAmount())));
-               Agent updatedAgent = agentService.save(agent);
+                Agent updatedAgent = agentService.save(agent);
                 Sms sms1 = new Sms();
                 sms1.setTo(agent.getPhoneNumber());
                 sms1.setMessage(agent.getFullName()+ " vous venez de transferer "+request.getAmount()+" A "+customer.getFullName()+" via PesaPal. \n"+
@@ -114,8 +123,9 @@ public class DepositController {
                         " type de transaction: DEPOT DIRECT. \n votre solde actuel est "+updatedCustomer.getBalance()+" USD");
                 SmsService.sendSms(sms2);
 
-
-
+                apiResponse.setResponseCode("00");
+                apiResponse.setResponseMessage("TRANSACTION REUSSIE");
+                LOGGER.info("DEPOSIT TRANSACTION SUCCESSFUL "+transaction.getTransactionNumber());
 
             }
         }
