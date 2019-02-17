@@ -470,3 +470,6 @@ Using generated security password: 6068bbb3-c5bb-45a2-801f-a4f8d6bc5da2
 2019-02-17 13:07:06.006  INFO 11440 --- [main] c.zara.Zara.listeners.AppEventListener   : ............APP HAS STARTED...........
 2019-02-17 13:07:06.075  INFO 11440 --- [main] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
 2019-02-17 13:07:06.421  INFO 11440 --- [main] c.zara.Zara.listeners.AppEventListener   : ............ROLES ALREADY EXIST...........
+2019-02-17 13:11:33.643  INFO 11440 --- [http-nio-5050-exec-1] o.a.c.c.C.[.[localhost].[/pesapay]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2019-02-17 13:11:33.647  INFO 11440 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2019-02-17 13:11:33.720  INFO 11440 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 66 ms

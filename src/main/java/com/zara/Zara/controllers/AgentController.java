@@ -37,18 +37,25 @@ public class AgentController {
     IAgentService agentService;
     @Autowired
     OtpService otpService;
+    String initials;
+    String firstPart;
+    String secondPart;
     ApiResponse apiResponse = new ApiResponse();
     Logger LOG = LogManager.getLogger(CustomerController.class);
     @PostMapping("/post")
     public ResponseEntity<?>createAgent(@RequestBody Agent agent){
 
         String [] arr = agent.getFullName().split(" ");
-        String firstPart = arr[0];
-        String secondPart = arr[1];
-        if (secondPart.equals("")||secondPart.isEmpty()||secondPart==null){
-           secondPart= GenerateRandomStuff.getRandomString(1);
+        if (arr.length>1){
+            firstPart = arr[0];
+            secondPart = arr[1];
+            if (secondPart.equals("")||secondPart.isEmpty()||secondPart==null){
+                secondPart= GenerateRandomStuff.getRandomString(1);
+            }
+            initials = firstPart+""+secondPart;
+        }else{
+            initials = firstPart+GenerateRandomStuff.getRandomString(1);
         }
-        String initials = firstPart+""+secondPart;
         agent.setAgentNumber(BusinessNumbersGenerator.generateAgentNumber(agentService, initials.toUpperCase()));
         agent.setPin(bCryptPasswordEncoder.encode(agent.getPin()));
         agent.setStatus("ACTIVE");
