@@ -2,11 +2,13 @@ package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Agent;
+import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.Customer;
 import com.zara.Zara.models.LoginObject;
 import com.zara.Zara.models.OtpObject;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.services.IAgentService;
+import com.zara.Zara.services.IBusinessService;
 import com.zara.Zara.services.utils.OtpService;
 import com.zara.Zara.services.utils.SmsService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
@@ -28,13 +30,13 @@ import java.util.Date;
 import java.util.Random;
 
 @RestController
-@RequestMapping("/agents")
-public class AgentController {
+@RequestMapping("/businesses")
+public class BusinessController {
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
-    IAgentService agentService;
+    IBusinessService businessService;
     @Autowired
     OtpService otpService;
     String initials;
@@ -44,23 +46,23 @@ public class AgentController {
     Sms sms = new Sms();
     Logger LOG = LogManager.getLogger(CustomerController.class);
     @PostMapping("/post")
-    public ResponseEntity<?>createAgent(@RequestBody Agent agent) throws UnsupportedEncodingException {
+    public ResponseEntity<?>createAgent(@RequestBody Business business) throws UnsupportedEncodingException {
 
 
-        agent.setAgentNumber(BusinessNumbersGenerator.generateAgentNumber(agentService));
-        agent.setPin(bCryptPasswordEncoder.encode(agent.getPin()));
-        agent.setStatus("ACTIVE");
-        agent.setVerified(true);
-        agent.setCreatedOn(new Date());
-        agent.setBalance(new BigDecimal("0"));
-        Agent createdAgent = agentService.save(agent);
-        if (createdAgent!=null){
+        business.setBusinessNumber(BusinessNumbersGenerator.generateBusinessNumber(businessService));
+        business.setPin(bCryptPasswordEncoder.encode(business.getPin()));
+        business.setStatus("ACTIVE");
+        business.setVerified(true);
+        business.setCreatedOn(new Date());
+        business.setBalance(new BigDecimal("0"));
+        Business business1 = businessService.save(business);
+        if (business1!=null){
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Enregistrement Reussi");
-            apiResponse.setAgent(createdAgent);
-            sms.setTo(agent.getPhoneNumber());
-            sms.setMessage(agent.getFullName()+" Bievenu sur PesaPay. vous avez maintenant un compte AGENT. votre numero agent" +
-                    " est "+createdAgent.getAgentNumber());
+            apiResponse.setBusiness(business1);
+            sms.setTo(business.getPhoneNumber());
+            sms.setMessage(business.getBusinessName()+" Bievenu sur PesaPay. vous avez maintenant un compte BUSINESS. votre numero business" +
+                    " est "+business1.getBusinessNumber());
             SmsService.sendSms(sms);
 
 
@@ -73,29 +75,29 @@ public class AgentController {
 
     @PostMapping("/login")
     public ResponseEntity<?>login(@RequestBody LoginObject loginObject){
-        Agent agent = agentService.findByPhoneNumber(loginObject.getPhoneNumber());
-        if (agent==null){
+        Business business = businessService.findByBusinessNumber(loginObject.getBusinessNumber());
+        if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("numero introuvable");
-            LOG.info("LOGIN FAILED FOR==> "+loginObject.getPhoneNumber()+" PHONE NUMBER NOT FOUND");
+            LOG.info("LOGIN FAILED FOR==> "+loginObject.getPhoneNumber()+" BUSINESS NUMBER NOT FOUND");
         }else{
-            if (bCryptPasswordEncoder.matches(loginObject.getPin(), agent.getPin())){
+            if (bCryptPasswordEncoder.matches(loginObject.getPin(), business.getPin())){
                 apiResponse.setResponseCode("00");
                 apiResponse.setResponseMessage("Bienvenu");
-                apiResponse.setAgent(agent);
-                LOG.info("LOGIN SUCCESSFUL FOR==> "+loginObject.getPhoneNumber()+" "+agent.getFullName());
+                apiResponse.setBusiness(business);
+                LOG.info("LOGIN SUCCESSFUL FOR==> "+loginObject.getBusinessNumber()+" "+business.getBusinessName());
             }else {
                 apiResponse.setResponseCode("01");
                 apiResponse.setResponseMessage("pin incorrect");
-                LOG.info("LOGIN FAILED FOR==> "+loginObject.getPhoneNumber()+" PIN INCORRECT");
+                LOG.info("LOGIN FAILED FOR==> "+loginObject.getBusinessNumber()+" PIN INCORRECT");
             }
         }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    public boolean isPhoneTaken(String phoneNumber){
-        Agent agent = agentService.findByPhoneNumber(phoneNumber);
-        if (agent!=null){
+    public boolean isPhoneTaken(String businessNumber){
+        Business business = businessService.findByBusinessNumber(businessNumber);
+        if (business!=null){
             return true;
         }else {
             return false;
@@ -123,19 +125,19 @@ public class AgentController {
             if(serverOtp > 0){
                 if(otpObject.getOtp() == serverOtp){
 
-                    Agent agent = agentService.findByPhoneNumber(otpObject.getPhoneNumber());
-                    if (agent!=null){
-                        agent.setStatusDescription("numero de compte verifie");
-                        agent.setVerified(true);
-                        agent.setStatus("ACTIVE");
-                        agentService.save(agent);
+                    Business business = businessService.findByPhoneNumber(otpObject.getPhoneNumber());
+                    if (business!=null){
+                        business.setStatusDescription("numero de compte verifie");
+                        business.setVerified(true);
+                        business.setStatus("ACTIVE");
+                        businessService.save(business);
                         otpService.clearOTP(otpObject.getPhoneNumber());
                         apiResponse.setResponseCode("00");
                         apiResponse.setResponseMessage("SUCCESS");
-                        apiResponse.setAgent(agent);
+                        apiResponse.setBusiness(business);
                         Sms sms = new Sms();
                         sms.setTo(otpObject.getPhoneNumber());
-                        sms.setMessage("Cher "+agent.getFullName()+" Bievenu sur PesaPay. vous etes maintenant agent");
+                        sms.setMessage("Cher "+business.getBusinessName()+" Bievenu sur PesaPay. vous etes maintenant business");
                         SmsService.sendSms(sms);
                     }else{
                         apiResponse.setResponseCode("01");
@@ -159,11 +161,11 @@ public class AgentController {
 
     @PostMapping("/findByPhoneNumber")
     public ResponseEntity<?>findAgentPhoneNumber(@RequestBody Agent agent1) throws UnsupportedEncodingException {
-        Agent agent = agentService.findByPhoneNumber(agent1.getPhoneNumber());
-        if (agent==null){
+        Business business = businessService.findByPhoneNumber(agent1.getPhoneNumber());
+        if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero n'a pas de compte PesaPay");
-        }else if (!agent.getStatus().equals("ACTIVE")){
+        }else if (!business.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce compte n'est pas encore activE. "+agent1.getStatusDescription());
 
@@ -171,26 +173,26 @@ public class AgentController {
         }else {
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Success");
-            apiResponse.setAgent(agent);
+            apiResponse.setBusiness(business);
         }
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 
-    @PostMapping("/findByAgentNumber")
-    public ResponseEntity<?>findAgentNumber(@RequestBody Agent agent1) throws UnsupportedEncodingException {
-        Agent agent = agentService.findByAgentNumber(agent1.getPhoneNumber());
-        if (agent==null){
+    @PostMapping("/findByBusinessNumber")
+    public ResponseEntity<?>findAgentNumber(@RequestBody Business business1) throws UnsupportedEncodingException {
+        Business business = businessService.findByBusinessNumber(business1.getBusinessNumber());
+        if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero n'a pas de compte PesaPay");
-        }else if (!agent.getStatus().equals("ACTIVE")){
+        }else if (!business.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Ce compte n'est pas encore activE. "+agent1.getStatusDescription());
+            apiResponse.setResponseMessage("Ce compte n'est pas encore activE. "+business1.getStatusDescription());
 
 
         }else {
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Success");
-            apiResponse.setAgent(agent);
+            apiResponse.setBusiness(business);
         }
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }

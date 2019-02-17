@@ -2,8 +2,10 @@ package com.zara.Zara.utils;
 
 import com.zara.Zara.entities.Agent;
 import com.zara.Zara.entities.AppUser;
+import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.services.IAgentService;
+import com.zara.Zara.services.IBusinessService;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.IUserService;
 
@@ -27,7 +29,7 @@ public class BusinessNumbersGenerator {
     }
 
     public static String generateAgentNumber(IAgentService agentService){
-        String agentNumber = String.format("%06d", new Random().nextInt(10000));
+        String agentNumber = String.format("%05d", new Random().nextInt(10000));
         Agent agent = agentService.findByAgentNumber(agentNumber);
         if(agent==null){
             return agentNumber;
@@ -35,6 +37,19 @@ public class BusinessNumbersGenerator {
         }
         else{
             generateAgentNumber(agentService);
+        }
+        return null;
+    }
+
+    public static String generateBusinessNumber(IBusinessService businessService){
+        String businessNumber = String.format("%05d", new Random().nextInt(10000));
+        Business business = businessService.findByBusinessNumber(businessNumber);
+        if(business==null){
+            return businessNumber;
+
+        }
+        else{
+            generateBusinessNumber(businessService);
         }
         return null;
     }

@@ -7,4 +7,6 @@ public class LoginObject {
 
     private String phoneNumber;
     private String pin;
+    private String agentNumber;
+    private String businessNumber;
 }
