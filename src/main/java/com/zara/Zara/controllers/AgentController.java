@@ -9,6 +9,7 @@ import com.zara.Zara.models.Sms;
 import com.zara.Zara.services.IAgentService;
 import com.zara.Zara.services.utils.OtpService;
 import com.zara.Zara.services.utils.SmsService;
+import com.zara.Zara.utils.BusinessNumbersGenerator;
 import com.zara.Zara.utils.GenerateRandomStuff;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,8 +49,8 @@ public class AgentController {
            secondPart= GenerateRandomStuff.getRandomString(1);
         }
         String initials = firstPart+""+secondPart;
+        agent.setAgentNumber(BusinessNumbersGenerator.generateAgentNumber(agentService, initials.toUpperCase()));
         agent.setPin(bCryptPasswordEncoder.encode(agent.getPin()));
-        agent.setAgentNumber(initials.toUpperCase()+String.format("%04d", new Random().nextInt(1000)));
         agent.setStatus("ACTIVE");
         agent.setVerified(true);
         agent.setCreatedOn(new Date());

@@ -59,7 +59,7 @@ public class UserController {
                    appUser.setBalance(0D);
                    appUser.setRoles(roles);
                    if(role.equals(ROLE_AGENT)){
-                       appUser.setAgentNumber(generateAgentNumber(userService));
+                       appUser.setAgentNumber(generateAgentNumber(userService, initials));
                    }
                    appUser.setCreatedOn(new Date());
                    appUser.setVerificationCode(String.valueOf(GenerateRandomStuff.getRandomNumber(5000)));
