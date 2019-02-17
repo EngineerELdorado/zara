@@ -118,8 +118,8 @@ public class DepositController {
                Customer updatedCustomer = customerService.save(customer);
 
                 Sms sms2 = new Sms();
-                sms2.setTo(agent.getPhoneNumber());
-                sms2.setMessage(agent.getFullName()+ " vous venez de recevoir "+request.getAmount()+" venant du numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via PesaPal. \n"+
+                sms2.setTo(customer.getPhoneNumber());
+                sms2.setMessage(customer.getFullName()+ " vous venez de recevoir "+request.getAmount()+" venant du numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via PesaPal. \n"+
                         " type de transaction: DEPOT DIRECT. \n votre solde actuel est "+updatedCustomer.getBalance()+" USD");
                 SmsService.sendSms(sms2);
 
