@@ -39,9 +39,6 @@ public class BusinessController {
     IBusinessService businessService;
     @Autowired
     OtpService otpService;
-    String initials;
-    String firstPart;
-    String secondPart;
     ApiResponse apiResponse = new ApiResponse();
     Sms sms = new Sms();
     Logger LOG = LogManager.getLogger(CustomerController.class);

@@ -29,5 +29,9 @@ public class PesapayTransaction {
     public Agent createdByAgent;
     @ManyToOne
     public Agent receivedByAgent;
+    @ManyToOne
+    public Business createdByBusiness;
+    @ManyToOne
+    public Business receivedByBusiness;
 
 }

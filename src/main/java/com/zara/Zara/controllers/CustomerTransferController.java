@@ -131,7 +131,10 @@ public class CustomerTransferController {
                 customerService.save(senderCustomer);
                 Sms sms1 = new Sms();
                 sms1.setTo(senderCustomer.getPhoneNumber());
-                sms1.setMessage("Vous avez envoye "+request.getAmount()+" USD via PesaPay A "+receiverCustomer.getFullName()+". type de transaction TRANSFER DIRECT. votre solde actuel est de "+senderCustomer.getBalance()+" USD");
+                sms1.setMessage("Vous avez envoye "+request.getAmount()+" USD via PesaPay A " +
+                        ""+receiverCustomer.getFullName()+". type de transaction TRANSFER DIRECT. " +
+                        "votre solde actuel est de "+senderCustomer.getBalance()+
+                        " USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms1);
                 apiResponse.setResponseCode("01");
                 apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
@@ -142,7 +145,10 @@ public class CustomerTransferController {
                 apiResponse.setResponseMessage("Transfert Reussi");
                 Sms sms2 = new Sms();
                 sms2.setTo(receiverCustomer.getPhoneNumber());
-                sms2.setMessage("Vous avez recu "+request.getAmount()+"USD via PesaPay venant de "+senderCustomer.getFullName()+". type de transaction TRANSFER DIRECT. votre solde actuel est de "+receiverCustomer.getBalance()+" USD");
+                sms2.setMessage("Vous avez recu "+request.getAmount()+"USD via PesaPay venant de "+senderCustomer.getFullName()+"." +
+                        " type de transaction TRANSFER DIRECT." +
+                        " votre solde actuel est de "+receiverCustomer.getBalance()+
+                        " USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms2);
 
                }
