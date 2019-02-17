@@ -6,9 +6,11 @@ import com.zara.Zara.entities.Customer;
 import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
+import com.zara.Zara.services.IAgentService;
 import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.utils.SmsService;
+import com.zara.Zara.utils.BusinessNumbersGenerator;
 import com.zara.Zara.utils.GenerateRandomStuff;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +28,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_CUSTOMER_RANSFER;
+import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_DEPOSIT;
 
 @RestController
 @RequestMapping("/deposits")
@@ -40,11 +43,83 @@ public class DepositController {
     ITransactionService transactionService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    IAgentService agentService;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
 
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {
 
-        return null;
+        Agent agent = agentService.findByAgentNumber(request.getAgentNumber());
+        Customer customer = customerService.findByPhoneNumber(request.getReceiver());
+        if (agent==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Ce numero agent n'existe pas");
+        }else if (!agent.getStatus().equals("ACTIVE")){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Cet compte agent est bloquE");
+        }else if (!agent.isVerified()){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Agent non verifiE");
+        }else if (!bCryptPasswordEncoder.matches(request.getPin(), agent.getPin())){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Pin Incorrect");
+        }
+        else if (customer==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Ce numero de client n'existe pas");
+        }
+        else if (!customer.getStatus().equals("ACTIVE")){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Le compte du client n'est pas actif\n "+customer.getStatusDescription());
+        }else if (!customer.isVerified()){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Le compte du client n'est pas encore verifie\n "+customer.getStatusDescription());
+        }
+        else if (agent.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Solde Insuffisant "+agent.getBalance()+" USD");
+        }else{
+            PesapayTransaction transaction = new PesapayTransaction();
+            transaction.setAmount(new BigDecimal(request.getAmount()));
+            transaction.setCreatedOn(new Date());
+            transaction.setStatus("00");
+            transaction.setDescription("Deposit successful");
+            transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+            transaction.setReceivedByCustomer(customer);
+            transaction.setCreatedByAgent(agent);
+            transaction.setTransactionType(TRANSACTION_DEPOSIT);
+
+            PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
+            if (createdTransaction==null){
+                apiResponse.setResponseCode("01");
+                apiResponse.setResponseMessage("ECHEC");
+            }else {
+
+                agent.setBalance(agent.getBalance().subtract(new BigDecimal(request.getAmount())));
+               Agent updatedAgent = agentService.save(agent);
+                Sms sms1 = new Sms();
+                sms1.setTo(agent.getPhoneNumber());
+                sms1.setMessage(agent.getFullName()+ " vous venez de transferer "+request.getAmount()+" A "+customer.getFullName()+" via PesaPal. \n"+
+                " type de transaction: DEPOT DIRECT. \n votre solde actuel est "+updatedAgent.getBalance()+" USD");
+                SmsService.sendSms(sms1);
+
+                customer.setBalance(customer.getBalance().add(new BigDecimal(request.getAmount())));
+               Customer updatedCustomer = customerService.save(customer);
+
+                Sms sms2 = new Sms();
+                sms2.setTo(agent.getPhoneNumber());
+                sms2.setMessage(agent.getFullName()+ " vous venez de recevoir "+request.getAmount()+" venant du numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via PesaPal. \n"+
+                        " type de transaction: DEPOT DIRECT. \n votre solde actuel est "+updatedCustomer.getBalance()+" USD");
+                SmsService.sendSms(sms2);
+
+
+
+
+            }
+        }
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }

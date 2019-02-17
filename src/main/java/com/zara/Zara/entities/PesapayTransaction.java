@@ -25,5 +25,9 @@ public class PesapayTransaction {
     @OneToOne
     public Customer receivedByCustomer;
     public BigDecimal amount;
+    @ManyToOne
+    public Agent createdByAgent;
+    @ManyToOne
+    public Agent receivedByAgent;
 
 }
