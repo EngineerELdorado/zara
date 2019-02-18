@@ -10,5 +10,6 @@ public class TransactionRequestBody {
     private String pin;
     private String description;
     private String amount;
+    private String apiKey;
 
 }

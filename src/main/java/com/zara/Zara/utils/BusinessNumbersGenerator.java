@@ -1,13 +1,7 @@
 package com.zara.Zara.utils;
 
-import com.zara.Zara.entities.Agent;
-import com.zara.Zara.entities.AppUser;
-import com.zara.Zara.entities.Business;
-import com.zara.Zara.entities.PesapayTransaction;
-import com.zara.Zara.services.IAgentService;
-import com.zara.Zara.services.IBusinessService;
-import com.zara.Zara.services.ITransactionService;
-import com.zara.Zara.services.IUserService;
+import com.zara.Zara.entities.*;
+import com.zara.Zara.services.*;
 
 import java.util.Random;
 
@@ -53,7 +47,18 @@ public class BusinessNumbersGenerator {
         }
         return null;
     }
+    public static String generateApiKey(IDeveloperService developerService){
+        String apiKey = GenerateRandomStuff.getRandomString(20);
+        Developer developer = developerService.findByApiKey(apiKey);
+        if(developer==null){
+            return apiKey;
 
+        }
+        else{
+            generateApiKey(developerService);
+        }
+        return null;
+    }
     public static String generateTransationNumber(ITransactionService transactionService){
         String transactionNumber = GenerateRandomStuff.getRandomString(3).toUpperCase()
                 +String.valueOf(GenerateRandomStuff.getRandomNumber(1000))
