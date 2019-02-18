@@ -1,7 +1,9 @@
 package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
+import com.zara.Zara.entities.Customer;
 import com.zara.Zara.entities.PesapayTransaction;
+import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.IUserService;
 import org.apache.logging.log4j.LogManager;
@@ -37,27 +39,35 @@ public class TransactionController {
     Logger LOGGER = LogManager.getLogger(TransactionController.class);
     HttpHeaders responseHeaders = new HttpHeaders();
     ApiResponse apiResponse = new ApiResponse();
+    @Autowired
+    ICustomerService customerService;
     @GetMapping("/getAll")
     public ResponseEntity<?> getAll() {
         return ResponseEntity.status(200).body(transactionService.getAll());
     }
 
-    @GetMapping("/findByCustomerPhoneNumber/{phoneNumber}")
+    @GetMapping("/findByCustomerId/{phoneNumber}")
     public ResponseEntity<?>findByCustomerPhoneNumber(@PathVariable String phoneNumber){
 
      if (!phoneNumber.startsWith("+")){
          phoneNumber = "+"+phoneNumber;
      }
+        Customer customer = customerService.findByPhoneNumber(phoneNumber);
+     if (customer==null){
+         apiResponse.setResponseCode("01");
+         apiResponse.setResponseMessage("Client non trouve "+phoneNumber);
+     }else {
+         Collection<PesapayTransaction>transactions = transactionService.findByCustomerId(customer.getId());
+         if (transactions.size()==0){
+             apiResponse.setResponseCode("01");
+             apiResponse.setResponseMessage("No Transactions found for "+phoneNumber);
+         }else{
+             apiResponse.setResponseCode("00");
+             apiResponse.setResponseMessage("Transactions found");
+             apiResponse.setTransactions(transactions);
+         }
+     }
 
-        Collection<PesapayTransaction>transactions = transactionService.findByCustomerPhoneNumber(phoneNumber);
-        if (transactions.size()==0){
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("No Transactions found for "+phoneNumber);
-        }else{
-            apiResponse.setResponseCode("00");
-            apiResponse.setResponseMessage("Transactions found");
-            apiResponse.setTransactions(transactions);
-        }
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 
