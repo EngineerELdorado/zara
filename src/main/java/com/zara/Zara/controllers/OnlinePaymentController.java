@@ -1,17 +1,11 @@
 package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
-import com.zara.Zara.entities.Agent;
-import com.zara.Zara.entities.Business;
-import com.zara.Zara.entities.Customer;
-import com.zara.Zara.entities.PesapayTransaction;
+import com.zara.Zara.entities.*;
 import com.zara.Zara.models.OtpObject;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
-import com.zara.Zara.services.IAgentService;
-import com.zara.Zara.services.IBusinessService;
-import com.zara.Zara.services.ICustomerService;
-import com.zara.Zara.services.ITransactionService;
+import com.zara.Zara.services.*;
 import com.zara.Zara.services.utils.OtpService;
 import com.zara.Zara.services.utils.SmsService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
@@ -46,7 +40,8 @@ public class OnlinePaymentController{
     IBusinessService businessService;
     @Autowired
     OtpService otpService;
-
+    @Autowired
+    IDeveloperService developerService;
     @Autowired
     IAgentService agentService;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
@@ -61,9 +56,13 @@ public class OnlinePaymentController{
 
     @PostMapping("/generateOtp")
     public ResponseEntity<?> generateOtp(@RequestBody OtpObject otpObject) throws UnsupportedEncodingException {
-
+        Developer developer = developerService.findByApiKey(otpObject.getApiKey());
         Customer customer  = customerService.findByPhoneNumber(otpObject.getPhoneNumber());
-        if (customer==null){
+         if (developer==null){
+             apiResponse.setResponseCode("01");
+             apiResponse.setResponseMessage("Compte developeur non reconnu");
+         }
+         else if (customer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero de client n'a de compte PesaPay");
         }else if (!customer.getStatus().equals("ACTIVE")){
@@ -95,9 +94,13 @@ public class OnlinePaymentController{
             int serverOtp = otpService.getOtp(requestBody.getSender());
             if(serverOtp > 0){
                 if(Integer.valueOf(requestBody.getPin()) == serverOtp){
-
+                    Developer developer = developerService.findByApiKey(requestBody.getApiKey());
                     Business business = businessService.findByBusinessNumber(requestBody.getReceiver());
-                    if (business==null){
+                    if (developer==null){
+                        apiResponse.setResponseCode("01");
+                        apiResponse.setResponseMessage("Compte developeur non reconnu");
+                    }
+                   else if (business==null){
                         apiResponse.setResponseCode("01");
                         apiResponse.setResponseMessage("CE BUSINESS N'A PAS ETE TROUVE");
                     }
