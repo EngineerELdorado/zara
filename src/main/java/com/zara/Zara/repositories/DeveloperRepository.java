@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DeveloperRepository extends JpaRepository<Developer, Long> {
 
-    Developer finbyByApiKey(String apiKey);
+    Developer findByApiKey(String apiKey);
 }

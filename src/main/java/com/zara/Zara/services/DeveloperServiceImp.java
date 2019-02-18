@@ -17,6 +17,6 @@ public class DeveloperServiceImp implements IDeveloperService {
 
     @Override
     public Developer findByApiKey(String apiKey) {
-        return developerRepository.finbyByApiKey(apiKey);
+        return developerRepository.findByApiKey(apiKey);
     }
 }
