@@ -21,7 +21,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_DEPOSIT;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION__ONLINE_PAYMENT;
 
 @RestController
@@ -144,7 +143,7 @@ public class OnlinePaymentController{
                             transaction.setStatus("00");
                             transaction.setDescription("Online payment successful");
                             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-                            transaction.setCreatedCustomer(customer);
+                            transaction.setCreatedByCustomer(customer);
                             transaction.setReceivedByBusiness(business);
                             transaction.setTransactionType(TRANSACTION__ONLINE_PAYMENT);
 

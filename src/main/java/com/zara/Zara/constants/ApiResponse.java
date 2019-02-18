@@ -1,10 +1,9 @@
 package com.zara.Zara.constants;
 
-import com.zara.Zara.entities.Agent;
-import com.zara.Zara.entities.Business;
-import com.zara.Zara.entities.Customer;
-import com.zara.Zara.entities.Developer;
+import com.zara.Zara.entities.*;
 import lombok.Data;
+
+import java.util.Collection;
 
 @Data
 public class ApiResponse {
@@ -15,7 +14,7 @@ public class ApiResponse {
     private Agent agent;
     private Business business;
     private Developer developer;
-
+    private Collection<PesapayTransaction>transactions;
 
 
 }

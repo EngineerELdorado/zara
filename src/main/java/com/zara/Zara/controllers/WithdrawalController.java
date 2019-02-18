@@ -11,7 +11,6 @@ import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.utils.SmsService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
-import com.zara.Zara.utils.GenerateRandomStuff;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_CUSTOMER_RANSFER;
-import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_DEPOSIT;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_WITHDRAWAL;
 
 @RestController
@@ -96,7 +93,7 @@ public class WithdrawalController {
             transaction.setStatus("00");
             transaction.setDescription("Withdrawal successful");
             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-            transaction.setCreatedCustomer(customer);
+            transaction.setCreatedByCustomer(customer);
             transaction.setReceivedByAgent(agent);
             transaction.setTransactionType(TRANSACTION_WITHDRAWAL);
 

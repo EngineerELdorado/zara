@@ -23,6 +23,11 @@ public class TransactionServiceImp implements ITransactionService {
     }
 
     @Override
+    public Collection<PesapayTransaction> findByCustomerPhoneNumber(String phoneNumber) {
+        return transactionRepository.findByCustomerPhoneNumber(phoneNumber);
+    }
+
+    @Override
     public PesapayTransaction findByTransactionNumber(String transactionNumber) {
         return transactionRepository.findByTransactionNumber(transactionNumber);
     }

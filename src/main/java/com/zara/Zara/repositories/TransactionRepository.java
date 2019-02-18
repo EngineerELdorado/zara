@@ -14,4 +14,6 @@ public interface TransactionRepository extends JpaRepository<PesapayTransaction,
     Collection<PesapayTransaction>getMiniStatement(Long userId);
     @Query(value = "select * from transaction order by id desc ", nativeQuery = true)
     Collection<PesapayTransaction>getAll();
+    @Query(value = "select * from transaction where created_by_customer_id =?1 or received_by_customer_id=?1 order by id desc", nativeQuery = true)
+    Collection<PesapayTransaction> findByCustomerPhoneNumber(String phoneNumber);
 }

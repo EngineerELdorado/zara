@@ -1,5 +1,7 @@
 package com.zara.Zara.controllers;
 
+import com.zara.Zara.constants.ApiResponse;
+import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.IUserService;
 import org.apache.logging.log4j.LogManager;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
@@ -33,11 +36,29 @@ public class TransactionController {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     Logger LOGGER = LogManager.getLogger(TransactionController.class);
     HttpHeaders responseHeaders = new HttpHeaders();
-
+    ApiResponse apiResponse = new ApiResponse();
     @GetMapping("/getAll")
     public ResponseEntity<?> getAll() {
         return ResponseEntity.status(200).body(transactionService.getAll());
     }
 
+    @GetMapping("/findByCustomerPhoneNumber/{phoneNumber}")
+    public ResponseEntity<?>findByCustomerPhoneNumber(@PathVariable String phoneNumber){
+
+     if (!phoneNumber.startsWith("+")){
+         phoneNumber = "+"+phoneNumber;
+     }
+
+        Collection<PesapayTransaction>transactions = transactionService.findByCustomerPhoneNumber(phoneNumber);
+        if (transactions.size()==0){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("No Transactions found for "+phoneNumber);
+        }else{
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage("Transactions found");
+            apiResponse.setTransactions(transactions);
+        }
+        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
+    }
 
 }

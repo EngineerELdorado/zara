@@ -19,8 +19,9 @@ public class PesapayTransaction {
     public String description;
     public String status;
     public Date createdOn;
+    // TODO: 18/02/2019 rename this variable to createdByCustomer
     @ManyToOne
-    public Customer createdCustomer;
+    public Customer createdByCustomer;
     public String transactionType;
     @OneToOne
     public Customer receivedByCustomer;

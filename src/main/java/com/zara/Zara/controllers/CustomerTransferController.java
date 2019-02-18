@@ -9,7 +9,6 @@ import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.utils.SmsService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
-import com.zara.Zara.utils.GenerateRandomStuff;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,7 +111,7 @@ public class CustomerTransferController {
             transaction.setAmount(new BigDecimal(request.getAmount()));
             transaction.setStatus("00");
             transaction.setDescription("Transaction Reussie");
-            transaction.setCreatedCustomer(senderCustomer);
+            transaction.setCreatedByCustomer(senderCustomer);
             transaction.setReceivedByCustomer(receiverCustomer);
             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
 
