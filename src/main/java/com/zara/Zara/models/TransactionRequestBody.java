@@ -12,7 +12,7 @@ public class TransactionRequestBody {
     private String description;
     private String amount;
     private String apiKey;
-    private Token stripeToken;
+    private String stripeToken;
 
 
 }
