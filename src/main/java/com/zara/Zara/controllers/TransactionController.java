@@ -71,4 +71,54 @@ public class TransactionController {
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 
+    @GetMapping("/findCustomerEntries/{phoneNumber}")
+    public ResponseEntity<?>findCustomerEntries(@PathVariable String phoneNumber){
+
+        if (!phoneNumber.startsWith("+")){
+            phoneNumber = "+"+phoneNumber;
+        }
+        Customer customer = customerService.findByPhoneNumber(phoneNumber);
+        if (customer==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Client non trouve "+phoneNumber);
+        }else {
+            Collection<PesapayTransaction>transactions = transactionService.findCustomerEntries(customer.getId());
+            if (transactions.size()==0){
+                apiResponse.setResponseCode("01");
+                apiResponse.setResponseMessage("No Transactions found for "+phoneNumber);
+            }else{
+                apiResponse.setResponseCode("00");
+                apiResponse.setResponseMessage("Transactions found");
+                apiResponse.setTransactions(transactions);
+            }
+        }
+
+        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
+    }
+
+    @GetMapping("/findCustomerOuts/{phoneNumber}")
+    public ResponseEntity<?>findCustomerOuts(@PathVariable String phoneNumber){
+
+        if (!phoneNumber.startsWith("+")){
+            phoneNumber = "+"+phoneNumber;
+        }
+        Customer customer = customerService.findByPhoneNumber(phoneNumber);
+        if (customer==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Client non trouve "+phoneNumber);
+        }else {
+            Collection<PesapayTransaction>transactions = transactionService.findCustomerOuts(customer.getId());
+            if (transactions.size()==0){
+                apiResponse.setResponseCode("01");
+                apiResponse.setResponseMessage("No Transactions found for "+phoneNumber);
+            }else{
+                apiResponse.setResponseCode("00");
+                apiResponse.setResponseMessage("Transactions found");
+                apiResponse.setTransactions(transactions);
+            }
+        }
+
+        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
+    }
+
 }
