@@ -101,7 +101,7 @@ public class CreditCardTransactionController {
 
                       Sms sms2 = new Sms();
                       sms2.setTo(senderCustomer.getPhoneNumber());
-                      sms2.setMessage(senderCustomer.getFullName()+ " vous venez de recevoir "+request.getAmount()+"USD venant d'une carte bancaire"+
+                      sms2.setMessage(senderCustomer.getFullName()+ " vous venez de recevoir "+request.getAmount()+"USD venant de la carte bancaire"+
                               " du numero "+request.getSender()+" "+" via PesaPay. "+
                               " type de transaction DEPOT VIA CARTE BANCAIRE. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
                       SmsService.sendSms(sms2);
