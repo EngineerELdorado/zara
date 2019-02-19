@@ -153,24 +153,6 @@ public class BusinessController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/findByPhoneNumber")
-    public ResponseEntity<?>findAgentPhoneNumber(@RequestBody Agent agent1) throws UnsupportedEncodingException {
-        Business business = businessService.findByPhoneNumber(agent1.getPhoneNumber());
-        if (business==null){
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Ce numero n'a pas de compte PesaPay");
-        }else if (!business.getStatus().equals("ACTIVE")){
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Ce compte n'est pas encore activE. "+agent1.getStatusDescription());
-
-
-        }else {
-            apiResponse.setResponseCode("00");
-            apiResponse.setResponseMessage("Success");
-            apiResponse.setBusiness(business);
-        }
-        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
-    }
 
     @GetMapping("/findByBusinessNumber/{businessNumber}")
     public ResponseEntity<?>findAgentNumber(@PathVariable String businessNumber) throws UnsupportedEncodingException {
