@@ -114,6 +114,7 @@ public class CreditCardTransactionController {
         }else{
                   apiResponse.setResponseCode("01");
                   apiResponse.setResponseMessage(charge.getFailureMessage());
+                  LOGGER.info("STRIPE_FAILURE_MESSAGE "+charge.getFailureMessage());
               }
 
 
