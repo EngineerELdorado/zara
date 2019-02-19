@@ -19,10 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -175,18 +172,14 @@ public class BusinessController {
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 
-    @PostMapping("/findByBusinessNumber")
-    public ResponseEntity<?>findAgentNumber(@RequestBody Business business1) throws UnsupportedEncodingException {
-        Business business = businessService.findByBusinessNumber(business1.getBusinessNumber());
+    @GetMapping("/findByBusinessNumber/{businessNumber}")
+    public ResponseEntity<?>findAgentNumber(@PathVariable String businessNumber) throws UnsupportedEncodingException {
+        Business business = businessService.findByBusinessNumber(businessNumber);
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero n'a pas de compte PesaPay");
-        }else if (!business.getStatus().equals("ACTIVE")){
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Ce compte n'est pas encore activE. "+business1.getStatusDescription());
-
-
-        }else {
+        }
+        else {
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Success");
             apiResponse.setBusiness(business);
