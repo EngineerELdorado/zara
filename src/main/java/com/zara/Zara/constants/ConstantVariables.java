@@ -12,6 +12,7 @@ public class ConstantVariables {
     public static String ROLE_AGENT="ROLE_AGENT";
     public static String ROLE_MASS_PAYER="ROLE_MASS_PAYER";
     public static String TRANSACTION_DEPOSIT="DEPOSIT";
+    public static String TRANSACTION_CREDIT_CARD_DEPOSIT="CREDIT_CARD_DEPOSIT";
     public static String TRANSACTION__ONLINE_PAYMENT="ONLINE_PAYMENT";
     public static String TRANSACTION__BILL_PAYMENT="BILL_PAYMENT";
     public static String TRANSACTION_WITHDRAWAL="WITHDRAWAL";
@@ -23,7 +24,8 @@ public class ConstantVariables {
     public static String BUDGET_SMS_USER_ID="16513";
     public static String BUDGET_SMS_FROM="PesaPay";
     public static String BUDGET_SMS_HANDLE="2100bae8f1878eb8b2aaf6c4993fdece";
-    public String PAYPAL_CLIENT_ID = "ASe5tZS_UuGeNckjVSaLhfsXzFLATBqMyXwE5KAfuZJjOUR0StT9OjQSZlONP6aKIvKusuK_S_IC0PSY";
-    public String PAYPAL_CLIENT_SECRET = "EKWviatv0cLKIwZDrBwqUZ0mKQhrk1RG983z-5XsfYA72hQ-aY2HHPc2UY5oni-ZMlea3F2COIReaP9h";
+    public String STRIPE_CLIENT_ID = "pk_test_1vj6vCGnyXu2QRn7Xd5UeLFw";
+    public String STRIPE_CLIENT_SECRET = "sk_test_qt9sr4I8YuAy8XIAYz9Yia4s";
+
 
 }

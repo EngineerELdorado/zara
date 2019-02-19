@@ -1,5 +1,6 @@
 package com.zara.Zara.models;
 
+import com.stripe.model.Token;
 import lombok.Data;
 
 @Data
@@ -11,6 +12,7 @@ public class TransactionRequestBody {
     private String description;
     private String amount;
     private String apiKey;
+    private Token stripeToken;
 
 
 }
