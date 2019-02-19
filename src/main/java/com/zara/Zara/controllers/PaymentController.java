@@ -88,7 +88,7 @@ public class PaymentController {
 
                         }else if (!bCryptPasswordEncoder.matches(requestBody.getPin(), customer.getPin())){
                             apiResponse.setResponseCode("01");
-                            apiResponse.setResponseMessage("Pin Incorrect for"+customer.getFullName());
+                            apiResponse.setResponseMessage("Pin Incorrect");
                             LOGGER.info("INCORRECT PIN FOR "+requestBody.getSender());
                         }
 

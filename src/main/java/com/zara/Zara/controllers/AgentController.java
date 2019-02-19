@@ -17,10 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -176,15 +173,15 @@ public class AgentController {
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 
-    @PostMapping("/findByAgentNumber")
-    public ResponseEntity<?>findAgentNumber(@RequestBody Agent agent1) throws UnsupportedEncodingException {
-        Agent agent = agentService.findByAgentNumber(agent1.getPhoneNumber());
+    @GetMapping("/findByAgentNumber/{agentNumber}")
+    public ResponseEntity<?>findAgentNumber(@PathVariable String agentNumber) throws UnsupportedEncodingException {
+        Agent agent = agentService.findByAgentNumber(agentNumber);
         if (agent==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero n'a pas de compte PesaPay");
         }else if (!agent.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Ce compte n'est pas encore activE. "+agent1.getStatusDescription());
+            apiResponse.setResponseMessage("Ce compte n'est pas encore activE. "+agent.getStatusDescription());
 
 
         }else {
