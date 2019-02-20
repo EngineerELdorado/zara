@@ -28,18 +28,7 @@ public class BankTransferController {
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody requestBody){
 
-        SafePayRequest request = new SafePayRequest();
-        request.setAmount(Float.parseFloat(requestBody.getAmount()));
-        request.setMerchantRefNum(PESAPAY_ACCOUNT_NUMBER);
-        ResponseEntity responseEntity = safePayService.directDedit(request);
-        LOGGER.info("SAFEPAY_RESPONSE "+ responseEntity);
-        if (responseEntity.getStatusCodeValue()==200 || responseEntity.getStatusCodeValue()==201){
-            apiResponse.setResponseCode("00");
-            apiResponse.setResponseMessage("TRANSACTION COMPLETED");
-        }else{
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("TRANSACTION FAILED "+responseEntity.getStatusCodeValue());
-        }
+        
         return  new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
