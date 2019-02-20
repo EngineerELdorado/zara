@@ -56,7 +56,7 @@ public class CreditCardTransactionController {
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
     @Autowired
     StripeService stripeService;
-
+    Charge charge;
     @PostMapping("/post")
     public ResponseEntity<?> post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
         Customer senderCustomer = customerService.findByPhoneNumber(request.getReceiver());
@@ -68,55 +68,61 @@ public class CreditCardTransactionController {
         }
 
         else{
-               ChargeRequest chargeRequest = new ChargeRequest();
-               chargeRequest.setAmount(Integer.valueOf(request.getAmount()));
-               chargeRequest.setCurrency(ChargeRequest.Currency.USD);
-               chargeRequest.setDescription(" Transaction request by PesaPay User "+senderCustomer.getFullName());
-               chargeRequest.setStripeToken(request.getStripeToken());
+             try {
+                 ChargeRequest chargeRequest = new ChargeRequest();
+                 chargeRequest.setAmount(Integer.valueOf(request.getAmount()));
+                 chargeRequest.setCurrency(ChargeRequest.Currency.USD);
+                 chargeRequest.setDescription(" Transaction request by PesaPay User "+senderCustomer.getFullName());
+                 chargeRequest.setStripeToken(request.getStripeToken());
 
-              Charge charge = stripeService.charge(chargeRequest);
-              if (charge.getStatus().equals("succeeded")){
-                  apiResponse.setResponseCode("00");
-                  apiResponse.setResponseMessage("Transaction Reussie");
+                 charge = stripeService.charge(chargeRequest);
+                 if (charge.getStatus().equals("succeeded")){
+                     apiResponse.setResponseCode("00");
+                     apiResponse.setResponseMessage("Transaction Reussie");
 
-                  PesapayTransaction transaction = new PesapayTransaction();
-                  transaction.setAmount(new BigDecimal(request.getAmount()));
-                  transaction.setCreatedOn(new Date());
-                  transaction.setStatus("00");
-                  transaction.setDescription("Deposit(card) successful");
-                  transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-                  transaction.setReceivedByCustomer(senderCustomer);
-                  transaction.setTransactionType(TRANSACTION_CREDIT_CARD_DEPOSIT);
+                     PesapayTransaction transaction = new PesapayTransaction();
+                     transaction.setAmount(new BigDecimal(request.getAmount()));
+                     transaction.setCreatedOn(new Date());
+                     transaction.setStatus("00");
+                     transaction.setDescription("Deposit(card) successful");
+                     transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                     transaction.setReceivedByCustomer(senderCustomer);
+                     transaction.setTransactionType(TRANSACTION_CREDIT_CARD_DEPOSIT);
 
-                  PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
-                  if (createdTransaction==null){
-                      apiResponse.setResponseCode("01");
-                      apiResponse.setResponseMessage("ECHEC");
-                      LOGGER.info("TRANSACTION FAILED TO PERSIST TO DATABASE");
-                  }else {
+                     PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
+                     if (createdTransaction==null){
+                         apiResponse.setResponseCode("01");
+                         apiResponse.setResponseMessage("ECHEC");
+                         LOGGER.info("TRANSACTION FAILED TO PERSIST TO DATABASE");
+                     }else {
 
 
-                      senderCustomer.setBalance(senderCustomer.getBalance().add(new BigDecimal(request.getAmount())));
-                      Customer updatedCustomer = customerService.save(senderCustomer);
+                         senderCustomer.setBalance(senderCustomer.getBalance().add(new BigDecimal(request.getAmount())));
+                         Customer updatedCustomer = customerService.save(senderCustomer);
 
-                      Sms sms2 = new Sms();
-                      sms2.setTo(senderCustomer.getPhoneNumber());
-                      sms2.setMessage(senderCustomer.getFullName()+ " Vous venez de recevoir "+request.getAmount()+"USD venant de la carte bancaire"+
-                              " du numero "+request.getSender()+" "+" via PesaPay. "+
-                              " type de transaction DEPOT VIA CARTE BANCAIRE. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
-                      SmsService.sendSms(sms2);
+                         Sms sms2 = new Sms();
+                         sms2.setTo(senderCustomer.getPhoneNumber());
+                         sms2.setMessage(senderCustomer.getFullName()+ " Vous venez de recevoir "+request.getAmount()+"USD venant de la carte bancaire"+
+                                 " du numero "+request.getSender()+" "+" via PesaPay. "+
+                                 " type de transaction DEPOT VIA CARTE BANCAIRE. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+                         SmsService.sendSms(sms2);
 
-                      apiResponse.setResponseCode("00");
-                      apiResponse.setResponseMessage("TRANSACTION REUSSIE");
-                      LOGGER.info("DEPOSIT TRANSACTION SUCCESSFUL "+transaction.getTransactionNumber());
-              }
+                         apiResponse.setResponseCode("00");
+                         apiResponse.setResponseMessage("TRANSACTION REUSSIE");
+                         LOGGER.info("DEPOSIT TRANSACTION SUCCESSFUL "+transaction.getTransactionNumber());
+                     }
 
-        }else{
-                  apiResponse.setResponseCode("01");
-                  apiResponse.setResponseMessage(charge.getFailureMessage());
-                  LOGGER.info("STRIPE_FAILURE_MESSAGE "+charge.getFailureMessage());
-              }
+                 }else{
+                     apiResponse.setResponseCode("01");
+                     apiResponse.setResponseMessage(charge.getFailureMessage());
+                     LOGGER.info("STRIPE_FAILURE_MESSAGE "+charge.getFailureMessage());
+                 }
 
+             }catch (Exception e){
+                 apiResponse.setResponseCode("01");
+                 apiResponse.setResponseMessage(charge.getFailureMessage());
+                 LOGGER.info("STRIPE_FAILURE_MESSAGE "+charge.getFailureMessage());
+             }
 
     }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);

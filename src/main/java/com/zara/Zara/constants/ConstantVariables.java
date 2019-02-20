@@ -26,6 +26,7 @@ public class ConstantVariables {
     public static String BUDGET_SMS_HANDLE="2100bae8f1878eb8b2aaf6c4993fdece";
     public String STRIPE_CLIENT_ID = "pk_live_Mmcjnl57hp6GsZi8jX1sTi2o";
     public String STRIPE_CLIENT_SECRET = "sk_test_qt9sr4I8YuAy8XIAYz9Yia4s";
+    public String SAFEPAY_ENDPOINT ="https://api.test.paysafe.com/";
 
 
 }
