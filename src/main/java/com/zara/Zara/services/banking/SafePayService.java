@@ -1,4 +1,5 @@
 package com.zara.Zara.services.banking;
+import com.zara.Zara.models.safepay.SafePayRequest;
 import com.zara.Zara.models.safepay.SafepayResponse;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.HttpEntity;
@@ -10,18 +11,21 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.Charset;
 
+import static com.zara.Zara.constants.ConstantVariables.SAFEPAY_PASSWORD;
+import static com.zara.Zara.constants.ConstantVariables.SAFEPAY_USERNAME;
+
 
 @Service
 public class SafePayService {
 
-    String username = "denis_kalenga94";
-    String password = "B-qa2-0-5c6d1215-0-302d021462615dd333224755bacc584fc88aaffac16c38e1021500945f9a1e3381861f9ab16e1de49f1aab4c3246c5";
+    String username = SAFEPAY_USERNAME;
+    String password = SAFEPAY_PASSWORD;
 
-     public ResponseEntity<?> directDedit(String accountNumber, float amount){
+     public ResponseEntity<?> directDedit(SafePayRequest safePayRequest){
          RestTemplate restTemplate = new RestTemplate();
          ResponseEntity<?>responseEntity = restTemplate.exchange
                  ("https://api.test.paysafe.com/directdebit/v1/accounts/1001337150/purchases",
-                         HttpMethod.POST, new HttpEntity<>(createHeaders(username,password)),
+                         HttpMethod.POST, new HttpEntity<>(safePayRequest, createHeaders(username,password)),
                                  SafepayResponse.class);
          return  responseEntity;
      }

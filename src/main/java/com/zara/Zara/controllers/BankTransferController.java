@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.zara.Zara.constants.ConstantVariables.PESAPAY_ACCOUNT_NUMBER;
+
 @RestController
 @RequestMapping("/bankTransfers")
 public class BankTransferController {
@@ -28,8 +30,8 @@ public class BankTransferController {
 
         SafePayRequest request = new SafePayRequest();
         request.setAmount(Float.parseFloat(requestBody.getAmount()));
-        request.setMerchantRefNum(requestBody.getBankAccountNumber());
-        ResponseEntity responseEntity = safePayService.directDedit(request.getMerchantRefNum(), request.getAmount());
+        request.setMerchantRefNum(PESAPAY_ACCOUNT_NUMBER);
+        ResponseEntity responseEntity = safePayService.directDedit(request);
         LOGGER.info("SAFEPAY_RESPONSE "+ responseEntity);
         if (responseEntity.getStatusCodeValue()==200 || responseEntity.getStatusCodeValue()==201){
             apiResponse.setResponseCode("00");
