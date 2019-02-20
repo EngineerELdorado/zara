@@ -13,7 +13,6 @@ public class TransactionRequestBody {
     private String amount;
     private String apiKey;
     private String stripeToken;
-    private String bankAccountNumber;
 
 
 
