@@ -2,17 +2,11 @@ package com.zara.Zara.controllers;
 
 import com.stripe.exception.*;
 import com.stripe.model.Charge;
-import com.zara.Zara.entities.Agent;
 import com.zara.Zara.entities.PesapayTransaction;
-import com.zara.Zara.services.StripeService;
+import com.zara.Zara.services.banking.StripeService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
-import com.stripe.model.Charge;
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Customer;
 import com.zara.Zara.models.ChargeRequest;
@@ -21,14 +15,11 @@ import com.zara.Zara.models.TransactionRequestBody;
 import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.utils.SmsService;
-import com.zara.Zara.utils.GenerateRandomStuff;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,7 +29,6 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_CREDIT_CARD_DEPOSIT;
-import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_DEPOSIT;
 
 
 @RestController
@@ -53,7 +43,7 @@ public class CreditCardTransactionController {
     ITransactionService transactionService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
-    Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
+    Logger LOGGER = LogManager.getLogger(CreditCardTransactionController.class);
     @Autowired
     StripeService stripeService;
     Charge charge;

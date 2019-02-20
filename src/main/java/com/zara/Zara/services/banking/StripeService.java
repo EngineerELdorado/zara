@@ -1,4 +1,4 @@
-package com.zara.Zara.services;
+package com.zara.Zara.services.banking;
 
 import com.stripe.Stripe;
 import com.stripe.exception.*;
