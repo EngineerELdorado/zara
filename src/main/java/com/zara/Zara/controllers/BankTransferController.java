@@ -1,5 +1,6 @@
 package com.zara.Zara.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.models.SafepayDto;
 import com.zara.Zara.models.TransactionRequestBody;
@@ -30,7 +31,7 @@ public class BankTransferController {
     Logger LOGGER = LogManager.getLogger(BankTransferController.class);
     ApiResponse apiResponse = new ApiResponse();
     @PostMapping("/post")
-    public ResponseEntity<?>post(@RequestBody SafepayDto request){
+    public ResponseEntity<?>post(@RequestBody SafepayDto request) throws JsonProcessingException {
 
         SafePayRequest safePayRequest = new SafePayRequest();
         safePayRequest.setAmount(Float.parseFloat(request.getAmount()));

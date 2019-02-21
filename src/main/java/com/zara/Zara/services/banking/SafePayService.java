@@ -1,4 +1,7 @@
 package com.zara.Zara.services.banking;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.zara.Zara.controllers.CustomerTransferController;
 import com.zara.Zara.models.safepay.SafePayRequest;
 import com.zara.Zara.models.safepay.SafepayResponse;
@@ -22,13 +25,17 @@ public class SafePayService {
     String password = SAFEPAY_PASSWORD;
     Logger LOGGER = LogManager.getLogger(SafePayService.class);
 
-     public ResponseEntity<?> directDedit(SafePayRequest safePayRequest){
+     public ResponseEntity<?> directDedit(SafePayRequest safePayRequest) throws JsonProcessingException {
          RestTemplate restTemplate = new RestTemplate();
-         LOGGER.info("PAYSAFE_REQUEST", safePayRequest.toString());
+
+
+         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+         String json = ow.writeValueAsString(safePayRequest);
          //ResponseEntity<?>responseEntity = restTemplate.exchange
          //("https://api.test.paysafe.com/directdebit/v1/accounts/1001337150/purchases",
          // HttpMethod.POST, new HttpEntity<>(safePayRequest, createHeaders(username,password)),
          //SafepayResponse.class);
+         LOGGER.info("PAYSAFE_REQUEST", json);
          return  new ResponseEntity<>(safePayRequest, HttpStatus.OK);
      }
 
