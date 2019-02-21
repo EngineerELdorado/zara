@@ -12,4 +12,14 @@ public class SafepayDto {
     private String accountNumber;
     private String routingNumber;
     private String payMethod;
+    private String customerIp;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String street;
+    private String city;
+    private String state;
+    private String country;
+    private String zip;
+    private String phone;
 }

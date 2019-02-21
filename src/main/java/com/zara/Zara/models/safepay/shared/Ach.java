@@ -51,4 +51,15 @@ public class Ach {
     public void setPayMethod(String payMethod) {
         this.payMethod = payMethod;
     }
+
+    @Override
+    public String toString() {
+        return "Ach{" +
+                "accountHolderName='" + accountHolderName + '\'' +
+                ", accountType='" + accountType + '\'' +
+                ", accountNumber='" + accountNumber + '\'' +
+                ", routingNumber='" + routingNumber + '\'' +
+                ", payMethod='" + payMethod + '\'' +
+                '}';
+    }
 }

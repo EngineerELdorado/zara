@@ -6,6 +6,8 @@ import com.zara.Zara.models.TransactionRequestBody;
 import com.zara.Zara.models.safepay.SafePayRequest;
 import com.zara.Zara.models.safepay.SafepayResponse;
 import com.zara.Zara.models.safepay.shared.Ach;
+import com.zara.Zara.models.safepay.shared.BillingDetails;
+import com.zara.Zara.models.safepay.shared.Profile;
 import com.zara.Zara.services.banking.SafePayService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,15 +33,32 @@ public class BankTransferController {
     public ResponseEntity<?>post(@RequestBody SafepayDto request){
 
         SafePayRequest safePayRequest = new SafePayRequest();
+        safePayRequest.setAmount(Float.parseFloat(request.getAmount()));
+        safePayRequest.setMerchantRefNum(PESAPAY_ACCOUNT_NUMBER);
+        safePayRequest.setCustomerIp(request.getCustomerIp());
         Ach ach = new Ach();
         ach.setAccountHolderName(request.getAccountHolderName());
         ach.setAccountNumber(request.getAccountNumber());
         ach.setAccountType(request.getAccountType());
         ach.setPayMethod(request.getPayMethod());
         ach.setRoutingNumber(request.getRoutingNumber());
-        safePayRequest.setAmount(Float.parseFloat(request.getAmount()));
-        safePayRequest.setMerchantRefNum(PESAPAY_ACCOUNT_NUMBER);
+
+        Profile profile = new Profile();
+        profile.setFirstName(request.getFirstName());
+        profile.setLastName(request.getLastName());
+        profile.setEmail(request.getEmail());
+
+        BillingDetails billingDetails = new BillingDetails();
+        billingDetails.setCity(request.getCity());
+        billingDetails.setCountry(request.getCountry());
+        billingDetails.setPhone(request.getPhone());
+        billingDetails.setState(request.getState());
+        billingDetails.setStreet(request.getStreet());
+        billingDetails.setZip(request.getZip());
+
         safePayRequest.setAch(ach);
+        safePayRequest.setProfile(profile);
+        safePayRequest.setBillingDetails(billingDetails);
 
 
         ResponseEntity responseEntity = safePayService.directDedit(safePayRequest);

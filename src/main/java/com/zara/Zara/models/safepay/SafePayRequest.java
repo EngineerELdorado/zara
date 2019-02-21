@@ -66,5 +66,17 @@ public class SafePayRequest {
     public void setBillingDetails(BillingDetails billingDetailsObject) {
         this.BillingDetailsObject = billingDetailsObject;
     }
+
+    @Override
+    public String toString() {
+        return "SafePayRequest{" +
+                "merchantRefNum='" + merchantRefNum + '\'' +
+                ", amount=" + amount +
+                ", AchObject=" + AchObject.toString() +
+                ", customerIp='" + customerIp + '\'' +
+                ", ProfileObject=" + ProfileObject.toString() +
+                ", BillingDetailsObject=" + BillingDetailsObject.toString() +
+                '}';
+    }
 }
 
