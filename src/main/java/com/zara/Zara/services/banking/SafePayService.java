@@ -28,14 +28,11 @@ public class SafePayService {
      public ResponseEntity<?> directDedit(SafePayRequest safePayRequest) throws JsonProcessingException {
          RestTemplate restTemplate = new RestTemplate();
 
-
-         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-         String json = ow.writeValueAsString(safePayRequest);
          ResponseEntity<?>responseEntity = restTemplate.exchange
          ("https://api.test.paysafe.com/directdebit/v1/accounts/1001337150/purchases",
-          HttpMethod.POST, new HttpEntity<>(json, createHeaders(username,password)),
+          HttpMethod.POST, new HttpEntity<>(safePayRequest, createHeaders(username,password)),
          SafepayResponse.class);
-         LOGGER.info("PAYSAFE_REQUEST", json);
+         LOGGER.info("PAYSAFE_REQUEST", safePayRequest);
          return  new ResponseEntity<>(responseEntity, HttpStatus.OK);
      }
 
