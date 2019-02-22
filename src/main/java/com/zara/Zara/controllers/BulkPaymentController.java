@@ -111,6 +111,7 @@ public class BulkPaymentController {
                                     business.setBalance(business.getBalance().subtract(beneficiary.getAmount()));
                                     Customer updatedCustomer = customerService.save(customer);
                                     updatedBusiness = businessService.save(business);
+                                    successCount++;
                                     LOGGER.info("TRANSACTION SUCCESSFUL "+customer.getFullName());
                                     Sms sms = new Sms();
                                     sms.setTo(customer.getPhoneNumber());
@@ -132,7 +133,7 @@ public class BulkPaymentController {
                     }
                     Sms sms = new Sms();
                     sms.setTo(business.getPhoneNumber());
-                    sms.setMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments dont "+successCount+" reussis et "+failureCount+" echoues. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
+                    sms.setMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via PesaPay dont "+successCount+" reussis et "+failureCount+" echoues. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
                     SmsService.sendSms(sms);
                  }else{
                     apiResponse.setResponseCode("01");
