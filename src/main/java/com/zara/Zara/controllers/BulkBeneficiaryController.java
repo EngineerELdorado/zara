@@ -13,10 +13,7 @@ import com.zara.Zara.services.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/bulkBeneficiaries")
@@ -33,9 +30,9 @@ public class BulkBeneficiaryController {
     ApiResponse apiResponse = new ApiResponse();
     @PostMapping("/post/{businessId}/{categoryId}")
     public ResponseEntity<?>post (@RequestBody BulkBeneficiary bulkBeneficiary,
-                                  String businessId, Long categoryId){
+                                  @PathVariable String businessId,@PathVariable String categoryId){
         Business business = businessService.findByBusinessNumber(businessId);
-        BulkCategory category = categoryService.findById(categoryId);
+        BulkCategory category = categoryService.findById(Long.parseLong(categoryId));
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce business n'existe pas");
