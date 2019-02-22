@@ -15,4 +15,12 @@ public class BulkCategory {
     @ManyToOne
     private Business business;
 
+    @Override
+    public String toString() {
+        return "BulkCategory{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", business=" + business +
+                '}';
+    }
 }
