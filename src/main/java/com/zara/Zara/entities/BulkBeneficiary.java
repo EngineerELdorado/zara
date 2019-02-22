@@ -19,4 +19,6 @@ public class BulkBeneficiary {
     @ManyToOne
     private Business business;
     private BigDecimal amount;
+    @Transient
+    private Long categoryId;
 }
