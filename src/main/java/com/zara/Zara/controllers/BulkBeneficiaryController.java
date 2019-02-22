@@ -29,9 +29,9 @@ public class BulkBeneficiaryController {
     ApiResponse apiResponse = new ApiResponse();
     @PostMapping("/post/{businessId}/{categoryId}")
     public ResponseEntity<?>post (@RequestBody BulkBeneficiary bulkBeneficiary,
-                                  String businessId, String categoryId){
+                                  String businessId, Long categoryId){
         Business business = businessService.findByBusinessNumber(businessId);
-        BulkCategory category = categoryService.findById(Long.parseLong(categoryId));
+        BulkCategory category = categoryService.findById(categoryId);
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce business n'existe pas");
