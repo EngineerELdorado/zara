@@ -32,12 +32,11 @@ public class BulkBeneficiaryController {
     ApiResponse apiResponse = new ApiResponse();
     Logger LOG = LogManager.getLogger(CustomerController.class);
     @PostMapping("/post/{categoryId}")
-    public ResponseEntity<?>post (@RequestBody BulkBeneficiary bulkBeneficiary,
-                                  @PathVariable Long categoryId){
+    public ResponseEntity<?>post (@RequestBody BulkBeneficiary bulkBeneficiary){
 
-        LOG.info("CATEGORY_ID=> "+categoryId);
-        Business business = categoryService.findById(categoryId).getBusiness();
-        BulkCategory category = categoryService.findById(categoryId);
+        LOG.info("CATEGORY_ID=> "+bulkBeneficiary.getCategoryId());
+        Business business = categoryService.findById(bulkBeneficiary.getCategoryId()).getBusiness();
+        BulkCategory category = categoryService.findById(bulkBeneficiary.getCategoryId());
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce business n'existe pas");

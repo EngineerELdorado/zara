@@ -30,6 +30,6 @@ public class BulkBeneficiaryServiceImp implements IBulkBeneficiaryService {
 
     @Override
     public Collection<BulkBeneficiary> findByCaterory(Long id) {
-        return null;
+        return bulkBeneficiaryRepository.findByCategoryId(id);
     }
 }
