@@ -31,7 +31,7 @@ public class BulkBeneficiaryController {
     ICustomerService customerService;
     ApiResponse apiResponse = new ApiResponse();
     Logger LOG = LogManager.getLogger(CustomerController.class);
-    @PostMapping("/post/{categoryId}")
+    @PostMapping("/post")
     public ResponseEntity<?>post (@RequestBody BulkBeneficiary bulkBeneficiary){
 
         LOG.info("CATEGORY_ID=> "+bulkBeneficiary.getCategoryId());
