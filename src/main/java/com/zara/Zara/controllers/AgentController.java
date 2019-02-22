@@ -39,7 +39,7 @@ public class AgentController {
     String secondPart;
     ApiResponse apiResponse = new ApiResponse();
     Sms sms = new Sms();
-    Logger LOG = LogManager.getLogger(CustomerController.class);
+    Logger LOG = LogManager.getLogger(AgentController.class);
     @PostMapping("/post")
     public ResponseEntity<?>createAgent(@RequestBody Agent agent) throws UnsupportedEncodingException {
 
