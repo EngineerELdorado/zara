@@ -35,8 +35,8 @@ public class BulkBeneficiaryController {
     public ResponseEntity<?>post (@RequestBody BulkBeneficiary bulkBeneficiary){
 
         LOG.info("CATEGORY_ID=> "+bulkBeneficiary.getCategoryId());
-        Business business = categoryService.findById(bulkBeneficiary.getCategoryId()).getBusiness();
         BulkCategory category = categoryService.findById(bulkBeneficiary.getCategoryId());
+        Business business = category.getBusiness();
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce business n'existe pas");
@@ -60,6 +60,8 @@ public class BulkBeneficiaryController {
                              apiResponse.setResponseMessage("Cette categorie n'existe pas");
                          }else{
                              bulkBeneficiary.setName(customer.getFullName());
+                             bulkBeneficiary.setBusiness(business);
+                             bulkBeneficiary.setBulkCategory(category);
                              BulkBeneficiary beneficiary = bulkBeneficiaryService.save(bulkBeneficiary);
                              if (beneficiary!=null){
                                  apiResponse.setResponseCode("00");
