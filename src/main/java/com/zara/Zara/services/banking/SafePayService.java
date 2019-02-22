@@ -3,6 +3,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.zara.Zara.controllers.CustomerTransferController;
+import com.zara.Zara.models.PaySafeStatus;
 import com.zara.Zara.models.safepay.SafePayRequest;
 import com.zara.Zara.models.safepay.SafepayResponse;
 import org.apache.commons.codec.binary.Base64;
@@ -24,16 +25,22 @@ public class SafePayService {
     String username = SAFEPAY_USERNAME;
     String password = SAFEPAY_PASSWORD;
     Logger LOGGER = LogManager.getLogger(SafePayService.class);
+    RestTemplate restTemplate = new RestTemplate();
 
      public ResponseEntity<?> directDedit(SafePayRequest safePayRequest) throws JsonProcessingException {
-         RestTemplate restTemplate = new RestTemplate();
 
-         ResponseEntity<?>responseEntity = restTemplate.exchange
-         ("https://api.test.paysafe.com/directdebit/v1/accounts/1001337150/purchases",
-          HttpMethod.POST, new HttpEntity<>(safePayRequest, createHeaders(username,password)),
-         SafepayResponse.class);
-         LOGGER.info("PAYSAFE_REQUEST", safePayRequest);
-         return  new ResponseEntity<>(responseEntity, HttpStatus.OK);
+         if (isServiceAvailable()){
+             ResponseEntity<SafepayResponse>responseEntity = restTemplate.exchange
+                     ("https://api.test.paysafe.com/directdebit/v1/accounts/1001337150/purchases",
+                             HttpMethod.POST, new HttpEntity<>(safePayRequest, createHeaders(username,password)),
+                             SafepayResponse.class);
+
+             return  new ResponseEntity<>(responseEntity.getBody(), HttpStatus.OK);
+         }else{
+             return  new ResponseEntity<>(null, HttpStatus.OK);
+         }
+
+
      }
 
 
@@ -45,6 +52,20 @@ public class SafePayService {
             String authHeader = "Basic " + new String( encodedAuth );
             set( "Authorization", authHeader );
         }};
+    }
+
+    public boolean isServiceAvailable(){
+        ResponseEntity<PaySafeStatus>responseEntity = restTemplate.exchange
+                ("https://api.test.paysafe.com/directdebit/monitor",
+                        HttpMethod.GET, null,
+                        PaySafeStatus.class);
+        LOGGER.info(responseEntity.getBody().getStatus());
+        String status =responseEntity.getBody().getStatus();
+        if (status.equals("READY")){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

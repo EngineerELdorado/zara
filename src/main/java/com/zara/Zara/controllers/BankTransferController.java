@@ -60,7 +60,7 @@ public class BankTransferController {
         safePayRequest.setAch(ach);
         safePayRequest.setProfile(profile);
         safePayRequest.setBillingDetails(billingDetails);
-
+        LOGGER.info("PAYSAFE_REQUEST"+ safePayRequest);
 
         ResponseEntity responseEntity = safePayService.directDedit(safePayRequest);
         LOGGER.info("SAFEPAY_RESPONSE "+ responseEntity);
