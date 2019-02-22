@@ -3,6 +3,7 @@ package com.zara.Zara.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity(name = "bulk_beneficiaries")
 @Data
@@ -17,4 +18,5 @@ public class BulkBeneficiary {
     private BulkCategory bulkCategory;
     @ManyToOne
     private Business business;
+    private BigDecimal amount;
 }
