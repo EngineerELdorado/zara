@@ -34,6 +34,7 @@ public class BulkCategoryController {
            if (createdCategory!=null){
                apiResponse.setResponseCode("00");
                apiResponse.setResponseMessage("Category created");
+               apiResponse.setBulkCategory(createdCategory);
            }else{
                apiResponse.setResponseCode("01");
                apiResponse.setResponseMessage("Failed to create. check database connectivity");

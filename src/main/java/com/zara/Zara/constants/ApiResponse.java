@@ -14,6 +14,7 @@ public class ApiResponse {
     private Agent agent;
     private Business business;
     private Developer developer;
+    private BulkCategory bulkCategory;
     private Collection<PesapayTransaction>transactions;
 
 
