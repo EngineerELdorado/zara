@@ -28,6 +28,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_BULKPAYMENT;
+
 @RestController
 @RequestMapping("/bulkpayments")
 public class BulkPaymentController {
@@ -105,6 +107,7 @@ public class BulkPaymentController {
                                     transaction.setStatus("00");
                                     transaction.setDescription("transaction reussie");
                                     transaction.setReceivedByCustomer(customer);
+                                    transaction.setTransactionType(TRANSACTION_BULKPAYMENT);
                                     transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                                     transactionService.addTransaction(transaction);
                                     customer.setBalance(customer.getBalance().add(beneficiary.getAmount()));
@@ -115,7 +118,7 @@ public class BulkPaymentController {
                                     LOGGER.info("TRANSACTION SUCCESSFUL "+customer.getFullName());
                                     Sms sms = new Sms();
                                     sms.setTo(customer.getPhoneNumber());
-                                    sms.setMessage(customer.getFullName()+" vous avez recu "+beneficiary.getAmount()+" USD venant de "+business.getBusinessName()+" pour "+requestBody.getDescription()+" votre solde actuel est de "+updatedCustomer.getBalance()+" USD");
+                                    sms.setMessage(customer.getFullName()+" vous avez recu "+beneficiary.getAmount()+" USD venant de "+business.getBusinessName()+" pour "+requestBody.getDescription()+" votre solde actuel est de "+updatedCustomer.getBalance()+" USD. type de transaction BULK PAYMENT");
                                     try {
                                         SmsService.sendSms(sms);
                                     } catch (UnsupportedEncodingException e) {
