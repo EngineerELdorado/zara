@@ -132,7 +132,7 @@ public class BulkPaymentController {
                     }
                     Sms sms = new Sms();
                     sms.setTo(business.getPhoneNumber());
-                    sms.setMessage(business.getBusinessName()+" vous venez d'effectuer "+bulkBeneficiaries.size()+" payments dont "+successCount+" reussis et "+failureCount+" echoues. votre solde actuel est de "+updatedBusiness.getBalance()+" USD");
+                    sms.setMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments dont "+successCount+" reussis et "+failureCount+" echoues. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
                     SmsService.sendSms(sms);
                  }else{
                     apiResponse.setResponseCode("01");
