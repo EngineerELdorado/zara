@@ -28,10 +28,10 @@ public class BulkBeneficiaryController {
     @Autowired
     ICustomerService customerService;
     ApiResponse apiResponse = new ApiResponse();
-    @PostMapping("/post/{businessId}/{categoryId}")
+    @PostMapping("/post/{categoryId}")
     public ResponseEntity<?>post (@RequestBody BulkBeneficiary bulkBeneficiary,
-                                  @PathVariable String businessId,@PathVariable String categoryId){
-        Business business = businessService.findByBusinessNumber(businessId);
+                                  @PathVariable String categoryId){
+        Business business = categoryService.findById(Long.parseLong(categoryId)).getBusiness();
         BulkCategory category = categoryService.findById(Long.parseLong(categoryId));
         if (business==null){
             apiResponse.setResponseCode("01");
