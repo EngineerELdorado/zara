@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,7 +45,7 @@ public class BulkPaymentController {
     ApiResponse apiResponse = new ApiResponse();
 
     @PostMapping("/post}")
-    public ResponseEntity<?>post(TransactionRequestBody requestBody){
+    public ResponseEntity<?>post(@RequestBody TransactionRequestBody requestBody){
         Business business = businessService.findByBusinessNumber(requestBody.getSender());
         Collection<BulkBeneficiary>bulkBeneficiaries = bulkBeneficiaryService.findByCaterory(Long.parseLong(requestBody.getBulkCategoryId()));
         int successCount =0;
