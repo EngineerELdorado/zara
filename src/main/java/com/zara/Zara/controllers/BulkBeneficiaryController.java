@@ -44,7 +44,7 @@ public class BulkBeneficiaryController {
                      if (customer==null){
                          apiResponse.setResponseCode("01");
                          apiResponse.setResponseMessage("Ce numero n'a pas de compte client sur PesaPay");
-                     }else if (customer.getStatus().equals("ACTIVE")){
+                     }else if (!customer.getStatus().equals("ACTIVE")){
                          apiResponse.setResponseCode("01");
                          apiResponse.setResponseMessage("Ce compte n'est pas ACTIF. veillez demander A "+customer.getFullName()+"" +
                                  "de faire activer son compte en contactant le bureau de PesaPay");
