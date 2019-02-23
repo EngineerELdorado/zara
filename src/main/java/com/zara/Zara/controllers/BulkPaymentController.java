@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
@@ -58,6 +59,7 @@ public class BulkPaymentController {
         int successCount =0;
         Business updatedBusiness = null;
         int failureCount = 0;
+        BigDecimal amountSpent = new BigDecimal("0");
         if (business.isVerified()){
 
             if (business.getStatus().equals("ACTIVE")){
@@ -115,6 +117,7 @@ public class BulkPaymentController {
                                     Customer updatedCustomer = customerService.save(customer);
                                     updatedBusiness = businessService.save(business);
                                     successCount++;
+                                    amountSpent= amountSpent.add(beneficiary.getAmount());
                                     LOGGER.info("TRANSACTION SUCCESSFUL "+customer.getFullName());
                                     Sms sms = new Sms();
                                     sms.setTo(customer.getPhoneNumber());
@@ -136,7 +139,7 @@ public class BulkPaymentController {
                     }
                     Sms sms = new Sms();
                     sms.setTo(business.getPhoneNumber());
-                    sms.setMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via PesaPay dont "+successCount+" reussis et "+failureCount+" echoues. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
+                    sms.setMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via PesaPay dont "+successCount+" reussis et "+failureCount+" echoues. le total de vos transfer en bulk est de "+amountSpent+"USD. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
                     SmsService.sendSms(sms);
                  }else{
                     apiResponse.setResponseCode("01");
