@@ -21,4 +21,6 @@ public class BulkBeneficiary {
     private BigDecimal amount;
     @Transient
     private Long categoryId;
+    @Transient
+    private String pin;
 }

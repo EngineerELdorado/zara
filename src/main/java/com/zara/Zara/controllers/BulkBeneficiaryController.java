@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,6 +30,8 @@ public class BulkBeneficiaryController {
     IBusinessService businessService;
     @Autowired
     ICustomerService customerService;
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
     ApiResponse apiResponse = new ApiResponse();
     Logger LOG = LogManager.getLogger(CustomerController.class);
     @PostMapping("/post")
@@ -41,7 +44,14 @@ public class BulkBeneficiaryController {
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce business n'existe pas");
-        }else{
+        }else if (!bCryptPasswordEncoder.matches(bulkBeneficiary.getPin(), business.getPin())){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Pin Incorrect");
+        }else if (bulkBeneficiaryService.findByCategoryIdAndPhoneNumber(category.getId(), bulkBeneficiary.getPhoneNumber())!=null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Ce beneficiaire existe deja dans cette categorie");
+        }
+        else{
             Customer customer = customerService.findByPhoneNumber(bulkBeneficiary.getPhoneNumber());
                      if (customer==null){
                          apiResponse.setResponseCode("01");

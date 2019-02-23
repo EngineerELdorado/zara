@@ -12,4 +12,6 @@ public interface BulkBeneficiaryRepository extends JpaRepository<BulkBeneficiary
     Collection<BulkBeneficiary> findByBusinessId(Long id);
     @Query(value = "select * from bulk_beneficiaries where bulk_category_id=?1", nativeQuery = true)
     Collection<BulkBeneficiary> findByCategoryId(Long id);
+    @Query(value = "select * from bulk_beneficiaries where bulk_category_id=?1 and phoneNumber=?2", nativeQuery = true)
+    BulkBeneficiary findByBulkCategoryIdAndPhoneNumber(Long categoryId, String phoneNumber);
 }

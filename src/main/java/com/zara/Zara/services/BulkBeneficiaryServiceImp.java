@@ -32,4 +32,9 @@ public class BulkBeneficiaryServiceImp implements IBulkBeneficiaryService {
     public Collection<BulkBeneficiary> findByCaterory(Long id) {
         return bulkBeneficiaryRepository.findByCategoryId(id);
     }
+
+    @Override
+    public BulkBeneficiary findByCategoryIdAndPhoneNumber(Long categoryId, String phoneNumber) {
+        return bulkBeneficiaryRepository.findByBulkCategoryIdAndPhoneNumber(categoryId, phoneNumber);
+    }
 }

@@ -10,4 +10,5 @@ public interface IBulkBeneficiaryService {
     BulkBeneficiary findById(Long id);
     Collection<BulkBeneficiary>findByBusinessId(Long id);
     Collection<BulkBeneficiary>findByCaterory(Long id);
+    BulkBeneficiary findByCategoryIdAndPhoneNumber(Long categoryId, String phoneNumber);
 }
