@@ -108,6 +108,7 @@ public class BulkPaymentController {
                                 }else {
                                     transaction.setStatus("00");
                                     transaction.setDescription("transaction reussie");
+                                    transaction.setAmount(beneficiary.getAmount());
                                     transaction.setReceivedByCustomer(customer);
                                     transaction.setTransactionType(TRANSACTION_BULKPAYMENT);
                                     transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
