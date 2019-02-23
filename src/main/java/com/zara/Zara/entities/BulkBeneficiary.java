@@ -22,5 +22,5 @@ public class BulkBeneficiary {
     @Transient
     private Long categoryId;
     @Transient
-    private String pin;
+    private String businessPin;
 }
