@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity(name = "admins")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -12,9 +13,15 @@ import javax.persistence.Entity;
 @Data
 public class Admin {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String fullName;
     private String phoneNumber;
+    @Column(unique = true)
     private String email;
     private String password;
-
+    private String type;
+    private String createdBy;
+    private Date createdOn;
 }
