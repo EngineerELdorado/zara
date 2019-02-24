@@ -10,12 +10,14 @@ import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.zara.Zara.constants.ConstantVariables.STRIPE_CLIENT_SECRET;
+
 @Service
 public class StripeService {
 
     @PostConstruct
     public void init() {
-        Stripe.apiKey = "sk_test_qt9sr4I8YuAy8XIAYz9Yia4s";
+        Stripe.apiKey = STRIPE_CLIENT_SECRET;
     }
 
     public Charge charge(ChargeRequest chargeRequest)
