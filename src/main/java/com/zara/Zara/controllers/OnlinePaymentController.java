@@ -2,10 +2,7 @@ package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.*;
-import com.zara.Zara.models.OnlinePaymentRequest;
-import com.zara.Zara.models.OtpObject;
-import com.zara.Zara.models.Sms;
-import com.zara.Zara.models.TransactionRequestBody;
+import com.zara.Zara.models.*;
 import com.zara.Zara.services.*;
 import com.zara.Zara.services.utils.OtpService;
 import com.zara.Zara.services.utils.SmsService;
@@ -55,7 +52,7 @@ public class OnlinePaymentController{
 
 
     @PostMapping("/generateOtp")
-    public ResponseEntity<?> generateOtp(@RequestBody OtpObject otpObject) throws UnsupportedEncodingException {
+    public ResponseEntity<?> generateOtp(@RequestBody OnlineOtpRequest otpObject) throws UnsupportedEncodingException {
         Developer developer = developerService.findByApiKey(otpObject.getApiKey());
         Customer customer  = customerService.findByPhoneNumber(otpObject.getPhoneNumber());
          if (developer==null){
