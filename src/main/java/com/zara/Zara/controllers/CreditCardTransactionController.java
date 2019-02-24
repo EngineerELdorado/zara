@@ -60,7 +60,7 @@ public class CreditCardTransactionController {
         else{
              try {
                  ChargeRequest chargeRequest = new ChargeRequest();
-                 chargeRequest.setAmount(Integer.valueOf(request.getAmount()));
+                 chargeRequest.setAmount(Double.valueOf(request.getAmount()));
                  chargeRequest.setCurrency(ChargeRequest.Currency.USD);
                  chargeRequest.setDescription(" Transaction request by PesaPay User "+senderCustomer.getFullName());
                  chargeRequest.setStripeToken(request.getStripeToken());
