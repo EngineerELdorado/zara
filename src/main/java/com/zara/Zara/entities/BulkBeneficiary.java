@@ -1,5 +1,6 @@
 package com.zara.Zara.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import java.math.BigDecimal;
 
 @Entity(name = "bulk_beneficiaries")
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BulkBeneficiary {
 
     @Id

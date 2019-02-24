@@ -1,11 +1,13 @@
 package com.zara.Zara.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity(name = "bulk_categories")
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BulkCategory {
 
     @Id
