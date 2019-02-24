@@ -2,6 +2,7 @@ package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.*;
+import com.zara.Zara.models.OnlinePaymentRequest;
 import com.zara.Zara.models.OtpObject;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
@@ -86,13 +87,13 @@ public class OnlinePaymentController{
 
     }
     @PostMapping("/processpayment")
-    public ResponseEntity <?> validateOtp(@RequestBody TransactionRequestBody requestBody) throws UnsupportedEncodingException {
+    public ResponseEntity <?> validateOtp(@RequestBody OnlinePaymentRequest requestBody) throws UnsupportedEncodingException {
 
 //Validate the Otp
-        if(Integer.valueOf(requestBody.getPin()) >= 0){
+        if(Integer.valueOf(requestBody.getOtp()) >= 0){
             int serverOtp = otpService.getOtp(requestBody.getSender());
             if(serverOtp > 0){
-                if(Integer.valueOf(requestBody.getPin()) == serverOtp){
+                if(Integer.valueOf(requestBody.getOtp()) == serverOtp){
                     Developer developer = developerService.findByApiKey(requestBody.getApiKey());
                     Business business = businessService.findByBusinessNumber(requestBody.getReceiver());
                     if (developer==null){

@@ -1,5 +1,6 @@
 package com.zara.Zara.models;
 
+import com.stripe.model.Customer;
 import com.stripe.model.Token;
 import lombok.Data;
 
@@ -14,4 +15,5 @@ public class ChargeRequest {
     private Currency currency;
     private String stripeEmail;
     private String stripeToken;
+    private Customer customer;
 }
