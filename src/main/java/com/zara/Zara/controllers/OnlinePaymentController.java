@@ -23,6 +23,7 @@ import static com.zara.Zara.constants.ConstantVariables.TRANSACTION__ONLINE_PAYM
 
 @RestController
 @RequestMapping("/onlinepayments")
+@CrossOrigin(origins = "*")
 public class OnlinePaymentController{
 
     ApiResponse apiResponse = new ApiResponse();
