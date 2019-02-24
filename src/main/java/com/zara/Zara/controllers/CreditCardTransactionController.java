@@ -110,8 +110,9 @@ public class CreditCardTransactionController {
 
              }catch (Exception e){
                  apiResponse.setResponseCode("01");
-                 apiResponse.setResponseMessage(charge.getFailureMessage());
-                 LOGGER.info("STRIPE_FAILURE_MESSAGE "+charge.getFailureMessage());
+                 apiResponse.setResponseMessage(e.getLocalizedMessage());
+                 LOGGER.info("STRIPE_FAILURE_MESSAGE "+e.getLocalizedMessage());
+                 e.printStackTrace();
              }
 
     }
