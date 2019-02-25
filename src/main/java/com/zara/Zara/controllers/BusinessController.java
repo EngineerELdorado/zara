@@ -41,9 +41,9 @@ public class BusinessController {
     Sms sms = new Sms();
     Logger LOG = LogManager.getLogger(CustomerController.class);
     @PostMapping("/post")
-    public ResponseEntity<?>createAgent(@RequestBody Business business) throws UnsupportedEncodingException {
+    public ResponseEntity<?>createBusiness(@RequestBody Business business) throws UnsupportedEncodingException {
 
-
+        LOG.info(business.toString());
         business.setBusinessNumber(BusinessNumbersGenerator.generateBusinessNumber(businessService));
         business.setPin(bCryptPasswordEncoder.encode(business.getPassword()));
         business.setPassword(bCryptPasswordEncoder.encode(business.getPassword()));
