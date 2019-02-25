@@ -53,7 +53,7 @@ public class AdminController {
 
     @PostMapping("/login")
     public ResponseEntity<?>login(@RequestBody LoginObject loginObject){
-        Admin admin = adminService.findByUsername(loginObject.getUsername());
+        Admin admin = adminService.findByUsername(loginObject.getEmail());
         if (admin==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Wrong username or password");
