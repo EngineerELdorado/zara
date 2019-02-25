@@ -28,6 +28,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/businesses")
+@CrossOrigin(origins = "*")
 public class BusinessController {
 
     @Autowired
