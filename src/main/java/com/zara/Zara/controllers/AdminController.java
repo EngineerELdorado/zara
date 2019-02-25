@@ -26,6 +26,8 @@ public class AdminController {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     ApiResponse apiResponse = new ApiResponse();
     Logger LOG = LogManager.getLogger(AgentController.class);
+
+    @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody Admin admin){
         Collection<Admin>admins = adminService.findAll();
         admin.setCreatedOn(new Date());
