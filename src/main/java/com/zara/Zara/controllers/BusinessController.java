@@ -45,7 +45,7 @@ public class BusinessController {
 
 
         business.setBusinessNumber(BusinessNumbersGenerator.generateBusinessNumber(businessService));
-        business.setPin(bCryptPasswordEncoder.encode(business.getPin()));
+        business.setPin(bCryptPasswordEncoder.encode(business.getPassword()));
         business.setPassword(bCryptPasswordEncoder.encode(business.getPassword()));
         business.setStatus("ACTIVE");
         business.setVerified(true);
