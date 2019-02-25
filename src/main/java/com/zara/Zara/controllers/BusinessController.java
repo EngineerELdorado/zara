@@ -73,7 +73,7 @@ public class BusinessController {
         Business business = businessService.findByBusinessNumber(loginObject.getBusinessNumber());
         if (business==null){
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("numero introuvable");
+            apiResponse.setResponseMessage("identifiant non reconnu");
             LOG.info("LOGIN FAILED FOR==> "+loginObject.getPhoneNumber()+" BUSINESS NUMBER NOT FOUND");
         }else{
             if (bCryptPasswordEncoder.matches(loginObject.getPin(), business.getPin())){
