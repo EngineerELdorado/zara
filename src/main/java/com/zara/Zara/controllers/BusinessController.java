@@ -46,6 +46,7 @@ public class BusinessController {
 
         business.setBusinessNumber(BusinessNumbersGenerator.generateBusinessNumber(businessService));
         business.setPin(bCryptPasswordEncoder.encode(business.getPin()));
+        business.setPassword(bCryptPasswordEncoder.encode(business.getPassword()));
         business.setStatus("ACTIVE");
         business.setVerified(true);
         business.setCreatedOn(new Date());
@@ -70,21 +71,21 @@ public class BusinessController {
 
     @PostMapping("/login")
     public ResponseEntity<?>login(@RequestBody LoginObject loginObject){
-        Business business = businessService.findByBusinessNumber(loginObject.getBusinessNumber());
+        Business business = businessService.findByEmail(loginObject.getEmail());
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("identifiant non reconnu");
             LOG.info("LOGIN FAILED FOR==> "+loginObject.getPhoneNumber()+" BUSINESS NUMBER NOT FOUND");
         }else{
-            if (bCryptPasswordEncoder.matches(loginObject.getPin(), business.getPin())){
+            if (bCryptPasswordEncoder.matches(loginObject.getPassword(), business.getPassword())){
                 apiResponse.setResponseCode("00");
                 apiResponse.setResponseMessage("Bienvenu");
                 apiResponse.setBusiness(business);
                 LOG.info("LOGIN SUCCESSFUL FOR==> "+loginObject.getBusinessNumber()+" "+business.getBusinessName());
             }else {
                 apiResponse.setResponseCode("01");
-                apiResponse.setResponseMessage("pin incorrect");
-                LOG.info("LOGIN FAILED FOR==> "+loginObject.getBusinessNumber()+" PIN INCORRECT");
+                apiResponse.setResponseMessage("mot de passe incorrect");
+                LOG.info("LOGIN FAILED FOR==> "+loginObject.getBusinessNumber()+" password INCORRECT");
             }
         }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);

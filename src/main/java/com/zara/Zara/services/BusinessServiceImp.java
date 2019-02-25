@@ -23,6 +23,11 @@ public class BusinessServiceImp implements IBusinessService {
     }
 
     @Override
+    public Business findByEmail(String email) {
+        return businessRepository.findByEmail(email);
+    }
+
+    @Override
     public Collection<Business> findAll() {
         return businessRepository.findAll();
     }

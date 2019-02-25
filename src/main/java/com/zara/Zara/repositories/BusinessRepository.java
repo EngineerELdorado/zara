@@ -15,4 +15,6 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
     List<Business> findAll();
 
     Business findByPhoneNumber(String phoneNumber);
+
+    Business findByEmail(String email);
 }

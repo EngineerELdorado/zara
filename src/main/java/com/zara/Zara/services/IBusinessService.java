@@ -8,6 +8,7 @@ public interface IBusinessService {
     
     Business save(Business business);
     Business findByBusinessNumber(String businessNumber);
+    Business findByEmail(String email);
     Collection<Business>findAll();
 
     Business findByPhoneNumber(String phoneNumber);

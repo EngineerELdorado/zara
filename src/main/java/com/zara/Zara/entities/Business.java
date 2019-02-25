@@ -29,4 +29,6 @@ public class Business {
     private String status;
     private String statusDescription;
     private boolean verified;
+    private String email;
+    private String password;
 }
