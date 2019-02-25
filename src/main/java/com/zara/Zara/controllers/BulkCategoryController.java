@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/bulkCategories")
+@CrossOrigin(origins = "*")
 public class BulkCategoryController {
 
     @Autowired

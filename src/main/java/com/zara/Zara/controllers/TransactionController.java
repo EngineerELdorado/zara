@@ -29,6 +29,7 @@ import static com.zara.Zara.utils.CheckingUtils.isAccountVerified;
 
 @RestController
 @RequestMapping("/transactions")
+@CrossOrigin(origins = "*")
 public class TransactionController {
     @Autowired
     IUserService userService;

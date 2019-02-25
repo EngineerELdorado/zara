@@ -29,6 +29,7 @@ import static com.zara.Zara.constants.Responses.USER_REGISTRATION_SUCCESS;
 
 @RestController
 @RequestMapping("/customers")
+@CrossOrigin(origins = "*")
 public class CustomerController {
 
     @Autowired
