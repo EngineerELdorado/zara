@@ -22,7 +22,6 @@ public class ApiResponse {
     private BulkBeneficiary beneficiary;
     private Collection<PesapayTransaction>transactions;
     private Admin admin;
-    private Page pagedTransactions;
 
 
 }
