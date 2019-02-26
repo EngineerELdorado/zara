@@ -1,14 +1,20 @@
 package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
+import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.Customer;
 import com.zara.Zara.entities.PesapayTransaction;
+import com.zara.Zara.services.IBusinessService;
 import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.IUserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +43,8 @@ public class TransactionController {
     ITransactionService transactionService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    IBusinessService businessService;
     Logger LOGGER = LogManager.getLogger(TransactionController.class);
     HttpHeaders responseHeaders = new HttpHeaders();
     ApiResponse apiResponse = new ApiResponse();
@@ -120,6 +128,28 @@ public class TransactionController {
         }
 
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
+    }
+    
+    @GetMapping("findByBusinessId/{businessNumber}")
+    public ResponseEntity<?> findByBusinessId(
+                                                     @PathVariable String businessNumber,
+                                                     @RequestParam("page") int page,
+                                                     @RequestParam("size") int size){
+
+        Business business = businessService.findByBusinessNumber(businessNumber);
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC,"nom"));
+         Pageable pageable = new PageRequest(page,size,sort);
+        if (business==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Business introuvable");
+        }else{
+
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage(pageable.getPageSize()+" transactions");
+            apiResponse.setPageableTransactions(pageable);
+        }
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
 }

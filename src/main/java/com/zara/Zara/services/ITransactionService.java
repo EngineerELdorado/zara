@@ -13,4 +13,5 @@ public interface ITransactionService {
     Collection<PesapayTransaction>findCustomerOuts(Long id);
     PesapayTransaction findByTransactionNumber(String transactionNumber);
     Collection<PesapayTransaction>getMiniStatement(Long id);
+    Collection<PesapayTransaction>findByBusiness(Long id);
 }

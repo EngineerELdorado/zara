@@ -47,4 +47,9 @@ public class TransactionServiceImp implements ITransactionService {
         return transactionRepository.getMiniStatement(id);
     }
 
+    @Override
+    public Collection<PesapayTransaction> findByBusiness(Long id) {
+        return transactionRepository.findByBusiness(id);
+    }
+
 }

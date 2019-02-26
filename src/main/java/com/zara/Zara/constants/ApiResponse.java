@@ -3,6 +3,7 @@ package com.zara.Zara.constants;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.zara.Zara.entities.*;
 import lombok.Data;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 
@@ -20,6 +21,7 @@ public class ApiResponse {
     private BulkBeneficiary beneficiary;
     private Collection<PesapayTransaction>transactions;
     private Admin admin;
+    private Pageable pageableTransactions;
 
 
 }

@@ -35,6 +35,8 @@ public class AdminController {
         if (admins.size()==0){
             admin.setType("Super Admin");
             LOG.info("HE IS FIRST ADMIN...WILL BE SET AS SUPER ADMIN");
+        }else{
+            admin.setType("Admin");
         }
          Admin createdAdmin = adminService.save(admin);
         if (createdAdmin!=null){
