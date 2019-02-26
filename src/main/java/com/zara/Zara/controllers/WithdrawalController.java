@@ -42,7 +42,7 @@ public class WithdrawalController {
 
     @Autowired
     IAgentService agentService;
-    Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
+    Logger LOGGER = LogManager.getLogger(WithdrawalController.class);
 
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {

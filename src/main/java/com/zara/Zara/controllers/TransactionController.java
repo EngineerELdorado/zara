@@ -129,15 +129,16 @@ public class TransactionController {
 
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
-    
+
     @GetMapping("findByBusinessId/{businessNumber}")
     public ResponseEntity<?> findByBusinessId(
                                                      @PathVariable String businessNumber,
                                                      @RequestParam("page") int page,
                                                      @RequestParam("size") int size){
 
+        LOGGER.info("PAGE REQUEST PAGE =>"+page+" SIZE =>"+size);
         Business business = businessService.findByBusinessNumber(businessNumber);
-        Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC,"nom"));
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,"id"));
          Pageable pageable = new PageRequest(page,size,sort);
         if (business==null){
             apiResponse.setResponseCode("01");
