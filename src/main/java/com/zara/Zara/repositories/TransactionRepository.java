@@ -25,7 +25,7 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
 
     @Query(value = "select * from transaction where created_by_customer_id=?1 order by id desc", nativeQuery = true)
     Collection<PesapayTransaction> findCustomerOuts(Long id);
-    @Query(value = "select * from transaction where created_by_business_id=?1 or received_by_business_id=?1 order by id desc" +
+    @Query(value = "select * from transaction where created_by_business_id=?1 or received_by_business_id=?1" +
             "--#pageable\n", nativeQuery = true)
     Page<PesapayTransaction> findByBusiness(Long id, Pageable pageable);
 }
