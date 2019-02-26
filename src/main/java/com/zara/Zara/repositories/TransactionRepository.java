@@ -5,10 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.Collection;
 
-public interface TransactionRepository extends JpaRepository<PesapayTransaction, Long> {
+public interface TransactionRepository extends PagingAndSortingRepository<PesapayTransaction, Long> {
 
     @Query(value = "select * from transaction where transaction_number=?1", nativeQuery = true)
     PesapayTransaction findByTransactionNumber(String transationNumber);
