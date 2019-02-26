@@ -3,6 +3,8 @@ package com.zara.Zara.services;
 import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -48,7 +50,7 @@ public class TransactionServiceImp implements ITransactionService {
     }
 
     @Override
-    public Collection<PesapayTransaction> findByBusiness(Long id) {
+    public Page<PesapayTransaction> findByBusiness(Long id, Pageable pageable) {
         return transactionRepository.findByBusiness(id);
     }
 

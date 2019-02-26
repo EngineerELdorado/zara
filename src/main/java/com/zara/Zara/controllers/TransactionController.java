@@ -147,7 +147,7 @@ public class TransactionController {
 
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage(pageable.getPageSize()+" transactions");
-            apiResponse.setPageableTransactions(pageable);
+            apiResponse.setPagedTransactions(transactionService.findByBusiness(business.getId(), pageable));
         }
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);

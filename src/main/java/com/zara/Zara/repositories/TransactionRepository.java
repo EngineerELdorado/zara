@@ -1,6 +1,8 @@
 package com.zara.Zara.repositories;
 
 import com.zara.Zara.entities.PesapayTransaction;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,5 +25,5 @@ public interface TransactionRepository extends JpaRepository<PesapayTransaction,
     @Query(value = "select * from transaction where created_by_customer_id=?1 order by id desc", nativeQuery = true)
     Collection<PesapayTransaction> findCustomerOuts(Long id);
     @Query(value = "select * from transaction where created_by_business_id=?1 or received_by_business_id=?1", nativeQuery = true)
-    Collection<PesapayTransaction> findByBusiness(Long id);
+    Page<PesapayTransaction> findByBusiness(Long id, Pageable pageable);
 }
