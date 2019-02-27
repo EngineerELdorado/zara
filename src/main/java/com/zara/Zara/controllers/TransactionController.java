@@ -156,8 +156,8 @@ public class TransactionController {
     }
 
     @GetMapping("findCountByBusiness/{businessNumber}")
-    public int findCountByBusiness(@PathVariable String businessNUmber){
-        Business business = businessService.findByBusinessNumber(businessNUmber);
+    public int findCountByBusiness(@PathVariable String businessNumber){
+        Business business = businessService.findByBusinessNumber(businessNumber);
         return transactionService.countByBusiness(business.getId());
     }
 
