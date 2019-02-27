@@ -155,4 +155,10 @@ public class TransactionController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    @GetMapping("findCountByBusiness/{businessNumber}")
+    public int findCountByBusiness(@PathVariable String businessNUmber){
+        Business business = businessService.findByBusinessNumber(businessNUmber);
+        return transactionService.countByBusiness(business.getId());
+    }
+
 }
