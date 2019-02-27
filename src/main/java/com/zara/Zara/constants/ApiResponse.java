@@ -23,6 +23,7 @@ public class ApiResponse {
     private Collection<PesapayTransaction>transactions;
     private Collection<Customer>customers;
     private Admin admin;
+    private int totalCount;
 
 
 }

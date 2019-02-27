@@ -54,4 +54,9 @@ public class TransactionServiceImp implements ITransactionService {
         return transactionRepository.findByBusiness(id, pageable);
     }
 
+    @Override
+    public int countByBusiness(Long id) {
+        return transactionRepository.countByBusiness(id);
+    }
+
 }

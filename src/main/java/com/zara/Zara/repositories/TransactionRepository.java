@@ -29,4 +29,6 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
             countQuery = "select count(*) from transaction where created_by_business_id=?1 or received_by_business_id=?1",
             nativeQuery = true)
     Page<PesapayTransaction> findByBusiness(Long id, Pageable pageable);
+    @Query(value = "select count(*) from transaction where created_by_business_id=?1 or received_by_business_id=?1", nativeQuery = true)
+    int countByBusiness(Long id);
 }

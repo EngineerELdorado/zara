@@ -140,6 +140,7 @@ public class TransactionController {
         Business business = businessService.findByBusinessNumber(businessNumber);
         Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,"id"));
          Pageable pageable = new PageRequest(page,size,sort);
+         int count = transactionService.countByBusiness(business.getId());
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Business introuvable");
@@ -147,6 +148,7 @@ public class TransactionController {
 
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage(pageable.getPageSize()+" transactions");
+            apiResponse.setTotalCount(count);
             apiResponse.setTransactions(transactionService.findByBusiness(business.getId(), pageable).getContent());
         }
 
