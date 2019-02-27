@@ -3,6 +3,8 @@ package com.zara.Zara.services;
 import com.zara.Zara.entities.Customer;
 import com.zara.Zara.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -27,8 +29,8 @@ public class CustomerServiceImp implements ICustomerService {
     }
 
     @Override
-    public Collection<Customer> findAll() {
-        return customerRepository.findAll();
+    public Page<Customer> findAll(Pageable pageable) {
+        return customerRepository.findAllCusotomers(pageable);
     }
 
     @Override

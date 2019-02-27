@@ -15,6 +15,9 @@ import okhttp3.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 
 import static com.zara.Zara.constants.Responses.PHONE_NUMBER_ALREADY_TAKEN;
@@ -183,6 +187,25 @@ public class CustomerController {
             apiResponse.setCustomer(existingCustomer);
         }
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
+    }
+
+
+    @GetMapping("/findAll")
+    public ResponseEntity<?>findAll(@RequestParam("page") int page, @RequestParam("size") int size){
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,"id"));
+        Pageable pageable = new PageRequest(page,size,sort);
+        Collection<Customer>customers = customerService.findAll(pageable).getContent();
+        if (customers.size()==0){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("aucun resultat");
+        }else{
+
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage(pageable.getPageSize()+" customers");
+            apiResponse.setCustomers(customers);
+        }
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
 }

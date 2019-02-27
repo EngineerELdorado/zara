@@ -21,6 +21,7 @@ public class ApiResponse {
     private BulkCategory bulkCategory;
     private BulkBeneficiary beneficiary;
     private Collection<PesapayTransaction>transactions;
+    private Collection<Customer>customers;
     private Admin admin;
 
 
