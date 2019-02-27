@@ -16,7 +16,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query(value = "select balance from customers where id =?1", nativeQuery = true)
     BigDecimal getBalance(Long customerId);
 
-    @Query(value = "select * from customers order by id DESC",
+    @Query(value = "select * from customers",
             countQuery = "select count(*) from customers"
             , nativeQuery = true)
     Page<Customer> findAllCusotomers(Pageable pageable);
