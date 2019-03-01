@@ -183,6 +183,7 @@ public class BusinessController {
                 business.setPassword(bCryptPasswordEncoder.encode(changePasswordRequest.getNewPassword()));
                 apiResponse.setResponseCode("00");
                 apiResponse.setResponseMessage("Operation Reussie");
+                businessService.save(business);
             }else{
                 apiResponse.setResponseCode("01");
                 apiResponse.setResponseMessage("Le mot de passe actuel est incorrect");
