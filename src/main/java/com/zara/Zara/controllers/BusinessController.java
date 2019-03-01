@@ -4,6 +4,7 @@ import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Agent;
 import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.Customer;
+import com.zara.Zara.models.ChangePasswordRequest;
 import com.zara.Zara.models.LoginObject;
 import com.zara.Zara.models.OtpObject;
 import com.zara.Zara.models.Sms;
@@ -169,6 +170,22 @@ public class BusinessController {
             apiResponse.setBusiness(business);
         }
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
+    }
+
+    @PostMapping("/changePassword/{businessNumber}")
+    public ResponseEntity<?>changePassword(@RequestBody ChangePasswordRequest changePasswordRequest,@PathVariable String businessNumber){
+        Business business = businessService.findByBusinessNumber(businessNumber);
+        if (business==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Business introuvable");
+        }else{
+            if (bCryptPasswordEncoder.matches(changePasswordRequest.getCurrentPassword(), business.getPassword())){
+                business.setPassword(bCryptPasswordEncoder.encode(changePasswordRequest.getNewPassword()));
+                apiResponse.setResponseCode("00");
+                apiResponse.setResponseMessage("Operation Reussie");
+            }
+        }
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
 }
