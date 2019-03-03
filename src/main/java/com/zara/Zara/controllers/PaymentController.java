@@ -121,7 +121,7 @@ public class PaymentController {
                                 Customer updatedCustomer = customerService.save(customer);
                                 Sms sms1 = new Sms();
                                 sms1.setTo(customer.getPhoneNumber());
-                                sms1.setMessage(customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via PesaPay. pour "+requestBody.getDescription()+
+                                sms1.setMessage(customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via PesaPay. Description "+requestBody.getDescription()+
                                         ". type de transaction PAYMENT DE FACTURE. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
                                 SmsService.sendSms(sms1);
 
