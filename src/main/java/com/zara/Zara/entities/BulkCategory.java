@@ -20,7 +20,7 @@ public class BulkCategory {
     private Business business;
     @JsonIgnore
     @OneToMany(
-            mappedBy = "bulkCateggory",
+            mappedBy = "bulkCategory",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
