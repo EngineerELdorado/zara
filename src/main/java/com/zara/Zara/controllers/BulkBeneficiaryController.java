@@ -42,7 +42,7 @@ public class BulkBeneficiaryController {
     public ResponseEntity<?>post (@RequestBody BulkBeneficiary bulkBeneficiary){
 
         LOG.info("CATEGORY_ID=> "+bulkBeneficiary.getCategoryId());
-        BulkCategory category = categoryService.findById(bulkBeneficiary.getCategoryId());
+        BulkCategory category = categoryService.findById(Long.valueOf(bulkBeneficiary.getCategoryId()));
         LOG.info("CATEGORY_ID=> "+category.toString());
         Business business = category.getBusiness();
         if (business==null){
