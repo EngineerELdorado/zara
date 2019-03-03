@@ -48,7 +48,7 @@ public class BulkBeneficiaryController {
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce business n'existe pas");
-        }else if (!bCryptPasswordEncoder.matches(bulkBeneficiary.getBusinessPin(), business.getPin())){
+        }else if (!bCryptPasswordEncoder.matches(bulkBeneficiary.getBusinessPin(), business.getPassword())){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Pin Incorrect");
         }else if (bulkBeneficiaryService.findByCategoryIdAndPhoneNumber(category.getId(), bulkBeneficiary.getPhoneNumber())!=null){
