@@ -14,6 +14,7 @@ public class TransactionRequestBody {
     private String apiKey;
     private String stripeToken;
     private String bulkCategoryId;
+    private String uniqueIdentifier;
 
 
 

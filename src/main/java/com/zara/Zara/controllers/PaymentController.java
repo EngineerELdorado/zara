@@ -45,7 +45,7 @@ public class PaymentController {
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
 
     @PostMapping("/buy/post")
-    public ResponseEntity<?> validateOtp(@RequestBody TransactionRequestBody requestBody) throws UnsupportedEncodingException {
+    public ResponseEntity<?> post(@RequestBody TransactionRequestBody requestBody) throws UnsupportedEncodingException {
 
 
                     Business business = businessService.findByBusinessNumber(requestBody.getReceiver());
@@ -95,10 +95,19 @@ public class PaymentController {
                             transaction.setAmount(new BigDecimal(requestBody.getAmount()));
                             transaction.setCreatedOn(new Date());
                             transaction.setStatus("00");
-                            transaction.setDescription("Payment de Facture");
+                            if (requestBody.getDescription().equals("")){
+                                transaction.setDescription("Payment de Facture");
+                            }else{
+                                transaction.setDescription(requestBody.getDescription());
+                            }
+                            if (!requestBody.getUniqueIdentifier().equals("")){
+                                transaction.setUniqueIdentifier(requestBody.getUniqueIdentifier());
+                            }
+
                             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                             transaction.setCreatedByCustomer(customer);
                             transaction.setReceivedByBusiness(business);
+
                             transaction.setTransactionType(TRANSACTION__BILL_PAYMENT);
 
                             PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
@@ -138,4 +147,7 @@ public class PaymentController {
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+
+
 }

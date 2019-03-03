@@ -36,5 +36,6 @@ public class PesapayTransaction {
     public Business createdByBusiness;
     @ManyToOne
     public Business receivedByBusiness;
+    private String uniqueIdentifier;
 
 }

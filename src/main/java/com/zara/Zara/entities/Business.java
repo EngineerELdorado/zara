@@ -31,4 +31,5 @@ public class Business {
     private boolean verified;
     private String email;
     private String password;
+    private String type;
 }
