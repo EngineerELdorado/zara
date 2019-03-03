@@ -137,7 +137,7 @@ public class TransactionController {
                                                      @RequestParam("page") int page,
                                                      @RequestParam("size") int size){
 
-        LOGGER.info("PAGE REQUEST PAGE =>"+page+" SIZE =>"+size);
+        //LOGGER.info("PAGE REQUEST PAGE =>"+page+" SIZE =>"+size);
         Business business = businessService.findByBusinessNumber(businessNumber);
         Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,"id"));
          Pageable pageable = new PageRequest(page,size,sort);

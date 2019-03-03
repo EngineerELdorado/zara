@@ -7,6 +7,9 @@ import com.zara.Zara.services.IBulkBeneficiaryService;
 import com.zara.Zara.services.IBulkCategoryService;
 import com.zara.Zara.services.IBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +45,21 @@ public class BulkCategoryController {
            }
         }
 
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+    @GetMapping("/findByBusiness/{businessNumber}")
+    public ResponseEntity<?>findByBusinbess(@PathVariable String businessNumber,
+                                            @RequestParam("page") int page,
+                                            @RequestParam("size") int size){
+        Business business = businessService.findByBusinessNumber(businessNumber);
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,"id"));
+        Pageable pageable = new PageRequest(page,size,sort);
+        if (business==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Business introuvable");
+        }else{
+            apiResponse.setBulkCategories(bulkCategoryService.findByBusinessId(business.getId(), pageable).getContent());
+        }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }
