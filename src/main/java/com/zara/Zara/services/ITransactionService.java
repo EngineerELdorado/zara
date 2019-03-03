@@ -16,5 +16,10 @@ public interface ITransactionService {
     PesapayTransaction findByTransactionNumber(String transactionNumber);
     Collection<PesapayTransaction>getMiniStatement(Long id);
     Page<PesapayTransaction> findByBusiness(Long id, Pageable pageable);
+    Page<PesapayTransaction> findEntriesByBusiness(Long id, Pageable pageable);
+    Page<PesapayTransaction> findOutsByBusiness(Long id, Pageable pageable);
     int countByBusiness(Long id);
+    int countEntriesByBusiness(Long id);
+
+    int countOutsByBusiness(Long id);
 }

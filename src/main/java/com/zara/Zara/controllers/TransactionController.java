@@ -133,6 +133,7 @@ public class TransactionController {
     @GetMapping("findByBusinessId/{businessNumber}")
     public ResponseEntity<?> findByBusinessId(
                                                      @PathVariable String businessNumber,
+                                                     @RequestParam("type") String type,
                                                      @RequestParam("page") int page,
                                                      @RequestParam("size") int size){
 
@@ -140,7 +141,6 @@ public class TransactionController {
         Business business = businessService.findByBusinessNumber(businessNumber);
         Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,"id"));
          Pageable pageable = new PageRequest(page,size,sort);
-         int count = transactionService.countByBusiness(business.getId());
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Business introuvable");
@@ -148,17 +148,32 @@ public class TransactionController {
 
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage(pageable.getPageSize()+" transactions");
-            apiResponse.setTotalCount(count);
-            apiResponse.setTransactions(transactionService.findByBusiness(business.getId(), pageable).getContent());
+            if (type.equals("all")){
+                apiResponse.setTransactions(transactionService.findByBusiness(business.getId(), pageable).getContent());
+            }else if(type.equals("entries")){
+                apiResponse.setTransactions(transactionService.findEntriesByBusiness(business.getId(), pageable).getContent());
+            }else if(type.equals("outs")){
+                apiResponse.setTransactions(transactionService.findOutsByBusiness(business.getId(), pageable).getContent());
+            }
+
         }
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("findCountByBusiness/{businessNumber}")
-    public int findCountByBusiness(@PathVariable String businessNumber){
+    public int findCountByBusiness(@PathVariable String businessNumber, @RequestParam("type") String type){
         Business business = businessService.findByBusinessNumber(businessNumber);
-        return transactionService.countByBusiness(business.getId());
+        int count =0;
+        if (type.equals("all")){
+            count=transactionService.countByBusiness(business.getId());
+        } else if (type.equals("entries")){
+            count=transactionService.countEntriesByBusiness(business.getId());
+        }
+        else if (type.equals("outs")){
+            count=transactionService.countOutsByBusiness(business.getId());
+        }
+        return count;
     }
 
 }

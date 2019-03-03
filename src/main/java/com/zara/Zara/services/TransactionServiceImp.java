@@ -55,8 +55,28 @@ public class TransactionServiceImp implements ITransactionService {
     }
 
     @Override
+    public Page<PesapayTransaction> findEntriesByBusiness(Long id, Pageable pageable) {
+        return transactionRepository.findEntriesByBusiness(id, pageable);
+    }
+
+    @Override
+    public Page<PesapayTransaction> findOutsByBusiness(Long id, Pageable pageable) {
+        return transactionRepository.findOutsByBusiness(id, pageable);
+    }
+
+    @Override
     public int countByBusiness(Long id) {
         return transactionRepository.countByBusiness(id);
+    }
+
+    @Override
+    public int countEntriesByBusiness(Long id) {
+        return transactionRepository.countEntriesByBusiness(id);
+    }
+
+    @Override
+    public int countOutsByBusiness(Long id) {
+        return transactionRepository.countOutsByBusiness(id);
     }
 
 }
