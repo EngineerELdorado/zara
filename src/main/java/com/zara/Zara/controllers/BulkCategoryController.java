@@ -73,4 +73,15 @@ public class BulkCategoryController {
 
 
     }
+
+    @PostMapping("/update")
+    public ResponseEntity<?>update(@RequestBody BulkCategory bulkCategory ){
+        BulkCategory bulkCategory1 = bulkCategoryService.findById(Long.valueOf(bulkCategory.getId()));
+        bulkCategory1.setName(bulkCategory.getName());
+        bulkCategoryService.save(bulkCategory1);
+        apiResponse.setResponseCode("00");
+        apiResponse.setResponseMessage("Category updated");
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 }

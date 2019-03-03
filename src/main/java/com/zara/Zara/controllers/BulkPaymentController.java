@@ -74,6 +74,10 @@ public class BulkPaymentController {
                             transaction.setCreatedOn(new Date());
                             transaction.setAmount(beneficiary.getAmount());
                             transaction.setCreatedByBusiness(business);
+                            transaction.setReceivedByCustomer(customer);
+                            transaction.setTransactionType(TRANSACTION_BULKPAYMENT);
+                            transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+
                             if (business.getStatus().equals("ACTIVE")){
                                 LOGGER.info("ACCOUNT IS ACTIVE FOR "+business.getBusinessName());
                                 if (customer!=null){
@@ -110,9 +114,6 @@ public class BulkPaymentController {
                                     }else {
                                         transaction.setStatus("00");
                                         transaction.setDescription("bulk transaction reussie");
-                                        transaction.setReceivedByCustomer(customer);
-                                        transaction.setTransactionType(TRANSACTION_BULKPAYMENT);
-                                        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                                         transactionService.addTransaction(transaction);
                                         customer.setBalance(customer.getBalance().add(beneficiary.getAmount()));
                                         business.setBalance(business.getBalance().subtract(beneficiary.getAmount()));

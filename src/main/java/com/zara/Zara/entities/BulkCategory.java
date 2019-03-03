@@ -18,6 +18,8 @@ public class BulkCategory {
     private String name;
     @ManyToOne
     private Business business;
+    @Transient
+    private String pin;
     @JsonIgnore
     @OneToMany(
             mappedBy = "bulkCategory",
