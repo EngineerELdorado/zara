@@ -5,6 +5,7 @@ import com.zara.Zara.entities.BulkBeneficiary;
 import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.Customer;
 import com.zara.Zara.entities.PesapayTransaction;
+import com.zara.Zara.models.BulkPaymentRequest;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
 import com.zara.Zara.services.*;
@@ -49,10 +50,10 @@ public class BulkPaymentController {
     boolean insufficientBalanceMessageAlreadySent=false;
     Logger LOGGER = LogManager.getLogger(BankTransferController.class);
     @PostMapping("/post}")
-    public ResponseEntity<?>post(@RequestBody TransactionRequestBody requestBody) throws UnsupportedEncodingException {
+    public ResponseEntity<?>post(@RequestBody BulkPaymentRequest requestBody) throws UnsupportedEncodingException {
         Business business = businessService.findByBusinessNumber(requestBody.getSender());
         LOGGER.info("BUSINESS "+business.toString());
-        Collection<BulkBeneficiary>bulkBeneficiaries = bulkBeneficiaryService.findByCaterory(Long.parseLong(requestBody.getBulkCategoryId()));
+        Collection<BulkBeneficiary>bulkBeneficiaries = bulkBeneficiaryService.findByCaterory(Long.parseLong(requestBody.getCategoryId()));
         LOGGER.info("TOTAL OF BENEFICIARIES =>"+bulkBeneficiaries.size());
         int successCount =0;
         Business updatedBusiness = null;
@@ -108,7 +109,7 @@ public class BulkPaymentController {
                                         transactionService.addTransaction(transaction);
                                     }else {
                                         transaction.setStatus("00");
-                                        transaction.setDescription("transaction reussie");
+                                        transaction.setDescription("bulk transaction reussie");
                                         transaction.setReceivedByCustomer(customer);
                                         transaction.setTransactionType(TRANSACTION_BULKPAYMENT);
                                         transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
@@ -122,7 +123,7 @@ public class BulkPaymentController {
                                         LOGGER.info("TRANSACTION SUCCESSFUL "+customer.getFullName());
                                         Sms sms = new Sms();
                                         sms.setTo(customer.getPhoneNumber());
-                                        sms.setMessage(customer.getFullName()+" vous avez recu "+beneficiary.getAmount()+" USD venant de "+business.getBusinessName()+" pour "+requestBody.getDescription()+" votre solde actuel est de "+updatedCustomer.getBalance()+" USD. type de transaction BULK PAYMENT");
+                                        sms.setMessage(customer.getFullName()+" vous avez recu "+beneficiary.getAmount()+" USD venant de "+business.getBusinessName()+" votre solde actuel est de "+updatedCustomer.getBalance()+" USD. type de transaction BULK PAYMENT");
                                         try {
                                             SmsService.sendSms(sms);
                                         } catch (UnsupportedEncodingException e) {
