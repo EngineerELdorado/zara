@@ -69,6 +69,7 @@ public class BulkPaymentController {
                         Customer customer = customerService.findByPhoneNumber(beneficiary.getPhoneNumber());
                         PesapayTransaction transaction = new PesapayTransaction();
                         transaction.setCreatedOn(new Date());
+                        transaction.setAmount(beneficiary.getAmount());
                         transaction.setCreatedByBusiness(business);
                         if (business.getStatus().equals("ACTIVE")){
                             LOGGER.info("ACCOUNT IS ACTIVE FOR "+business.getBusinessName());
@@ -106,7 +107,6 @@ public class BulkPaymentController {
                                 }else {
                                     transaction.setStatus("00");
                                     transaction.setDescription("transaction reussie");
-                                    transaction.setAmount(beneficiary.getAmount());
                                     transaction.setReceivedByCustomer(customer);
                                     transaction.setTransactionType(TRANSACTION_BULKPAYMENT);
                                     transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
