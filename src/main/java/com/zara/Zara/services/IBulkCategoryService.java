@@ -11,4 +11,5 @@ public interface IBulkCategoryService {
     BulkCategory save(BulkCategory bulkCategory);
     BulkCategory findById(Long id);
     Page<BulkCategory> findByBusinessId(Long id, Pageable pageable);
+    void delete(Long id);
 }

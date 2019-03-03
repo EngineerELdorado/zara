@@ -62,4 +62,13 @@ public class BulkCategoryController {
         }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+    @GetMapping("/delete")
+    public ResponseEntity<?>delete(@RequestParam String id){
+
+        bulkCategoryService.delete(Long.valueOf(id));
+        apiResponse.setResponseCode("00");
+        apiResponse.setResponseMessage("Category deleted");
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 }

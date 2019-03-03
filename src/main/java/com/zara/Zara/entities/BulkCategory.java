@@ -1,9 +1,11 @@
 package com.zara.Zara.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity(name = "bulk_categories")
 @Data
@@ -16,6 +18,13 @@ public class BulkCategory {
     private String name;
     @ManyToOne
     private Business business;
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "bulkCateggory",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    Collection<BulkBeneficiary>bulkBeneficiaries;
 
     @Override
     public String toString() {

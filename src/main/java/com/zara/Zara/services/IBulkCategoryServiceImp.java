@@ -28,4 +28,9 @@ public class IBulkCategoryServiceImp implements IBulkCategoryService {
     public Page<BulkCategory> findByBusinessId(Long id, Pageable pageable) {
         return bulkCategoryRepository.findByBusinessId(id, pageable);
     }
+
+    @Override
+    public void delete(Long id) {
+        bulkCategoryRepository.deleteById(id);
+    }
 }
