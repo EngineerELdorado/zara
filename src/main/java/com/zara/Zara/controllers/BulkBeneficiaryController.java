@@ -100,7 +100,7 @@ public class BulkBeneficiaryController {
                                           @RequestParam int size){
 
         Business business = businessService.findByBusinessNumber(businessNumber);
-        BulkCategory category = categoryService.findById(Long.valueOf(categoryId));
+
         Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,"id"));
         Pageable pageable = new PageRequest(page,size,sort);
         if (business==null){
@@ -111,6 +111,7 @@ public class BulkBeneficiaryController {
             if (categoryId.equals("all")){
                 apiResponse.setBulkBeneficiaries(bulkBeneficiaryService.findByBusinessId(business.getId(),pageable).getContent());
             }else{
+                BulkCategory category = categoryService.findById(Long.valueOf(categoryId));
                 apiResponse.setBulkBeneficiaries(bulkBeneficiaryService.findByBusinessAndCategory(business.getId(),category.getId(),pageable).getContent());
             }
         }
