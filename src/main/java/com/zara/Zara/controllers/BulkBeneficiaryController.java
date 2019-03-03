@@ -13,6 +13,9 @@ import com.zara.Zara.services.ICustomerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -85,6 +88,31 @@ public class BulkBeneficiaryController {
                          }
                      }
 
+        }
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/findByBusiness/{businessNumber}")
+    public ResponseEntity<?>getByBusiness(@PathVariable String businessNumber,
+                                          @RequestParam String categoryId,
+                                          @RequestParam int page,
+                                          @RequestParam int size){
+
+        Business business = businessService.findByBusinessNumber(businessNumber);
+        BulkCategory category = categoryService.findById(Long.valueOf(categoryId));
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,"id"));
+        Pageable pageable = new PageRequest(page,size,sort);
+        if (business==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Business introuvable");
+        }else{
+            apiResponse.setResponseCode("00");
+            if (categoryId.equals("all")){
+                apiResponse.setBulkBeneficiaries(bulkBeneficiaryService.findByBusinessId(business.getId(),pageable).getContent());
+            }else{
+                apiResponse.setBulkBeneficiaries(bulkBeneficiaryService.findByBusinessAndCategory(business.getId(),category.getId(),pageable).getContent());
+            }
         }
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);

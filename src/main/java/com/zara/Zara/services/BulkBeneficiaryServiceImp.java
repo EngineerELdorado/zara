@@ -3,6 +3,8 @@ package com.zara.Zara.services;
 import com.zara.Zara.entities.BulkBeneficiary;
 import com.zara.Zara.repositories.BulkBeneficiaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -24,8 +26,8 @@ public class BulkBeneficiaryServiceImp implements IBulkBeneficiaryService {
     }
 
     @Override
-    public Collection<BulkBeneficiary> findByBusinessId(Long id) {
-        return bulkBeneficiaryRepository.findByBusinessId(id);
+    public Page<BulkBeneficiary> findByBusinessId(Long id, Pageable pageable) {
+        return bulkBeneficiaryRepository.findByBusinessId(id, pageable);
     }
 
     @Override
@@ -37,4 +39,11 @@ public class BulkBeneficiaryServiceImp implements IBulkBeneficiaryService {
     public BulkBeneficiary findByCategoryIdAndPhoneNumber(Long categoryId, String phoneNumber) {
         return bulkBeneficiaryRepository.findByBulkCategoryIdAndPhoneNumber(categoryId, phoneNumber);
     }
+
+    @Override
+    public Page<BulkBeneficiary> findByBusinessAndCategory(Long businessId, Long categoryId, Pageable pageable) {
+        return bulkBeneficiaryRepository.findByBusinessIdAndCategoryId(businessId, categoryId,pageable);
+    }
+
+
 }

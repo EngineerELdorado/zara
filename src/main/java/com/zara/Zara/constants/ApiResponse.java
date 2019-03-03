@@ -23,6 +23,7 @@ public class ApiResponse {
     private Collection<PesapayTransaction>transactions;
     private Collection<Customer>customers;
     private Collection<BulkCategory>bulkCategories;
+    private Collection<BulkBeneficiary>bulkBeneficiaries;
     private Admin admin;
     private int totalCount;
 
