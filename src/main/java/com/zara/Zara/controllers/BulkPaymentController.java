@@ -49,7 +49,7 @@ public class BulkPaymentController {
     ApiResponse apiResponse = new ApiResponse();
     boolean insufficientBalanceMessageAlreadySent=false;
     Logger LOGGER = LogManager.getLogger(BankTransferController.class);
-    @PostMapping("/post}")
+    @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody BulkPaymentRequest requestBody) throws UnsupportedEncodingException {
         Business business = businessService.findByBusinessNumber(requestBody.getSender());
         LOGGER.info("BUSINESS "+business.toString());
