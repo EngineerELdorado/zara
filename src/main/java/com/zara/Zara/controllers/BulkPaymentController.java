@@ -62,7 +62,7 @@ public class BulkPaymentController {
         if (business.isVerified()){
 
             if (business.getStatus().equals("ACTIVE")){
-                if (bCryptPasswordEncoder.matches(requestBody.getPin(), business.getPin())){
+                if (bCryptPasswordEncoder.matches(requestBody.getPin(), business.getPassword())){
 
                     if (bulkBeneficiaries.size()>0){
                         for (BulkBeneficiary beneficiary: bulkBeneficiaries){
@@ -155,7 +155,7 @@ public class BulkPaymentController {
 
                      }else{
                     apiResponse.setResponseCode("01");
-                    apiResponse.setResponseMessage("Pin Incorrect");
+                    apiResponse.setResponseMessage("Mot de passe incorrect");
                 }
             }else{
                 apiResponse.setResponseCode("01");
