@@ -62,85 +62,97 @@ public class BulkPaymentController {
 
             if (business.getStatus().equals("ACTIVE")){
                 if (bCryptPasswordEncoder.matches(requestBody.getPin(), business.getPin())){
-                    for (BulkBeneficiary beneficiary: bulkBeneficiaries){
 
-                        LOGGER.info("PROCESSING PAYMENT FOR "+beneficiary.getName());
-                        ExecutorService executorService = Executors.newFixedThreadPool(8);
-                        Customer customer = customerService.findByPhoneNumber(beneficiary.getPhoneNumber());
-                        PesapayTransaction transaction = new PesapayTransaction();
-                        transaction.setCreatedOn(new Date());
-                        transaction.setAmount(beneficiary.getAmount());
-                        transaction.setCreatedByBusiness(business);
-                        if (business.getStatus().equals("ACTIVE")){
-                            LOGGER.info("ACCOUNT IS ACTIVE FOR "+business.getBusinessName());
-                            if (customer!=null){
-                                LOGGER.info("ACCOUNT EXISTS FOR "+customer.getFullName());
-                                if (!customer.isVerified()){
-                                    transaction.setStatus("01");
-                                    transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-                                    transaction.setDescription("Transaction echoue. compte non verifie pour le numero "+beneficiary.getPhoneNumber());
-                                    failureCount++;
-                                    LOGGER.info("TRANSACTION FAILED ACCOUNT NOT VERIFIED "+customer.getFullName());
-                                    updatedBusiness=business;
-                                    transactionService.addTransaction(transaction);
-                                }else if (!customer.getStatus().equals("ACTIVE")){
-                                    transaction.setStatus("01");
-                                    transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-                                    transaction.setDescription("Transaction echoue. compte NON ACTIF pour le numero "+beneficiary.getPhoneNumber());
-                                    failureCount++;
-                                    LOGGER.info("TRANSACTION FAILED ACCOUNT NOT ACTIVE "+customer.getFullName());
-                                    updatedBusiness=business;
-                                    transactionService.addTransaction(transaction);
-                                }
+                    if (bulkBeneficiaries.size()>0){
+                        for (BulkBeneficiary beneficiary: bulkBeneficiaries){
 
-                                else if(business.getBalance().compareTo(beneficiary.getAmount())<0){
-                                    transaction.setStatus("01");
-                                    transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-                                    transaction.setDescription("Transaction echoue. SOLDE DU BUSINESS EST EPUISE ");
-                                    LOGGER.info("TRANSACTION FAILED BUSINESS BALANCE INSUFFICIENT ");
-                                    if (!insufficientBalanceMessageAlreadySent){
-                                        sendBalanceExaustedOnlyOnce(business.getPhoneNumber(), business.getBusinessName());
+                            LOGGER.info("PROCESSING PAYMENT FOR "+beneficiary.getName());
+                            ExecutorService executorService = Executors.newFixedThreadPool(8);
+                            Customer customer = customerService.findByPhoneNumber(beneficiary.getPhoneNumber());
+                            PesapayTransaction transaction = new PesapayTransaction();
+                            transaction.setCreatedOn(new Date());
+                            transaction.setAmount(beneficiary.getAmount());
+                            transaction.setCreatedByBusiness(business);
+                            if (business.getStatus().equals("ACTIVE")){
+                                LOGGER.info("ACCOUNT IS ACTIVE FOR "+business.getBusinessName());
+                                if (customer!=null){
+                                    LOGGER.info("ACCOUNT EXISTS FOR "+customer.getFullName());
+                                    if (!customer.isVerified()){
+                                        transaction.setStatus("01");
+                                        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                                        transaction.setDescription("Transaction echoue. compte non verifie pour le numero "+beneficiary.getPhoneNumber());
+                                        failureCount++;
+                                        LOGGER.info("TRANSACTION FAILED ACCOUNT NOT VERIFIED "+customer.getFullName());
+                                        updatedBusiness=business;
+                                        transactionService.addTransaction(transaction);
+                                    }else if (!customer.getStatus().equals("ACTIVE")){
+                                        transaction.setStatus("01");
+                                        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                                        transaction.setDescription("Transaction echoue. compte NON ACTIF pour le numero "+beneficiary.getPhoneNumber());
+                                        failureCount++;
+                                        LOGGER.info("TRANSACTION FAILED ACCOUNT NOT ACTIVE "+customer.getFullName());
+                                        updatedBusiness=business;
+                                        transactionService.addTransaction(transaction);
                                     }
-                                    failureCount++;
-                                    updatedBusiness=business;
-                                    transactionService.addTransaction(transaction);
+
+                                    else if(business.getBalance().compareTo(beneficiary.getAmount())<0){
+                                        transaction.setStatus("01");
+                                        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                                        transaction.setDescription("Transaction echoue. SOLDE DU BUSINESS EST EPUISE ");
+                                        LOGGER.info("TRANSACTION FAILED BUSINESS BALANCE INSUFFICIENT ");
+                                        if (!insufficientBalanceMessageAlreadySent){
+                                            sendBalanceExaustedOnlyOnce(business.getPhoneNumber(), business.getBusinessName());
+                                        }
+                                        failureCount++;
+                                        updatedBusiness=business;
+                                        transactionService.addTransaction(transaction);
+                                    }else {
+                                        transaction.setStatus("00");
+                                        transaction.setDescription("transaction reussie");
+                                        transaction.setReceivedByCustomer(customer);
+                                        transaction.setTransactionType(TRANSACTION_BULKPAYMENT);
+                                        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                                        transactionService.addTransaction(transaction);
+                                        customer.setBalance(customer.getBalance().add(beneficiary.getAmount()));
+                                        business.setBalance(business.getBalance().subtract(beneficiary.getAmount()));
+                                        Customer updatedCustomer = customerService.save(customer);
+                                        updatedBusiness = businessService.save(business);
+                                        successCount++;
+                                        amountSpent= amountSpent.add(beneficiary.getAmount());
+                                        LOGGER.info("TRANSACTION SUCCESSFUL "+customer.getFullName());
+                                        Sms sms = new Sms();
+                                        sms.setTo(customer.getPhoneNumber());
+                                        sms.setMessage(customer.getFullName()+" vous avez recu "+beneficiary.getAmount()+" USD venant de "+business.getBusinessName()+" pour "+requestBody.getDescription()+" votre solde actuel est de "+updatedCustomer.getBalance()+" USD. type de transaction BULK PAYMENT");
+                                        try {
+                                            SmsService.sendSms(sms);
+                                        } catch (UnsupportedEncodingException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
                                 }else {
-                                    transaction.setStatus("00");
-                                    transaction.setDescription("transaction reussie");
-                                    transaction.setReceivedByCustomer(customer);
-                                    transaction.setTransactionType(TRANSACTION_BULKPAYMENT);
                                     transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-                                    transactionService.addTransaction(transaction);
-                                    customer.setBalance(customer.getBalance().add(beneficiary.getAmount()));
-                                    business.setBalance(business.getBalance().subtract(beneficiary.getAmount()));
-                                    Customer updatedCustomer = customerService.save(customer);
-                                    updatedBusiness = businessService.save(business);
-                                    successCount++;
-                                    amountSpent= amountSpent.add(beneficiary.getAmount());
-                                    LOGGER.info("TRANSACTION SUCCESSFUL "+customer.getFullName());
-                                    Sms sms = new Sms();
-                                    sms.setTo(customer.getPhoneNumber());
-                                    sms.setMessage(customer.getFullName()+" vous avez recu "+beneficiary.getAmount()+" USD venant de "+business.getBusinessName()+" pour "+requestBody.getDescription()+" votre solde actuel est de "+updatedCustomer.getBalance()+" USD. type de transaction BULK PAYMENT");
-                                    try {
-                                        SmsService.sendSms(sms);
-                                    } catch (UnsupportedEncodingException e) {
-                                        e.printStackTrace();
-                                    }
+                                    transaction.setStatus("01");
+                                    transaction.setDescription("Transaction echoue. compte introuvable pour le numero "+beneficiary.getPhoneNumber());
+                                    updatedBusiness=business;
+                                    LOGGER.info("TRANSACTION FAILED ACCOUNT NOT FOUND "+beneficiary.getName());
                                 }
-                            }else {
-                                transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-                                transaction.setStatus("01");
-                                transaction.setDescription("Transaction echoue. compte introuvable pour le numero "+beneficiary.getPhoneNumber());
-                                updatedBusiness=business;
-                                LOGGER.info("TRANSACTION FAILED ACCOUNT NOT FOUND "+beneficiary.getName());
                             }
                         }
+                        Sms sms = new Sms();
+                        sms.setTo(business.getPhoneNumber());
+
+                        sms.setMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via PesaPay dont "+successCount+" reussis et "+failureCount+" echoues. le total de vos transfer en bulk est de "+amountSpent+"USD. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
+                        SmsService.sendSms(sms);
+                        apiResponse.setResponseCode("00");
+                        apiResponse.setResponseMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via PesaPay dont "+successCount+" reussis et "+failureCount+" echoues. le total de vos transfer en bulk est de "+amountSpent+"USD. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
+
                     }
-                    Sms sms = new Sms();
-                    sms.setTo(business.getPhoneNumber());
-                    sms.setMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via PesaPay dont "+successCount+" reussis et "+failureCount+" echoues. le total de vos transfer en bulk est de "+amountSpent+"USD. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
-                    SmsService.sendSms(sms);
-                 }else{
+                    else{
+                        apiResponse.setResponseCode("01");
+                        apiResponse.setResponseMessage("Aucun beneficiaire dans cette categorie");
+                    }
+
+                     }else{
                     apiResponse.setResponseCode("01");
                     apiResponse.setResponseMessage("Pin Incorrect");
                 }
