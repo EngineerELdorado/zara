@@ -70,5 +70,6 @@ public class BulkCategoryController {
         apiResponse.setResponseCode("00");
         apiResponse.setResponseMessage("Category deleted");
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        
     }
 }
