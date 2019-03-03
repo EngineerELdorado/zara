@@ -155,6 +155,9 @@ public class TransactionController {
             }else if(type.equals("outs")){
                 apiResponse.setTransactions(transactionService.findOutsByBusiness(business.getId(), pageable).getContent());
             }
+            else if(type.equals("bulk")){
+                apiResponse.setTransactions(transactionService.findBulkByBusiness(business.getId(), pageable).getContent());
+            }
 
         }
 
@@ -172,6 +175,8 @@ public class TransactionController {
         }
         else if (type.equals("outs")){
             count=transactionService.countOutsByBusiness(business.getId());
+        }else if (type.equals("bulk")){
+            count=transactionService.counBulkByBusiness(business.getId());
         }
         return count;
     }

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.net.ContentHandler;
 import java.util.Collection;
 
 @Service
@@ -77,6 +78,16 @@ public class TransactionServiceImp implements ITransactionService {
     @Override
     public int countOutsByBusiness(Long id) {
         return transactionRepository.countOutsByBusiness(id);
+    }
+
+    @Override
+    public Page<PesapayTransaction> findBulkByBusiness(Long id, Pageable pageable) {
+        return transactionRepository.findBukByBusiness(id, pageable);
+    }
+
+    @Override
+    public int counBulkByBusiness(Long id) {
+        return transactionRepository.countBulkByBusiness(id);
     }
 
 }

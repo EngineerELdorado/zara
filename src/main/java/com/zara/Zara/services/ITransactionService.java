@@ -4,6 +4,7 @@ import com.zara.Zara.entities.PesapayTransaction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.net.ContentHandler;
 import java.util.Collection;
 
 public interface ITransactionService {
@@ -22,4 +23,8 @@ public interface ITransactionService {
     int countEntriesByBusiness(Long id);
 
     int countOutsByBusiness(Long id);
+
+    Page<PesapayTransaction> findBulkByBusiness(Long id, Pageable pageable);
+
+    int counBulkByBusiness(Long id);
 }

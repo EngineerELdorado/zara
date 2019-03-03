@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.net.ContentHandler;
 import java.util.Collection;
 
 public interface TransactionRepository extends PagingAndSortingRepository<PesapayTransaction, Long> {
@@ -46,5 +47,11 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
     @Query(value = "select count(*) from transaction where created_by_business_id=?1", nativeQuery = true)
     int countOutsByBusiness(Long id);
 
+    @Query(value = "select count(*) from transaction where created_by_business_id=?1 and transaction_type='BULK_PAYMENT'", nativeQuery = true)
+    int countBulkByBusiness(Long id);
 
+    @Query(value = "select * from transaction where created_by_business_id=?1 and transaction_type='BULK_PAYMENT'",
+            countQuery = "select count(*) from transaction where created_by_business_id=?1  and transaction_type='BULK_PAYMENT'",
+            nativeQuery = true)
+    Page<PesapayTransaction> findBukByBusiness(Long id, Pageable pageable);
 }
