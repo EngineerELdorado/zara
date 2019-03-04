@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -41,7 +40,9 @@ public class StatsController {
 
         apiResponse.setResponseCode("00");
         apiResponse.setResponseMessage("");
-        apiResponse.setStatsSum(transactionService.allStatsSum(business.getId(),start, end));
+        apiResponse.setAllStatsSum(transactionService.allStatsSum(business.getId(),start, end));
+        apiResponse.setEntriesStatsSum(transactionService.entriesStatsSum(business.getId(),start, end));
+        apiResponse.setOutsStatsSum(transactionService.outsStatsSum(business.getId(),start, end));
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

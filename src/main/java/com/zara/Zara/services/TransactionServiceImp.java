@@ -97,4 +97,13 @@ public class TransactionServiceImp implements ITransactionService {
         return transactionRepository.allStatsSum(businessId, start, end);
     }
 
+    @Override
+    public BigDecimal entriesStatsSum(Long businessId, Date start, Date end) {
+        return transactionRepository.entriesStatsSum(businessId, start, end);
+    }
+
+    @Override
+    public BigDecimal outsStatsSum(Long businessId, Date start, Date end) {
+        return transactionRepository.outsStatsSum(businessId, start, end);
+    }
 }

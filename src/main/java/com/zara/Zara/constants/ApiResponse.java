@@ -25,10 +25,11 @@ public class ApiResponse {
     private Collection<Customer>customers;
     private Collection<BulkCategory>bulkCategories;
     private Collection<BulkBeneficiary>bulkBeneficiaries;
-    private BigDecimal statsSum;
+    private BigDecimal allStatsSum;
+    private BigDecimal entriesStatsSum;
+    private BigDecimal outsStatsSum;
     private Collection<PesapayTransaction>statsRecentTransactions;
     private Admin admin;
     private int totalCount;
-
 
 }

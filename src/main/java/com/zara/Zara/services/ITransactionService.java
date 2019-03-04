@@ -31,4 +31,6 @@ public interface ITransactionService {
     int counBulkByBusiness(Long id);
 
     BigDecimal allStatsSum(Long businessId, Date start, Date end);
+    BigDecimal entriesStatsSum(Long businessId, Date start, Date end);
+    BigDecimal outsStatsSum(Long businessId, Date start, Date end);
 }
