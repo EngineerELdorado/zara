@@ -26,8 +26,8 @@ public class BulkBeneficiaryServiceImp implements IBulkBeneficiaryService {
     }
 
     @Override
-    public Page<BulkBeneficiary> findByBusinessId(Long id, Pageable pageable) {
-        return bulkBeneficiaryRepository.findByBusinessId(id, pageable);
+    public Page<BulkBeneficiary> findByBusinessId(Long id, String type, Pageable pageable) {
+        return bulkBeneficiaryRepository.findByBusinessId(id, type, pageable);
     }
 
     @Override
@@ -41,8 +41,8 @@ public class BulkBeneficiaryServiceImp implements IBulkBeneficiaryService {
     }
 
     @Override
-    public Page<BulkBeneficiary> findByBusinessAndCategory(Long businessId, Long categoryId, Pageable pageable) {
-        return bulkBeneficiaryRepository.findByBusinessIdAndCategoryId(businessId, categoryId,pageable);
+    public Page<BulkBeneficiary> findByBusinessAndCategory(Long businessId, Long categoryId,String type, Pageable pageable) {
+        return bulkBeneficiaryRepository.findByBusinessIdAndCategoryId(businessId, categoryId, type,pageable);
     }
 
     @Override

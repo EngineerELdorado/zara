@@ -10,11 +10,11 @@ public interface IBulkBeneficiaryService {
 
     BulkBeneficiary save(BulkBeneficiary bulkBeneficiary);
     BulkBeneficiary findById(Long id);
-    Page<BulkBeneficiary>findByBusinessId(Long id, Pageable pageable);
+    Page<BulkBeneficiary>findByBusinessId(Long id, String type, Pageable pageable);
     Collection<BulkBeneficiary>findByCaterory(Long id);
-    BulkBeneficiary findByCategoryIdAndPhoneNumber(Long categoryId, String phoneNumber);
+    BulkBeneficiary findByCategoryIdAndPhoneNumber(Long categoryId,  String phoneNumber);
 
-    Page<BulkBeneficiary>findByBusinessAndCategory(Long businessId, Long categoryId, Pageable pageable);
+    Page<BulkBeneficiary>findByBusinessAndCategory(Long businessId, Long categoryId, String type, Pageable pageable);
 
     void delete(Long id);
 }

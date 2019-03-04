@@ -76,6 +76,7 @@ public class BulkBeneficiaryB2CController {
                          }else{
                              bulkBeneficiary.setName(customer.getFullName());
                              bulkBeneficiary.setBusiness(business);
+                             bulkBeneficiary.setType("b2c");
                              bulkBeneficiary.setBulkCategory(category);
                              BulkBeneficiary beneficiary = bulkBeneficiaryService.save(bulkBeneficiary);
                              if (beneficiary!=null){
@@ -109,10 +110,10 @@ public class BulkBeneficiaryB2CController {
         }else{
             apiResponse.setResponseCode("00");
             if (categoryId.equals("all")){
-                apiResponse.setBulkBeneficiaries(bulkBeneficiaryService.findByBusinessId(business.getId(),pageable).getContent());
+                apiResponse.setBulkBeneficiaries(bulkBeneficiaryService.findByBusinessId(business.getId(),"b2c",pageable).getContent());
             }else{
                 BulkCategory category = categoryService.findById(Long.valueOf(categoryId));
-                apiResponse.setBulkBeneficiaries(bulkBeneficiaryService.findByBusinessAndCategory(business.getId(),category.getId(),pageable).getContent());
+                apiResponse.setBulkBeneficiaries(bulkBeneficiaryService.findByBusinessAndCategory(business.getId(),category.getId(),"b2c",pageable).getContent());
             }
         }
 

@@ -108,10 +108,10 @@ public class BulkBeneficiaryB2BController {
         }else{
             apiResponse.setResponseCode("00");
             if (categoryId.equals("all")){
-                apiResponse.setBulkBeneficiaries(bulkBeneficiaryService.findByBusinessId(business.getId(),pageable).getContent());
+                apiResponse.setBulkBeneficiaries(bulkBeneficiaryService.findByBusinessId(business.getId(),"b2b",pageable).getContent());
             }else{
                 BulkCategory category = categoryService.findById(Long.valueOf(categoryId));
-                apiResponse.setBulkBeneficiaries(bulkBeneficiaryService.findByBusinessAndCategory(business.getId(),category.getId(),pageable).getContent());
+                apiResponse.setBulkBeneficiaries(bulkBeneficiaryService.findByBusinessAndCategory(business.getId(),category.getId(),"b2b",pageable).getContent());
             }
         }
 

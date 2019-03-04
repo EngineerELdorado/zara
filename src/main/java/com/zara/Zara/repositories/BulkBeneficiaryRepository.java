@@ -11,13 +11,16 @@ import java.util.Collection;
 public interface BulkBeneficiaryRepository extends JpaRepository<BulkBeneficiary, Long> {
 
     @Query(value = "select * from bulk_beneficiaries where business_id=?1",
-            countQuery = "select count(*) from bulk_beneficiaries where business_id=?1",
+            countQuery = "select count(*) from bulk_beneficiaries where business_id=?1" +
+                    "and type=?2",
             nativeQuery = true)
-    Page<BulkBeneficiary> findByBusinessId(Long id, Pageable pageable);
+    Page<BulkBeneficiary> findByBusinessId(Long id, String type, Pageable pageable);
+
     @Query(value = "select * from bulk_beneficiaries where business_id=?1 and bulk_category_id=?2",
-            countQuery = "select count(*) from bulk_beneficiaries where business_id=?1 and bulk_category_id=?2",
+            countQuery = "select count(*) from bulk_beneficiaries where business_id=?1 and bulk_category_id=?2 and type=?3",
             nativeQuery = true)
-    Page<BulkBeneficiary> findByBusinessIdAndCategoryId(Long businessId, Long categoryId, Pageable pageable);
+    Page<BulkBeneficiary> findByBusinessIdAndCategoryId(Long businessId, Long categoryId, String type, Pageable pageable);
+
     @Query(value = "select * from bulk_beneficiaries where bulk_category_id=?1", nativeQuery = true)
     Collection<BulkBeneficiary> findByCategoryId(Long id);
     @Query(value = "select * from bulk_beneficiaries where bulk_category_id=?1 and phone_number=?2", nativeQuery = true)
