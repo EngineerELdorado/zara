@@ -41,7 +41,7 @@ public class StatsController {
 
         apiResponse.setResponseCode("00");
         apiResponse.setResponseMessage("");
-        apiResponse.setStatsSum(transactionService.allStatsSum(business.getId(), start,end));
+        apiResponse.setStatsSum(transactionService.allStatsSum(business.getId(),request.getStart(), request.getEnd()));
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

@@ -93,7 +93,7 @@ public class TransactionServiceImp implements ITransactionService {
     }
 
     @Override
-    public BigDecimal allStatsSum(Long businessId, Date start, Date end) {
+    public BigDecimal allStatsSum(Long businessId, String start, String end) {
         return transactionRepository.allStatsSum(businessId, start, end);
     }
 
