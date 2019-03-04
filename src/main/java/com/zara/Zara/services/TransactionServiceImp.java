@@ -117,6 +117,6 @@ public class TransactionServiceImp implements ITransactionService {
 
     @Override
     public Collection<PesapayTransaction> outsStatsTransactionsByBusiness(Long businessId) {
-        return null;
+        return transactionRepository.outsStatsTransactionsByBusiness(businessId);
     }
 }
