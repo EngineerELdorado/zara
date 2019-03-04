@@ -67,7 +67,7 @@ public class BulkPaymentB2BController {
 
                             LOGGER.info("PROCESSING PAYMENT FOR "+beneficiary.getName());
                             ExecutorService executorService = Executors.newFixedThreadPool(8);
-                            Business receiver = businessService.findByPhoneNumber(beneficiary.getPhoneNumber());
+                            Business receiver = businessService.findByBusinessNumber(beneficiary.getBusinessNumber());
                             PesapayTransaction transaction = new PesapayTransaction();
                             transaction.setCreatedOn(new Date());
                             transaction.setAmount(beneficiary.getAmount());
