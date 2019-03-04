@@ -75,7 +75,13 @@ public class B2BTransactionController {
                                         LOGGER.info("TRANSACTION FAILED ACCOUNT NOT VERIFIED "+receiver.getBusinessName());
 
                                         transactionService.addTransaction(transaction);
-                                    }else if (!receiver.getStatus().equals("ACTIVE")){
+                                    }
+                                    else if(business.getBusinessNumber().equals(receiver.getBusinessNumber())){
+                                        transaction.setStatus("01");
+                                        transaction.setDescription("transaction impossible. l'initiateur et le beneficiaire sont les memes");
+                                        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                                    }
+                                    else if (!receiver.getStatus().equals("ACTIVE")){
                                         transaction.setStatus("01");
                                         transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                                         transaction.setDescription("Transaction echoue. compte NON ACTIF pour le numero "+receiver.getPhoneNumber());
