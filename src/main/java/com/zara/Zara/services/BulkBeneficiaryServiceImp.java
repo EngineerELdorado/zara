@@ -45,5 +45,10 @@ public class BulkBeneficiaryServiceImp implements IBulkBeneficiaryService {
         return bulkBeneficiaryRepository.findByBusinessIdAndCategoryId(businessId, categoryId,pageable);
     }
 
+    @Override
+    public void delete(Long id) {
+        bulkBeneficiaryRepository.deleteById(id);
+    }
+
 
 }

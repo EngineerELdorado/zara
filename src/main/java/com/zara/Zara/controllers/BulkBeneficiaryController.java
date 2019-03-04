@@ -118,4 +118,41 @@ public class BulkBeneficiaryController {
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+    @PostMapping("/update/{businessNumber}")
+    public ResponseEntity<?>update(@RequestBody BulkBeneficiary bulkBeneficiary, @PathVariable String businessNumber){
+        BulkBeneficiary bulkBeneficiary1 = bulkBeneficiaryService.findById(Long.valueOf(bulkBeneficiary.getId()));
+        Business business = businessService.findByBusinessNumber(businessNumber);
+        if (bulkBeneficiary1==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Client non trouve");
+        }
+        else if (!bCryptPasswordEncoder.matches(bulkBeneficiary.getBusinessPin(), business.getPassword())){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Mot de passe incorrect");
+        }
+        else{
+            bulkBeneficiary1.setAmount(bulkBeneficiary.getAmount());
+            bulkBeneficiaryService.save(bulkBeneficiary1);
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage("Information mise a jour");
+        }
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+    @PostMapping("/delete/{businessNumber}")
+    public ResponseEntity<?>delete(@PathVariable String businessNumber, @RequestParam String beneficiaryId,@RequestParam String businessPin){
+        Business business = businessService.findByBusinessNumber(businessNumber);
+        if (bCryptPasswordEncoder.matches(businessPin, business.getPassword())){
+            bulkBeneficiaryService.delete(Long.valueOf(beneficiaryId));
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage("le beneficiaire a ete efface ");
+        }else{
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Mot de passe incorrect");
+        }
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+
+    }
 }

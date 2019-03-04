@@ -15,4 +15,6 @@ public interface IBulkBeneficiaryService {
     BulkBeneficiary findByCategoryIdAndPhoneNumber(Long categoryId, String phoneNumber);
 
     Page<BulkBeneficiary>findByBusinessAndCategory(Long businessId, Long categoryId, Pageable pageable);
+
+    void delete(Long id);
 }
