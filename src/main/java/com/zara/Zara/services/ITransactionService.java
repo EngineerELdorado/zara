@@ -4,8 +4,10 @@ import com.zara.Zara.entities.PesapayTransaction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.net.ContentHandler;
 import java.util.Collection;
+import java.util.Date;
 
 public interface ITransactionService {
 
@@ -27,4 +29,6 @@ public interface ITransactionService {
     Page<PesapayTransaction> findBulkByBusiness(Long id, String type, Pageable pageable);
 
     int counBulkByBusiness(Long id);
+
+    BigDecimal allStatsSum(Long businessId, Date start, Date end);
 }

@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.math.BigDecimal;
 import java.net.ContentHandler;
 import java.util.Collection;
+import java.util.Date;
 
 public interface TransactionRepository extends PagingAndSortingRepository<PesapayTransaction, Long> {
 
@@ -55,4 +57,8 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
             countQuery = "select count(*) from transaction where created_by_business_id=?1  and transaction_type='BULK_PAYMENT' and b_type=?2",
             nativeQuery = true)
     Page<PesapayTransaction> findBukByBusiness(Long id, String type, Pageable pageable);
+
+    @Query(value = "select sum(amount) from transaction where created_by_business_id=?1 or received_by_business_id" +
+            "and created_on between ?2 and ?3", nativeQuery = true)
+    BigDecimal allStatsSum(Long businessId, Date start, Date end);
 }

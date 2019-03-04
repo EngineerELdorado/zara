@@ -7,8 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.net.ContentHandler;
 import java.util.Collection;
+import java.util.Date;
 
 @Service
 public class TransactionServiceImp implements ITransactionService {
@@ -88,6 +90,11 @@ public class TransactionServiceImp implements ITransactionService {
     @Override
     public int counBulkByBusiness(Long id) {
         return transactionRepository.countBulkByBusiness(id);
+    }
+
+    @Override
+    public BigDecimal allStatsSum(Long businessId, Date start, Date end) {
+        return transactionRepository.allStatsSum(businessId, start, end);
     }
 
 }
