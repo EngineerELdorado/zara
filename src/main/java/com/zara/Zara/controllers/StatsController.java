@@ -19,6 +19,7 @@ import java.util.Date;
 
 @RestController()
 @RequestMapping("/stats")
+@CrossOrigin(origins = "*")
 public class StatsController {
 
     @Autowired
