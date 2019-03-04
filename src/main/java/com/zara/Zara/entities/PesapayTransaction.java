@@ -25,6 +25,7 @@ public class PesapayTransaction {
     @ManyToOne
     public Customer createdByCustomer;
     public String transactionType;
+    @Column(name = "b_type")
     public String type;
     @OneToOne
     public Customer receivedByCustomer;

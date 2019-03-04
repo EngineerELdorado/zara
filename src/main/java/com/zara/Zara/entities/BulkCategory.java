@@ -16,6 +16,7 @@ public class BulkCategory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    @Column(name = "b_type")
     private String type;
     @ManyToOne
     private Business business;

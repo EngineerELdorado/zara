@@ -16,6 +16,7 @@ public class BulkBeneficiary {
     private Long id;
     private String name;
     private String phoneNumber;
+    @Column(name = "b_type")
     private String type;
     @ManyToOne
     private BulkCategory bulkCategory;
