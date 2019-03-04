@@ -14,13 +14,13 @@ public class ConstantVariables {
     public static String TRANSACTION_DEPOSIT="DEPOSIT";
     public static String TRANSACTION_CREDIT_CARD_DEPOSIT="CREDIT_CARD_DEPOSIT";
     public static String TRANSACTION__ONLINE_PAYMENT="ONLINE_PAYMENT";
-    public static String TRANSACTION__BILL_PAYMENT="BILL_PAYMENT";
+    public static String TRANSACTION__BILL_PAYMENT="C2B";
     public static String TRANSACTION_WITHDRAWAL="WITHDRAWAL";
     public static String TRANSACTION_BULKPAYMENT="BULK_PAYMENT";
     public static String TRANSACITION_B2C="B2C_PAYMENT";
-    public static String TRANSACTION_CUSTOMER_RANSFER="CUSTOMER_TRANSFER";
+    public static String TRANSACITION_B2B="B2B_PAYMENT";
+    public static String TRANSACTION_CUSTOMER_RANSFER="C2C";
     public static String TRANSACTION_BALANCE="BALANCE_ENQUIRY";
-    public static String TRANSACTION_ADMIN_TRANSFERT="ADMIN_TRANSFER";
     public static String BUDGET_SMS_URL="https://api.budgetsms.net/sendsms/";
     public static String BUDGET_SMS_USERNAME="feljor";
     public static String BUDGET_SMS_USER_ID="16513";
