@@ -21,7 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/bulkBeneficiaries")
+@RequestMapping("/bulkBeneficiaries/b2b")
 @CrossOrigin(origins = "*")
 public class BulkBeneficiaryB2BController {
 

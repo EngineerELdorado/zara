@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_BULKPAYMENT;
 
 @RestController
-@RequestMapping("/bulkpayments")
+@RequestMapping("/bulkpayments/b2c")
 @CrossOrigin(origins = "*")
 public class BulkPaymentB2CController {
 

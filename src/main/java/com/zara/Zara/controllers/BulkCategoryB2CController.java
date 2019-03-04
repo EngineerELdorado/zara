@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/bulkCategories")
+@RequestMapping("/bulkCategories/b2c")
 @CrossOrigin(origins = "*")
 public class BulkCategoryB2CController {
 
