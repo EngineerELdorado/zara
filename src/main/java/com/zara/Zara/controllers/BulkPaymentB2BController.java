@@ -67,34 +67,34 @@ public class BulkPaymentB2BController {
 
                             LOGGER.info("PROCESSING PAYMENT FOR "+beneficiary.getName());
                             ExecutorService executorService = Executors.newFixedThreadPool(8);
-                            Customer customer = customerService.findByPhoneNumber(beneficiary.getPhoneNumber());
+                            Business receiver = businessService.findByPhoneNumber(beneficiary.getPhoneNumber());
                             PesapayTransaction transaction = new PesapayTransaction();
                             transaction.setCreatedOn(new Date());
                             transaction.setAmount(beneficiary.getAmount());
                             transaction.setTransactionType("b2b");
                             transaction.setCreatedByBusiness(business);
-                            transaction.setReceivedByCustomer(customer);
+                            transaction.setReceivedByBusiness(receiver);
                             transaction.setTransactionType(TRANSACTION_BULKPAYMENT);
                             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
 
                             if (business.getStatus().equals("ACTIVE")){
                                 LOGGER.info("ACCOUNT IS ACTIVE FOR "+business.getBusinessName());
-                                if (customer!=null){
-                                    LOGGER.info("ACCOUNT EXISTS FOR "+customer.getFullName());
-                                    if (!customer.isVerified()){
+                                if (receiver!=null){
+                                    LOGGER.info("ACCOUNT EXISTS FOR "+receiver.getBusinessName());
+                                    if (!receiver.isVerified()){
                                         transaction.setStatus("01");
                                         transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                                         transaction.setDescription("Transaction echoue. compte non verifie pour le numero "+beneficiary.getPhoneNumber());
                                         failureCount++;
-                                        LOGGER.info("TRANSACTION FAILED ACCOUNT NOT VERIFIED "+customer.getFullName());
+                                        LOGGER.info("TRANSACTION FAILED ACCOUNT NOT VERIFIED "+receiver.getBusinessName());
                                         updatedBusiness=business;
                                         transactionService.addTransaction(transaction);
-                                    }else if (!customer.getStatus().equals("ACTIVE")){
+                                    }else if (!receiver.getStatus().equals("ACTIVE")){
                                         transaction.setStatus("01");
                                         transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                                         transaction.setDescription("Transaction echoue. compte NON ACTIF pour le numero "+beneficiary.getPhoneNumber());
                                         failureCount++;
-                                        LOGGER.info("TRANSACTION FAILED ACCOUNT NOT ACTIVE "+customer.getFullName());
+                                        LOGGER.info("TRANSACTION FAILED ACCOUNT NOT ACTIVE "+receiver.getBusinessName());
                                         updatedBusiness=business;
                                         transactionService.addTransaction(transaction);
                                     }
@@ -114,16 +114,16 @@ public class BulkPaymentB2BController {
                                         transaction.setStatus("00");
                                         transaction.setDescription("bulk transaction reussie");
                                         transactionService.addTransaction(transaction);
-                                        customer.setBalance(customer.getBalance().add(beneficiary.getAmount()));
+                                        receiver.setBalance(receiver.getBalance().add(beneficiary.getAmount()));
                                         business.setBalance(business.getBalance().subtract(beneficiary.getAmount()));
-                                        Customer updatedCustomer = customerService.save(customer);
+                                        Business updatedCustomer = businessService.save(receiver);
                                         updatedBusiness = businessService.save(business);
                                         successCount++;
                                         amountSpent= amountSpent.add(beneficiary.getAmount());
-                                        LOGGER.info("TRANSACTION SUCCESSFUL "+customer.getFullName());
+                                        LOGGER.info("TRANSACTION SUCCESSFUL "+receiver.getBusinessName());
                                         Sms sms = new Sms();
-                                        sms.setTo(customer.getPhoneNumber());
-                                        sms.setMessage(customer.getFullName()+" vous avez recu "+beneficiary.getAmount()+" USD venant de "+business.getBusinessName()+" votre solde actuel est de "+updatedCustomer.getBalance()+" USD. type de transaction BULK PAYMENT");
+                                        sms.setTo(receiver.getPhoneNumber());
+                                        sms.setMessage(receiver.getBusinessName()+" vous avez recu "+beneficiary.getAmount()+" USD venant de "+business.getBusinessName()+" votre solde actuel est de "+updatedCustomer.getBalance()+" USD. type de transaction BULK PAYMENT B2B");
                                         try {
                                             SmsService.sendSms(sms);
                                         } catch (UnsupportedEncodingException e) {
