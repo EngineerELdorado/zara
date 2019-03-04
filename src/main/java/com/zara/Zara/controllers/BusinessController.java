@@ -162,7 +162,7 @@ public class BusinessController {
         Business business = businessService.findByBusinessNumber(businessNumber);
         if (business==null){
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Ce numero n'a pas de compte PesaPay");
+            apiResponse.setResponseMessage("Ce numero n'a pas de compte Business sur PesaPay");
         }
         else {
             apiResponse.setResponseCode("00");
