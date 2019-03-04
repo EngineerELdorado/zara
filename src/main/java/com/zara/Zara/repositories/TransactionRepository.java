@@ -60,5 +60,5 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
 
     @Query(value = "select sum(amount) from transaction where created_by_business_id=?1 or received_by_business_id" +
             "and created_on between ?2 and ?3", nativeQuery = true)
-    BigDecimal allStatsSum(Long businessId, String start, String end);
+    BigDecimal allStatsSum(Long businessId, Date start, Date end);
 }
