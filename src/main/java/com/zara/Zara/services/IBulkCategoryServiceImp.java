@@ -25,8 +25,8 @@ public class IBulkCategoryServiceImp implements IBulkCategoryService {
     }
 
     @Override
-    public Page<BulkCategory> findByBusinessId(Long id, Pageable pageable) {
-        return bulkCategoryRepository.findByBusinessId(id, pageable);
+    public Page<BulkCategory> findByBusinessId(Long id, String type, Pageable pageable) {
+        return bulkCategoryRepository.findByBusinessId(id, type, pageable);
     }
 
     @Override

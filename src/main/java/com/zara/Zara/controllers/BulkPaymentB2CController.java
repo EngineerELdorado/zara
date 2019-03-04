@@ -32,7 +32,7 @@ import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_BULKPAYMENT;
 @RestController
 @RequestMapping("/bulkpayments")
 @CrossOrigin(origins = "*")
-public class BulkPaymentController {
+public class BulkPaymentB2CController {
 
     @Autowired
     IBulkCategoryService bulkCategoryService;

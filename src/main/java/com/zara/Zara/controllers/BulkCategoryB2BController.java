@@ -3,7 +3,6 @@ package com.zara.Zara.controllers;
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.BulkCategory;
 import com.zara.Zara.entities.Business;
-import com.zara.Zara.services.IBulkBeneficiaryService;
 import com.zara.Zara.services.IBulkCategoryService;
 import com.zara.Zara.services.IBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/bulkCategories")
+@RequestMapping("/bulkCategories/b2b")
 @CrossOrigin(origins = "*")
-public class BulkCategoryController {
+public class BulkCategoryB2BController {
 
     @Autowired
     IBulkCategoryService bulkCategoryService;
@@ -34,6 +33,7 @@ public class BulkCategoryController {
             apiResponse.setResponseMessage("Ce business n'existe pas");
         }else {
             bulkCategory.setBusiness(businessService.findByBusinessNumber(businessId));
+            bulkCategory.setType("b2b");
            BulkCategory createdCategory = bulkCategoryService.save(bulkCategory);
            if (createdCategory!=null){
                apiResponse.setResponseCode("00");
@@ -58,7 +58,7 @@ public class BulkCategoryController {
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Business introuvable");
         }else{
-            apiResponse.setBulkCategories(bulkCategoryService.findByBusinessId(business.getId(), pageable).getContent());
+            apiResponse.setBulkCategories(bulkCategoryService.findByBusinessId(business.getId(),"b2b", pageable).getContent());
         }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }

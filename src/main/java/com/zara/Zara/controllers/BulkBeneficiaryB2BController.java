@@ -5,7 +5,6 @@ import com.zara.Zara.entities.BulkBeneficiary;
 import com.zara.Zara.entities.BulkCategory;
 import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.Customer;
-import com.zara.Zara.repositories.BulkBeneficiaryRepository;
 import com.zara.Zara.services.IBulkBeneficiaryService;
 import com.zara.Zara.services.IBulkCategoryService;
 import com.zara.Zara.services.IBusinessService;
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/bulkBeneficiaries")
 @CrossOrigin(origins = "*")
-public class BulkBeneficiaryController {
+public class BulkBeneficiaryB2BController {
 
     @Autowired
     IBulkBeneficiaryService bulkBeneficiaryService;
