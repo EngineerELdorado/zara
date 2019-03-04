@@ -59,6 +59,6 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
     Page<PesapayTransaction> findBukByBusiness(Long id, String type, Pageable pageable);
 
     @Query(value = "select sum(amount) from transaction where created_by_business_id=?1 or received_by_business_id=?1" +
-            "and created_on between ?2 and ?3", nativeQuery = true)
+            " and created_on between ?2 and ?3", nativeQuery = true)
     BigDecimal allStatsSum(Long businessId, Date start, Date end);
 }
