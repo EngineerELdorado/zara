@@ -71,6 +71,7 @@ public class BulkPaymentB2BController {
                             PesapayTransaction transaction = new PesapayTransaction();
                             transaction.setCreatedOn(new Date());
                             transaction.setAmount(beneficiary.getAmount());
+                            transaction.setTransactionType("b2b");
                             transaction.setCreatedByBusiness(business);
                             transaction.setReceivedByCustomer(customer);
                             transaction.setTransactionType(TRANSACTION_BULKPAYMENT);

@@ -25,6 +25,7 @@ public class PesapayTransaction {
     @ManyToOne
     public Customer createdByCustomer;
     public String transactionType;
+    public String type;
     @OneToOne
     public Customer receivedByCustomer;
     public BigDecimal amount;
