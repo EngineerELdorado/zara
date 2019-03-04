@@ -167,20 +167,6 @@ public class CustomerController {
         if (existingCustomer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero n'a pas de compte PesaPay");
-        }else if (!existingCustomer.getStatus().equals("ACTIVE")){
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Ce compte n'est pas encore activE. "+customer.getStatusDescription());
-            if (!existingCustomer.isVerified()){
-                apiResponse.setResponseMessage("Ce numero n'a pas encore ete verifie . "+customer.getStatusDescription());
-                Sms sms = new Sms();
-                sms.setTo(existingCustomer.getPhoneNumber());
-                sms.setMessage("cher "+existingCustomer.getFullName()+" quelqu'un essaye de vous envoyer de " +
-                        "l'argent sur PesaPay mais votre compte n'est pas encore verifiE. veillez verifier votre compte " +
-                        "pour recevoir et envoyer de l'argent");
-
-                SmsService.sendSms(sms);
-            }
-
         }else {
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Success");
