@@ -140,7 +140,7 @@ public class BulkBeneficiaryController {
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
-    @PostMapping("/delete/{businessNumber}")
+    @GetMapping("/delete/{businessNumber}")
     public ResponseEntity<?>delete(@PathVariable String businessNumber, @RequestParam String beneficiaryId,@RequestParam String businessPin){
         Business business = businessService.findByBusinessNumber(businessNumber);
         if (bCryptPasswordEncoder.matches(businessPin, business.getPassword())){
