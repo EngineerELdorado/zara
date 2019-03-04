@@ -76,6 +76,7 @@ public class BulkBeneficiaryB2BController {
                              bulkBeneficiary.setName(customer.getFullName());
                              bulkBeneficiary.setBusiness(business);
                              bulkBeneficiary.setBulkCategory(category);
+                             bulkBeneficiary.setType("b2b");
                              BulkBeneficiary beneficiary = bulkBeneficiaryService.save(bulkBeneficiary);
                              if (beneficiary!=null){
                                  apiResponse.setResponseCode("00");
