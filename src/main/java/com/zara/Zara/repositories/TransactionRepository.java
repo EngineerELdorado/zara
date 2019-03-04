@@ -59,14 +59,21 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
     Page<PesapayTransaction> findBukByBusiness(Long id, String type, Pageable pageable);
 
     @Query(value = "select sum(amount) from transaction where created_by_business_id=?1 or received_by_business_id=?1" +
-            " and created_on between ?2 and ?3", nativeQuery = true)
-    BigDecimal allStatsSum(Long businessId, Date start, Date end);
+            " order by id desc limit 10 ", nativeQuery = true)
+    BigDecimal allStatsSumByBusiness(Long businessId);
 
     @Query(value = "select sum(amount) from transaction where received_by_business_id=?1" +
-            " and created_on between ?2 and ?3", nativeQuery = true)
-    BigDecimal entriesStatsSum(Long businessId, Date start, Date end);
+            " order by id desc limit 10", nativeQuery = true)
+    BigDecimal entriesStatsSumByBusiness(Long businessId);
 
     @Query(value = "select sum(amount) from transaction where created_by_business_id=?1" +
-            " and created_on between ?2 and ?3", nativeQuery = true)
-    BigDecimal outsStatsSum(Long businessId, Date start, Date end);
+            " order by id desc limit 10", nativeQuery = true)
+    BigDecimal outsStatsSumByBusiness(Long businessId);
+    @Query(value = "select * from transaction where created_by_business_id=?1 or received_by_business_id=?1", nativeQuery = true)
+    Collection<PesapayTransaction> allStatsTransactionsByBusiness(Long businessId);
+
+    @Query(value = "select * from transaction where received_by_business_id=?1", nativeQuery = true)
+    Collection<PesapayTransaction> entriesStatsTransactionsByBusiness(Long businessId);
+    @Query(value = "select * from transaction where created_by_business_id=?1", nativeQuery = true)
+    Collection<PesapayTransaction> outsStatsTransactionsByBusiness(Long businessId);
 }

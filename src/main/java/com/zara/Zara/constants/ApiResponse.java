@@ -28,7 +28,9 @@ public class ApiResponse {
     private BigDecimal allStatsSum;
     private BigDecimal entriesStatsSum;
     private BigDecimal outsStatsSum;
-    private Collection<PesapayTransaction>statsRecentTransactions;
+    private Collection<PesapayTransaction>allRecentTransactions;
+    private Collection<PesapayTransaction>entriesRecentTransactions;
+    private Collection<PesapayTransaction>outsRecentTransactions;
     private Admin admin;
     private int totalCount;
 

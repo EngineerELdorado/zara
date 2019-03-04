@@ -13,9 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
 
 @RestController()
 @RequestMapping("/stats")
@@ -35,15 +33,16 @@ public class StatsController {
     @PostMapping("/getByBusiness")
     public ResponseEntity<?> getStatsByBusiness(@RequestBody StatsRequest request) throws ParseException {
 
-        Date start = new SimpleDateFormat("dd/MM/yyyy").parse(request.getStart());
-        Date end = new SimpleDateFormat("dd/MM/yyyy").parse(request.getEnd());
         Business business = businessService.findByBusinessNumber(request.getBusinessNumber());
 
         apiResponse.setResponseCode("00");
         apiResponse.setResponseMessage("");
-        apiResponse.setAllStatsSum(transactionService.allStatsSum(business.getId(),start, end));
-        apiResponse.setEntriesStatsSum(transactionService.entriesStatsSum(business.getId(),start, end));
-        apiResponse.setOutsStatsSum(transactionService.outsStatsSum(business.getId(),start, end));
+        apiResponse.setAllStatsSum(transactionService.allStatsSumByBusiness(business.getId()));
+        apiResponse.setEntriesStatsSum(transactionService.entriesStatsSumByBusiness(business.getId()));
+        apiResponse.setOutsStatsSum(transactionService.outsStatsSumByBusiness(business.getId()));
+        apiResponse.setAllRecentTransactions(transactionService.allStatsTransactionsByBusiness(business.getId()));
+        apiResponse.setEntriesRecentTransactions(transactionService.entriesStatsTransactionsByBusiness(business.getId()));
+        apiResponse.setOutsRecentTransactions(transactionService.outsStatsTransactionsByBusiness(business.getId()));
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

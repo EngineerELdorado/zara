@@ -8,9 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.net.ContentHandler;
 import java.util.Collection;
-import java.util.Date;
 
 @Service
 public class TransactionServiceImp implements ITransactionService {
@@ -93,17 +91,32 @@ public class TransactionServiceImp implements ITransactionService {
     }
 
     @Override
-    public BigDecimal allStatsSum(Long businessId, Date start, Date end) {
-        return transactionRepository.allStatsSum(businessId, start, end);
+    public BigDecimal allStatsSumByBusiness(Long businessId) {
+        return transactionRepository.allStatsSumByBusiness(businessId);
     }
 
     @Override
-    public BigDecimal entriesStatsSum(Long businessId, Date start, Date end) {
-        return transactionRepository.entriesStatsSum(businessId, start, end);
+    public BigDecimal entriesStatsSumByBusiness(Long businessId) {
+        return transactionRepository.entriesStatsSumByBusiness(businessId);
     }
 
     @Override
-    public BigDecimal outsStatsSum(Long businessId, Date start, Date end) {
-        return transactionRepository.outsStatsSum(businessId, start, end);
+    public BigDecimal outsStatsSumByBusiness(Long businessId) {
+        return transactionRepository.outsStatsSumByBusiness(businessId);
+    }
+
+    @Override
+    public Collection<PesapayTransaction> allStatsTransactionsByBusiness(Long businessId) {
+        return transactionRepository.allStatsTransactionsByBusiness(businessId);
+    }
+
+    @Override
+    public Collection<PesapayTransaction> entriesStatsTransactionsByBusiness(Long businessId) {
+        return transactionRepository.entriesStatsTransactionsByBusiness(businessId);
+    }
+
+    @Override
+    public Collection<PesapayTransaction> outsStatsTransactionsByBusiness(Long businessId) {
+        return null;
     }
 }
