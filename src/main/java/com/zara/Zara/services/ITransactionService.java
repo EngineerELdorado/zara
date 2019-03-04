@@ -24,7 +24,7 @@ public interface ITransactionService {
 
     int countOutsByBusiness(Long id);
 
-    Page<PesapayTransaction> findBulkByBusiness(Long id, Pageable pageable);
+    Page<PesapayTransaction> findBulkByBusiness(Long id, String type, Pageable pageable);
 
     int counBulkByBusiness(Long id);
 }

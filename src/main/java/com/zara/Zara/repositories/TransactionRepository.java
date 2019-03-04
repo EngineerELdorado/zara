@@ -50,8 +50,9 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
     @Query(value = "select count(*) from transaction where created_by_business_id=?1 and transaction_type='BULK_PAYMENT'", nativeQuery = true)
     int countBulkByBusiness(Long id);
 
-    @Query(value = "select * from transaction where created_by_business_id=?1 and transaction_type='BULK_PAYMENT'",
-            countQuery = "select count(*) from transaction where created_by_business_id=?1  and transaction_type='BULK_PAYMENT'",
+    @Query(value = "select * from transaction where created_by_business_id=?1 and transaction_type='BULK_PAYMENT' " +
+            "and b_type=?2",
+            countQuery = "select count(*) from transaction where created_by_business_id=?1  and transaction_type='BULK_PAYMENT' and b_type=?2",
             nativeQuery = true)
-    Page<PesapayTransaction> findBukByBusiness(Long id, Pageable pageable);
+    Page<PesapayTransaction> findBukByBusiness(Long id, String type, Pageable pageable);
 }

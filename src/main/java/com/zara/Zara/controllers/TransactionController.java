@@ -155,8 +155,10 @@ public class TransactionController {
             }else if(type.equals("outs")){
                 apiResponse.setTransactions(transactionService.findOutsByBusiness(business.getId(), pageable).getContent());
             }
-            else if(type.equals("bulk")){
-                apiResponse.setTransactions(transactionService.findBulkByBusiness(business.getId(), pageable).getContent());
+            else if(type.equals("bulk_b2b")){
+                apiResponse.setTransactions(transactionService.findBulkByBusiness(business.getId(),"b2b", pageable).getContent());
+            }else if(type.equals("bulk_b2c")){
+                apiResponse.setTransactions(transactionService.findBulkByBusiness(business.getId(),"b2c", pageable).getContent());
             }
 
         }
