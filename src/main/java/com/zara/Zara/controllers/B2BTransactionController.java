@@ -62,77 +62,81 @@ public class B2BTransactionController {
                             transaction.setReceivedByBusiness(receiver);
                             transaction.setTransactionType(TRANSACITION_B2B);
                             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                    if(business.getBusinessNumber().equals(receiver.getBusinessNumber())){
+                        transaction.setStatus("01");
+                        transaction.setDescription("transaction impossible. l'initiateur et le beneficiaire sont les memes");
+                        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                        apiResponse.setResponseCode("01");
+                        apiResponse.setResponseMessage("transaction impossible. l'initiateur et le beneficiaire sont les memes");
+                        transactionService.addTransaction(transaction);
 
-                            if (business.getStatus().equals("ACTIVE")){
-                                LOGGER.info("ACCOUNT IS ACTIVE FOR "+business.getBusinessName());
-                                if (receiver!=null){
-                                    LOGGER.info("ACCOUNT EXISTS FOR "+receiver.getBusinessName());
-                                    if (!receiver.isVerified()){
-                                        transaction.setStatus("01");
-                                        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-                                        transaction.setDescription("Transaction echoue. compte non verifie pour le numero "+receiver.getPhoneNumber());
+                    }else{
 
-                                        LOGGER.info("TRANSACTION FAILED ACCOUNT NOT VERIFIED "+receiver.getBusinessName());
-
-                                        transactionService.addTransaction(transaction);
-                                    }
-                                    else if(business.getBusinessNumber().equals(receiver.getBusinessNumber())){
-                                        transaction.setStatus("01");
-                                        transaction.setDescription("transaction impossible. l'initiateur et le beneficiaire sont les memes");
-                                        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-                                    }
-                                    else if (!receiver.getStatus().equals("ACTIVE")){
-                                        transaction.setStatus("01");
-                                        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-                                        transaction.setDescription("Transaction echoue. compte NON ACTIF pour le numero "+receiver.getPhoneNumber());
-
-                                        LOGGER.info("TRANSACTION FAILED ACCOUNT NOT ACTIVE "+receiver.getBusinessName());
-
-                                        transactionService.addTransaction(transaction);
-                                    }
-
-                                    else if(business.getBalance().compareTo(new BigDecimal(requestBody.getAmount()))<0){
-                                        transaction.setStatus("01");
-                                        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-                                        transaction.setDescription("Transaction echoue. SOLDE DU BUSINESS EST EPUISE ");
-                                        LOGGER.info("TRANSACTION FAILED BUSINESS BALANCE INSUFFICIENT ");
-                                        if (!insufficientBalanceMessageAlreadySent){
-                                            sendBalanceExaustedOnlyOnce(business.getPhoneNumber(), business.getBusinessName());
-                                        }
-                                        transactionService.addTransaction(transaction);
-                                    }else {
-                                        transaction.setStatus("00");
-                                        transaction.setDescription("bulk transaction reussie");
-                                        transactionService.addTransaction(transaction);
-                                        receiver.setBalance(receiver.getBalance().add(new BigDecimal(requestBody.getAmount())));
-                                        business.setBalance(business.getBalance().subtract(new BigDecimal(requestBody.getAmount())));
-                                        Business updatedBusiness = businessService.save(receiver);
-                                        this.updatedBusiness = businessService.save(business);
-                                        LOGGER.info("TRANSACTION SUCCESSFUL "+receiver.getBusinessName());
-                                        Sms sms = new Sms();
-                                        sms.setTo(receiver.getPhoneNumber());
-                                        sms.setMessage(receiver.getBusinessName()+" vous avez recu "+requestBody.getAmount()+" USD venant de "+business.getBusinessName()+" votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction B2B DIRECT");
-                                        SmsService.sendSms(sms);
-                                        Sms sms2 = new Sms();
-                                        sms2.setTo(business.getPhoneNumber());
-
-                                        sms2.setMessage(business.getBusinessName()+" vous avez envoye "+requestBody.getAmount()+" USD via PesaPay a "+receiver.getBusinessName()+". votre balance actuelle est "+ this.updatedBusiness.getBalance()+" USD. type de transaction B2B DIRECT ");
-                                        SmsService.sendSms(sms2);
-
-                                    }
-                                }else {
-                                    transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                            if (receiver!=null){
+                                LOGGER.info("ACCOUNT EXISTS FOR "+receiver.getBusinessName());
+                                if (!receiver.isVerified()){
                                     transaction.setStatus("01");
-                                    transaction.setDescription("Transaction echoue. compte introuvable pour le numero "+receiver.getPhoneNumber());
-                                    LOGGER.info("TRANSACTION FAILED ACCOUNT NOT FOUND "+receiver.getBusinessName());
+                                    transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                                    transaction.setDescription("Transaction echoue. compte non verifie pour le numero "+receiver.getPhoneNumber());
+
+                                    LOGGER.info("TRANSACTION FAILED ACCOUNT NOT VERIFIED "+receiver.getBusinessName());
+
+                                    transactionService.addTransaction(transaction);
                                 }
+
+                                else if (!receiver.getStatus().equals("ACTIVE")){
+                                    transaction.setStatus("01");
+                                    transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                                    transaction.setDescription("Transaction echoue. compte NON ACTIF pour le numero "+receiver.getPhoneNumber());
+
+                                    LOGGER.info("TRANSACTION FAILED ACCOUNT NOT ACTIVE "+receiver.getBusinessName());
+
+                                    transactionService.addTransaction(transaction);
+                                }
+
+                                else if(business.getBalance().compareTo(new BigDecimal(requestBody.getAmount()))<0){
+                                    transaction.setStatus("01");
+                                    transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                                    transaction.setDescription("Transaction echoue. SOLDE DU BUSINESS EST EPUISE ");
+                                    LOGGER.info("TRANSACTION FAILED BUSINESS BALANCE INSUFFICIENT ");
+                                    if (!insufficientBalanceMessageAlreadySent){
+                                        sendBalanceExaustedOnlyOnce(business.getPhoneNumber(), business.getBusinessName());
+                                    }
+                                    transactionService.addTransaction(transaction);
+                                }else {
+                                    transaction.setStatus("00");
+                                    transaction.setDescription("bulk transaction reussie");
+                                    transactionService.addTransaction(transaction);
+                                    receiver.setBalance(receiver.getBalance().add(new BigDecimal(requestBody.getAmount())));
+                                    business.setBalance(business.getBalance().subtract(new BigDecimal(requestBody.getAmount())));
+                                    Business updatedBusiness = businessService.save(receiver);
+                                    this.updatedBusiness = businessService.save(business);
+                                    LOGGER.info("TRANSACTION SUCCESSFUL "+receiver.getBusinessName());
+                                    Sms sms = new Sms();
+                                    sms.setTo(receiver.getPhoneNumber());
+                                    sms.setMessage(receiver.getBusinessName()+" vous avez recu "+requestBody.getAmount()+" USD venant de "+business.getBusinessName()+" votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction B2B DIRECT");
+                                    SmsService.sendSms(sms);
+                                    Sms sms2 = new Sms();
+                                    sms2.setTo(business.getPhoneNumber());
+
+                                    sms2.setMessage(business.getBusinessName()+" vous avez envoye "+requestBody.getAmount()+" USD via PesaPay a "+receiver.getBusinessName()+". votre balance actuelle est "+ this.updatedBusiness.getBalance()+" USD. type de transaction B2B DIRECT ");
+                                    SmsService.sendSms(sms2);
+                                    apiResponse.setResponseCode("00");
+                                    apiResponse.setResponseMessage(business.getBusinessName()+" vous avez envoye "+requestBody.getAmount()+" USD via PesaPay a "+receiver.getBusinessName()+". votre balance actuelle est "+ this.updatedBusiness.getBalance()+" USD. type de transaction B2B DIRECT ");
+
+                                }
+                            }else {
+                                transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                                transaction.setStatus("01");
+                                transaction.setDescription("Transaction echoue. compte introuvable pour le numero "+receiver.getPhoneNumber());
+                                LOGGER.info("TRANSACTION FAILED ACCOUNT NOT FOUND "+receiver.getBusinessName());
+                                apiResponse.setResponseCode("01");
+                                apiResponse.setResponseMessage("Cet identifiant n'a pas de compte Business sur PesaPay");
                             }
 
 
-                        apiResponse.setResponseCode("00");
-                        apiResponse.setResponseMessage(business.getBusinessName()+" vous avez envoye "+requestBody.getAmount()+" USD via PesaPay a "+receiver.getBusinessName()+"." +
-                                " votre balance actuelle est "+updatedBusiness.getBalance()+" USD. type de transaction B2C DIRECT" );
 
+                    }
 
                 }else{
                     apiResponse.setResponseCode("01");
