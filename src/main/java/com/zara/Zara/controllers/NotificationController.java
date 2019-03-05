@@ -24,7 +24,7 @@ public class NotificationController {
     IBusinessService businessService;
     ApiResponse apiResponse = new ApiResponse();
     @GetMapping("/findByBusiness/{businessNumber}")
-    public ResponseEntity<?> findByBusiness(@PathVariable String businessNumber, int page, int size){
+    public ResponseEntity<?> findByBusiness(@PathVariable String businessNumber,@RequestParam int page, @RequestParam int size){
         Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,"id"));
         Pageable pageable = new PageRequest(page,size,sort);
         Business business = businessService.findByBusinessNumber(businessNumber);
