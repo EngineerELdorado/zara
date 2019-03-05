@@ -1,10 +1,7 @@
 package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
-import com.zara.Zara.entities.BulkBeneficiary;
-import com.zara.Zara.entities.Business;
-import com.zara.Zara.entities.Customer;
-import com.zara.Zara.entities.PesapayTransaction;
+import com.zara.Zara.entities.*;
 import com.zara.Zara.models.BulkPaymentRequest;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
@@ -47,6 +44,8 @@ public class BulkPaymentB2CController {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
     ApiResponse apiResponse = new ApiResponse();
+    @Autowired
+    INotificationService notificationService;
     boolean insufficientBalanceMessageAlreadySent=false;
     Logger LOGGER = LogManager.getLogger(BankTransferController.class);
     @PostMapping("/post")
@@ -125,7 +124,14 @@ public class BulkPaymentB2CController {
                                         LOGGER.info("TRANSACTION SUCCESSFUL "+customer.getFullName());
                                         Sms sms = new Sms();
                                         sms.setTo(customer.getPhoneNumber());
-                                        sms.setMessage(customer.getFullName()+" vous avez recu "+beneficiary.getAmount()+" USD venant de "+business.getBusinessName()+" votre solde actuel est de "+updatedCustomer.getBalance()+" USD. type de transaction BULK PAYMENT");
+                                        String msg1=customer.getFullName()+" vous avez recu "+beneficiary.getAmount()+" USD venant de "+business.getBusinessName()+" votre solde actuel est de "+updatedCustomer.getBalance()+" USD. type de transaction BULK PAYMENT";
+                                        sms.setMessage(msg1);
+                                        Notification notification1 = new Notification();
+                                        notification1.setCustomer(customer);
+                                        notification1.setDate(new Date());
+                                        notification1.setMessage(msg1);
+                                        notificationService.save(notification1);
+
                                         try {
                                             SmsService.sendSms(sms);
                                         } catch (UnsupportedEncodingException e) {
@@ -143,9 +149,15 @@ public class BulkPaymentB2CController {
                         }
                         Sms sms = new Sms();
                         sms.setTo(business.getPhoneNumber());
-
-                        sms.setMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via PesaPay dont "+successCount+" reussis et "+failureCount+" echoues. le total de vos transfer en bulk est de "+amountSpent+"USD. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
+                        String msg2 =business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via PesaPay dont "+successCount+" reussis et "+failureCount+" echoues. le total de vos transfer en bulk est de "+amountSpent+"USD. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ";
+                        sms.setMessage(msg2);
                         SmsService.sendSms(sms);
+
+                        Notification notification2 = new Notification();
+                        notification2.setBusiness(business);
+                        notification2.setDate(new Date());
+                        notification2.setMessage(msg2);
+                        notificationService.save(notification2);
                         apiResponse.setResponseCode("00");
                         apiResponse.setResponseMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via PesaPay dont "+successCount+" reussis et "+failureCount+" echoues. le total de vos transfer en bulk est de "+amountSpent+"USD. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
 

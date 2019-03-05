@@ -42,6 +42,8 @@ public class OnlinePaymentController{
     IDeveloperService developerService;
     @Autowired
     IAgentService agentService;
+    @Autowired
+    INotificationService notificationService;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
 
     public ResponseEntity<?>g(@RequestBody TransactionRequestBody transactionRequestBody){
@@ -157,19 +159,32 @@ public class OnlinePaymentController{
                                 Customer updatedCustomer = customerService.save(customer);
                                 Sms sms1 = new Sms();
                                 sms1.setTo(customer.getPhoneNumber());
-                                sms1.setMessage(customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via PesaPay. pour "+requestBody.getDescription()+
-                                        ". type de transaction PAYMENT EN LIGNE. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+                                String msg1 =customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via PesaPay. pour "+requestBody.getDescription()+
+                                        ". type de transaction PAYMENT EN LIGNE. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
+                                sms1.setMessage(msg1);
                                 SmsService.sendSms(sms1);
+
+                                Notification notification1 = new Notification();
+                                notification1.setCustomer(customer);
+                                notification1.setDate(new Date());
+                                notification1.setMessage(msg1);
+                                notificationService.save(notification1);
 
                                 business.setBalance(business.getBalance().add(new BigDecimal(requestBody.getAmount())));
                                 Business updatedBusiness = businessService.save(business);
 
                                 Sms sms2 = new Sms();
                                 sms2.setTo(business.getPhoneNumber());
-                                sms2.setMessage(business.getBusinessName()+ " vous venez de recevoir un payment de "+requestBody.getAmount()+" USD venant  "+customer.getFullName()+" via PesaPay. "+
-                                        " type de transaction ONLINE PAYMENT. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+                                String msg2 =business.getBusinessName()+ " vous venez de recevoir un payment de "+requestBody.getAmount()+" USD venant  "+customer.getFullName()+" via PesaPay. "+
+                                        " type de transaction ONLINE PAYMENT. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
+                                sms2.setMessage(msg2);
                                 SmsService.sendSms(sms2);
 
+                                Notification notification2 = new Notification();
+                                notification2.setBusiness(business);
+                                notification2.setDate(new Date());
+                                notification2.setMessage(msg2);
+                                notificationService.save(notification2);
                                 apiResponse.setResponseCode("00");
                                 apiResponse.setResponseMessage("TRANSACTION REUSSIE");
                                 LOGGER.info("DEPOSIT TRANSACTION SUCCESSFUL "+transaction.getTransactionNumber());

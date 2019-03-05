@@ -1,10 +1,7 @@
 package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
-import com.zara.Zara.entities.Business;
-import com.zara.Zara.entities.Customer;
-import com.zara.Zara.entities.Developer;
-import com.zara.Zara.entities.PesapayTransaction;
+import com.zara.Zara.entities.*;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
 import com.zara.Zara.services.*;
@@ -42,6 +39,8 @@ public class PaymentController {
     IBusinessService businessService;
     @Autowired
     OtpService otpService;
+    @Autowired
+    INotificationService notificationService;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
 
     @PostMapping("/buy/post")
@@ -120,19 +119,33 @@ public class PaymentController {
                                 customer.setBalance(customer.getBalance().subtract(new BigDecimal(requestBody.getAmount())));
                                 Customer updatedCustomer = customerService.save(customer);
                                 Sms sms1 = new Sms();
+                                String msg1=customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via PesaPay. Description "+requestBody.getDescription()+
+                                        ". type de transaction PAYMENT DE FACTURE. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms1.setTo(customer.getPhoneNumber());
-                                sms1.setMessage(customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via PesaPay. Description "+requestBody.getDescription()+
-                                        ". type de transaction PAYMENT DE FACTURE. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+                                sms1.setMessage(msg1);
                                 SmsService.sendSms(sms1);
+
+                                Notification notification1 = new Notification();
+                                notification1.setCustomer(customer);
+                                notification1.setDate(new Date());
+                                notification1.setMessage(msg1);
+                                notificationService.save(notification1);
 
                                 business.setBalance(business.getBalance().add(new BigDecimal(requestBody.getAmount())));
                                 Business updatedBusiness = businessService.save(business);
 
                                 Sms sms2 = new Sms();
                                 sms2.setTo(business.getPhoneNumber());
-                                sms2.setMessage(business.getBusinessName()+ " vous venez de recevoir un payment de "+requestBody.getAmount()+" USD venant  "+customer.getFullName()+" via PesaPay. "+
-                                        " type de transaction PAYMENT DE FACTURE. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+                                String msg2 =business.getBusinessName()+ " vous venez de recevoir un payment de "+requestBody.getAmount()+" USD venant  "+customer.getFullName()+" via PesaPay. "+
+                                        " type de transaction PAYMENT DE FACTURE. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
+                                sms2.setMessage(msg2);
                                 SmsService.sendSms(sms2);
+
+                                Notification notification2 = new Notification();
+                                notification2.setBusiness(business);
+                                notification2.setDate(new Date());
+                                notification2.setMessage(msg1);
+                                notificationService.save(notification2);
 
                                 apiResponse.setResponseCode("00");
                                 apiResponse.setResponseMessage("TRANSACTION REUSSIE");

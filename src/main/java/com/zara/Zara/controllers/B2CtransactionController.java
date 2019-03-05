@@ -1,10 +1,7 @@
 package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
-import com.zara.Zara.entities.BulkBeneficiary;
-import com.zara.Zara.entities.Business;
-import com.zara.Zara.entities.Customer;
-import com.zara.Zara.entities.PesapayTransaction;
+import com.zara.Zara.entities.*;
 import com.zara.Zara.models.B2CRequest;
 import com.zara.Zara.models.BulkPaymentRequest;
 import com.zara.Zara.models.Sms;
@@ -47,6 +44,8 @@ public class B2CtransactionController {
     ITransactionService transactionService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    INotificationService notificationService;
     ApiResponse apiResponse = new ApiResponse();
     boolean insufficientBalanceMessageAlreadySent=false;
     Logger LOGGER = LogManager.getLogger(BankTransferController.class);
@@ -111,13 +110,27 @@ public class B2CtransactionController {
                                         LOGGER.info("TRANSACTION SUCCESSFUL "+customer.getFullName());
                                         Sms sms = new Sms();
                                         sms.setTo(customer.getPhoneNumber());
-                                        sms.setMessage(customer.getFullName()+" vous avez recu "+requestBody.getAmount()+" USD venant de "+business.getBusinessName()+" votre solde actuel est de "+updatedCustomer.getBalance()+" USD. type de transaction B2C DIRECT");
+                                        String msg1 =customer.getFullName()+" vous avez recu "+requestBody.getAmount()+" USD venant de "+business.getBusinessName()+" votre solde actuel est de "+updatedCustomer.getBalance()+" USD. type de transaction B2C DIRECT";
+                                        sms.setMessage(msg1);
                                         SmsService.sendSms(sms);
+
                                         Sms sms2 = new Sms();
                                         sms2.setTo(business.getPhoneNumber());
-
-                                        sms2.setMessage(business.getBusinessName()+" vous avez envoye "+requestBody.getAmount()+" USD via PesaPay a "+customer.getFullName()+". votre balance actuelle est "+updatedBusiness.getBalance()+" USD. type de transaction B2C DIRECT ");
+                                        String msg2=business.getBusinessName()+" vous avez envoye "+requestBody.getAmount()+" USD via PesaPay a "+customer.getFullName()+". votre balance actuelle est "+updatedBusiness.getBalance()+" USD. type de transaction B2C DIRECT ";
+                                        sms2.setMessage(msg2);
                                         SmsService.sendSms(sms2);
+
+                                        Notification notification1 = new Notification();
+                                        notification1.setCustomer(customer);
+                                        notification1.setDate(new Date());
+                                        notification1.setMessage(msg1);
+                                        notificationService.save(notification1);
+
+                                        Notification notification2 = new Notification();
+                                        notification2.setBusiness(business);
+                                        notification2.setDate(new Date());
+                                        notification2.setMessage(msg1);
+                                        notificationService.save(notification1);
 
                                     }
                                 }else {
