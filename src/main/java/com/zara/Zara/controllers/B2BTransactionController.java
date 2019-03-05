@@ -141,8 +141,8 @@ public class B2BTransactionController {
                                     Notification notification2 = new Notification();
                                     notification2.setBusiness(business);
                                     notification2.setDate(new Date());
-                                    notification2.setMessage(msg1);
-                                    notificationService.save(notification1);
+                                    notification2.setMessage(msg2);
+                                    notificationService.save(notification2);
                                 }
                             }else {
                                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
