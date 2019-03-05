@@ -80,7 +80,7 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
     @Query(value = "select * from transaction where created_by_business_id=?1 or received_by_business_id=?1" +
             " and transaction_number like %?filter%",
             countQuery = "select count(*) from transaction where created_by_business_id=?1 or received_by_business_id=?1" +
-                    " and transaction_number like %?filter%",
+                    " and transaction_number like %?2%",
             nativeQuery = true)
     Page<PesapayTransaction> findByBusinessWithFilter(Long id, String filter, Pageable pageable);
 }
