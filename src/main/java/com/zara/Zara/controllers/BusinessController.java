@@ -203,6 +203,7 @@ public class BusinessController {
             business1.setBusinessName(business.getBusinessName());
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Business successfully updated");
+            businessService.save(business1);
         }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
