@@ -133,6 +133,7 @@ public class TransactionController {
     @GetMapping("findByBusinessId/{businessNumber}")
     public ResponseEntity<?> findByBusinessId(
                                                      @PathVariable String businessNumber,
+                                                     @RequestParam("filter") String filter,
                                                      @RequestParam("type") String type,
                                                      @RequestParam("page") int page,
                                                      @RequestParam("size") int size){

@@ -56,6 +56,11 @@ public class TransactionServiceImp implements ITransactionService {
     }
 
     @Override
+    public Page<PesapayTransaction> findByBusinessWithFilter(Long id, String filter, Pageable pageable) {
+        return transactionRepository.findByBusinessWithFilter(id, filter,pageable);
+    }
+
+    @Override
     public Page<PesapayTransaction> findEntriesByBusiness(Long id, Pageable pageable) {
         return transactionRepository.findEntriesByBusiness(id, pageable);
     }
