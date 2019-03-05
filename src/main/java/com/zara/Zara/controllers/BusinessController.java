@@ -191,5 +191,20 @@ public class BusinessController {
         }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+    @PostMapping("/update/{businessNumber}")
+    public ResponseEntity<?>update(@RequestBody Business business,@PathVariable String businessNumber){
+        Business business1 = businessService.findByBusinessNumber(businessNumber);
+        if (business1==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Business introuvable");
+        }else{
+            business1.setAddress(business.getAddress());
+            business1.setPhoneNumber(business.getPhoneNumber());
+            business1.setBusinessName(business.getBusinessName());
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage("Business successfully updated");
+        }
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 
 }
