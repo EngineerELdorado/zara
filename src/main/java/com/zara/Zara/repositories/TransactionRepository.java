@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.net.ContentHandler;
@@ -80,7 +81,7 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
     @Query(value = "select * from transaction where created_by_business_id=?1 or received_by_business_id=?1" +
             " and transaction_number like %?filter%",
             countQuery = "select count(*) from transaction where created_by_business_id=?1 or received_by_business_id=?1" +
-                    " and transaction_number like %?2%",
+                    " and transaction_number like %:filter%",
             nativeQuery = true)
-    Page<PesapayTransaction> findByBusinessWithFilter(Long id, String filter, Pageable pageable);
+    Page<PesapayTransaction> findByBusinessWithFilter(Long id, @Param("filter") String filter, Pageable pageable);
 }
