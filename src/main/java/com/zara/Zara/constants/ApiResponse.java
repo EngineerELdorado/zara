@@ -31,6 +31,7 @@ public class ApiResponse {
     private Collection<PesapayTransaction>allRecentTransactions;
     private Collection<PesapayTransaction>entriesRecentTransactions;
     private Collection<PesapayTransaction>outsRecentTransactions;
+    private Collection<Notification>notifications;
     private Admin admin;
     private int totalCount;
 
