@@ -79,7 +79,7 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
             "order by id desc limit 10", nativeQuery = true)
     Collection<PesapayTransaction> outsStatsTransactionsByBusiness(Long businessId);
     @Query(value = "select * from transaction where created_by_business_id=?1 or received_by_business_id=?1" +
-            " and transaction_number like %?filter%",
+            " and transaction_number like %filter%",
             countQuery = "select count(*) from transaction where created_by_business_id=?1 or received_by_business_id=?1" +
                     " and transaction_number like %:filter%",
             nativeQuery = true)
