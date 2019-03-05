@@ -150,7 +150,12 @@ public class TransactionController {
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage(pageable.getPageSize()+" transactions");
             if (type.equals("all")){
-                apiResponse.setTransactions(transactionService.findByBusiness(business.getId(), pageable).getContent());
+                if (filter!=null && !filter.equals("")){
+                    apiResponse.setTransactions(transactionService.findByBusinessWithFilter(business.getId(),filter, pageable).getContent());
+                }else{
+                    apiResponse.setTransactions(transactionService.findByBusiness(business.getId(), pageable).getContent());
+                }
+
             }else if(type.equals("entries")){
                 apiResponse.setTransactions(transactionService.findEntriesByBusiness(business.getId(), pageable).getContent());
             }else if(type.equals("outs")){
