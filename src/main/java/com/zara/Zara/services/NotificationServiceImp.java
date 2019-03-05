@@ -21,7 +21,7 @@ public class NotificationServiceImp implements INotificationService {
 
     @Override
     public Page<Notification> findByBusiness(Long businessId, Pageable pageable) {
-        return null;
+        return notificationRepository.findByBusiness(businessId, pageable);
     }
 
     @Override
