@@ -15,10 +15,15 @@ public class Notification {
     private Long id;
     private String message;
     private Date date;
+    @ManyToOne
     Business business;
+    @ManyToOne
     Customer customer;
+    @ManyToOne
     Agent agent;
+    @ManyToOne
     Admin admin;
+    @ManyToOne
     Developer developer;
 
 }
