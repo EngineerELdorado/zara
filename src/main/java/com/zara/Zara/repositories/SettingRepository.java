@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface SettingRepository extends JpaRepository<PesaPay, Long> {
 
-    @Query(value = "select * from settings order by id limit 1", nativeQuery = true)
+    @Query(value = "select * from pesapay order by id limit 1", nativeQuery = true)
     PesaPay findSettings();
 }
