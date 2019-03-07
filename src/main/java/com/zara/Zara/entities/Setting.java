@@ -31,5 +31,7 @@ public class Setting {
     private String creditExpiryMonth;
     private String creditCardExpiryYear;
 
+    private String paypalEmail;
+
 
 }
