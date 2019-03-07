@@ -24,9 +24,10 @@ public class ConstantVariables {
     public static String BUDGET_SMS_URL="https://api.budgetsms.net/sendsms/";
     public static String BUDGET_SMS_USERNAME="feljor";
     public static String BUDGET_SMS_USER_ID="16513";
-    public static String BUDGET_SMS_FROM="PesaPay";
+    public static String BUDGET_SMS_FROM="Setting";
     public static String BUDGET_SMS_HANDLE="2100bae8f1878eb8b2aaf6c4993fdece";
     public static String STRIPE_CLIENT_ID = "pk_live_Mmcjnl57hp6GsZi8jX1sTi2o";
+    public static String STRIPE_CLIENT_ID_TEST = "pk_test_1vj6vCGnyXu2QRn7Xd5UeLFw";
     public static String STRIPE_CLIENT_SECRET = "sk_live_zZRdwTj8XsBdxdMjd7lfY0HM";
     public static String STRIPE_CLIENT_SECRET_TEST = "sk_test_qt9sr4I8YuAy8XIAYz9Yia4s";
     public static String SAFEPAY_ENDPOINT ="https://api.test.paysafe.com/directdebit";

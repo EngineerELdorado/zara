@@ -107,7 +107,7 @@ public class WithdrawalController {
 
                 Sms sms1 = new Sms();
                 sms1.setTo(customer.getPhoneNumber());
-                sms1.setMessage(customer.getFullName()+ " vous venez de retirer de votre compte "+request.getAmount()+"USD au numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via PesaPay. "+
+                sms1.setMessage(customer.getFullName()+ " vous venez de retirer de votre compte "+request.getAmount()+"USD au numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via Setting. "+
                         " type de transaction RETRAIT DIRECT. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms1);
 
@@ -115,7 +115,7 @@ public class WithdrawalController {
                 Agent updatedAgent = agentService.save(agent);
                 Sms sms2 = new Sms();
                 sms2.setTo(agent.getPhoneNumber());
-                sms2.setMessage(agent.getFullName()+ " vous venez de recevoir "+request.getAmount()+"USD venant de "+customer.getFullName()+" via PesaPay. "+
+                sms2.setMessage(agent.getFullName()+ " vous venez de recevoir "+request.getAmount()+"USD venant de "+customer.getFullName()+" via Setting. "+
                         " type de transaction RETRAIT DIRECT. votre solde actuel est "+updatedAgent.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms2);
 

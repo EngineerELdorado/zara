@@ -55,7 +55,7 @@ public class CustomerTransferController {
         }
         else if (!senderCustomer.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de Setting");
             LOGGER.info("SENDER ACCOUNT NOT ACTIVE FOR "+request.getReceiver());
         }else if (!senderCustomer.isVerified()){
             apiResponse.setResponseCode("01");
@@ -87,7 +87,7 @@ public class CustomerTransferController {
                     " veillez faire verifier votre compte");
             SmsService.sendSms(sms);
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de Setting");
 
             LOGGER.info("RECEIVER ACCOUNT NOT VERIFIED FOR "+request.getReceiver());
         }
@@ -99,7 +99,7 @@ public class CustomerTransferController {
                     " veillez faire faire activer votre compte");
             SmsService.sendSms(sms);
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de Setting");
             LOGGER.info("RECEIVER ACCOUNT NOT ACTIVE FOR "+request.getReceiver());
         }
         else{
@@ -122,19 +122,19 @@ public class CustomerTransferController {
                 apiResponse.setResponseCode("01");
                 apiResponse.setResponseMessage("Transaction echoue pour des raisons techniques");
                 apiResponse.setResponseCode("01");
-                apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+                apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de Setting");
                 LOGGER.info("TRANSDACTION FAILED FOR UNKNOWN REASON. PLEASE CHECK THE DATABASE CONNECTION");
             }else{
                 customerService.save(senderCustomer);
                 Sms sms1 = new Sms();
                 sms1.setTo(senderCustomer.getPhoneNumber());
-                sms1.setMessage("Vous avez envoye "+request.getAmount()+" USD via PesaPay A " +
+                sms1.setMessage("Vous avez envoye "+request.getAmount()+" USD via Setting A " +
                         ""+receiverCustomer.getFullName()+". type de transaction TRANSFER DIRECT. " +
                         "votre solde actuel est de "+senderCustomer.getBalance()+
                         " USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms1);
                 apiResponse.setResponseCode("01");
-                apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+                apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de Setting");
                 LOGGER.info("TRANSACTION SUCCESSFUL. "+request.getAmount()+" USD sent from "+senderCustomer.getFullName()+" to "+receiverCustomer.getFullName());
 
                 customerService.save(receiverCustomer);
@@ -142,7 +142,7 @@ public class CustomerTransferController {
                 apiResponse.setResponseMessage("Transfert Reussi");
                 Sms sms2 = new Sms();
                 sms2.setTo(receiverCustomer.getPhoneNumber());
-                sms2.setMessage("Vous avez recu "+request.getAmount()+"USD via PesaPay venant de "+senderCustomer.getFullName()+"." +
+                sms2.setMessage("Vous avez recu "+request.getAmount()+"USD via Setting venant de "+senderCustomer.getFullName()+"." +
                         " type de transaction TRANSFER DIRECT." +
                         " votre solde actuel est de "+receiverCustomer.getBalance()+
                         " USD. numero de transaction "+transaction.getTransactionNumber());

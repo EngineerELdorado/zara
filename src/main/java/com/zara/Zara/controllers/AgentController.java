@@ -56,7 +56,7 @@ public class AgentController {
             apiResponse.setResponseMessage("Enregistrement Reussi");
             apiResponse.setAgent(createdAgent);
             sms.setTo(agent.getPhoneNumber());
-            sms.setMessage(agent.getFullName()+" Bievenu sur PesaPay. vous avez maintenant un compte AGENT. votre numero agent" +
+            sms.setMessage(agent.getFullName()+" Bievenu sur Setting. vous avez maintenant un compte AGENT. votre numero agent" +
                     " est "+createdAgent.getAgentNumber());
             SmsService.sendSms(sms);
 
@@ -106,7 +106,7 @@ public class AgentController {
         apiResponse.setResponseMessage("Otp successfully generated");
         Sms sms = new Sms();
         sms.setTo(otpObject.getPhoneNumber());
-        sms.setMessage("votre code de verification pour PesaPay est "+String.valueOf(otp));
+        sms.setMessage("votre code de verification pour Setting est "+String.valueOf(otp));
         SmsService.sendSms(sms);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
@@ -132,7 +132,7 @@ public class AgentController {
                         apiResponse.setAgent(agent);
                         Sms sms = new Sms();
                         sms.setTo(otpObject.getPhoneNumber());
-                        sms.setMessage("Cher "+agent.getFullName()+" Bievenu sur PesaPay. vous etes maintenant agent");
+                        sms.setMessage("Cher "+agent.getFullName()+" Bievenu sur Setting. vous etes maintenant agent");
                         SmsService.sendSms(sms);
                     }else{
                         apiResponse.setResponseCode("01");
@@ -159,7 +159,7 @@ public class AgentController {
         Agent agent = agentService.findByPhoneNumber(agent1.getPhoneNumber());
         if (agent==null){
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Ce numero n'a pas de compte PesaPay");
+            apiResponse.setResponseMessage("Ce numero n'a pas de compte Setting");
         }else if (!agent.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce compte n'est pas encore activE. "+agent1.getStatusDescription());
@@ -178,7 +178,7 @@ public class AgentController {
         Agent agent = agentService.findByAgentNumber(agentNumber);
         if (agent==null){
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Ce numero n'a pas de compte PesaPay");
+            apiResponse.setResponseMessage("Ce numero n'a pas de compte Setting");
         }else if (!agent.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce compte n'est pas encore activE. "+agent.getStatusDescription());

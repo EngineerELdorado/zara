@@ -149,7 +149,7 @@ public class BulkPaymentB2CController {
                         }
                         Sms sms = new Sms();
                         sms.setTo(business.getPhoneNumber());
-                        String msg2 =business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via PesaPay dont "+successCount+" reussis et "+failureCount+" echoues. le total de vos transfer en bulk est de "+amountSpent+"USD. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ";
+                        String msg2 =business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via Setting dont "+successCount+" reussis et "+failureCount+" echoues. le total de vos transfer en bulk est de "+amountSpent+"USD. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ";
                         sms.setMessage(msg2);
                         SmsService.sendSms(sms);
 
@@ -159,7 +159,7 @@ public class BulkPaymentB2CController {
                         notification2.setMessage(msg2);
                         notificationService.save(notification2);
                         apiResponse.setResponseCode("00");
-                        apiResponse.setResponseMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via PesaPay dont "+successCount+" reussis et "+failureCount+" echoues. le total de vos transfer en bulk est de "+amountSpent+"USD. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
+                        apiResponse.setResponseMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via Setting dont "+successCount+" reussis et "+failureCount+" echoues. le total de vos transfer en bulk est de "+amountSpent+"USD. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
 
                     }
                     else{

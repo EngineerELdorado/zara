@@ -108,7 +108,7 @@ public class DepositController {
                 Agent updatedAgent = agentService.save(agent);
                 Sms sms1 = new Sms();
                 sms1.setTo(agent.getPhoneNumber());
-                sms1.setMessage(agent.getFullName()+ " vous venez de transferer "+request.getAmount()+"USD A "+customer.getFullName()+" via PesaPay. "+
+                sms1.setMessage(agent.getFullName()+ " vous venez de transferer "+request.getAmount()+"USD A "+customer.getFullName()+" via Setting. "+
                 " type de transaction DEPOT DIRECT. votre solde actuel est "+updatedAgent.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms1);
 
@@ -117,7 +117,7 @@ public class DepositController {
 
                 Sms sms2 = new Sms();
                 sms2.setTo(customer.getPhoneNumber());
-                sms2.setMessage(customer.getFullName()+ " vous venez de recevoir "+request.getAmount()+"USD venant du numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via PesaPay. "+
+                sms2.setMessage(customer.getFullName()+ " vous venez de recevoir "+request.getAmount()+"USD venant du numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via Setting. "+
                         " type de transaction DEPOT DIRECT. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms2);
 

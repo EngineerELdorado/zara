@@ -64,7 +64,7 @@ public class OnlinePaymentController{
          }
          else if (customer==null){
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Ce numero de client n'a de compte PesaPay");
+            apiResponse.setResponseMessage("Ce numero de client n'a de compte Setting");
         }else if (!customer.getStatus().equals("ACTIVE")){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Le compte du client n'est pas actif\n "+customer.getStatusDescription());
@@ -112,7 +112,7 @@ public class OnlinePaymentController{
                         }
                         else if (!customer.getStatus().equals("ACTIVE")){
                                 apiResponse.setResponseCode("01");
-                                apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+                                apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de Setting");
                                 LOGGER.info("BUSINESS ACCOUNT NOT ACTIVE FOR "+requestBody.getSender());
                         }
                         else if (!customer.isVerified()){
@@ -159,7 +159,7 @@ public class OnlinePaymentController{
                                 Customer updatedCustomer = customerService.save(customer);
                                 Sms sms1 = new Sms();
                                 sms1.setTo(customer.getPhoneNumber());
-                                String msg1 =customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via PesaPay. pour "+requestBody.getDescription()+
+                                String msg1 =customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via Setting. pour "+requestBody.getDescription()+
                                         ". type de transaction PAYMENT EN LIGNE. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms1.setMessage(msg1);
                                 SmsService.sendSms(sms1);
@@ -175,7 +175,7 @@ public class OnlinePaymentController{
 
                                 Sms sms2 = new Sms();
                                 sms2.setTo(business.getPhoneNumber());
-                                String msg2 =business.getBusinessName()+ " vous venez de recevoir un payment de "+requestBody.getAmount()+" USD venant  "+customer.getFullName()+" via PesaPay. "+
+                                String msg2 =business.getBusinessName()+ " vous venez de recevoir un payment de "+requestBody.getAmount()+" USD venant  "+customer.getFullName()+" via Setting. "+
                                         " type de transaction ONLINE PAYMENT. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms2.setMessage(msg2);
                                 SmsService.sendSms(sms2);

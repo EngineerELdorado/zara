@@ -126,7 +126,7 @@ public class B2BTransactionController {
 
                                     Sms sms2 = new Sms();
                                     sms2.setTo(business.getPhoneNumber());
-                                    String msg2 =business.getBusinessName()+" vous avez envoye "+requestBody.getAmount()+" USD via PesaPay a "+receiver.getBusinessName()+". votre balance actuelle est "+ this.updatedBusiness.getBalance()+" USD. type de transaction B2B DIRECT ";
+                                    String msg2 =business.getBusinessName()+" vous avez envoye "+requestBody.getAmount()+" USD via Setting a "+receiver.getBusinessName()+". votre balance actuelle est "+ this.updatedBusiness.getBalance()+" USD. type de transaction B2B DIRECT ";
                                     sms2.setMessage(msg2);
                                     SmsService.sendSms(sms2);
                                     apiResponse.setResponseCode("00");
@@ -150,7 +150,7 @@ public class B2BTransactionController {
                                 transaction.setDescription("Transaction echoue. compte introuvable pour le numero "+receiver.getPhoneNumber());
                                 LOGGER.info("TRANSACTION FAILED ACCOUNT NOT FOUND "+receiver.getBusinessName());
                                 apiResponse.setResponseCode("01");
-                                apiResponse.setResponseMessage("Cet identifiant n'a pas de compte Business sur PesaPay");
+                                apiResponse.setResponseMessage("Cet identifiant n'a pas de compte Business sur Setting");
                             }
 
 

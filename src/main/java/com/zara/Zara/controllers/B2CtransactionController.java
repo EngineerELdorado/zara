@@ -116,7 +116,7 @@ public class B2CtransactionController {
 
                                         Sms sms2 = new Sms();
                                         sms2.setTo(business.getPhoneNumber());
-                                        String msg2=business.getBusinessName()+" vous avez envoye "+requestBody.getAmount()+" USD via PesaPay a "+customer.getFullName()+". votre balance actuelle est "+updatedBusiness.getBalance()+" USD. type de transaction B2C DIRECT ";
+                                        String msg2=business.getBusinessName()+" vous avez envoye "+requestBody.getAmount()+" USD via Setting a "+customer.getFullName()+". votre balance actuelle est "+updatedBusiness.getBalance()+" USD. type de transaction B2C DIRECT ";
                                         sms2.setMessage(msg2);
                                         SmsService.sendSms(sms2);
 
@@ -143,7 +143,7 @@ public class B2CtransactionController {
 
 
                         apiResponse.setResponseCode("00");
-                        apiResponse.setResponseMessage(business.getBusinessName()+" vous avez envoye "+requestBody.getAmount()+" USD via PesaPay a "+customer.getFullName()+"." +
+                        apiResponse.setResponseMessage(business.getBusinessName()+" vous avez envoye "+requestBody.getAmount()+" USD via Setting a "+customer.getFullName()+"." +
                                 " votre balance actuelle est "+updatedBusiness.getBalance()+" USD. type de transaction B2C DIRECT" );
 
 
