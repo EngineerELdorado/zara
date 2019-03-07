@@ -32,4 +32,11 @@ public class Business {
     private String email;
     private String password;
     private String type;
+
+    private String airtelMoneyNumber;
+    private String orangeMoneyNumber;
+    private String mpesaNumberNumber;
+    private String paypalemail;
+    private String bankAccountNumber;
+    private String callBackUrl;
 }
