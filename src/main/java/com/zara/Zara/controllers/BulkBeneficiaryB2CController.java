@@ -59,15 +59,15 @@ public class BulkBeneficiaryB2CController {
             Customer customer = customerService.findByPhoneNumber(bulkBeneficiary.getPhoneNumber());
                      if (customer==null){
                          apiResponse.setResponseCode("01");
-                         apiResponse.setResponseMessage("Ce numero n'a pas de compte client sur Setting");
+                         apiResponse.setResponseMessage("Ce numero n'a pas de compte client sur PesaPay");
                      }else if (!customer.getStatus().equals("ACTIVE")){
                          apiResponse.setResponseCode("01");
                          apiResponse.setResponseMessage("Ce compte n'est pas ACTIF. veillez demander A "+customer.getFullName()+"" +
-                                 "de faire activer son compte en contactant le bureau de Setting");
+                                 "de faire activer son compte en contactant le bureau de PesaPay");
                      }else if (!customer.isVerified()){
                          apiResponse.setResponseCode("01");
                          apiResponse.setResponseMessage("Ce compte n'est pas encore verifiE. veillez demander A "+customer.getFullName()+"" +
-                                 "de faire verifier son compte en contactant le bureau de Setting");
+                                 "de faire verifier son compte en contactant le bureau de PesaPay");
                      }else {
 
                          if (category==null){

@@ -1,9 +1,9 @@
 package com.zara.Zara.services;
 
-import com.zara.Zara.entities.Setting;
+import com.zara.Zara.entities.PesaPay;
 
 public interface ISettingsService {
 
-    Setting save(Setting setting);
-    Setting findSettings();
+    PesaPay save(PesaPay pesaPay);
+    PesaPay findSettings();
 }

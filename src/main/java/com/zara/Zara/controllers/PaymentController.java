@@ -60,7 +60,7 @@ public class PaymentController {
                         }
                         else if (!customer.getStatus().equals("ACTIVE")){
                             apiResponse.setResponseCode("01");
-                            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de Setting");
+                            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
                             LOGGER.info("BUSINESS ACCOUNT NOT ACTIVE FOR "+requestBody.getSender());
                         }
                         else if (!customer.isVerified()){
@@ -119,7 +119,7 @@ public class PaymentController {
                                 customer.setBalance(customer.getBalance().subtract(new BigDecimal(requestBody.getAmount())));
                                 Customer updatedCustomer = customerService.save(customer);
                                 Sms sms1 = new Sms();
-                                String msg1=customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via Setting. Description "+requestBody.getDescription()+
+                                String msg1=customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via PesaPay. Description "+requestBody.getDescription()+
                                         ". type de transaction PAYMENT DE FACTURE. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms1.setTo(customer.getPhoneNumber());
                                 sms1.setMessage(msg1);
@@ -136,7 +136,7 @@ public class PaymentController {
 
                                 Sms sms2 = new Sms();
                                 sms2.setTo(business.getPhoneNumber());
-                                String msg2 =business.getBusinessName()+ " vous venez de recevoir un payment de "+requestBody.getAmount()+" USD venant  "+customer.getFullName()+" via Setting. "+
+                                String msg2 =business.getBusinessName()+ " vous venez de recevoir un payment de "+requestBody.getAmount()+" USD venant  "+customer.getFullName()+" via PesaPay. "+
                                         " type de transaction PAYMENT DE FACTURE. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms2.setMessage(msg2);
                                 SmsService.sendSms(sms2);

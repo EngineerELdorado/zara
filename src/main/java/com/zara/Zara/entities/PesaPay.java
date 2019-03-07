@@ -8,12 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 
 @Entity(name = "pesapay")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
-public class Setting {
+public class PesaPay {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,6 +33,7 @@ public class Setting {
     private String creditCardExpiryYear;
 
     private String paypalEmail;
+    private BigDecimal balance;
 
 
 }

@@ -1,7 +1,7 @@
 package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
-import com.zara.Zara.entities.Setting;
+import com.zara.Zara.entities.PesaPay;
 import com.zara.Zara.services.ISettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,12 +18,12 @@ public class SettingController {
     ApiResponse apiResponse = new ApiResponse();
 
     @PostMapping("/post")
-    public ResponseEntity<?>post(@RequestBody Setting setting){
-        settingsService.save(setting);
+    public ResponseEntity<?>post(@RequestBody PesaPay pesaPay){
+        settingsService.save(pesaPay);
 
         apiResponse.setResponseCode("00");
-        apiResponse.setResponseCode("Setting Created");
-        settingsService.save(setting);
+        apiResponse.setResponseCode("PesaPay Created");
+        settingsService.save(pesaPay);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

@@ -64,7 +64,7 @@ public class CreditCardTransactionController {
                  ChargeRequest chargeRequest = new ChargeRequest();
                  chargeRequest.setAmount(Integer.valueOf(request.getAmount()));
                  chargeRequest.setCurrency(ChargeRequest.Currency.USD);
-                 chargeRequest.setDescription(" Transaction request by Setting User "+senderCustomer.getFullName());
+                 chargeRequest.setDescription(" Transaction request by PesaPay User "+senderCustomer.getFullName());
                  chargeRequest.setStripeToken(request.getStripeToken());
 
                  charge = stripeService.charge(chargeRequest);
@@ -95,7 +95,7 @@ public class CreditCardTransactionController {
                          Sms sms2 = new Sms();
                          sms2.setTo(senderCustomer.getPhoneNumber());
                          sms2.setMessage(senderCustomer.getFullName()+ " Vous venez de recevoir "+request.getAmount()+"USD venant de la carte bancaire"+
-                                 " du numero "+request.getSender()+" "+" via Setting. "+
+                                 " du numero "+request.getSender()+" "+" via PesaPay. "+
                                  " type de transaction DEPOT VIA CARTE BANCAIRE. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
                          SmsService.sendSms(sms2);
 
@@ -140,7 +140,7 @@ public class CreditCardTransactionController {
                 ChargeRequest chargeRequest = new ChargeRequest();
                 chargeRequest.setAmount(Integer.valueOf(request.getAmount()));
                 chargeRequest.setCurrency(ChargeRequest.Currency.USD);
-                chargeRequest.setDescription(" Transaction request by Setting User "+business.getBusinessName());
+                chargeRequest.setDescription(" Transaction request by PesaPay User "+business.getBusinessName());
                 chargeRequest.setStripeToken(request.getStripeToken());
 
                 charge = stripeService.charge(chargeRequest);
@@ -171,7 +171,7 @@ public class CreditCardTransactionController {
                         Sms sms2 = new Sms();
                         sms2.setTo(business.getPhoneNumber());
                         sms2.setMessage(business.getBusinessName()+ " Vous venez de recevoir "+request.getAmount()+"USD venant de la carte bancaire"+
-                                " du numero se terminant par "+request.getSender()+" "+" via Setting. "+
+                                " du numero se terminant par "+request.getSender()+" "+" via PesaPay. "+
                                 " type de transaction DEPOT VIA CARTE BANCAIRE. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
                         SmsService.sendSms(sms2);
 

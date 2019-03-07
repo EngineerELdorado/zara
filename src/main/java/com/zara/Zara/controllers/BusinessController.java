@@ -58,7 +58,7 @@ public class BusinessController {
             apiResponse.setResponseMessage("Enregistrement Reussi");
             apiResponse.setBusiness(business1);
             sms.setTo(business.getPhoneNumber());
-            sms.setMessage(business.getBusinessName()+" Bievenu sur Setting. vous avez maintenant un compte BUSINESS. votre numero business" +
+            sms.setMessage(business.getBusinessName()+" Bievenu sur PesaPay. vous avez maintenant un compte BUSINESS. votre numero business" +
                     " est "+business1.getBusinessNumber());
             SmsService.sendSms(sms);
 
@@ -108,7 +108,7 @@ public class BusinessController {
         apiResponse.setResponseMessage("Otp successfully generated");
         Sms sms = new Sms();
         sms.setTo(otpObject.getPhoneNumber());
-        sms.setMessage("votre code de verification pour Setting est "+String.valueOf(otp));
+        sms.setMessage("votre code de verification pour PesaPay est "+String.valueOf(otp));
         SmsService.sendSms(sms);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
@@ -134,7 +134,7 @@ public class BusinessController {
                         apiResponse.setBusiness(business);
                         Sms sms = new Sms();
                         sms.setTo(otpObject.getPhoneNumber());
-                        sms.setMessage("Cher "+business.getBusinessName()+" Bievenu sur Setting. vous etes maintenant business");
+                        sms.setMessage("Cher "+business.getBusinessName()+" Bievenu sur PesaPay. vous etes maintenant business");
                         SmsService.sendSms(sms);
                     }else{
                         apiResponse.setResponseCode("01");
@@ -162,7 +162,7 @@ public class BusinessController {
         Business business = businessService.findByBusinessNumber(businessNumber);
         if (business==null){
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Ce numero n'a pas de compte Business sur Setting");
+            apiResponse.setResponseMessage("Ce numero n'a pas de compte Business sur PesaPay");
         }
         else {
             apiResponse.setResponseCode("00");

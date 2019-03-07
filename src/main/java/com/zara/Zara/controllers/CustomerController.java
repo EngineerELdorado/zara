@@ -111,7 +111,7 @@ public class CustomerController {
          apiResponse.setResponseMessage("Otp successfully generated");
         Sms sms = new Sms();
         sms.setTo(otpObject.getPhoneNumber());
-        sms.setMessage("votre code de verification pour Setting est "+String.valueOf(otp));
+        sms.setMessage("votre code de verification pour PesaPay est "+String.valueOf(otp));
         SmsService.sendSms(sms);
          return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
@@ -138,7 +138,7 @@ public class CustomerController {
                         otpService.clearOTP(otpObject.getPhoneNumber());
                         Sms sms = new Sms();
                         sms.setTo(otpObject.getPhoneNumber());
-                        sms.setMessage("Cher "+customer.getFullName()+" Bievenu sur Setting. maintenant vous pouvez retirer deposer " +
+                        sms.setMessage("Cher "+customer.getFullName()+" Bievenu sur PesaPay. maintenant vous pouvez retirer deposer " +
                                 "payer en ligne transferer ainsi effectuer tout genre de payment avec votre telephone.");
                         SmsService.sendSms(sms);
                     }else{
@@ -166,7 +166,7 @@ public class CustomerController {
         Customer existingCustomer = customerService.findByPhoneNumber(customer.getPhoneNumber());
         if (existingCustomer==null){
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Ce numero n'a pas de compte Setting");
+            apiResponse.setResponseMessage("Ce numero n'a pas de compte PesaPay");
         }else {
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Success");

@@ -19,7 +19,7 @@ public class StripeService {
 
     @PostConstruct
     public void init() {
-        Stripe.apiKey = STRIPE_CLIENT_SECRET_TEST;
+        Stripe.apiKey = STRIPE_CLIENT_SECRET;
     }
 
     public Charge charge(ChargeRequest chargeRequest)
