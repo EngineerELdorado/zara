@@ -23,7 +23,7 @@ public class SettingController {
 
         apiResponse.setResponseCode("00");
         apiResponse.setResponseCode("Setting Created");
-
+        settingsService.save(setting);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
