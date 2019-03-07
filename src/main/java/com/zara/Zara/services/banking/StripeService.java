@@ -12,13 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.zara.Zara.constants.ConstantVariables.STRIPE_CLIENT_SECRET;
+import static com.zara.Zara.constants.ConstantVariables.STRIPE_CLIENT_SECRET_TEST;
 
 @Service
 public class StripeService {
 
     @PostConstruct
     public void init() {
-        Stripe.apiKey = STRIPE_CLIENT_SECRET;
+        Stripe.apiKey = STRIPE_CLIENT_SECRET_TEST;
     }
 
     public Charge charge(ChargeRequest chargeRequest)
@@ -31,7 +32,7 @@ public class StripeService {
 
 
         Map<String, Object> chargeParams = new HashMap<>();
-        chargeParams.put("amount", chargeRequest.getAmount());
+        chargeParams.put("amount", chargeRequest.getAmount()*100);
         chargeParams.put("currency", chargeRequest.getCurrency());
         chargeParams.put("description", chargeRequest.getDescription());
         chargeParams.put("customer", customer.getId());

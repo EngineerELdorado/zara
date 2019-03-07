@@ -28,6 +28,7 @@ public class ConstantVariables {
     public static String BUDGET_SMS_HANDLE="2100bae8f1878eb8b2aaf6c4993fdece";
     public static String STRIPE_CLIENT_ID = "pk_live_Mmcjnl57hp6GsZi8jX1sTi2o";
     public static String STRIPE_CLIENT_SECRET = "sk_live_zZRdwTj8XsBdxdMjd7lfY0HM";
+    public static String STRIPE_CLIENT_SECRET_TEST = "sk_test_qt9sr4I8YuAy8XIAYz9Yia4s";
     public static String SAFEPAY_ENDPOINT ="https://api.test.paysafe.com/directdebit";
     public static String SAFEPAY_USERNAME ="test_denis_kalenga94";
     public static String SAFEPAY_PASSWORD ="B-qa2-0-5c6d1215-0-302d021462615dd333224755bacc584fc88aaffac16c38e1021500945f9a1e3381861f9ab16e1de49f1aab4c3246c5";
