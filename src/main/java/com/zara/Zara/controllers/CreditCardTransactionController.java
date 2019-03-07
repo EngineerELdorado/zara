@@ -171,7 +171,7 @@ public class CreditCardTransactionController {
                         Sms sms2 = new Sms();
                         sms2.setTo(business.getPhoneNumber());
                         sms2.setMessage(business.getBusinessName()+ " Vous venez de recevoir "+request.getAmount()+"USD venant de la carte bancaire"+
-                                " du numero "+request.getSender()+" "+" via PesaPay. "+
+                                " du numero se terminant par "+request.getSender()+" "+" via PesaPay. "+
                                 " type de transaction DEPOT VIA CARTE BANCAIRE. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
                         SmsService.sendSms(sms2);
 
