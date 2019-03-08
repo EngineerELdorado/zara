@@ -46,23 +46,11 @@ public class OnlinePaymentController{
     INotificationService notificationService;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
 
-    public ResponseEntity<?>g(@RequestBody TransactionRequestBody transactionRequestBody){
-
-
-        return null;
-
-    }
-
-
     @PostMapping("/generateOtp")
     public ResponseEntity<?> generateOtp(@RequestBody OnlineOtpRequest otpObject) throws UnsupportedEncodingException {
         Developer developer = developerService.findByApiKey(otpObject.getApiKey());
         Customer customer  = customerService.findByPhoneNumber(otpObject.getPhoneNumber());
-         if (developer==null){
-             apiResponse.setResponseCode("01");
-             apiResponse.setResponseMessage("Compte developeur non reconnu");
-         }
-         else if (customer==null){
+          if (customer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero de client n'a de compte PesaPay");
         }else if (!customer.getStatus().equals("ACTIVE")){
@@ -94,13 +82,8 @@ public class OnlinePaymentController{
             int serverOtp = otpService.getOtp(requestBody.getSender());
             if(serverOtp > 0){
                 if(Integer.valueOf(requestBody.getOtp()) == serverOtp){
-                    Developer developer = developerService.findByApiKey(requestBody.getApiKey());
                     Business business = businessService.findByBusinessNumber(requestBody.getReceiver());
-                    if (developer==null){
-                        apiResponse.setResponseCode("01");
-                        apiResponse.setResponseMessage("Compte developeur non reconnu");
-                    }
-                   else if (business==null){
+                     if (business==null){
                         apiResponse.setResponseCode("01");
                         apiResponse.setResponseMessage("CE BUSINESS N'A PAS ETE TROUVE");
                     }
