@@ -29,5 +29,7 @@ public class Customer {
     private String statusDescription;
     private Date creationDate;
     private BigDecimal balance;
+    @Transient
+    private String otp;
 
 }

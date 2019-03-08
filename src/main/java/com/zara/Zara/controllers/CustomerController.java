@@ -49,8 +49,8 @@ public class CustomerController {
 
         customer.setPin(bCryptPasswordEncoder.encode(customer.getPin()));
         customer.setCreationDate(new Date());
-        customer.setVerified(false);
-        customer.setStatus("UNVERIFIED");
+        customer.setVerified(true);
+        customer.setStatus("ACTIVE");
         customer.setStatusDescription("the customer needs to verify his phone number");
         customer.setBalance(new BigDecimal("0"));
         if (!isPhoneTaken(customer.getPhoneNumber())){
@@ -117,33 +117,26 @@ public class CustomerController {
 
     }
     @PostMapping("/validateOtp")
-    public ResponseEntity <?> validateOtp(@RequestBody OtpObject otpObject) throws UnsupportedEncodingException {
+    public ResponseEntity <?> validateOtp(@RequestBody Customer customer) throws UnsupportedEncodingException {
 
 //Validate the Otp
-        if(otpObject.getOtp() >= 0){
-            int serverOtp = otpService.getOtp(otpObject.getPhoneNumber());
+        if(Integer.parseInt(customer.getOtp()) >= 0){
+            int serverOtp = otpService.getOtp(customer.getPhoneNumber());
             if(serverOtp > 0){
-                if(otpObject.getOtp() == serverOtp){
+                if(Integer.parseInt(customer.getOtp()) == serverOtp){
 
-                    Customer customer = customerService.findByPhoneNumber(otpObject.getPhoneNumber());
-                    if (customer!=null){
-                        customer.setStatusDescription("numero de compte verifie");
-                        customer.setVerified(true);
-                        customer.setStatus("ACTIVE");
-                        customerService.save(customer);
-                        otpService.clearOTP(otpObject.getPhoneNumber());
-                        apiResponse.setResponseCode("00");
-                        apiResponse.setResponseMessage("SUCCESS");
-                        apiResponse.setCustomer(customer);
-                        otpService.clearOTP(otpObject.getPhoneNumber());
+                    Customer customer1 = customerService.findByPhoneNumber(customer.getPhoneNumber());
+                    if (customer==null){
+                        save(customer);
+                        otpService.clearOTP(customer.getPhoneNumber());
                         Sms sms = new Sms();
-                        sms.setTo(otpObject.getPhoneNumber());
+                        sms.setTo(customer.getPhoneNumber());
                         sms.setMessage("Cher "+customer.getFullName()+" Bievenu sur PesaPay. maintenant vous pouvez retirer deposer " +
                                 "payer en ligne transferer ainsi effectuer tout genre de payment avec votre telephone.");
                         SmsService.sendSms(sms);
                     }else{
                         apiResponse.setResponseCode("01");
-                        apiResponse.setResponseMessage("USER NOT FOUND");
+                        apiResponse.setResponseMessage("ALREADY EXISTS");
                     }
                 }else{
                     apiResponse.setResponseCode("01");
