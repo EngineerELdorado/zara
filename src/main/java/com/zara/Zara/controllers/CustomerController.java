@@ -58,10 +58,10 @@ public class CustomerController {
             if (savedCustomer!=null){
                 apiResponse.setResponseCode("00");
                 apiResponse.setResponseMessage(USER_REGISTRATION_SUCCESS);
+                apiResponse.setCustomer(savedCustomer);
                 LOG.info("REGISTRATION SUCCESSFUL");
-                otpService.clearOTP(customer.getPhoneNumber());
                 Sms sms = new Sms();
-                sms.setTo(customer.getPhoneNumber());
+                sms.setTo(savedCustomer.getPhoneNumber());
                 sms.setMessage("Cher "+customer.getFullName()+" Bievenu sur PesaPay. maintenant vous pouvez retirer deposer " +
                         "payer en ligne transferer ainsi effectuer tout genre de payment avec votre telephone.");
                 SmsService.sendSms(sms);
@@ -123,17 +123,25 @@ public class CustomerController {
 
     }
     @PostMapping("/validateOtp")
-    public ResponseEntity <?> validateOtp(@RequestBody Customer customer) throws UnsupportedEncodingException {
+    public ResponseEntity <?> validateOtp(@RequestBody Customer otpObject) throws UnsupportedEncodingException {
 
 //Validate the Otp
-        if(Integer.parseInt(customer.getOtp()) >= 0){
-            int serverOtp = otpService.getOtp(customer.getPhoneNumber());
+        if(Integer.parseInt(otpObject.getOtp()) >= 0){
+            int serverOtp = otpService.getOtp(otpObject.getPhoneNumber());
             if(serverOtp > 0){
-                if(Integer.parseInt(customer.getOtp()) == serverOtp){
+                if(Integer.parseInt(otpObject.getOtp()) == serverOtp){
 
-                    Customer customer1 = customerService.findByPhoneNumber(customer.getPhoneNumber());
-                    if (customer1==null){
-                       return save(customer);
+                    Customer customer = customerService.findByPhoneNumber(otpObject.getPhoneNumber());
+                    if (customer!=null){
+                        customer.setStatusDescription("numero de compte verifie");
+                        customer.setVerified(true);
+                        customer.setStatus("ACTIVE");
+                        customerService.save(customer);
+                        otpService.clearOTP(otpObject.getPhoneNumber());
+                        apiResponse.setResponseCode("00");
+                        apiResponse.setResponseMessage("SUCCESS");
+                        apiResponse.setCustomer(customer);
+                        otpService.clearOTP(otpObject.getPhoneNumber());
 
                     }else{
                         apiResponse.setResponseCode("01");
