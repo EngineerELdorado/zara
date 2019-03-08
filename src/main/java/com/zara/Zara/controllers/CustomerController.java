@@ -45,7 +45,7 @@ public class CustomerController {
     Logger LOG = LogManager.getLogger(CustomerController.class);
     ApiResponse apiResponse = new ApiResponse();
     @PostMapping("/post")
-    public ResponseEntity<?> save(@RequestBody Customer customer){
+    public ResponseEntity<?> save(@RequestBody Customer customer) throws UnsupportedEncodingException {
 
         customer.setPin(bCryptPasswordEncoder.encode(customer.getPin()));
         customer.setCreationDate(new Date());
@@ -59,6 +59,12 @@ public class CustomerController {
                 apiResponse.setResponseCode("00");
                 apiResponse.setResponseMessage(USER_REGISTRATION_SUCCESS);
                 LOG.info("REGISTRATION SUCCESSFUL");
+                otpService.clearOTP(customer.getPhoneNumber());
+                Sms sms = new Sms();
+                sms.setTo(customer.getPhoneNumber());
+                sms.setMessage("Cher "+customer.getFullName()+" Bievenu sur PesaPay. maintenant vous pouvez retirer deposer " +
+                        "payer en ligne transferer ainsi effectuer tout genre de payment avec votre telephone.");
+                SmsService.sendSms(sms);
             }else{
                 apiResponse.setResponseCode("01");
                 apiResponse.setResponseMessage(USER_REGISTRATION_SUCCESS);
@@ -126,14 +132,9 @@ public class CustomerController {
                 if(Integer.parseInt(customer.getOtp()) == serverOtp){
 
                     Customer customer1 = customerService.findByPhoneNumber(customer.getPhoneNumber());
-                    if (customer==null){
-                        save(customer);
-                        otpService.clearOTP(customer.getPhoneNumber());
-                        Sms sms = new Sms();
-                        sms.setTo(customer.getPhoneNumber());
-                        sms.setMessage("Cher "+customer.getFullName()+" Bievenu sur PesaPay. maintenant vous pouvez retirer deposer " +
-                                "payer en ligne transferer ainsi effectuer tout genre de payment avec votre telephone.");
-                        SmsService.sendSms(sms);
+                    if (customer1==null){
+                       return save(customer);
+
                     }else{
                         apiResponse.setResponseCode("01");
                         apiResponse.setResponseMessage("ALREADY EXISTS");
