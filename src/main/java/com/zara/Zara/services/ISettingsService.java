@@ -6,4 +6,5 @@ public interface ISettingsService {
 
     PesaPay save(PesaPay pesaPay);
     PesaPay findSettings();
+    PesaPay findById(Long id);
 }

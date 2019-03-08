@@ -19,4 +19,9 @@ public class SettingServiceimp implements ISettingsService {
     public PesaPay findSettings() {
         return settingRepository.findSettings();
     }
+
+    @Override
+    public PesaPay findById(Long id) {
+        return settingRepository.getOne(id);
+    }
 }
