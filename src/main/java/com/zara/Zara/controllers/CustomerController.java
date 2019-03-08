@@ -130,23 +130,10 @@ public class CustomerController {
             int serverOtp = otpService.getOtp(otpObject.getPhoneNumber());
             if(serverOtp > 0){
                 if(Integer.parseInt(otpObject.getOtp()) == serverOtp){
-
-                    Customer customer = customerService.findByPhoneNumber(otpObject.getPhoneNumber());
-                    if (customer!=null){
-                        customer.setStatusDescription("numero de compte verifie");
-                        customer.setVerified(true);
-                        customer.setStatus("ACTIVE");
-                        customerService.save(customer);
                         otpService.clearOTP(otpObject.getPhoneNumber());
                         apiResponse.setResponseCode("00");
                         apiResponse.setResponseMessage("SUCCESS");
-                        apiResponse.setCustomer(customer);
-                        otpService.clearOTP(otpObject.getPhoneNumber());
 
-                    }else{
-                        apiResponse.setResponseCode("01");
-                        apiResponse.setResponseMessage("ALREADY EXISTS");
-                    }
                 }else{
                     apiResponse.setResponseCode("01");
                     apiResponse.setResponseMessage("WRONG OTP");
