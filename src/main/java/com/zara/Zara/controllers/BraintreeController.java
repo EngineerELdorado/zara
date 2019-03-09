@@ -33,7 +33,7 @@ public class BraintreeController {
     public ResponseEntity<?>generateToken(){
 
         ClientTokenRequest clientTokenRequest = new ClientTokenRequest()
-                .customerId("246459184");
+                .customerId("579002211");
         String clientToken = gateway.clientToken().generate(clientTokenRequest);
         apiResponse.setResponseCode("00");
         apiResponse.setResponseMessage(clientToken);
