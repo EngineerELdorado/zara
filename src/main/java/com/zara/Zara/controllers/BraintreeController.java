@@ -32,8 +32,7 @@ public class BraintreeController {
     @GetMapping("/generateToken")
     public ResponseEntity<?>generateToken(){
 
-        ClientTokenRequest clientTokenRequest = new ClientTokenRequest()
-                .customerId("579002211");
+        ClientTokenRequest clientTokenRequest = new ClientTokenRequest();
         String clientToken = gateway.clientToken().generate(clientTokenRequest);
         apiResponse.setResponseCode("00");
         apiResponse.setResponseMessage(clientToken);
