@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_CREDIT_CARD_DEPOSIT;
+import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_PAYPAL_DEPOSIT;
 
 
 @RestController
@@ -126,7 +127,7 @@ public class CreditCardTransactionController {
 
 
     @PostMapping("/business/cardtopesapay")
-    public ResponseEntity<?> postForBusiness(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
+    public ResponseEntity<?> cardToPesaPay(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
         Business business = businessService.findByBusinessNumber(request.getReceiver());
 
         if (business==null){
@@ -185,6 +186,68 @@ public class CreditCardTransactionController {
                     apiResponse.setResponseMessage(charge.getFailureMessage());
                     LOGGER.info("STRIPE_FAILURE_MESSAGE "+charge.getFailureMessage());
                 }
+
+            }catch (Exception e){
+                apiResponse.setResponseCode("01");
+                apiResponse.setResponseMessage(e.getLocalizedMessage());
+                LOGGER.info("STRIPE_FAILURE_MESSAGE "+e.getLocalizedMessage());
+                e.printStackTrace();
+            }
+
+        }
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+
+    }
+
+
+    @PostMapping("/business/paypalToPesapay")
+    public ResponseEntity<?> postForBusiness(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
+        Business business = businessService.findByBusinessNumber(request.getReceiver());
+
+        if (business==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'existe pas");
+            LOGGER.info("SENDER ACCOUNT NOT FOUND FOR "+request.getReceiver());
+        }
+
+        else{
+            try {
+
+                    PesapayTransaction transaction = new PesapayTransaction();
+                    transaction.setAmount(new BigDecimal(request.getAmount()));
+                    transaction.setCreatedOn(new Date());
+                    transaction.setStatus("00");
+                    transaction.setDescription("Deposit(card) successful");
+                    transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                    transaction.setReceivedByBusiness(business);
+                    transaction.setTransactionType(TRANSACTION_PAYPAL_DEPOSIT);
+
+                    PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
+                    if (createdTransaction==null){
+                        apiResponse.setResponseCode("01");
+                        apiResponse.setResponseMessage("ECHEC");
+                        LOGGER.info("TRANSACTION FAILED TO PERSIST TO DATABASE");
+                    }else {
+
+                        apiResponse.setResponseCode("00");
+                        apiResponse.setResponseMessage("Transaction Reussie");
+
+
+                        business.setBalance(business.getBalance().add(new BigDecimal(request.getAmount())));
+                        Business updatedBusiness = businessService.save(business);
+                        Sms sms2 = new Sms();
+                        sms2.setTo(business.getPhoneNumber());
+                        sms2.setMessage(business.getBusinessName()+ " Vous venez de recevoir "+request.getAmount()+"USD venant de la carte bancaire"+
+                                " du numero se terminant par "+request.getSender()+" "+" via PesaPay. "+
+                                " type de transaction DEPOT VIA CARTE BANCAIRE. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+                        SmsService.sendSms(sms2);
+
+                        apiResponse.setResponseCode("00");
+                        apiResponse.setResponseMessage("TRANSACTION REUSSIE");
+                        LOGGER.info("DEPOSIT TRANSACTION SUCCESSFUL "+transaction.getTransactionNumber());
+                    }
+
+
 
             }catch (Exception e){
                 apiResponse.setResponseCode("01");

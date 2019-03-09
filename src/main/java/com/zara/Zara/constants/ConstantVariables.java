@@ -13,6 +13,7 @@ public class ConstantVariables {
     public static String ROLE_MASS_PAYER="ROLE_MASS_PAYER";
     public static String TRANSACTION_DEPOSIT="DEPOSIT";
     public static String TRANSACTION_CREDIT_CARD_DEPOSIT="CREDIT_CARD_DEPOSIT";
+    public static String TRANSACTION_PAYPAL_DEPOSIT="PAYPAL_DEPOSIT";
     public static String TRANSACTION__ONLINE_PAYMENT="ONLINE_PAYMENT";
     public static String TRANSACTION__BILL_PAYMENT="C2B";
     public static String TRANSACTION_WITHDRAWAL="WITHDRAWAL";
