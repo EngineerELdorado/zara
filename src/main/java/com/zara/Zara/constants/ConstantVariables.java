@@ -37,4 +37,8 @@ public class ConstantVariables {
     public static String SAFEPAY_TOKEN="dGVzdF9kZW5pc19rYWxlbmdhOTQ6Qi1xYTItMC01YzZkMTIxNS0wLTMwMmQwMjE0NjI2MTVkZDMzMzIyNDc1NWJhY2M1ODRmYzg4YWFmZmFjMTZjMzhlMTAyMTUwMDk0NWY5YTFlMzM4MTg2MWY5YWIxNmUxZGU0OWYxYWFiNGMzMjQ2YzU=";
     public static String TRANSFER_WISE_TOKEN="f5300115-0b6c-41dc-937d-632d86c74616";
 
+    public static String BRAINTREE_MERCHANT_ID ="6scmmt4smtm9hmk5";
+    public static String BRAINTREE_PUBLIC_KEY="nm8jsr7pxqc5bd5w";
+    public static String BRAINTREE_SECRET_KEY="4235a4b21059aa50c4c355edb5181516";
+
 }
