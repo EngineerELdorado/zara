@@ -3,8 +3,10 @@ package com.zara.Zara.controllers;
 import com.stripe.exception.*;
 import com.stripe.model.Charge;
 import com.zara.Zara.entities.Business;
+import com.zara.Zara.entities.Notification;
 import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.services.IBusinessService;
+import com.zara.Zara.services.INotificationService;
 import com.zara.Zara.services.banking.StripeService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,8 @@ public class CreditCardTransactionController {
     Charge charge;
     @Autowired
     IBusinessService businessService;
+    @Autowired
+    INotificationService notificationService;
     @PostMapping("/post")
     public ResponseEntity<?> post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
         Customer senderCustomer = customerService.findByPhoneNumber(request.getReceiver());
@@ -171,11 +175,15 @@ public class CreditCardTransactionController {
 
                         Sms sms2 = new Sms();
                         sms2.setTo(business.getPhoneNumber());
-                        sms2.setMessage(business.getBusinessName()+ " Vous venez de recevoir "+request.getAmount()+"USD venant de la carte bancaire"+
+                        Notification notification = new Notification();
+                        String msg =business.getBusinessName()+ " Vous venez de recevoir "+request.getAmount()+"USD venant de la carte bancaire"+
                                 " du numero se terminant par "+request.getSender()+" "+" via PesaPay. "+
-                                " type de transaction DEPOT VIA CARTE BANCAIRE. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+                                " type de transaction DEPOT VIA CARTE BANCAIRE. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
+                        notification.setBusiness(business);
+                        notification.setMessage(msg);
+                        sms2.setMessage(msg);
                         SmsService.sendSms(sms2);
-
+                        notificationService.save(notification);
                         apiResponse.setResponseCode("00");
                         apiResponse.setResponseMessage("TRANSACTION REUSSIE");
                         LOGGER.info("DEPOSIT TRANSACTION SUCCESSFUL "+transaction.getTransactionNumber());
@@ -237,14 +245,17 @@ public class CreditCardTransactionController {
                         Business updatedBusiness = businessService.save(business);
                         Sms sms2 = new Sms();
                         sms2.setTo(business.getPhoneNumber());
-                        sms2.setMessage(business.getBusinessName()+ " Vous venez de recevoir "+request.getAmount()+"USD venant de la carte bancaire"+
+                        Notification notification = new Notification();
+                        String msg =business.getBusinessName()+ " Vous venez de recevoir "+request.getAmount()+"USD venant de la carte bancaire"+
                                 " du numero se terminant par "+request.getSender()+" "+" via PesaPay. "+
-                                " type de transaction DEPOT VIA CARTE BANCAIRE. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+                                " type de transaction DEPOT VIA PAYPAL. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
+                        notification.setBusiness(business);
+                        notification.setMessage(msg);
+                        sms2.setMessage(msg);
                         SmsService.sendSms(sms2);
-
+                        notificationService.save(notification);
                         apiResponse.setResponseCode("00");
                         apiResponse.setResponseMessage("TRANSACTION REUSSIE");
-                        LOGGER.info("DEPOSIT TRANSACTION SUCCESSFUL "+transaction.getTransactionNumber());
                     }
 
 
