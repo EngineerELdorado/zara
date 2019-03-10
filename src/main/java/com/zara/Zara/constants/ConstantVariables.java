@@ -36,7 +36,7 @@ public class ConstantVariables {
     public static String SAFEPAY_PASSWORD ="B-qa2-0-5c6d1215-0-302d021462615dd333224755bacc584fc88aaffac16c38e1021500945f9a1e3381861f9ab16e1de49f1aab4c3246c5";
     public static String PESAPAY_ACCOUNT_NUMBER ="1001337150";
     public static String SAFEPAY_TOKEN="dGVzdF9kZW5pc19rYWxlbmdhOTQ6Qi1xYTItMC01YzZkMTIxNS0wLTMwMmQwMjE0NjI2MTVkZDMzMzIyNDc1NWJhY2M1ODRmYzg4YWFmZmFjMTZjMzhlMTAyMTUwMDk0NWY5YTFlMzM4MTg2MWY5YWIxNmUxZGU0OWYxYWFiNGMzMjQ2YzU=";
-    public static String TRANSFER_WISE_TOKEN="f5300115-0b6c-41dc-937d-632d86c74616";
+    public static String TRANSFER_WISE_TOKEN_TOKEN="243c3693-8359-4359-bc2e-ba8da84b22b6";
 
     public static String BRAINTREE_MERCHANT_ID ="6scmmt4smtm9hmk5";
     public static String BRAINTREE_PUBLIC_KEY="nm8jsr7pxqc5bd5w";
