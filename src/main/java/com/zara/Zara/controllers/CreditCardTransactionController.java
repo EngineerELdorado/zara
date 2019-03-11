@@ -246,9 +246,9 @@ public class CreditCardTransactionController {
                         Sms sms2 = new Sms();
                         sms2.setTo(business.getPhoneNumber());
                         Notification notification = new Notification();
-                        String msg =business.getBusinessName()+ " Vous venez de deposer dans votre compte PesaPay "+request.getAmount()+"USD venant"+
+                        String msg =business.getBusinessName()+ " Vous venez de deposer dans votre compte PesaPay "+request.getAmount()+" USD venant de"+
                                 "  "+request.getSender()+
-                                " type de transaction DEPOT VIA PAYPAL. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
+                                ". type de transaction DEPOT VIA PAYPAL. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
                         notification.setBusiness(business);
                         notification.setMessage(msg);
                         sms2.setMessage(msg);
