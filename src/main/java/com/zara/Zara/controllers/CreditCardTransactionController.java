@@ -239,7 +239,7 @@ public class CreditCardTransactionController {
 
                         apiResponse.setResponseCode("00");
                         apiResponse.setResponseMessage("Transaction Reussie");
-
+                        
 
                         business.setBalance(business.getBalance().add(new BigDecimal(request.getAmount())));
                         Business updatedBusiness = businessService.save(business);
