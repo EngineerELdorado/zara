@@ -26,10 +26,10 @@ public class SafePayService {
      public ResponseEntity<?> directDedit(TransferWiseRequest transferWiseRequest) throws JsonProcessingException {
 
          if (isServiceAvailable()){
-             ResponseEntity<SafepayResponse>responseEntity = restTemplate.exchange
+             ResponseEntity<Object>responseEntity = restTemplate.exchange
                      ("https://api.test.paysafe.com/directdebit/v1/accounts/1001337150/purchases",
                              HttpMethod.POST, new HttpEntity<>(transferWiseRequest, createHeaders(username,password)),
-                             SafepayResponse.class);
+                             Object.class);
 
              return  new ResponseEntity<>(responseEntity.getBody(), HttpStatus.OK);
          }else{
