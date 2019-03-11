@@ -225,7 +225,7 @@ public class CreditCardTransactionController {
                     transaction.setAmount(new BigDecimal(request.getAmount()));
                     transaction.setCreatedOn(new Date());
                     transaction.setStatus("00");
-                    transaction.setDescription("Deposit(card) successful");
+                    transaction.setDescription("Deposit(PayPal) successful");
                     transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                     transaction.setReceivedByBusiness(business);
                     transaction.setTransactionType(TRANSACTION_PAYPAL_DEPOSIT);
@@ -239,7 +239,7 @@ public class CreditCardTransactionController {
 
                         apiResponse.setResponseCode("00");
                         apiResponse.setResponseMessage("Transaction Reussie");
-                        
+
 
                         business.setBalance(business.getBalance().add(new BigDecimal(request.getAmount())));
                         Business updatedBusiness = businessService.save(business);
