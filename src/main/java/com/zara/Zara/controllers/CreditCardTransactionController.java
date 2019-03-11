@@ -130,7 +130,7 @@ public class CreditCardTransactionController {
 
 
 
-    @PostMapping("/business/cardtopesapay")
+    @PostMapping("/business/cardTopesapay")
     public ResponseEntity<?> cardToPesaPay(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
         Business business = businessService.findByBusinessNumber(request.getReceiver());
 

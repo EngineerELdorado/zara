@@ -1,11 +1,7 @@
 package com.zara.Zara.services.banking;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.zara.Zara.controllers.CustomerTransferController;
 import com.zara.Zara.models.PaySafeStatus;
-import com.zara.Zara.models.safepay.SafePayRequest;
-import com.zara.Zara.models.safepay.SafepayResponse;
+import com.zara.Zara.models.transferwise.TransferWiseRequest;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,12 +23,12 @@ public class SafePayService {
     Logger LOGGER = LogManager.getLogger(SafePayService.class);
     RestTemplate restTemplate = new RestTemplate();
 
-     public ResponseEntity<?> directDedit(SafePayRequest safePayRequest) throws JsonProcessingException {
+     public ResponseEntity<?> directDedit(TransferWiseRequest transferWiseRequest) throws JsonProcessingException {
 
          if (isServiceAvailable()){
              ResponseEntity<SafepayResponse>responseEntity = restTemplate.exchange
                      ("https://api.test.paysafe.com/directdebit/v1/accounts/1001337150/purchases",
-                             HttpMethod.POST, new HttpEntity<>(safePayRequest, createHeaders(username,password)),
+                             HttpMethod.POST, new HttpEntity<>(transferWiseRequest, createHeaders(username,password)),
                              SafepayResponse.class);
 
              return  new ResponseEntity<>(responseEntity.getBody(), HttpStatus.OK);

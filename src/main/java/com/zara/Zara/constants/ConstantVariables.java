@@ -37,7 +37,8 @@ public class ConstantVariables {
     public static String PESAPAY_ACCOUNT_NUMBER ="1001337150";
     public static String SAFEPAY_TOKEN="dGVzdF9kZW5pc19rYWxlbmdhOTQ6Qi1xYTItMC01YzZkMTIxNS0wLTMwMmQwMjE0NjI2MTVkZDMzMzIyNDc1NWJhY2M1ODRmYzg4YWFmZmFjMTZjMzhlMTAyMTUwMDk0NWY5YTFlMzM4MTg2MWY5YWIxNmUxZGU0OWYxYWFiNGMzMjQ2YzU=";
     public static String TRANSFER_WISE_TOKEN_TOKEN="243c3693-8359-4359-bc2e-ba8da84b22b6";
-
+    public static String TRANSFER_WISE_URL_SANDBOX="https://api.sandbox.transferwise.tech/v1";
+    public static String TRANSFER_WISE_URL="https://api.transferwise.com";
     public static String BRAINTREE_MERCHANT_ID ="6scmmt4smtm9hmk5";
     public static String BRAINTREE_PUBLIC_KEY="nm8jsr7pxqc5bd5w";
     public static String BRAINTREE_SECRET_KEY="4235a4b21059aa50c4c355edb5181516";
