@@ -29,8 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.*;
 
-import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_CREDIT_CARD_DEPOSIT;
-import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_PAYPAL_DEPOSIT;
+import static com.zara.Zara.constants.ConstantVariables.*;
 
 
 @RestController
@@ -380,7 +379,7 @@ public class CreditCardTransactionController {
                 transaction.setDescription("transfer ver(PayPal) en suspens. en destination de paypal au compte "+request.getForPaypalEmail());
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                 transaction.setReceivedByCustomer(customer);
-                transaction.setTransactionType(TRANSACTION_PAYPAL_DEPOSIT);
+                transaction.setTransactionType(TRANSACTION_PESAPAY_TO_PAYPAL);
 
                 PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
                 if (createdTransaction==null){
