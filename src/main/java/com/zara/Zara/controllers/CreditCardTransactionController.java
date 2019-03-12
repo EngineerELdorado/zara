@@ -354,6 +354,20 @@ public class CreditCardTransactionController {
             apiResponse.setResponseMessage("Solde insuffisant. vous avez "+customer.getBalance()+" USD");
             LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getReceiver());
         }
+        else if (!customer.getStatus().equals("ACTIVE")){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+            LOGGER.info("SENDER ACCOUNT NOT ACTIVE FOR "+request.getReceiver());
+        }else if (!customer.isVerified()){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'est pas encore verifie");
+            LOGGER.info("SENDER ACCOUNT NOT VERIFIED FOR "+request.getReceiver());
+
+        }else if (!bCryptPasswordEncoder.matches(request.getPin(), customer.getPin())){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("votre pin est incorrect");
+            LOGGER.info("WRONG PIN FOR "+request.getSender());
+        }
 
         else{
             try {
