@@ -15,6 +15,7 @@ public class TransactionRequestBody {
     private String stripeToken;
     private String bulkCategoryId;
     private String uniqueIdentifier;
+    private String forPaypalEmail;
 
 
 

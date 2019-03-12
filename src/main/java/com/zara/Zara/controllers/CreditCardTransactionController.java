@@ -357,7 +357,8 @@ public class CreditCardTransactionController {
                 transaction.setAmount(new BigDecimal(request.getAmount()));
                 transaction.setCreatedOn(new Date());
                 transaction.setStatus("02");
-                transaction.setDescription("transfer ver(PayPal) en suspens");
+                transaction.setForPaypalEmail(request.getForPaypalEmail());
+                transaction.setDescription("transfer ver(PayPal) en suspens. en destination de paypal au compte "+request.getForPaypalEmail());
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                 transaction.setReceivedByCustomer(customer);
                 transaction.setTransactionType(TRANSACTION_PAYPAL_DEPOSIT);
