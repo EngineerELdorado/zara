@@ -404,7 +404,7 @@ public class CreditCardTransactionController {
                     notification.setMessage(msg);
                     sms2.setMessage(msg);
                     SmsService.sendSms(sms2);
-                    notificationService.save(notification);
+                    //notificationService.save(notification);
                     apiResponse.setResponseCode("00");
                     apiResponse.setResponseMessage("TRANSACTION REUSSIE");
                 }
