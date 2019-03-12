@@ -340,4 +340,69 @@ public class CreditCardTransactionController {
     }
 
 
+    @PostMapping("/customer/pesapayTopaypal")
+    public ResponseEntity<?> pesapayTopaypalCustomer(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
+        Customer customer = customerService.findByPhoneNumber(request.getReceiver());
+
+        if (customer==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'existe pas");
+            LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getReceiver());
+        }
+
+        else{
+            try {
+
+                PesapayTransaction transaction = new PesapayTransaction();
+                transaction.setAmount(new BigDecimal(request.getAmount()));
+                transaction.setCreatedOn(new Date());
+                transaction.setStatus("02");
+                transaction.setDescription("transfer ver(PayPal) en suspens");
+                transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                transaction.setReceivedByCustomer(customer);
+                transaction.setTransactionType(TRANSACTION_PAYPAL_DEPOSIT);
+
+                PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
+                if (createdTransaction==null){
+                    apiResponse.setResponseCode("01");
+                    apiResponse.setResponseMessage("ECHEC");
+                    LOGGER.info("TRANSACTION FAILED TO PERSIST TO DATABASE");
+                }else {
+
+                    apiResponse.setResponseCode("00");
+                    apiResponse.setResponseMessage("Transaction Reussie");
+
+
+                    customer.setBalance(customer.getBalance().subtract(new BigDecimal(request.getAmount())));
+                    Customer updatedCustomer = customerService.save(customer);
+                    Sms sms2 = new Sms();
+                    sms2.setTo(customer.getPhoneNumber());
+                    Notification notification = new Notification();
+                    String msg =customer.getFullName()+ " Votre transfer de PesaPay vers PayPal est en cours. montant "+request.getAmount()+" la somme sera disponiblea dans votre compte PayPal"+
+                            "  "+request.getSender()+
+                            " dans moins de 3 heures et nous vous notifierons via sms. numero de transaction "+transaction.getTransactionNumber();
+                    notification.setCustomer(customer);
+                    notification.setMessage(msg);
+                    sms2.setMessage(msg);
+                    SmsService.sendSms(sms2);
+                    notificationService.save(notification);
+                    apiResponse.setResponseCode("00");
+                    apiResponse.setResponseMessage("TRANSACTION REUSSIE");
+                }
+
+
+
+            }catch (Exception e){
+                apiResponse.setResponseCode("01");
+                apiResponse.setResponseMessage(e.getLocalizedMessage());
+                LOGGER.info("STRIPE_FAILURE_MESSAGE "+e.getLocalizedMessage());
+                e.printStackTrace();
+            }
+
+        }
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+
+    }
+
+
 }

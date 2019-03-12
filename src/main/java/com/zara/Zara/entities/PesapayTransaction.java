@@ -39,5 +39,6 @@ public class PesapayTransaction {
     @ManyToOne
     public Business receivedByBusiness;
     private String uniqueIdentifier;
+    private String forPaypalEmail;
 
 }
