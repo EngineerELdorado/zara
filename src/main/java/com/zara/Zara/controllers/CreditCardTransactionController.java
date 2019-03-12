@@ -342,7 +342,7 @@ public class CreditCardTransactionController {
 
     @PostMapping("/customer/pesapayTopaypal")
     public ResponseEntity<?> pesapayTopaypalCustomer(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
-        Customer customer = customerService.findByPhoneNumber(request.getReceiver());
+        Customer customer = customerService.findByPhoneNumber(request.getSender());
 
         if (customer==null){
             apiResponse.setResponseCode("01");
