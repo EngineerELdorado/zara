@@ -13,7 +13,7 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String message;
     private Date date;
     @ManyToOne
