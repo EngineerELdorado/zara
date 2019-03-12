@@ -18,6 +18,7 @@ public class PesapayTransaction {
     private Long id;
     @Column(name = "transaction_number")
     public String transactionNumber;
+    @Lob
     public String description;
     public String status;
     public Date createdOn;
