@@ -349,6 +349,11 @@ public class CreditCardTransactionController {
             apiResponse.setResponseMessage("Votre compte n'existe pas");
             LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getReceiver());
         }
+        else if (customer.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Solde insuffisant. vous avez "+customer.getBalance()+" USD");
+            LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getReceiver());
+        }
 
         else{
             try {
