@@ -447,7 +447,7 @@ public class CreditCardTransactionController {
             apiResponse.setResponseMessage("Votre compte n'est pas encore verifie");
             LOGGER.info("SENDER ACCOUNT NOT VERIFIED FOR "+request.getReceiver());
 
-        }else if (!bCryptPasswordEncoder.matches(request.getPin(), business.getPin())){
+        }else if (!bCryptPasswordEncoder.matches(request.getPin(), business.getPassword())){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("votre pin est incorrect");
             LOGGER.info("WRONG PIN FOR "+request.getSender());
