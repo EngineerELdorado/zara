@@ -397,14 +397,14 @@ public class CreditCardTransactionController {
                     Sms sms2 = new Sms();
                     sms2.setTo(customer.getPhoneNumber());
                     Notification notification = new Notification();
-                    String msg =customer.getFullName()+ " Votre transfer de PesaPay vers PayPal est en cours. montant "+request.getAmount()+" la somme sera disponiblea dans votre compte PayPal"+
+                    String msg = " Votre transfer PesaPay Pesa vers PayPal est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte PayPal"+
                             "  "+request.getForPaypalEmail()+
-                            " dans moins de 3 heures et nous vous notifierons via sms type de transaction PesaPay A PayPal. numero de transaction "+transaction.getTransactionNumber();
+                            " dans moins de 3h. no de transaction "+transaction.getTransactionNumber();
                     notification.setCustomer(customer);
                     notification.setMessage(msg);
                     sms2.setMessage(msg);
                     SmsService.sendSms(sms2);
-                    //notificationService.save(notification);
+                    notificationService.save(notification);
                     apiResponse.setResponseCode("00");
                     apiResponse.setResponseMessage("TRANSACTION REUSSIE");
                 }
@@ -482,14 +482,14 @@ public class CreditCardTransactionController {
                     Sms sms2 = new Sms();
                     sms2.setTo(business.getPhoneNumber());
                     Notification notification = new Notification();
-                    String msg =business.getBusinessName()+ " Votre transfer de PesaPay vers PayPal est en cours. montant "+request.getAmount()+" la somme sera disponiblea dans votre compte PayPal"+
+                    String msg = " Votre transfer PesaPay Pesa vers PayPal est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte PayPal"+
                             "  "+request.getForPaypalEmail()+
-                            " dans moins de 3 heures et nous vous notifierons via sms type de transaction PesaPay A PayPal. numero de transaction "+transaction.getTransactionNumber();
+                            " dans moins de 3h. no de transaction "+transaction.getTransactionNumber();
                     notification.setBusiness(business);
                     notification.setMessage(msg);
                     sms2.setMessage(msg);
                     SmsService.sendSms(sms2);
-                    //notificationService.save(notification);
+                    notificationService.save(notification);
                     apiResponse.setResponseCode("00");
                     apiResponse.setResponseMessage("TRANSACTION REUSSIE");
                 }
