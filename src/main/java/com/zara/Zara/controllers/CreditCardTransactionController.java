@@ -378,8 +378,8 @@ public class CreditCardTransactionController {
                 transaction.setForPaypalEmail(request.getForPaypalEmail());
                 transaction.setDescription("transfer ver(PayPal) en suspens. en destination de paypal au compte "+request.getForPaypalEmail());
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-                transaction.setReceivedByCustomer(customer);
-                transaction.setTransactionType(TRANSACTION_PESAPAY_TO_PAYPAL);
+                transaction.setCreatedByCustomer(customer);
+                transaction.setTransactionType(TRANSACTION_PESAPAY_TO_PAYPAL_CUSTOMER);
 
                 PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
                 if (createdTransaction==null){
@@ -423,5 +423,89 @@ public class CreditCardTransactionController {
 
     }
 
+
+    @PostMapping("/business/pesapayTopaypal")
+    public ResponseEntity<?> pesapayTopaypalBusiness(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
+        Business business = businessService.findByBusinessNumber(request.getSender());
+
+        if (business==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'existe pas");
+            LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getReceiver());
+        }
+        else if (business.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Solde insuffisant. vous avez "+business.getBalance()+" USD");
+            LOGGER.info("INSUFFICIENT FUNDS"+request.getReceiver());
+        }
+        else if (!business.getStatus().equals("ACTIVE")){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+            LOGGER.info("SENDER ACCOUNT NOT ACTIVE FOR "+request.getReceiver());
+        }else if (!business.isVerified()){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'est pas encore verifie");
+            LOGGER.info("SENDER ACCOUNT NOT VERIFIED FOR "+request.getReceiver());
+
+        }else if (!bCryptPasswordEncoder.matches(request.getPin(), business.getPin())){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("votre pin est incorrect");
+            LOGGER.info("WRONG PIN FOR "+request.getSender());
+        }
+
+        else{
+            try {
+
+                PesapayTransaction transaction = new PesapayTransaction();
+                transaction.setAmount(new BigDecimal(request.getAmount()));
+                transaction.setCreatedOn(new Date());
+                transaction.setStatus("02");
+                transaction.setForPaypalEmail(request.getForPaypalEmail());
+                transaction.setDescription("transfer ver(PayPal) en suspens. en destination de paypal au compte "+request.getForPaypalEmail());
+                transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                transaction.setCreatedByBusiness(business);
+                transaction.setTransactionType(TRANSACTION_PESAPAY_TO_PAYPAL_CUSTOMER);
+
+                PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
+                if (createdTransaction==null){
+                    apiResponse.setResponseCode("01");
+                    apiResponse.setResponseMessage("ECHEC");
+                    LOGGER.info("TRANSACTION FAILED TO PERSIST TO DATABASE");
+                }else {
+
+                    apiResponse.setResponseCode("00");
+                    apiResponse.setResponseMessage("Transaction Reussie");
+
+
+                    business.setBalance(business.getBalance().subtract(new BigDecimal(request.getAmount())));
+                    Business updatedBusiness = businessService.save(business);
+                    Sms sms2 = new Sms();
+                    sms2.setTo(business.getPhoneNumber());
+                    Notification notification = new Notification();
+                    String msg =business.getBusinessName()+ " Votre transfer de PesaPay vers PayPal est en cours. montant "+request.getAmount()+" la somme sera disponiblea dans votre compte PayPal"+
+                            "  "+request.getForPaypalEmail()+
+                            " dans moins de 3 heures et nous vous notifierons via sms type de transaction PesaPay A PayPal. numero de transaction "+transaction.getTransactionNumber();
+                    notification.setBusiness(business);
+                    notification.setMessage(msg);
+                    sms2.setMessage(msg);
+                    SmsService.sendSms(sms2);
+                    //notificationService.save(notification);
+                    apiResponse.setResponseCode("00");
+                    apiResponse.setResponseMessage("TRANSACTION REUSSIE");
+                }
+
+
+
+            }catch (Exception e){
+                apiResponse.setResponseCode("01");
+                apiResponse.setResponseMessage(e.getLocalizedMessage());
+                LOGGER.info("STRIPE_FAILURE_MESSAGE "+e.getLocalizedMessage());
+                e.printStackTrace();
+            }
+
+        }
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+
+    }
 
 }
