@@ -398,7 +398,7 @@ public class CreditCardTransactionController {
                     sms2.setTo(customer.getPhoneNumber());
                     Notification notification = new Notification();
                     String msg =customer.getFullName()+ " Votre transfer de PesaPay vers PayPal est en cours. montant "+request.getAmount()+" la somme sera disponiblea dans votre compte PayPal"+
-                            "  "+request.getSender()+
+                            "  "+request.getForPaypalEmail()+
                             " dans moins de 3 heures et nous vous notifierons via sms type de transaction PesaPay A PayPal. numero de transaction "+transaction.getTransactionNumber();
                     notification.setCustomer(customer);
                     notification.setMessage(msg);
