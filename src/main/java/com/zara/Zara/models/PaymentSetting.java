@@ -10,4 +10,5 @@ public class PaymentSetting {
     private String mpesaNmumber;
     private String bankAccountNumber;
     private String paypalEmail;
+    private String pin;
 }

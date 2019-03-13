@@ -211,7 +211,12 @@ public class BusinessController {
         if (business1==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Business introuvable");
-        }else{
+        }
+        else if(!bCryptPasswordEncoder.matches(setting.getPin(), business1.getPassword())){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Pin Incorrect");
+        }
+        else{
             business1.setAirtelMoneyNumber(setting.getAirtelMoneyNumber());
             business1.setOrangeMoneyNumber(setting.getOrangeMoneyNumber());
             business1.setMpesaNumberNumber(setting.getMpesaNmumber());
