@@ -181,6 +181,7 @@ public class CreditCardTransactionController {
                                 " type de transaction DEPOT VIA CARTE BANCAIRE. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
                         notification.setBusiness(business);
                         notification.setMessage(msg);
+                        notification.setDate(new Date());
                         sms2.setMessage(msg);
                         SmsService.sendSms(sms2);
                         notificationService.save(notification);
@@ -402,6 +403,7 @@ public class CreditCardTransactionController {
                             " dans moins de 3h. no de transaction "+transaction.getTransactionNumber();
                     notification.setCustomer(customer);
                     notification.setMessage(msg);
+                    notification.setDate(new Date());
                     sms2.setMessage(msg);
                     SmsService.sendSms(sms2);
                     notificationService.save(notification);
@@ -487,6 +489,7 @@ public class CreditCardTransactionController {
                             " dans moins de 3h. no de transaction "+transaction.getTransactionNumber();
                     notification.setBusiness(business);
                     notification.setMessage(msg);
+                    notification.setDate(new Date());
                     sms2.setMessage(msg);
                     SmsService.sendSms(sms2);
                     notificationService.save(notification);
