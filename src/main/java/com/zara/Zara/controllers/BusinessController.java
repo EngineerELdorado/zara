@@ -219,7 +219,7 @@ public class BusinessController {
         else{
             business1.setAirtelMoneyNumber(setting.getAirtelMoneyNumber());
             business1.setOrangeMoneyNumber(setting.getOrangeMoneyNumber());
-            business1.setMpesaNumberNumber(setting.getMpesaNmumber());
+            business1.setMpesaNumber(setting.getMpesaNmumber());
             business1.setPaypalemail(setting.getPaypalEmail());
             business1.setBankAccountNumber(setting.getBankAccountNumber());
             apiResponse.setResponseCode("00");

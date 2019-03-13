@@ -35,7 +35,7 @@ public class Business {
 
     private String airtelMoneyNumber;
     private String orangeMoneyNumber;
-    private String mpesaNumberNumber;
+    private String mpesaNumber;
     private String paypalemail;
     private String bankAccountNumber;
     private String callBackUrl;
