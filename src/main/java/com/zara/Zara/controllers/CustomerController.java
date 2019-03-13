@@ -1,9 +1,11 @@
 package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
+import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.Customer;
 import com.zara.Zara.models.LoginObject;
 import com.zara.Zara.models.OtpObject;
+import com.zara.Zara.models.PaymentSetting;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.utils.OtpService;
@@ -180,6 +182,33 @@ public class CustomerController {
             apiResponse.setCustomers(customers);
         }
 
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @PostMapping("/updateSettings/{phoneNumber}")
+    public ResponseEntity<?>updateSettings(@RequestBody PaymentSetting setting, @PathVariable String phoneNumber){
+        if (!phoneNumber.startsWith("+")){
+            phoneNumber= "+"+phoneNumber;
+        }
+        Customer customer = customerService.findByPhoneNumber(phoneNumber);
+        if (customer==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Business introuvable");
+        }
+        else if(!bCryptPasswordEncoder.matches(setting.getPin(), customer.getPin())){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Pin Incorrect");
+        }
+        else{
+            customer.setAirtelMoneyNumber(setting.getAirtelMoneyNumber());
+            customer.setOrangeMoneyNumber(setting.getOrangeMoneyNumber());
+            customer.setMpesaNumber(setting.getMpesaNmumber());
+            customer.setPaypalemail(setting.getPaypalEmail());
+            customer.setBankAccountNumber(setting.getBankAccountNumber());
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage("Settings successfully updated");
+            customerService.save(customer);
+        }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

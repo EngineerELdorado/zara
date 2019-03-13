@@ -32,4 +32,10 @@ public class Customer {
     @Transient
     private String otp;
 
+    private String airtelMoneyNumber;
+    private String orangeMoneyNumber;
+    private String mpesaNumber;
+    private String paypalemail;
+    private String bankAccountNumber;
+
 }
