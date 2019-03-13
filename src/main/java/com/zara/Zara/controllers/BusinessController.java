@@ -4,10 +4,7 @@ import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Agent;
 import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.Customer;
-import com.zara.Zara.models.ChangePasswordRequest;
-import com.zara.Zara.models.LoginObject;
-import com.zara.Zara.models.OtpObject;
-import com.zara.Zara.models.Sms;
+import com.zara.Zara.models.*;
 import com.zara.Zara.services.IAgentService;
 import com.zara.Zara.services.IBusinessService;
 import com.zara.Zara.services.utils.OtpService;
@@ -203,6 +200,25 @@ public class BusinessController {
             business1.setBusinessName(business.getBusinessName());
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Business successfully updated");
+            businessService.save(business1);
+        }
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @PostMapping("/updateSettings/{businessNumber}")
+    public ResponseEntity<?>updateSettings(@RequestBody PaymentSetting setting, @PathVariable String businessNumber){
+        Business business1 = businessService.findByBusinessNumber(businessNumber);
+        if (business1==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Business introuvable");
+        }else{
+            business1.setAirtelMoneyNumber(setting.getAirtelMoneyNumber());
+            business1.setOrangeMoneyNumber(setting.getOrangeMoneyNumber());
+            business1.setMpesaNumberNumber(setting.getMpesaNmumber());
+            business1.setPaypalemail(setting.getPaypalEmail());
+            business1.setBankAccountNumber(setting.getBankAccountNumber());
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage("Settings successfully updated");
             businessService.save(business1);
         }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
