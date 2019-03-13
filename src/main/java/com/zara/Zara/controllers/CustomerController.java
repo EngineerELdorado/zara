@@ -152,9 +152,12 @@ public class CustomerController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/findByPhoneNumber")
-    public ResponseEntity<?>findCustomberByPhoneNumber(@RequestBody Customer customer) throws UnsupportedEncodingException {
-        Customer existingCustomer = customerService.findByPhoneNumber(customer.getPhoneNumber());
+    @PostMapping("/findByPhoneNumber/{phoneNumber}")
+    public ResponseEntity<?>findCustomberByPhoneNumber(@PathVariable String phoneNumber) throws UnsupportedEncodingException {
+        if (!phoneNumber.startsWith("+")){
+            phoneNumber= "+"+phoneNumber;
+        }
+        Customer existingCustomer = customerService.findByPhoneNumber(phoneNumber);
         if (existingCustomer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero n'a pas de compte PesaPay");
