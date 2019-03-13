@@ -198,10 +198,7 @@ public class CustomerController {
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Business introuvable");
         }
-        else if(!bCryptPasswordEncoder.matches(setting.getPin(), customer.getPin())){
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Pin Incorrect");
-        }
+        
         else{
             customer.setAirtelMoneyNumber(setting.getAirtelMoneyNumber());
             customer.setOrangeMoneyNumber(setting.getOrangeMoneyNumber());
