@@ -198,7 +198,7 @@ public class CustomerController {
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Business introuvable");
         }
-        
+
         else{
             customer.setAirtelMoneyNumber(setting.getAirtelMoneyNumber());
             customer.setOrangeMoneyNumber(setting.getOrangeMoneyNumber());
