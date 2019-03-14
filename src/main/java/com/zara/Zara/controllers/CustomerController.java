@@ -152,7 +152,7 @@ public class CustomerController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/findByPhoneNumber/{phoneNumber}")
+    @GetMapping("/findByPhoneNumber/{phoneNumber}")
     public ResponseEntity<?>findCustomberByPhoneNumber(@PathVariable String phoneNumber) throws UnsupportedEncodingException {
         if (!phoneNumber.startsWith("+")){
             phoneNumber= "+"+phoneNumber;
