@@ -32,6 +32,7 @@ public class Business {
     private String email;
     private String password;
     private String type;
+    private String profilePic;
 
     private String airtelMoneyNumber;
     private String orangeMoneyNumber;

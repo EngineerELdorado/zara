@@ -30,5 +30,6 @@ public class Agent {
     private String status;
     private String statusDescription;
     private boolean verified;
+    private String profilePic;
 
 }

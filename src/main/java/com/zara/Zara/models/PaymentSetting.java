@@ -9,6 +9,10 @@ public class PaymentSetting {
     private String orangeMoneyNumber;
     private String mpesaNmumber;
     private String bankAccountNumber;
+    private String bankAccountName;
+    private String bankAccountHolder;
+    private String bankAccountSwift;
+    private String bankAccountCountry;
     private String paypalEmail;
     private String pin;
 }

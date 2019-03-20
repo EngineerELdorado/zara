@@ -188,28 +188,5 @@ public class CustomerController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/updateSettings/{phoneNumber}")
-    public ResponseEntity<?>updateSettings(@RequestBody PaymentSetting setting, @PathVariable String phoneNumber){
-        if (!phoneNumber.startsWith("+")){
-            phoneNumber= "+"+phoneNumber;
-        }
-        Customer customer = customerService.findByPhoneNumber(phoneNumber);
-        if (customer==null){
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Business introuvable");
-        }
-
-        else{
-            customer.setAirtelMoneyNumber(setting.getAirtelMoneyNumber());
-            customer.setOrangeMoneyNumber(setting.getOrangeMoneyNumber());
-            customer.setMpesaNumber(setting.getMpesaNmumber());
-            customer.setPaypalemail(setting.getPaypalEmail());
-            customer.setBankAccountNumber(setting.getBankAccountNumber());
-            apiResponse.setResponseCode("00");
-            apiResponse.setResponseMessage("Settings successfully updated");
-            customerService.save(customer);
-        }
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-    }
-
+    
 }
