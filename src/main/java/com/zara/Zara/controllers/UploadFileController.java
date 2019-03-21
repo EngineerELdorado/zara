@@ -20,7 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/files")
@@ -36,17 +41,19 @@ public class UploadFileController {
     @Autowired
     IAgentService agentService;
     ApiResponse apiResponse = new ApiResponse();
+    String UPLOAD_DIR = "D://upload//";
 
     @PostMapping("/uploadProfilePic")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
                                         @RequestParam("user_type")String user_type,
-                                        @RequestParam("id") String id) {
-        String fileName = fileStorageService.storeFile(file);
+                                        @RequestParam("id") String id) throws IOException {
+        String fileExtension = getFileExtension(file);
+        String filename = getRandomString();
+        File targetFile = getTargetFile(fileExtension, filename);
 
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
-                .path(fileName)
-                .toUriString();
+        byte[] bytes = file.getBytes();
+        file.transferTo(targetFile);
+        String fileDownloadUri = targetFile.getAbsolutePath();
         if (user_type.equals("customer")){
             Customer customer = customerService.findByPhoneNumber(id);
             customer.setProfilePic(fileDownloadUri);
@@ -70,27 +77,36 @@ public class UploadFileController {
     }
 
 
-    @GetMapping("/downloadFile/{fileName:.+}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        // Load file as Resource
-        Resource resource = fileStorageService.loadFileAsResource(fileName);
+    private String getRandomString() {
+        return new Random().nextInt(999999) + "_" + System.currentTimeMillis();
+    }
 
-        // Try to determine file's content type
-        String contentType = null;
+    private File getTargetFile(String fileExtn, String fileName) {
+        File targetFile = new File(getResourcePath() + fileName + fileExtn);
+        return targetFile;
+    }
+
+    private String getFileExtension(MultipartFile inFile) {
+        String fileExtention = inFile.getOriginalFilename().substring(inFile.getOriginalFilename().lastIndexOf('.'));
+        return fileExtention;
+    }
+
+    /**
+     * Reads the relative path to the resource directory from the <code>RESOURCE_PATH</code> file located in
+     * <code>src/main/resources</code>
+     * @return the relative path to the <code>resources</code> in the file system, or
+     *         <code>null</code> if there was an error
+     */
+    private static String getResourcePath() {
         try {
-            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException ex) {
-            //logger.info("Could not determine file type.");
+            URI resourcePathFile = System.class.getResource("/UPLOAD_PATH").toURI();
+            String resourcePath = Files.readAllLines(Paths.get(resourcePathFile)).get(0);
+            URI rootURI = new File("").toURI();
+            URI resourceURI = new File(resourcePath).toURI();
+            URI relativeResourceURI = rootURI.relativize(resourceURI);
+            return relativeResourceURI.getPath();
+        } catch (Exception e) {
+            return null;
         }
-
-        // Fallback to the default content type if type could not be determined
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
     }
 }
