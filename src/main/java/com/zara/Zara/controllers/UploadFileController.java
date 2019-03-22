@@ -43,9 +43,9 @@ public class UploadFileController {
 
         if (user_type.equals("customer")){
             Customer customer = customerService.findByPhoneNumber(id);
-            if (file_type.equals("profile_image")){
+            if (file_type.equals("profile")){
                 customer.setProfilePic(file);
-            }else if (file_type.equals("docImage")){
+            }else if (file_type.equals("doc")){
                 customer.setNationalIdPic(file);
             }
 
@@ -53,18 +53,18 @@ public class UploadFileController {
         }
         else  if (user_type.equals("business")){
             Business business = businessService.findByBusinessNumber(id);
-            if (file_type.equals("profile_image")){
+            if (file_type.equals("profile")){
                 business.setProfilePic(file);
-            }else if (file_type.equals("docImage")){
+            }else if (file_type.equals("doc")){
                 business.setNationalIdPic(file);
             }
             businessService.save(business);
         }
         else  if (user_type.equals("agent")){
             Agent agent = agentService.findByAgentNumber(id);
-            if (file_type.equals("profile_image")){
+            if (file_type.equals("profile")){
                 agent.setProfilePic(file);
-            }else if (file_type.equals("docImage")){
+            }else if (file_type.equals("doc")){
                 agent.setNationalIdPic(file);
             }
             agentService.save(agent);
