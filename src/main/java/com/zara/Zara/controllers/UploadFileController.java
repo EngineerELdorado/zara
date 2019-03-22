@@ -7,19 +7,12 @@ import com.zara.Zara.entities.Customer;
 import com.zara.Zara.services.IAgentService;
 import com.zara.Zara.services.IBusinessService;
 import com.zara.Zara.services.ICustomerService;
-import com.zara.Zara.services.utils.FileStorageService;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -33,15 +26,12 @@ import java.util.Random;
 public class UploadFileController {
 
     @Autowired
-    private FileStorageService fileStorageService;
-    @Autowired
     ICustomerService customerService;
     @Autowired
     IBusinessService businessService;
     @Autowired
     IAgentService agentService;
     ApiResponse apiResponse = new ApiResponse();
-    String UPLOAD_DIR = "D://upload//";
 
     @PostMapping("/uploadProfilePic")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
