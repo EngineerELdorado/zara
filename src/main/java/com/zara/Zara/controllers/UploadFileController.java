@@ -7,6 +7,8 @@ import com.zara.Zara.entities.Customer;
 import com.zara.Zara.services.IAgentService;
 import com.zara.Zara.services.IBusinessService;
 import com.zara.Zara.services.ICustomerService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +34,7 @@ public class UploadFileController {
     @Autowired
     IAgentService agentService;
     ApiResponse apiResponse = new ApiResponse();
-
+    Logger LOGGER = LogManager.getLogger(UploadFileController.class);
     static String UPLOAD_PATH="src/resources/uploads";
 
     @PostMapping("/uploadProfilePic")
@@ -41,6 +43,7 @@ public class UploadFileController {
                                         @RequestParam("file_type")String file_type,
                                         @RequestParam("id") String id) throws IOException {
 
+        LOGGER.info("File: "+file+" File Type: "+file_type+" User Type: "+user_type+" ID"+id);
         if (user_type.equals("customer")){
             Customer customer = customerService.findByPhoneNumber(id);
             if (file_type.equals("profile")){
