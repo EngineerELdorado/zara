@@ -50,7 +50,7 @@ public class UploadFileController {
 
             }
             LOGGER.info("new ID: "+id);
-            Customer customer = customerService.findByPhoneNumber(id);
+            Customer customer = customerService.findByPhoneNumber(id.trim());
             if (file_type.equals("profile")){
                 customer.setProfilePic(file);
             }else if (file_type.equals("doc")){
