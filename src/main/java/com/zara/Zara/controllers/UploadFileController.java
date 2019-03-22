@@ -36,33 +36,27 @@ public class UploadFileController {
     static String UPLOAD_PATH="src/resources/uploads";
 
     @PostMapping("/uploadProfilePic")
-    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
+    public ResponseEntity<?> uploadFile(@RequestParam("file") String file,
                                         @RequestParam("user_type")String user_type,
                                         @RequestParam("id") String id) throws IOException {
-        String fileExtension = getFileExtension(file);
-        String filename = getRandomString();
-        File targetFile = getTargetFile(fileExtension, filename);
 
-        byte[] bytes = file.getBytes();
-        file.transferTo(targetFile);
-        String fileDownloadUri = targetFile.getAbsolutePath();
         if (user_type.equals("customer")){
             Customer customer = customerService.findByPhoneNumber(id);
-            customer.setProfilePic(fileDownloadUri);
+            customer.setProfilePic(file);
             customerService.save(customer);
         }
         else  if (user_type.equals("business")){
             Business business = businessService.findByBusinessNumber(id);
-            business.setProfilePic(fileDownloadUri);
+            business.setProfilePic(file);
             businessService.save(business);
         }
         else  if (user_type.equals("agent")){
             Agent agent = agentService.findByAgentNumber(id);
-            agent.setProfilePic(fileDownloadUri);
+            agent.setProfilePic(file);
             agentService.save(agent);
         }
         apiResponse.setResponseCode("00");
-        apiResponse.setResponseMessage(fileDownloadUri);
+        apiResponse.setResponseMessage("Photo successfully saved");
 
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
