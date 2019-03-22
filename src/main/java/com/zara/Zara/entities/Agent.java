@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @Entity(name = "agents")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Agent {
 
     @Id

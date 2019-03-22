@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 @Entity(name = "customers")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Customer {
 
     @Id
