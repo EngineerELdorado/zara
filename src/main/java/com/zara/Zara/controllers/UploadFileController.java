@@ -45,6 +45,10 @@ public class UploadFileController {
 
         LOGGER.info("File: "+file+" File Type: "+file_type+" User Type: "+user_type+" ID"+id);
         if (user_type.equals("customer")){
+            if (!id.startsWith("+")){
+                id = "+"+id;
+
+            }
             Customer customer = customerService.findByPhoneNumber(id);
             if (file_type.equals("profile")){
                 customer.setProfilePic(file);

@@ -31,7 +31,9 @@ public class Customer {
     private BigDecimal balance;
     @Transient
     private String otp;
+    @Column(columnDefinition = "TEXT")
     private String profilePic;
+    @Column(columnDefinition = "TEXT")
     private String nationalIdPic;
 
 }

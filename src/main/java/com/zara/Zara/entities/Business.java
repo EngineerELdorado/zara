@@ -32,7 +32,9 @@ public class Business {
     private String email;
     private String password;
     private String type;
+    @Column(columnDefinition = "TEXT")
     private String profilePic;
+    @Column(columnDefinition = "TEXT")
     private String nationalIdPic;
     private String airtelMoneyNumber;
     private String orangeMoneyNumber;
