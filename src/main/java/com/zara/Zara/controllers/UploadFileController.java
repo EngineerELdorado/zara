@@ -38,21 +38,35 @@ public class UploadFileController {
     @PostMapping("/uploadProfilePic")
     public ResponseEntity<?> uploadFile(@RequestParam("file") String file,
                                         @RequestParam("user_type")String user_type,
+                                        @RequestParam("file_type")String file_type,
                                         @RequestParam("id") String id) throws IOException {
 
         if (user_type.equals("customer")){
             Customer customer = customerService.findByPhoneNumber(id);
-            customer.setProfilePic(file);
+            if (file_type.equals("profile_image")){
+                customer.setProfilePic(file);
+            }else if (file_type.equals("docImage")){
+                customer.setNationalIdPic(file);
+            }
+
             customerService.save(customer);
         }
         else  if (user_type.equals("business")){
             Business business = businessService.findByBusinessNumber(id);
-            business.setProfilePic(file);
+            if (file_type.equals("profile_image")){
+                business.setProfilePic(file);
+            }else if (file_type.equals("docImage")){
+                business.setNationalIdPic(file);
+            }
             businessService.save(business);
         }
         else  if (user_type.equals("agent")){
             Agent agent = agentService.findByAgentNumber(id);
-            agent.setProfilePic(file);
+            if (file_type.equals("profile_image")){
+                agent.setProfilePic(file);
+            }else if (file_type.equals("docImage")){
+                agent.setNationalIdPic(file);
+            }
             agentService.save(agent);
         }
         apiResponse.setResponseCode("00");

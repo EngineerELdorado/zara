@@ -31,5 +31,5 @@ public class Agent {
     private String statusDescription;
     private boolean verified;
     private String profilePic;
-
+    private String nationalIdPic;
 }

@@ -33,7 +33,7 @@ public class Business {
     private String password;
     private String type;
     private String profilePic;
-
+    private String nationalIdPic;
     private String airtelMoneyNumber;
     private String orangeMoneyNumber;
     private String mpesaNumber;

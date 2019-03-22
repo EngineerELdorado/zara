@@ -32,5 +32,6 @@ public class Customer {
     @Transient
     private String otp;
     private String profilePic;
+    private String nationalIdPic;
 
 }
