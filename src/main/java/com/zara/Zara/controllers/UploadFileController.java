@@ -49,6 +49,7 @@ public class UploadFileController {
                 id = "+"+id;
 
             }
+            LOGGER.info("new ID: "+id);
             Customer customer = customerService.findByPhoneNumber(id);
             if (file_type.equals("profile")){
                 customer.setProfilePic(file);
