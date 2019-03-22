@@ -19,8 +19,6 @@
 	</parent>
 
 	<properties>
-			<UPLOAD_PATH>${project.basedir}/src/main/resources/uploads</UPLOAD_PATH>
-
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -135,12 +133,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<resources>
-			<resource>
-				<directory>${UPLOAD_PATH}</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
 	</build>
 
 

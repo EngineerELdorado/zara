@@ -33,6 +33,8 @@ public class UploadFileController {
     IAgentService agentService;
     ApiResponse apiResponse = new ApiResponse();
 
+    static String UPLOAD_PATH="src/resources/uploads";
+
     @PostMapping("/uploadProfilePic")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
                                         @RequestParam("user_type")String user_type,
@@ -72,7 +74,7 @@ public class UploadFileController {
     }
 
     private File getTargetFile(String fileExtn, String fileName) {
-        File targetFile = new File(getResourcePath() + fileName + fileExtn);
+        File targetFile = new File(UPLOAD_PATH + fileName + fileExtn);
         return targetFile;
     }
 
@@ -87,16 +89,5 @@ public class UploadFileController {
      * @return the relative path to the <code>resources</code> in the file system, or
      *         <code>null</code> if there was an error
      */
-    private static String getResourcePath() {
-        try {
-            URI resourcePathFile = System.class.getResource("/UPLOAD_PATH").toURI();
-            String resourcePath = Files.readAllLines(Paths.get(resourcePathFile)).get(0);
-            URI rootURI = new File("").toURI();
-            URI resourceURI = new File(resourcePath).toURI();
-            URI relativeResourceURI = rootURI.relativize(resourceURI);
-            return relativeResourceURI.getPath();
-        } catch (Exception e) {
-            return null;
-        }
-    }
+
 }
