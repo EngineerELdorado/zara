@@ -12,7 +12,7 @@ import java.util.Properties;
 @Service
 public class EmailService {
 
-    public static void sendmail(String otp, String email) throws AddressException, MessagingException, IOException {
+    public static void sendmail(String mail, String email) throws AddressException, MessagingException, IOException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -29,7 +29,7 @@ public class EmailService {
 
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
         msg.setSubject("EMAIL VERIFICATION");
-        msg.setContent(otp, "text/html");
+        msg.setContent(mail, "text/html");
         msg.setSentDate(new Date());
 
         MimeBodyPart messageBodyPart = new MimeBodyPart();

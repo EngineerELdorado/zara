@@ -6,6 +6,7 @@ import com.zara.Zara.models.*;
 import com.zara.Zara.services.IBusinessService;
 import com.zara.Zara.services.utils.OtpService;
 import com.zara.Zara.services.utils.SmsService;
+import com.zara.Zara.utils.BusinessNumbersGenerator;
 import com.zara.Zara.utils.EmailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,13 +42,15 @@ public class BusinessController {
     EmailService emailService;
     Logger LOG = LogManager.getLogger(CustomerController.class);
     @PostMapping("/post")
-    public ResponseEntity<?>createBusiness(@RequestBody Business business) throws UnsupportedEncodingException {
+    public ResponseEntity<?>createBusiness(@RequestBody Business business) throws IOException, MessagingException {
 
         business.setPin(bCryptPasswordEncoder.encode(business.getPin()));
         business.setCreatedOn(new Date());
         business.setVerified(true);
         business.setStatus("ACTIVE");
-        business.setStatusDescription("the customer verified");
+        business.setBusinessNumber(BusinessNumbersGenerator.generateBusinessNumber(businessService));
+        business.setBusinessName(business.getBusinessName());
+        business.setStatusDescription("the business is verified");
         business.setBalance(new BigDecimal("0"));
         if (!isEmailTaken(business.getEmail())){
             Business savedBusiness = businessService.save(business);
@@ -58,6 +61,7 @@ public class BusinessController {
                 LOG.info("REGISTRATION SUCCESSFUL");
                 Sms sms = new Sms();
                 sms.setTo(savedBusiness.getPhoneNumber());
+                emailService.sendmail("Cher "+business.getBusinessName()+" Bievenu sur PesaPay. votre identifiant unique est: "+savedBusiness.getBusinessNumber(),savedBusiness.getEmail());
                 sms.setMessage("Cher "+business.getBusinessName()+" Bievenu sur PesaPay. votre identifiant unique est: "+savedBusiness.getBusinessNumber());
                 SmsService.sendSms(sms);
             }else{
