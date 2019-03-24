@@ -167,7 +167,7 @@ public class WithdrawalController {
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Le compte du client n'est pas encore verifie\n "+business.getStatusDescription());
             LOGGER.info("CUSTOMER ACCOUNT NOT VERIFIED");
-        }else if (!bCryptPasswordEncoder.matches(request.getPin(), business.getPin())){
+        }else if (!bCryptPasswordEncoder.matches(request.getPin(), business.getPassword())){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Pin Incorrect");
             LOGGER.info("INCORRECT PIN FOR CUSTOMER "+ agent.getAgentNumber());
