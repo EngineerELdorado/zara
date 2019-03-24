@@ -31,6 +31,8 @@ public class Business {
     private boolean verified;
     private String email;
     private String password;
+    @Transient
+    private String otp;
     private String type;
     @Column(columnDefinition = "TEXT")
     private String profilePic;

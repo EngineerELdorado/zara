@@ -1,16 +1,11 @@
 package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
-import com.zara.Zara.entities.Agent;
 import com.zara.Zara.entities.Business;
-import com.zara.Zara.entities.Customer;
 import com.zara.Zara.models.*;
-import com.zara.Zara.services.IAgentService;
 import com.zara.Zara.services.IBusinessService;
 import com.zara.Zara.services.utils.OtpService;
 import com.zara.Zara.services.utils.SmsService;
-import com.zara.Zara.utils.BusinessNumbersGenerator;
-import com.zara.Zara.utils.GenerateRandomStuff;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Random;
+
+import static com.zara.Zara.constants.Responses.PHONE_NUMBER_ALREADY_TAKEN;
+import static com.zara.Zara.constants.Responses.USER_REGISTRATION_SUCCESS;
 
 @RestController
 @RequestMapping("/businesses")
@@ -41,28 +38,32 @@ public class BusinessController {
     @PostMapping("/post")
     public ResponseEntity<?>createBusiness(@RequestBody Business business) throws UnsupportedEncodingException {
 
-        LOG.info(business.toString());
-        business.setBusinessNumber(BusinessNumbersGenerator.generateBusinessNumber(businessService));
-        business.setPin(bCryptPasswordEncoder.encode(business.getPassword()));
-        business.setPassword(bCryptPasswordEncoder.encode(business.getPassword()));
-        business.setStatus("ACTIVE");
-        business.setVerified(true);
+        business.setPin(bCryptPasswordEncoder.encode(business.getPin()));
         business.setCreatedOn(new Date());
+        business.setVerified(true);
+        business.setStatus("ACTIVE");
+        business.setStatusDescription("the customer verified");
         business.setBalance(new BigDecimal("0"));
-        Business business1 = businessService.save(business);
-        if (business1!=null){
-            apiResponse.setResponseCode("00");
-            apiResponse.setResponseMessage("Enregistrement Reussi");
-            apiResponse.setBusiness(business1);
-            sms.setTo(business.getPhoneNumber());
-            sms.setMessage(business.getBusinessName()+" Bievenu sur PesaPay. vous avez maintenant un compte BUSINESS. votre numero business" +
-                    " est "+business1.getBusinessNumber());
-            SmsService.sendSms(sms);
-
-
+        if (!isEmailTaken(business.getEmail())){
+            Business savedBusiness = businessService.save(business);
+            if (savedBusiness!=null){
+                apiResponse.setResponseCode("00");
+                apiResponse.setResponseMessage(USER_REGISTRATION_SUCCESS);
+                apiResponse.setBusiness(savedBusiness);
+                LOG.info("REGISTRATION SUCCESSFUL");
+                Sms sms = new Sms();
+                sms.setTo(savedBusiness.getPhoneNumber());
+                sms.setMessage("Cher "+business.getBusinessName()+" Bievenu sur PesaPay. votre identifiant unique est: "+savedBusiness.getBusinessNumber());
+                SmsService.sendSms(sms);
+            }else{
+                apiResponse.setResponseCode("01");
+                apiResponse.setResponseMessage(USER_REGISTRATION_SUCCESS);
+                LOG.info("REGISTRATION FAILED. BAD REQUEST PROBABLY");
+            }
         }else{
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Enregistrement Echoue");
+            apiResponse.setResponseMessage(PHONE_NUMBER_ALREADY_TAKEN);
+            LOG.info("REGISTRATION FAILED. PHONE NUMBER ALREADY TAKEN");
         }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
@@ -89,8 +90,8 @@ public class BusinessController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    public boolean isPhoneTaken(String businessNumber){
-        Business business = businessService.findByBusinessNumber(businessNumber);
+    public boolean isEmailTaken(String businessNumber){
+        Business business = businessService.findByEmail(businessNumber);
         if (business!=null){
             return true;
         }else {
@@ -111,32 +112,17 @@ public class BusinessController {
 
     }
     @PostMapping("/validateOtp")
-    public ResponseEntity <?> validateOtp(@RequestBody OtpObject otpObject) throws UnsupportedEncodingException {
+    public ResponseEntity <?> validateOtp(@RequestBody Business otpObject) throws UnsupportedEncodingException {
 
 //Validate the Otp
-        if(otpObject.getOtp() >= 0){
+        if(Integer.parseInt(otpObject.getOtp()) >= 0){
             int serverOtp = otpService.getOtp(otpObject.getPhoneNumber());
             if(serverOtp > 0){
-                if(otpObject.getOtp() == serverOtp){
+                if(Integer.parseInt(otpObject.getOtp()) == serverOtp){
+                    otpService.clearOTP(otpObject.getPhoneNumber());
+                    apiResponse.setResponseCode("00");
+                    apiResponse.setResponseMessage("SUCCESS");
 
-                    Business business = businessService.findByPhoneNumber(otpObject.getPhoneNumber());
-                    if (business!=null){
-                        business.setStatusDescription("numero de compte verifie");
-                        business.setVerified(true);
-                        business.setStatus("ACTIVE");
-                        businessService.save(business);
-                        otpService.clearOTP(otpObject.getPhoneNumber());
-                        apiResponse.setResponseCode("00");
-                        apiResponse.setResponseMessage("SUCCESS");
-                        apiResponse.setBusiness(business);
-                        Sms sms = new Sms();
-                        sms.setTo(otpObject.getPhoneNumber());
-                        sms.setMessage("Cher "+business.getBusinessName()+" Bievenu sur PesaPay. vous etes maintenant business");
-                        SmsService.sendSms(sms);
-                    }else{
-                        apiResponse.setResponseCode("01");
-                        apiResponse.setResponseMessage("USER NOT FOUND");
-                    }
                 }else{
                     apiResponse.setResponseCode("01");
                     apiResponse.setResponseMessage("WRONG OTP");

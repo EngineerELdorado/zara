@@ -53,7 +53,7 @@ public class CustomerController {
         customer.setCreationDate(new Date());
         customer.setVerified(true);
         customer.setStatus("ACTIVE");
-        customer.setStatusDescription("the customer needs to verify his phone number");
+        customer.setStatusDescription("the customer verified");
         customer.setBalance(new BigDecimal("0"));
         if (!isPhoneTaken(customer.getPhoneNumber())){
             Customer savedCustomer = customerService.save(customer);
