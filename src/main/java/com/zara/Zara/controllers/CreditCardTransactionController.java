@@ -82,6 +82,7 @@ public class CreditCardTransactionController {
                      transaction.setCreatedOn(new Date());
                      transaction.setStatus("00");
                      transaction.setDescription("Deposit(card) successful");
+                     transaction.setCreatedByCustomer(senderCustomer);
                      transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                      transaction.setReceivedByCustomer(senderCustomer);
                      transaction.setTransactionType(TRANSACTION_CREDIT_CARD_DEPOSIT);
@@ -158,6 +159,7 @@ public class CreditCardTransactionController {
                     transaction.setCreatedOn(new Date());
                     transaction.setStatus("00");
                     transaction.setDescription("Deposit(card) successful");
+                    transaction.setCreatedByBusiness(business);
                     transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                     transaction.setReceivedByBusiness(business);
                     transaction.setTransactionType(TRANSACTION_CREDIT_CARD_DEPOSIT);
@@ -225,6 +227,7 @@ public class CreditCardTransactionController {
                     PesapayTransaction transaction = new PesapayTransaction();
                     transaction.setAmount(new BigDecimal(request.getAmount()));
                     transaction.setCreatedOn(new Date());
+                    transaction.setCreatedByBusiness(business);
                     transaction.setStatus("00");
                     transaction.setDescription("Deposit(PayPal) successful");
                     transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
@@ -293,6 +296,7 @@ public class CreditCardTransactionController {
                 transaction.setCreatedOn(new Date());
                 transaction.setStatus("00");
                 transaction.setDescription("Deposit(PayPal) successful");
+                transaction.setCreatedByCustomer(customer);
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                 transaction.setReceivedByCustomer(customer);
                 transaction.setTransactionType(TRANSACTION_PAYPAL_DEPOSIT);
@@ -380,6 +384,7 @@ public class CreditCardTransactionController {
                 transaction.setDescription("transfer ver(PayPal) en suspens. en destination de paypal au compte "+request.getForPaypalEmail());
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                 transaction.setCreatedByCustomer(customer);
+                transaction.setReceivedByCustomer(customer);
                 transaction.setTransactionType(TRANSACTION_PESAPAY_TO_PAYPAL_CUSTOMER);
 
                 PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
