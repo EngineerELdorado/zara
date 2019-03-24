@@ -61,7 +61,7 @@ public class BusinessController {
                 LOG.info("REGISTRATION SUCCESSFUL");
                 Sms sms = new Sms();
                 sms.setTo(savedBusiness.getPhoneNumber());
-                emailService.sendmail("Cher "+business.getBusinessName()+" Bievenu sur PesaPay. votre identifiant unique est: "+savedBusiness.getBusinessNumber(),savedBusiness.getEmail());
+                emailService.sendmail("WELCOME","Cher "+business.getBusinessName()+" Bievenu sur PesaPay. votre identifiant unique est: "+savedBusiness.getBusinessNumber(),savedBusiness.getEmail());
                 sms.setMessage("Cher "+business.getBusinessName()+" Bievenu sur PesaPay. votre identifiant unique est: "+savedBusiness.getBusinessNumber());
                 SmsService.sendSms(sms);
             }else{
@@ -116,7 +116,7 @@ public class BusinessController {
            apiResponse.setResponseCode("00");
            apiResponse.setResponseMessage("Otp successfully generated");
 
-           emailService.sendmail("votre code de verification pour PesaPay est "+ otp, otpObject.getEmail());
+           emailService.sendmail("EMAIL VERIFICATION","votre code de verification pour PesaPay est "+ otp, otpObject.getEmail());
        }else {
            apiResponse.setResponseCode("01");
            apiResponse.setResponseMessage("Cet email a deja un compte");
