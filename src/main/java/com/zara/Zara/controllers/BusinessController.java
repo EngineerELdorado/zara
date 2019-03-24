@@ -63,7 +63,7 @@ public class BusinessController {
         }else{
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage(PHONE_NUMBER_ALREADY_TAKEN);
-            LOG.info("REGISTRATION FAILED. PHONE NUMBER ALREADY TAKEN");
+            LOG.info("REGISTRATION FAILED. EMAIL ALREADY TAKEN");
         }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
