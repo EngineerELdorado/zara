@@ -106,11 +106,19 @@ public class BusinessController {
 
     @PostMapping("/generateOtp")
     public ResponseEntity<?> generateOtp(@RequestBody OtpObject otpObject) throws IOException, MessagingException {
-        int otp = otpService.generateOTP(otpObject.getEmail());
-        apiResponse.setResponseCode("00");
-        apiResponse.setResponseMessage("Otp successfully generated");
 
-        emailService.sendmail("votre code de verification pour PesaPay est "+ otp);
+       if (!isEmailTaken(otpObject.getEmail())){
+           int otp = otpService.generateOTP(otpObject.getEmail());
+           apiResponse.setResponseCode("00");
+           apiResponse.setResponseMessage("Otp successfully generated");
+
+           emailService.sendmail("votre code de verification pour PesaPay est "+ otp);
+       }else {
+           apiResponse.setResponseCode("01");
+           apiResponse.setResponseMessage("Cet email a deja un compte");
+
+       }
+
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
     }
