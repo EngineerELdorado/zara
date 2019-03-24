@@ -2,11 +2,13 @@ package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Agent;
+import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.Customer;
 import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
 import com.zara.Zara.services.IAgentService;
+import com.zara.Zara.services.IBusinessService;
 import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.utils.SmsService;
@@ -35,6 +37,8 @@ public class WithdrawalController {
     Sms sms = new Sms();
     @Autowired
     ICustomerService customerService;
+    @Autowired
+    IBusinessService businessService;
     @Autowired
     ITransactionService transactionService;
     @Autowired
@@ -130,4 +134,93 @@ public class WithdrawalController {
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+
+    @PostMapping("/business/post")
+    public ResponseEntity<?>businessPost(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {
+
+        Agent agent = agentService.findByAgentNumber(request.getReceiver());
+        Business business = businessService.findByBusinessNumber(request.getSender());
+        if (agent==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Ce numero agent n'existe pas");
+            LOGGER.info("AGENT NUMBER NOT FOUND FOR "+ request.getReceiver());
+        }else if (!agent.getStatus().equals("ACTIVE")){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Cet compte agent est bloquE");
+            LOGGER.info("ACCOUNT NOT ACTIVE FOR AGENT "+agent.getAgentNumber());
+        }else if (!agent.isVerified()){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Agent non verifiE");
+            LOGGER.info("ACCOUNT NOT VERIFIED FOR AGENT "+agent.getAgentNumber());
+        }
+        else if (business==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Ce numero de client n'existe pas");
+            LOGGER.info("CUSTOMER ACCOUNT NOT FOUND");
+        }
+        else if (!business.getStatus().equals("ACTIVE")){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Le compte du client n'est pas actif\n "+business.getStatusDescription());
+            LOGGER.info("CUSTOMER ACCOUNT NOT ACTIVE");
+        }else if (!business.isVerified()){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Le compte du client n'est pas encore verifie\n "+business.getStatusDescription());
+            LOGGER.info("CUSTOMER ACCOUNT NOT VERIFIED");
+        }else if (!bCryptPasswordEncoder.matches(request.getPin(), business.getPin())){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Pin Incorrect");
+            LOGGER.info("INCORRECT PIN FOR CUSTOMER "+ agent.getAgentNumber());
+        }
+        else if (business.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Solde Insuffisant "+business.getBalance()+" USD");
+            LOGGER.info("CUSTOMER BALANCE INSUFFICIENT FOR CUSTOMER "+business.getBusinessName());
+        }else{
+            PesapayTransaction transaction = new PesapayTransaction();
+            transaction.setAmount(new BigDecimal(request.getAmount()));
+            transaction.setCreatedOn(new Date());
+            transaction.setStatus("00");
+            transaction.setDescription("Withdrawal successful");
+            transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+            transaction.setCreatedByBusiness(business);
+            transaction.setReceivedByAgent(agent);
+            transaction.setTransactionType(TRANSACTION_WITHDRAWAL);
+
+            PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
+            if (createdTransaction==null){
+                apiResponse.setResponseCode("01");
+                apiResponse.setResponseMessage("ECHEC");
+                LOGGER.info("TRANSACTION FAILED TO PERSIST TO DATABASE");
+            }else {
+
+                business.setBalance(business.getBalance().subtract(new BigDecimal(request.getAmount())));
+                Business updatedbusiness = businessService.save(business);
+
+                Sms sms1 = new Sms();
+                sms1.setTo(business.getPhoneNumber());
+                sms1.setMessage(business.getBusinessName()+ " vous venez de retirer de votre compte "+request.getAmount()+"USD au numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via PesaPay. "+
+                        " type de transaction RETRAIT DIRECT. votre solde actuel est "+updatedbusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+                SmsService.sendSms(sms1);
+
+                agent.setBalance(agent.getBalance().add(new BigDecimal(request.getAmount())));
+                Agent updatedAgent = agentService.save(agent);
+                Sms sms2 = new Sms();
+                sms2.setTo(agent.getPhoneNumber());
+                sms2.setMessage(agent.getFullName()+ " vous venez de recevoir "+request.getAmount()+"USD venant de "+business.getBusinessName()+" via PesaPay. "+
+                        " type de transaction RETRAIT DIRECT. votre solde actuel est "+updatedAgent.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+                SmsService.sendSms(sms2);
+
+
+
+                apiResponse.setResponseCode("00");
+                apiResponse.setResponseMessage("TRANSACTION REUSSIE");
+                LOGGER.info("DEPOSIT TRANSACTION SUCCESSFUL "+transaction.getTransactionNumber());
+
+            }
+        }
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
 }
