@@ -25,7 +25,7 @@ public class EmailService {
             }
         });
         Message msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress("PesaPay", true));
+        msg.setFrom(new InternetAddress("pesapaydev@gmail.com", "PesaPay Ltd"));
 
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
         msg.setSubject("EMAIL VERIFICATION");
