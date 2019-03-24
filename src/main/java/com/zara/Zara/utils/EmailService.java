@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.*;
 import javax.mail.internet.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
@@ -38,7 +39,7 @@ public class EmailService {
         multipart.addBodyPart(messageBodyPart);
         MimeBodyPart attachPart = new MimeBodyPart();
 
-        attachPart.attachFile("https://firebasestorage.googleapis.com/v0/b/pesapay-27aff.appspot.com/o/logo.jpg?alt=media&token=f15e5377-f685-442d-ad8e-e0b81b34080f");
+        attachPart.attachFile(new File(EmailService.class.getClassLoader().getResource("uploads/logo.jpg").getFile()));
         multipart.addBodyPart(attachPart);
         msg.setContent(multipart);
         Transport.send(msg);
