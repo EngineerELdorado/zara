@@ -11,7 +11,7 @@ import java.util.Properties;
 @Service
 public class EmailService {
 
-    public static void sendmail(String otp) throws AddressException, MessagingException, IOException {
+    public static void sendmail(String otp, String email) throws AddressException, MessagingException, IOException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -26,21 +26,21 @@ public class EmailService {
         Message msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress("pesapaydev@gmail.com", false));
 
-        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("tutorialspoint@gmail.com"));
+        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
         msg.setSubject("EMAIL VERIFICATION");
-        msg.setContent("Tutorials point email", "text/html");
+        msg.setContent(otp, "text/html");
         msg.setSentDate(new Date());
 
         MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setContent("Tutorials point email", "text/html");
+        messageBodyPart.setContent("Email verification", "text/html");
 
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(messageBodyPart);
         MimeBodyPart attachPart = new MimeBodyPart();
 
-//        attachPart.attachFile("/var/tmp/image19.png");
-//        multipart.addBodyPart(attachPart);
-//        msg.setContent(multipart);
+        attachPart.attachFile("https://firebasestorage.googleapis.com/v0/b/pesapay-27aff.appspot.com/o/logo.jpg?alt=media&token=f15e5377-f685-442d-ad8e-e0b81b34080f");
+        multipart.addBodyPart(attachPart);
+        msg.setContent(multipart);
         Transport.send(msg);
     }
 }

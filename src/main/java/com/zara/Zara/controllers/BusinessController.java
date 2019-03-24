@@ -112,7 +112,7 @@ public class BusinessController {
            apiResponse.setResponseCode("00");
            apiResponse.setResponseMessage("Otp successfully generated");
 
-           emailService.sendmail("votre code de verification pour PesaPay est "+ otp);
+           emailService.sendmail("votre code de verification pour PesaPay est "+ otp, otpObject.getEmail());
        }else {
            apiResponse.setResponseCode("01");
            apiResponse.setResponseMessage("Cet email a deja un compte");
