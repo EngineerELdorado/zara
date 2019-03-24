@@ -39,9 +39,9 @@ public class EmailService {
         multipart.addBodyPart(messageBodyPart);
         MimeBodyPart attachPart = new MimeBodyPart();
 
-        attachPart.attachFile(new File(EmailService.class.getClassLoader().getResource("uploads/logo.jpg").getFile()));
-        multipart.addBodyPart(attachPart);
-        msg.setContent(multipart);
+//        attachPart.attachFile(new File(EmailService.class.getClassLoader().getResource("uploads/logo.jpg").getFile()));
+//        multipart.addBodyPart(attachPart);
+//        msg.setContent(multipart);
         Transport.send(msg);
     }
 }
