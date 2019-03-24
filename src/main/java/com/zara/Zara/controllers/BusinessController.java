@@ -6,6 +6,7 @@ import com.zara.Zara.models.*;
 import com.zara.Zara.services.IBusinessService;
 import com.zara.Zara.services.utils.OtpService;
 import com.zara.Zara.services.utils.SmsService;
+import com.zara.Zara.utils.EmailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -34,6 +37,8 @@ public class BusinessController {
     OtpService otpService;
     ApiResponse apiResponse = new ApiResponse();
     Sms sms = new Sms();
+    @Autowired
+    EmailService emailService;
     Logger LOG = LogManager.getLogger(CustomerController.class);
     @PostMapping("/post")
     public ResponseEntity<?>createBusiness(@RequestBody Business business) throws UnsupportedEncodingException {
@@ -100,14 +105,12 @@ public class BusinessController {
     }
 
     @PostMapping("/generateOtp")
-    public ResponseEntity<?> generateOtp(@RequestBody OtpObject otpObject) throws UnsupportedEncodingException {
-        int otp = otpService.generateOTP(otpObject.getPhoneNumber());
+    public ResponseEntity<?> generateOtp(@RequestBody OtpObject otpObject) throws IOException, MessagingException {
+        int otp = otpService.generateOTP(otpObject.getEmail());
         apiResponse.setResponseCode("00");
         apiResponse.setResponseMessage("Otp successfully generated");
-        Sms sms = new Sms();
-        sms.setTo(otpObject.getPhoneNumber());
-        sms.setMessage("votre code de verification pour PesaPay est "+String.valueOf(otp));
-        SmsService.sendSms(sms);
+
+        emailService.sendmail("votre code de verification pour PesaPay est "+ otp);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
     }
@@ -116,10 +119,10 @@ public class BusinessController {
 
 //Validate the Otp
         if(Integer.parseInt(otpObject.getOtp()) >= 0){
-            int serverOtp = otpService.getOtp(otpObject.getPhoneNumber());
+            int serverOtp = otpService.getOtp(otpObject.getEmail());
             if(serverOtp > 0){
                 if(Integer.parseInt(otpObject.getOtp()) == serverOtp){
-                    otpService.clearOTP(otpObject.getPhoneNumber());
+                    otpService.clearOTP(otpObject.getEmail());
                     apiResponse.setResponseCode("00");
                     apiResponse.setResponseMessage("SUCCESS");
 
