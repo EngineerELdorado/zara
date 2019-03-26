@@ -130,7 +130,7 @@ public class TransactionController {
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 
-    @GetMapping("findByBusinessId/{businessNumber}")
+    @GetMapping("/findByBusinessId/{businessNumber}")
     public ResponseEntity<?> findByBusinessId(
                                                      @PathVariable String businessNumber,
                                                      @RequestParam("filter") String filter,
@@ -172,7 +172,7 @@ public class TransactionController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @GetMapping("withdrawals/findByBusinessId/{businessNumber}")
+    @GetMapping("/withdrawals/findByBusinessId/{businessNumber}")
     public ResponseEntity<?> findWithdrawalsByBusiness(
             @PathVariable String businessNumber,
             @RequestParam("filter") String filter,
@@ -214,7 +214,7 @@ public class TransactionController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @GetMapping("findCountByBusiness/{businessNumber}")
+    @GetMapping("/findCountByBusiness/{businessNumber}")
     public int findCountByBusiness(@PathVariable String businessNumber, @RequestParam("type") String type){
         Business business = businessService.findByBusinessNumber(businessNumber);
         int count =0;
