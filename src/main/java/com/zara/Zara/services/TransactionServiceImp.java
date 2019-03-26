@@ -71,6 +71,11 @@ public class TransactionServiceImp implements ITransactionService {
     }
 
     @Override
+    public Page<PesapayTransaction> findWithdrawalsByBusiness(Long id, Pageable pageable) {
+        return null;
+    }
+
+    @Override
     public int countByBusiness(Long id) {
         return transactionRepository.countByBusiness(id);
     }

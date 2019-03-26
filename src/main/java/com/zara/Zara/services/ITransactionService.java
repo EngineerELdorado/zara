@@ -22,6 +22,7 @@ public interface ITransactionService {
     Page<PesapayTransaction> findByBusinessWithFilter(Long id, String filter, Pageable pageable);
     Page<PesapayTransaction> findEntriesByBusiness(Long id, Pageable pageable);
     Page<PesapayTransaction> findOutsByBusiness(Long id, Pageable pageable);
+    Page<PesapayTransaction> findWithdrawalsByBusiness(Long id, Pageable pageable);
     int countByBusiness(Long id);
     int countEntriesByBusiness(Long id);
 
