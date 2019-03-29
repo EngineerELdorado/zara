@@ -193,9 +193,9 @@ public class TransactionController {
             apiResponse.setResponseMessage(pageable.getPageSize()+" transactions");
             if (type.equals("all")){
                 if (filter!=null && !filter.equals("")){
-                    apiResponse.setTransactions(transactionService.findByBusinessWithFilter(business.getId(),filter, pageable).getContent());
+                    apiResponse.setTransactions(transactionService.findWithdrawalsByBusiness(business.getId(), pageable).getContent());
                 }else{
-                    apiResponse.setTransactions(transactionService.findByBusiness(business.getId(), pageable).getContent());
+                    apiResponse.setTransactions(transactionService.findWithdrawalsByBusiness(business.getId(), pageable).getContent());
                 }
 
             }else if(type.equals("entries")){
