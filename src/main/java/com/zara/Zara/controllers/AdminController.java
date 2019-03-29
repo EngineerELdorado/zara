@@ -4,6 +4,7 @@ import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Admin;
 import com.zara.Zara.models.LoginObject;
 import com.zara.Zara.services.IAdminService;
+import io.swagger.annotations.Api;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 import java.util.Date;
 
+
 @RestController
 @RequestMapping("/admins")
 @CrossOrigin(origins = "*")
+@Api(hidden=true)
 public class AdminController {
 
     @Autowired
