@@ -20,7 +20,6 @@ import java.util.Date;
 @RestController
 @RequestMapping("/admins")
 @CrossOrigin(origins = "*")
-@Api(hidden=true)
 public class AdminController {
 
     @Autowired
