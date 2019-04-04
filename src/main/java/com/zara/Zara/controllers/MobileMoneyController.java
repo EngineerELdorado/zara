@@ -126,6 +126,7 @@ public class MobileMoneyController {
     @PostMapping("/customer/withdraw")
     public ResponseEntity<?> customerPesaPayToMobileMoney(@RequestBody TransactionRequestBody request,
                                                      @RequestParam String service) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
+
         customer = customerService.findByPhoneNumber(request.getSender());
         name = customer.getFullName();
         phone = customer.getPhoneNumber();
@@ -133,7 +134,7 @@ public class MobileMoneyController {
         if (customer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
-            LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getReceiver());
+            LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getSender());
         }
         else if (customer.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
             apiResponse.setResponseCode("01");
@@ -201,18 +202,37 @@ public class MobileMoneyController {
 
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Transaction Reussie");
+            Notification notification=null;
+            Sms sms2= new Sms();
+            String msg="";
+            if (business!=null){
+                business.setBalance(business.getBalance().subtract(new BigDecimal(request.getAmount())));
+                Business updatedBusiness = businessService.save(business);
+
+                sms2.setTo(phone);
+                notification = new Notification();
+               msg = " Votre transfer PesaPay -> Mobile est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte "+service+
+                        "  "+
+                        " dans moins de 3h. no de transaction "+createdTransaction.getTransactionNumber();
+            }
+
+            if (customer!=null){
+                customer.setBalance(customer.getBalance().subtract(new BigDecimal(request.getAmount())));
+                Customer updatedCustomer = customerService.save(customer);
+
+                sms2.setTo(phone);
+                notification = new Notification();
+                msg = " Votre transfer PesaPay -> Mobile est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte "+service+
+                        "  "+
+                        " dans moins de 3h. no de transaction "+createdTransaction.getTransactionNumber();
+            }
 
 
-            business.setBalance(business.getBalance().subtract(new BigDecimal(request.getAmount())));
-            Business updatedBusiness = businessService.save(business);
-            Sms sms2 = new Sms();
-            sms2.setTo(phone);
-            Notification notification = new Notification();
-            String msg = " Votre transfer PesaPay -> Mobile est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte "+service+
-                    "  "+
-                    " dans moins de 3h. no de transaction "+createdTransaction.getTransactionNumber();
             if (business!=null){
                 notification.setBusiness(business);
+            }
+            if (customer!=null){
+                notification.setCustomer(customer);
             }
 
             notification.setMessage(msg);
