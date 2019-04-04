@@ -149,11 +149,12 @@ public class MobileMoneyController {
             apiResponse.setResponseMessage("Votre compte n'est pas encore verifie");
             LOGGER.info("SENDER ACCOUNT NOT VERIFIED FOR "+request.getReceiver());
 
-        }else if (!bCryptPasswordEncoder.matches(request.getPin(), customer.getPin())){
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("votre pin est incorrect");
-            LOGGER.info("WRONG PIN FOR "+request.getSender());
         }
+//        else if (!bCryptPasswordEncoder.matches(request.getPin(), customer.getPin())){
+//            apiResponse.setResponseCode("01");
+//            apiResponse.setResponseMessage("votre pin est incorrect");
+//            LOGGER.info("WRONG PIN FOR "+request.getSender());
+//        }
 
         else{
             try {
