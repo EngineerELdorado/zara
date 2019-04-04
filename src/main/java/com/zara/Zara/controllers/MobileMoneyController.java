@@ -211,7 +211,7 @@ public class MobileMoneyController {
 
                 sms2.setTo(phone);
                 notification = new Notification();
-               msg = " Votre transfer PesaPay -> Mobile est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte "+service+
+               msg = " Votre transfer PesaPay A "+service+" est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte "+service+
                         "  "+
                         " dans moins de 3h. no de transaction "+createdTransaction.getTransactionNumber();
             }
@@ -222,7 +222,7 @@ public class MobileMoneyController {
 
                 sms2.setTo(phone);
                 notification = new Notification();
-                msg = " Votre transfer PesaPay -> Mobile est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte "+service+
+                msg = " Votre transfer PesaPay A "+service+" est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte "+service+
                         "  "+
                         " dans moins de 3h. no de transaction "+createdTransaction.getTransactionNumber();
             }
