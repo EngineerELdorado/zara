@@ -102,7 +102,7 @@ public class MobileMoneyController {
                 }else if (service.equals("orange_money")){
                     transaction.setTransactionType(TRANSACTION_ORANGE_WITHRAWAL);
                 }
-                process(transaction);
+                process(transaction, service);
 
 
             }catch (Exception e){
@@ -118,7 +118,7 @@ public class MobileMoneyController {
     }
 
 
-    public void process(PesapayTransaction transaction) throws UnsupportedEncodingException {
+    public void process(PesapayTransaction transaction, String service) throws UnsupportedEncodingException {
 
         PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
         if (createdTransaction==null){
@@ -136,9 +136,9 @@ public class MobileMoneyController {
             Sms sms2 = new Sms();
             sms2.setTo(business.getPhoneNumber());
             Notification notification = new Notification();
-            String msg = " Votre transfer PesaPay Pesa vers PayPal est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte PayPal"+
-                    "  "+request.getForPaypalEmail()+
-                    " dans moins de 3h. no de transaction "+transaction.getTransactionNumber();
+            String msg = " Votre transfer PesaPay -> Mobile est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte "+service+
+                    "  "+
+                    " dans moins de 3h. no de transaction "+createdTransaction.getTransactionNumber();
             notification.setBusiness(business);
             notification.setMessage(msg);
             notification.setDate(new Date());
