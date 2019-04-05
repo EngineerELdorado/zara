@@ -60,7 +60,8 @@ public class MobileMoneyController {
 
     @PostMapping("/business/withdraw")
     public ResponseEntity<?> businessPesaPayToMobileMoney(@RequestBody TransactionRequestBody request,
-                                                    @RequestParam String service) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
+                                                          @RequestParam String service) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
+
         business = businessService.findByBusinessNumber(request.getSender());
         name = business.getBusinessName();
         phone = business.getPhoneNumber();
@@ -68,7 +69,7 @@ public class MobileMoneyController {
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
-            LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getReceiver());
+            LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getSender());
         }
         else if (business.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
             apiResponse.setResponseCode("01");
@@ -84,11 +85,12 @@ public class MobileMoneyController {
             apiResponse.setResponseMessage("Votre compte n'est pas encore verifie");
             LOGGER.info("SENDER ACCOUNT NOT VERIFIED FOR "+request.getReceiver());
 
-        }else if (!bCryptPasswordEncoder.matches(request.getPin(), business.getPassword())){
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("votre pin est incorrect");
-            LOGGER.info("WRONG PIN FOR "+request.getSender());
         }
+//        else if (!bCryptPasswordEncoder.matches(request.getPin(), customer.getPin())){
+//            apiResponse.setResponseCode("01");
+//            apiResponse.setResponseMessage("votre pin est incorrect");
+//            LOGGER.info("WRONG PIN FOR "+request.getSender());
+//        }
 
         else{
             try {
@@ -98,7 +100,7 @@ public class MobileMoneyController {
                 transaction.setCreatedOn(new Date());
                 transaction.setStatus("02");
                 transaction.setForPaypalEmail(request.getForPaypalEmail());
-                transaction.setDescription("transfer ver(PayPal) en suspens. en destination de paypal au compte "+request.getForPaypalEmail());
+                transaction.setDescription("transfer ver mobile money en suspens. en destination du compte "+service+" "+request.getReceiver());
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                 transaction.setCreatedByBusiness(business);
                 if (service.equals("mpesa")){
@@ -122,6 +124,7 @@ public class MobileMoneyController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
     }
+
 
     @PostMapping("/customer/withdraw")
     public ResponseEntity<?> customerPesaPayToMobileMoney(@RequestBody TransactionRequestBody request,
