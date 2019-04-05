@@ -16,6 +16,6 @@ public class HomeController {
     @GetMapping("")
     public ResponseEntity<?> home(){
 
-        return ResponseEntity.status(302).header(RESPONSE_MESSAGE,"welcome").body("WELCOME TO ZARA");
+        return ResponseEntity.status(302).header(RESPONSE_MESSAGE,"welcome").body("WELCOME TO PESAPAY");
     }
 }
