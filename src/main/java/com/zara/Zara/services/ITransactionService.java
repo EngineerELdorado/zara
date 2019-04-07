@@ -23,6 +23,7 @@ public interface ITransactionService {
     Page<PesapayTransaction> findEntriesByBusiness(Long id, Pageable pageable);
     Page<PesapayTransaction> findOutsByBusiness(Long id, Pageable pageable);
     Page<PesapayTransaction> findWithdrawalsByBusiness(Long id, Pageable pageable);
+    Page<PesapayTransaction> findWithdrawalsByCustomer(Long id, Pageable pageable);
     int countByBusiness(Long id);
     int countEntriesByBusiness(Long id);
 

@@ -172,6 +172,49 @@ public class TransactionController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/withdrawals/findByCustomerId/{phoneNumber}")
+    public ResponseEntity<?> findWithdrawalsByCustomer(
+            @PathVariable String phoneNumber,
+            @RequestParam("filter") String filter,
+            @RequestParam("type") String type,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size){
+
+        //LOGGER.info("PAGE REQUEST PAGE =>"+page+" SIZE =>"+size);
+        Customer customer = customerService.findByPhoneNumber(phoneNumber);
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,"id"));
+        Pageable pageable = new PageRequest(page,size,sort);
+        if (customer==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Compte introuvable");
+        }else{
+
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage(pageable.getPageSize()+" transactions");
+            if (type.equals("all")){
+                if (filter!=null && !filter.equals("")){
+                    apiResponse.setTransactions(transactionService.findWithdrawalsByCustomer(customer.getId(), pageable).getContent());
+                }else{
+                    apiResponse.setTransactions(transactionService.findWithdrawalsByCustomer(customer.getId(), pageable).getContent());
+                }
+
+            }else if(type.equals("entries")){
+                apiResponse.setTransactions(transactionService.findEntriesByBusiness(customer.getId(), pageable).getContent());
+            }else if(type.equals("outs")){
+                apiResponse.setTransactions(transactionService.findOutsByBusiness(customer.getId(), pageable).getContent());
+            }
+            else if(type.equals("bulk_b2b")){
+                apiResponse.setTransactions(transactionService.findBulkByBusiness(customer.getId(),"b2b", pageable).getContent());
+            }else if(type.equals("bulk_b2c")){
+                apiResponse.setTransactions(transactionService.findBulkByBusiness(customer.getId(),"b2c", pageable).getContent());
+            }
+
+        }
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+
     @GetMapping("/withdrawals/findByBusinessId/{businessNumber}")
     public ResponseEntity<?> findWithdrawalsByBusiness(
             @PathVariable String businessNumber,

@@ -43,10 +43,15 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
             nativeQuery = true)
     Page<PesapayTransaction> findOutsByBusiness(Long id, Pageable pageable);
 
-    @Query(value = "select * from transaction where created_by_business_id=?1 and transaction_type='WITHDRAWAL' or transaction_type ='PESAPAY_TO_PAYPAL_BUSINESS'",
+    @Query(value = "select * from transaction where created_by_business_id=?1 and transaction_type like %WITHDRAWAL%",
             countQuery = "select count(*) from transaction where created_by_business_id=?1 and transaction_type='WITHDRAWAL'",
             nativeQuery = true)
     Page<PesapayTransaction> findWithdrawalsByBusiness(Long id, Pageable pageable);
+
+    @Query(value = "select * from transaction where created_by_customer_id=?1 and transaction_type like %WITHDRAWAL% ",
+            countQuery = "select count(*) from transaction where created_by_customer_id=?1 and transaction_type='WITHDRAWAL'",
+            nativeQuery = true)
+    Page<PesapayTransaction> findWithdrawalsByCustomer(Long id, Pageable pageable);
 
     @Query(value = "select count(*) from transaction where created_by_business_id=?1 or received_by_business_id=?1", nativeQuery = true)
     int countByBusiness(Long id);
