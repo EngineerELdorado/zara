@@ -27,7 +27,7 @@ public class OtpService {
     //Using user id  as key
     public int generateOTP(String key){
         Random random = new Random();
-        int otp =  Integer.parseInt(String.format("%04d", random.nextInt(10000)));
+        int otp =  Integer.parseInt(String.format("%04d%n", random.nextInt(10000)));
         System.out.println("OTP value "+otp);
         otpCache.put(key, otp);
         return otp;

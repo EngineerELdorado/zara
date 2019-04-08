@@ -30,8 +30,11 @@ public class Agent {
     private String status;
     private String statusDescription;
     private boolean verified;
+    @Transient
+    private String otp;
     @Column(columnDefinition = "TEXT")
     private String profilePic;
     @Column(columnDefinition = "TEXT")
     private String nationalIdPic;
+
 }

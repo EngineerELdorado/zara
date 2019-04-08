@@ -24,6 +24,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Random;
 
+import static com.zara.Zara.constants.Responses.PHONE_NUMBER_ALREADY_TAKEN;
+import static com.zara.Zara.constants.Responses.USER_REGISTRATION_SUCCESS;
+
 @RestController
 @RequestMapping("/agents")
 public class AgentController {
@@ -41,31 +44,37 @@ public class AgentController {
     Sms sms = new Sms();
     Logger LOG = LogManager.getLogger(AgentController.class);
     @PostMapping("/post")
-    public ResponseEntity<?>createAgent(@RequestBody Agent agent) throws UnsupportedEncodingException {
+    public ResponseEntity<?> save(@RequestBody Agent agent) throws UnsupportedEncodingException {
 
-
-        agent.setAgentNumber(BusinessNumbersGenerator.generateAgentNumber(agentService));
         agent.setPin(bCryptPasswordEncoder.encode(agent.getPin()));
-        agent.setStatus("ACTIVE");
-        agent.setVerified(true);
         agent.setCreatedOn(new Date());
+        agent.setVerified(true);
+        agent.setStatus("ACTIVE");
+        agent.setStatusDescription("the customer verified");
         agent.setBalance(new BigDecimal("0"));
-        Agent createdAgent = agentService.save(agent);
-        if (createdAgent!=null){
-            apiResponse.setResponseCode("00");
-            apiResponse.setResponseMessage("Enregistrement Reussi");
-            apiResponse.setAgent(createdAgent);
-            sms.setTo(agent.getPhoneNumber());
-            sms.setMessage(agent.getFullName()+" Bievenu sur PesaPay. vous avez maintenant un compte AGENT. votre numero agent" +
-                    " est "+createdAgent.getAgentNumber());
-            SmsService.sendSms(sms);
-
-
+        if (!isPhoneTaken(agent.getPhoneNumber())){
+            Agent savedAgent = agentService.save(agent);
+            if (savedAgent!=null){
+                apiResponse.setResponseCode("00");
+                apiResponse.setResponseMessage(USER_REGISTRATION_SUCCESS);
+                apiResponse.setAgent(savedAgent);
+                LOG.info("REGISTRATION SUCCESSFUL");
+                Sms sms = new Sms();
+                sms.setTo(savedAgent.getPhoneNumber());
+                sms.setMessage("Cher "+agent.getFullName()+" Bievenu sur PesaPay. maintenant vous avez un compte agent. votre identifiant est "+savedAgent.getAgentNumber());
+                SmsService.sendSms(sms);
+            }else{
+                apiResponse.setResponseCode("01");
+                apiResponse.setResponseMessage(USER_REGISTRATION_SUCCESS);
+                LOG.info("REGISTRATION FAILED. BAD REQUEST PROBABLY");
+            }
         }else{
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Enregistrement Echoue");
+            apiResponse.setResponseMessage(PHONE_NUMBER_ALREADY_TAKEN);
+            LOG.info("REGISTRATION FAILED. PHONE NUMBER ALREADY TAKEN");
         }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+
     }
 
     @PostMapping("/login")
@@ -112,32 +121,17 @@ public class AgentController {
 
     }
     @PostMapping("/validateOtp")
-    public ResponseEntity <?> validateOtp(@RequestBody OtpObject otpObject) throws UnsupportedEncodingException {
+    public ResponseEntity <?> validateOtp(@RequestBody Agent otpObject) throws UnsupportedEncodingException {
 
 //Validate the Otp
-        if(otpObject.getOtp() >= 0){
+        if(Integer.parseInt(otpObject.getOtp()) >= 0){
             int serverOtp = otpService.getOtp(otpObject.getPhoneNumber());
             if(serverOtp > 0){
-                if(otpObject.getOtp() == serverOtp){
+                if(Integer.parseInt(otpObject.getOtp()) == serverOtp){
+                    otpService.clearOTP(otpObject.getPhoneNumber());
+                    apiResponse.setResponseCode("00");
+                    apiResponse.setResponseMessage("SUCCESS");
 
-                    Agent agent = agentService.findByPhoneNumber(otpObject.getPhoneNumber());
-                    if (agent!=null){
-                        agent.setStatusDescription("numero de compte verifie");
-                        agent.setVerified(true);
-                        agent.setStatus("ACTIVE");
-                        agentService.save(agent);
-                        otpService.clearOTP(otpObject.getPhoneNumber());
-                        apiResponse.setResponseCode("00");
-                        apiResponse.setResponseMessage("SUCCESS");
-                        apiResponse.setAgent(agent);
-                        Sms sms = new Sms();
-                        sms.setTo(otpObject.getPhoneNumber());
-                        sms.setMessage("Cher "+agent.getFullName()+" Bievenu sur PesaPay. vous etes maintenant agent");
-                        SmsService.sendSms(sms);
-                    }else{
-                        apiResponse.setResponseCode("01");
-                        apiResponse.setResponseMessage("USER NOT FOUND");
-                    }
                 }else{
                     apiResponse.setResponseCode("01");
                     apiResponse.setResponseMessage("WRONG OTP");
@@ -154,21 +148,19 @@ public class AgentController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/findByPhoneNumber")
-    public ResponseEntity<?>findAgentPhoneNumber(@RequestBody Agent agent1) throws UnsupportedEncodingException {
-        Agent agent = agentService.findByPhoneNumber(agent1.getPhoneNumber());
-        if (agent==null){
+    @GetMapping("/findByPhoneNumber/{phoneNumber}")
+    public ResponseEntity<?>findCustomberByPhoneNumber(@PathVariable String phoneNumber) throws UnsupportedEncodingException {
+        if (!phoneNumber.startsWith("+")){
+            phoneNumber= "+"+phoneNumber;
+        }
+        Agent existingAgent = agentService.findByPhoneNumber(phoneNumber);
+        if (existingAgent==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero n'a pas de compte PesaPay");
-        }else if (!agent.getStatus().equals("ACTIVE")){
-            apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Ce compte n'est pas encore activE. "+agent1.getStatusDescription());
-
-
         }else {
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Success");
-            apiResponse.setAgent(agent);
+            apiResponse.setAgent(existingAgent);
         }
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }

@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface AgentRepository extends JpaRepository<Agent, Long> {
 
+    @Query(value = "select * from agent where phone_number =?1", nativeQuery = true)
     Agent findByPhoneNumber(String phoneNumber);
     Agent findByAgentNumber(String agentNumber);
     @Query(value = "select * from agent where status =?1 order by id desc", nativeQuery = true)
