@@ -26,13 +26,23 @@ public class OtpService {
     //This method is used to push the opt number against Key. Rewrite the OTP if it exists
     //Using user id  as key
     public int generateOTP(String key){
-        Random random = new Random();
-        int otp =  Integer.parseInt(String.format("%04d%n", random.nextInt(10000)).substring(1));
-        System.out.println("OTP value "+otp);
-        otpCache.put(key, otp);
-        return otp;
+        int len =4;
+
+        int OTP;
+        String numbers = "0123456789";
+        Random rndm_method = new Random();
+
+        char[] otp = new char[len];
+
+        for (int i = 0; i < len; i++)
+        {
+            otp[i] =
+                    numbers.charAt(rndm_method.nextInt(numbers.length()));
+        }
+        OTP = Integer.parseInt(String.valueOf(otp));
+        otpCache.put(key, OTP);
+        return OTP;
     }
-    //This method is used to return the OPT number against Key->Key values is username
     public int getOtp(String key){
         try{
             return otpCache.get(key);
