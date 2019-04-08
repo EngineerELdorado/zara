@@ -80,6 +80,7 @@ public class AgentController {
 
     @PostMapping("/login")
     public ResponseEntity<?>login(@RequestBody LoginObject loginObject){
+        LOG.info("AGENT MSISDN "+loginObject.getPhoneNumber());
         Agent agent = agentService.findByPhoneNumber(loginObject.getPhoneNumber());
         if (agent==null){
             apiResponse.setResponseCode("01");
