@@ -196,11 +196,16 @@ public class AgentController {
     public ResponseEntity<?>convertCommission(@RequestParam String amount,@PathVariable String agentNumber){
 
         Agent agent = agentService.findByAgentNumber(agentNumber);
-        agent.setBalance(agent.getBalance().add(new BigDecimal(amount)));
-        agent.setCommission(agent.getCommission().subtract(new BigDecimal(amount)));
-        agentService.save(agent);
-        apiResponse.setResponseCode("00");
-        apiResponse.setResponseMessage("Operation Reussie");
+        if (agent.getCommission().compareTo(new BigDecimal(amount))<0){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Commission non suffisante");
+        }else{
+            agent.setBalance(agent.getBalance().add(new BigDecimal(amount)));
+            agent.setCommission(agent.getCommission().subtract(new BigDecimal(amount)));
+            agentService.save(agent);
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage("Operation Reussie");
+        }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }
