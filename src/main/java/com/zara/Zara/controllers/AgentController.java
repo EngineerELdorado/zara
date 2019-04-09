@@ -6,6 +6,7 @@ import com.zara.Zara.entities.Customer;
 import com.zara.Zara.models.LoginObject;
 import com.zara.Zara.models.OtpObject;
 import com.zara.Zara.models.Sms;
+import com.zara.Zara.models.TransactionRequestBody;
 import com.zara.Zara.services.IAgentService;
 import com.zara.Zara.services.utils.OtpService;
 import com.zara.Zara.services.utils.SmsService;
@@ -193,15 +194,15 @@ public class AgentController {
     }
 
     @PostMapping("/commission-pesapay/{agentNumber}")
-    public ResponseEntity<?>convertCommission(@RequestParam String amount,@PathVariable String agentNumber){
+    public ResponseEntity<?>convertCommission(@RequestBody TransactionRequestBody requestBody){
 
-        Agent agent = agentService.findByAgentNumber(agentNumber);
-        if (agent.getCommission().compareTo(new BigDecimal(amount))<0){
+        Agent agent = agentService.findByAgentNumber(requestBody.getSender());
+        if (agent.getCommission().compareTo(new BigDecimal(requestBody.getAmount()))<0){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Commission non suffisante");
         }else{
-            agent.setBalance(agent.getBalance().add(new BigDecimal(amount)));
-            agent.setCommission(agent.getCommission().subtract(new BigDecimal(amount)));
+            agent.setBalance(agent.getBalance().add(new BigDecimal(requestBody.getAmount())));
+            agent.setCommission(agent.getCommission().subtract(new BigDecimal(requestBody.getAmount())));
             agentService.save(agent);
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Operation Reussie");
