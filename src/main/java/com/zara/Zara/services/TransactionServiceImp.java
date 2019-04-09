@@ -134,4 +134,24 @@ public class TransactionServiceImp implements ITransactionService {
     public Collection<PesapayTransaction> outsStatsTransactionsByBusiness(Long businessId) {
         return transactionRepository.outsStatsTransactionsByBusiness(businessId);
     }
+
+    @Override
+    public Page<PesapayTransaction> findByAgent(Long id, Pageable pageable) {
+        return transactionRepository.findByAgent(id,pageable);
+    }
+
+    @Override
+    public Page<PesapayTransaction> findByAgentWithFilter(Long id, String filter, Pageable pageable) {
+        return transactionRepository.findByAgentWithFilter(id,filter,pageable);
+    }
+
+    @Override
+    public Page<PesapayTransaction> findEntriesByAgent(Long id, Pageable pageable) {
+        return transactionRepository.findEntriesByAgent(id,pageable);
+    }
+
+    @Override
+    public Page<PesapayTransaction> findOutsByAgent(Long id, Pageable pageable) {
+        return transactionRepository.findOutsByAgent(id,pageable);
+    }
 }

@@ -1,13 +1,11 @@
 package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
+import com.zara.Zara.entities.Agent;
 import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.Customer;
 import com.zara.Zara.entities.PesapayTransaction;
-import com.zara.Zara.services.IBusinessService;
-import com.zara.Zara.services.ICustomerService;
-import com.zara.Zara.services.ITransactionService;
-import com.zara.Zara.services.IUserService;
+import com.zara.Zara.services.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +43,8 @@ public class TransactionController {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     IBusinessService businessService;
+    @Autowired
+    IAgentService agentService;
     Logger LOGGER = LogManager.getLogger(TransactionController.class);
     HttpHeaders responseHeaders = new HttpHeaders();
     ApiResponse apiResponse = new ApiResponse();
@@ -273,6 +273,47 @@ public class TransactionController {
         }
         return count;
     }
+
+
+
+    @GetMapping("/findByAgentId/{agentNumber}")
+    public ResponseEntity<?> findByAgentId(
+            @PathVariable String agentNumber,
+            @RequestParam("filter") String filter,
+            @RequestParam("type") String type,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size){
+
+        //LOGGER.info("PAGE REQUEST PAGE =>"+page+" SIZE =>"+size);
+        Agent agent = agentService.findByAgentNumber(agentNumber);
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,"id"));
+        Pageable pageable = new PageRequest(page,size,sort);
+        if (agent==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Agent introuvable");
+        }else{
+
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage(pageable.getPageSize()+" transactions");
+            if (type.equals("all")){
+                if (filter!=null && !filter.equals("")){
+                    apiResponse.setTransactions(transactionService.findByAgentWithFilter(agent.getId(),filter, pageable).getContent());
+                }else{
+                    apiResponse.setTransactions(transactionService.findByAgent(agent.getId(), pageable).getContent());
+                }
+
+            }else if(type.equals("entries")){
+                apiResponse.setTransactions(transactionService.findEntriesByAgent(agent.getId(), pageable).getContent());
+            }else if(type.equals("outs")){
+                apiResponse.setTransactions(transactionService.findOutsByAgent(agent.getId(), pageable).getContent());
+            }
+
+
+        }
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
 
 
 }

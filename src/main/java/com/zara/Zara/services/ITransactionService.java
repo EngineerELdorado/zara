@@ -40,4 +40,10 @@ public interface ITransactionService {
     Collection<PesapayTransaction> allStatsTransactionsByBusiness(Long businessId);
     Collection<PesapayTransaction> entriesStatsTransactionsByBusiness(Long businessId);
     Collection<PesapayTransaction> outsStatsTransactionsByBusiness(Long businessId);
+
+
+    Page<PesapayTransaction> findByAgent(Long id, Pageable pageable);
+    Page<PesapayTransaction> findByAgentWithFilter(Long id, String filter, Pageable pageable);
+    Page<PesapayTransaction> findEntriesByAgent(Long id, Pageable pageable);
+    Page<PesapayTransaction> findOutsByAgent(Long id, Pageable pageable);
 }

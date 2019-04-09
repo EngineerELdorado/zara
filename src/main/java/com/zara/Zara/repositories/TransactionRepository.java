@@ -94,4 +94,28 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
                     " and transaction_number like %:filter%",
             nativeQuery = true)
     Page<PesapayTransaction> findByBusinessWithFilter(@Param("id")Long id, @Param("filter") String filter, Pageable pageable);
+
+
+    @Query(value = "select * from transaction where created_by_agent_id=?1 or received_by_agent_id=?1",
+            countQuery = "select count(*) from transaction where created_by_agent_id=?1 or received_by_agent_id=?1",
+            nativeQuery = true)
+    Page<PesapayTransaction> findByAgent(Long id, Pageable pageable);
+
+    @Query(value = "select * from transaction where received_by_agent_id=?1",
+            countQuery = "select count(*) from transaction where received_by_agent_id=?1",
+            nativeQuery = true)
+    Page<PesapayTransaction> findEntriesByAgent(Long id, Pageable pageable);
+    @Query(value = "select * from transaction where created_by_agent_id=?1",
+            countQuery = "select count(*) from transaction where created_by_agent_id=?1",
+            nativeQuery = true)
+    Page<PesapayTransaction> findOutsByAgent(Long id, Pageable pageable);
+
+    @Query(value = "select * from transaction where  created_by_agent_id= :id or received_by_agent_id= :id" +
+            " and transaction_number like %:filter%",
+            countQuery = "select count(*) from transaction where created_by_agent_id=:id or received_by_agent_id= :id" +
+                    " and transaction_number like %:filter%",
+            nativeQuery = true)
+    Page<PesapayTransaction> findByAgentWithFilter(@Param("id")Long id, @Param("filter") String filter, Pageable pageable);
+
+
 }
