@@ -202,6 +202,9 @@ public class AgentController {
     public ResponseEntity<?>convertCommission(@RequestBody TransactionRequestBody requestBody) throws UnsupportedEncodingException {
 
         Agent agent = agentService.findByAgentNumber(requestBody.getSender());
+        if (agent.getCommission()==null){
+            agent.setCommission(new BigDecimal("0.0"));
+        }
         if (agent.getCommission().compareTo(new BigDecimal(requestBody.getAmount()))<0){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Commission non suffisante");
