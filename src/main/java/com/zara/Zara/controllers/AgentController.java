@@ -198,7 +198,7 @@ public class AgentController {
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 
-    @PostMapping("/commission-pesapay/{agentNumber}")
+    @PostMapping("/commission-pesapay")
     public ResponseEntity<?>convertCommission(@RequestBody TransactionRequestBody requestBody) throws UnsupportedEncodingException {
 
         Agent agent = agentService.findByAgentNumber(requestBody.getSender());
