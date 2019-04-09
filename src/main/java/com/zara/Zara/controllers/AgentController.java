@@ -3,11 +3,13 @@ package com.zara.Zara.controllers;
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Agent;
 import com.zara.Zara.entities.Customer;
+import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.models.LoginObject;
 import com.zara.Zara.models.OtpObject;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
 import com.zara.Zara.services.IAgentService;
+import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.utils.OtpService;
 import com.zara.Zara.services.utils.SmsService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
@@ -25,6 +27,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Random;
 
+import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_DEPOSIT;
 import static com.zara.Zara.constants.Responses.PHONE_NUMBER_ALREADY_TAKEN;
 import static com.zara.Zara.constants.Responses.USER_REGISTRATION_SUCCESS;
 
@@ -42,6 +45,8 @@ public class AgentController {
     String firstPart;
     String secondPart;
     ApiResponse apiResponse = new ApiResponse();
+    @Autowired
+    ITransactionService transactionService;
     Sms sms = new Sms();
     Logger LOG = LogManager.getLogger(AgentController.class);
     @PostMapping("/post")
@@ -194,18 +199,31 @@ public class AgentController {
     }
 
     @PostMapping("/commission-pesapay/{agentNumber}")
-    public ResponseEntity<?>convertCommission(@RequestBody TransactionRequestBody requestBody){
+    public ResponseEntity<?>convertCommission(@RequestBody TransactionRequestBody requestBody) throws UnsupportedEncodingException {
 
         Agent agent = agentService.findByAgentNumber(requestBody.getSender());
         if (agent.getCommission().compareTo(new BigDecimal(requestBody.getAmount()))<0){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Commission non suffisante");
         }else{
+            PesapayTransaction transaction = new PesapayTransaction();
+            transaction.setAmount(new BigDecimal(requestBody.getAmount()));
+            transaction.setCreatedOn(new Date());
+            transaction.setStatus("00");
+            transaction.setDescription("Deposit successful");
+            transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+            transaction.setReceivedByAgent(agent);
             agent.setBalance(agent.getBalance().add(new BigDecimal(requestBody.getAmount())));
             agent.setCommission(agent.getCommission().subtract(new BigDecimal(requestBody.getAmount())));
+            Agent updatedAgent = agentService.save(agent);
             agentService.save(agent);
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Operation Reussie");
+            Sms sms2 = new Sms();
+            sms2.setTo(agent.getPhoneNumber());
+            sms2.setMessage(agent.getFullName()+ " vous venez de recevoir "+requestBody.getAmount()+"USD venant de vos commissions  via PesaPay. "+
+                    " type de transaction CONVERSION. votre solde actuel est "+updatedAgent.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+            SmsService.sendSms(sms2);
         }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
