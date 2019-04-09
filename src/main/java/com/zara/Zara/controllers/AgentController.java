@@ -186,4 +186,15 @@ public class AgentController {
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 
+    @PostMapping("/commission-pesapay/{agentNumber}")
+    public ResponseEntity<?>convertCommission(@RequestParam String amount,@PathVariable String agentNumber){
+
+        Agent agent = agentService.findByAgentNumber(agentNumber);
+        agent.setBalance(agent.getBalance().add(new BigDecimal(amount)));
+        agent.setCommission(agent.getCommission().subtract(new BigDecimal(amount)));
+        agentService.save(agent);
+        apiResponse.setResponseCode("00");
+        apiResponse.setResponseMessage("Operation Reussie");
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 }
