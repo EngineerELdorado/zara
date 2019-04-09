@@ -43,6 +43,9 @@ public class WithdrawalController {
     ITransactionService transactionService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    BigDecimal agentCommission=new BigDecimal("1.0");
+    BigDecimal pesapayCharges;
+    BigDecimal finalAmount;
 
     @Autowired
     IAgentService agentService;
@@ -90,7 +93,8 @@ public class WithdrawalController {
             LOGGER.info("CUSTOMER BALANCE INSUFFICIENT FOR CUSTOMER "+customer.getFullName());
         }else{
             PesapayTransaction transaction = new PesapayTransaction();
-            transaction.setAmount(new BigDecimal(request.getAmount()));
+            finalAmount = new BigDecimal(request.getAmount()).subtract(agentCommission);
+            transaction.setAmount(finalAmount);
             transaction.setCreatedOn(new Date());
             transaction.setStatus("00");
             transaction.setDescription("Withdrawal successful");
@@ -111,16 +115,16 @@ public class WithdrawalController {
 
                 Sms sms1 = new Sms();
                 sms1.setTo(customer.getPhoneNumber());
-                sms1.setMessage(customer.getFullName()+ " vous venez de retirer de votre compte "+request.getAmount()+"USD au numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via PesaPay. "+
+                sms1.setMessage(customer.getFullName()+ " vous venez de retirer de votre compte "+finalAmount+"USD au numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via PesaPay. "+
                         " type de transaction RETRAIT DIRECT. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms1);
-
+                agent.setCommission(agent.getCommission().add(agentCommission));
                 agent.setBalance(agent.getBalance().add(new BigDecimal(request.getAmount())));
                 Agent updatedAgent = agentService.save(agent);
                 Sms sms2 = new Sms();
                 sms2.setTo(agent.getPhoneNumber());
-                sms2.setMessage(agent.getFullName()+ " vous venez de recevoir "+request.getAmount()+"USD venant de "+customer.getFullName()+" via PesaPay. "+
-                        " type de transaction RETRAIT DIRECT. votre solde actuel est "+updatedAgent.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+                sms2.setMessage(agent.getFullName()+ " vous venez de recevoir "+request.getAmount()+" USD venant de "+customer.getFullName()+" via PesaPay. "+
+                        " type de transaction RETRAIT DIRECT. votre solde actuel est "+updatedAgent.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber()+" commission obtenue "+agentCommission+" USD");
                 SmsService.sendSms(sms2);
 
 
@@ -177,8 +181,9 @@ public class WithdrawalController {
             apiResponse.setResponseMessage("Solde Insuffisant "+business.getBalance()+" USD");
             LOGGER.info("CUSTOMER BALANCE INSUFFICIENT FOR CUSTOMER "+business.getBusinessName());
         }else{
+            finalAmount = new BigDecimal(request.getAmount()).subtract(agentCommission);
             PesapayTransaction transaction = new PesapayTransaction();
-            transaction.setAmount(new BigDecimal(request.getAmount()));
+            transaction.setAmount(finalAmount);
             transaction.setCreatedOn(new Date());
             transaction.setStatus("00");
             transaction.setDescription("Withdrawal successful");
@@ -203,6 +208,7 @@ public class WithdrawalController {
                         " type de transaction RETRAIT DIRECT. votre solde actuel est "+updatedbusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms1);
 
+                agent.setCommission(agent.getCommission().add(agentCommission));
                 agent.setBalance(agent.getBalance().add(new BigDecimal(request.getAmount())));
                 Agent updatedAgent = agentService.save(agent);
                 Sms sms2 = new Sms();

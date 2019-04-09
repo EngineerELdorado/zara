@@ -46,6 +46,10 @@ public class DepositController {
     IAgentService agentService;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
 
+    BigDecimal agentCommission = new BigDecimal("1.0");
+    BigDecimal pesaPayCharges;
+    BigDecimal finalAmount;
+
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {
 
@@ -88,7 +92,8 @@ public class DepositController {
             LOGGER.info("AGENT BALANCE INSUFFICIENT FOR AGENT "+agent.getAgentNumber());
         }else{
             PesapayTransaction transaction = new PesapayTransaction();
-            transaction.setAmount(new BigDecimal(request.getAmount()));
+            finalAmount = new BigDecimal(request.getAmount()).subtract(agentCommission);
+            transaction.setAmount(finalAmount);
             transaction.setCreatedOn(new Date());
             transaction.setStatus("00");
             transaction.setDescription("Deposit successful");
@@ -104,6 +109,7 @@ public class DepositController {
                 LOGGER.info("TRANSACTION FAILED TO PERSIST TO DATABASE");
             }else {
 
+                agent.setCommission(agent.getCommission().add(agentCommission));
                 agent.setBalance(agent.getBalance().subtract(new BigDecimal(request.getAmount())));
                 Agent updatedAgent = agentService.save(agent);
                 Sms sms1 = new Sms();
@@ -118,7 +124,7 @@ public class DepositController {
                 Sms sms2 = new Sms();
                 sms2.setTo(customer.getPhoneNumber());
                 sms2.setMessage(customer.getFullName()+ " vous venez de recevoir "+request.getAmount()+"USD venant du numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via PesaPay. "+
-                        " type de transaction DEPOT DIRECT. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+                        " type de transaction DEPOT DIRECT. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber()+" commission obtenue "+agentCommission);
                 SmsService.sendSms(sms2);
 
                 apiResponse.setResponseCode("00");
@@ -130,4 +136,6 @@ public class DepositController {
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+
 }

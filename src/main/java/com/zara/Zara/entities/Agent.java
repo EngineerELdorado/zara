@@ -26,6 +26,7 @@ public class Agent {
     private String pin;
     private String role;
     private BigDecimal balance;
+    private BigDecimal commission;
     private Date createdOn;
     private String status;
     private String statusDescription;
