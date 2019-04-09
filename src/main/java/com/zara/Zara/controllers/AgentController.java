@@ -88,6 +88,9 @@ public class AgentController {
             LOG.info("LOGIN FAILED FOR==> "+loginObject.getPhoneNumber()+" PHONE NUMBER NOT FOUND");
         }else{
             if (bCryptPasswordEncoder.matches(loginObject.getPin(), agent.getPin())){
+                if (agent.getCommission()==null){
+                    agent.setCommission(new BigDecimal("0.0"));
+                }
                 apiResponse.setResponseCode("00");
                 apiResponse.setResponseMessage("Bienvenu");
                 apiResponse.setAgent(agent);
@@ -179,6 +182,9 @@ public class AgentController {
 
 
         }else {
+            if (agent.getCommission()==null){
+                agent.setCommission(new BigDecimal("0.0"));
+            }
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Success");
             apiResponse.setAgent(agent);
