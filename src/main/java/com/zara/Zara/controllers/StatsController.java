@@ -30,10 +30,10 @@ public class StatsController {
 
     Collection<PesapayTransaction>statsRecents;
 
-    @PostMapping("/getByBusiness")
-    public ResponseEntity<?> getStatsByBusiness(@RequestBody StatsRequest request) throws ParseException {
+    @GetMapping("/getByBusiness/{businessNumber}")
+    public ResponseEntity<?> getStatsByBusiness(@PathVariable String businessNumber) throws ParseException {
 
-        Business business = businessService.findByBusinessNumber(request.getBusinessNumber());
+        Business business = businessService.findByBusinessNumber(businessNumber);
 
         apiResponse.setResponseCode("00");
         apiResponse.setResponseMessage("");
