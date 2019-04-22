@@ -1,5 +1,6 @@
 package com.zara.Zara.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class Business {
     private String address;
     private String pin;
     private String role;
+    @JsonIgnore
     private BigDecimal balance;
     private Date createdOn;
     private String status;

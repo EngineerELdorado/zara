@@ -1,5 +1,6 @@
 package com.zara.Zara.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class Customer {
     private boolean verified;
     private String statusDescription;
     private Date creationDate;
+    @JsonIgnore
     private BigDecimal balance;
     @Transient
     private String otp;
