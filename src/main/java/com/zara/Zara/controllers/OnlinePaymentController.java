@@ -169,7 +169,9 @@ public class OnlinePaymentController{
                                 notification2.setMessage(msg2);
                                 notificationService.save(notification2);
                                 apiResponse.setResponseCode("00");
+                                apiResponse.setResponseData(transaction);
                                 apiResponse.setResponseMessage("TRANSACTION REUSSIE");
+
                                 LOGGER.info("DEPOSIT TRANSACTION SUCCESSFUL "+transaction.getTransactionNumber());
                                 otpService.clearOTP(requestBody.getSender());
                         }
