@@ -143,7 +143,7 @@ public class OnlinePaymentController{
                                 Sms sms1 = new Sms();
                                 sms1.setTo(customer.getPhoneNumber());
                                 String msg1 =customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via PesaPay. pour "+requestBody.getDescription()+
-                                        ". type de transaction PAYMENT EN LIGNE. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
+                                        ". type de transaction PAYMENT EN LIGNE. votre solde actuel est "+updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms1.setMessage(msg1);
                                 SmsService.sendSms(sms1);
 
@@ -159,7 +159,7 @@ public class OnlinePaymentController{
                                 Sms sms2 = new Sms();
                                 sms2.setTo(business.getPhoneNumber());
                                 String msg2 =business.getBusinessName()+ " vous venez de recevoir un payment de "+requestBody.getAmount()+" USD venant  "+customer.getFullName()+" via PesaPay. "+
-                                        " type de transaction ONLINE PAYMENT. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
+                                        " type de transaction ONLINE PAYMENT. votre solde actuel est "+updatedBusiness.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms2.setMessage(msg2);
                                 SmsService.sendSms(sms2);
 
