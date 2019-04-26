@@ -105,7 +105,7 @@ public class UssdController {
             else if (inputs[0].equals("2") && inputs.length==3){
                 message ="CON entrez votre pin";
             }else if (inputs[0].equals("2") && inputs.length==4){
-                Agent agent = agentService.findByAgentNumber(inputs[2]);
+                Agent agent = agentService.findByAgentNumber(inputs[1]);
                 if (agent==null){
                     message="END agent non trouvé";
                 }else if (!agent.getStatus().equals("ACTIVE")){
@@ -118,7 +118,7 @@ public class UssdController {
                     message ="END volde insuffisant. votre compte a actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP);
                 }else{
                      message ="END operation reussie. merci d'utiliser PesaPay ";
-                     processWithdrawal(phoneNumber, inputs[2],inputs[3]);
+                     processWithdrawal(phoneNumber, inputs[1],inputs[2]);
                 }
             }else if (inputs[0].equals("3")){
                 message ="CON entrez le numero de telephone du beneficiaire";
@@ -129,7 +129,7 @@ public class UssdController {
             }
             else if (inputs[0].equals("3") && inputs.length==4){
                 Customer receiver = customerService.findByPhoneNumber(inputs[1]);
-                if (!bCryptPasswordEncoder.matches(inputs[4], customer.getPin())){
+                if (!bCryptPasswordEncoder.matches(inputs[3], customer.getPin())){
                     message ="END pin incorrect";
                 }
                 else if (receiver==null){
@@ -141,13 +141,13 @@ public class UssdController {
                 }
             }else if (inputs[0].equals("4")){
                 message ="CON entrez le numero identifiant du business";
-            }else if (inputs[0].equals("4") && inputs.length==1){
+            }else if (inputs[0].equals("4") && inputs.length==2){
                 message ="CON entrez le montant à payer";
 
-            }else if (inputs[0].equals("4") && inputs.length==2){
+            }else if (inputs[0].equals("4") && inputs.length==3){
                 message ="CON entrez votre pin";
 
-            }else if (inputs[0].equals("4") && inputs.length==3){
+            }else if (inputs[0].equals("4") && inputs.length==4){
                 Business business = businessService.findByBusinessNumber(inputs[1]);
                 if (business==null){
                     message="END cet identifiant n'as pas de compte sur PesaPay ";
@@ -163,27 +163,27 @@ public class UssdController {
 
             else if (inputs[0].equals("5")){
                 message ="CON entrez le numero identifiant du business";
-            }else if (inputs[0].equals("1") && inputs.length==1){
+            }else if (inputs[0].equals("5") && inputs.length==2){
                 message ="CON entrez numero d'abonnement";
 
-            }else if (inputs[0].equals("5") && inputs.length==2){
+            }else if (inputs[0].equals("5") && inputs.length==3){
                 message ="CON entrez le montant";
 
             }
-            else if (inputs[0].equals("5") && inputs.length==3){
+            else if (inputs[0].equals("5") && inputs.length==4){
                 message ="CON entrez votre pin";
 
             }
-            else if (inputs[0].equals("5") && inputs.length==4){
+            else if (inputs[0].equals("5") && inputs.length==5){
                 Business business = businessService.findByBusinessNumber(inputs[1]);
                 if (business==null){
                     message="END cet identifiant n'as pas de compte sur PesaPay ";
                 }else if (!business.getStatus().equals("ACTIVE")){
                     message ="END cet compte business n'est pas operationnel";
-                }else if (!bCryptPasswordEncoder.matches(inputs[3],customer.getPin())){
+                }else if (!bCryptPasswordEncoder.matches(inputs[4],customer.getPin())){
                     message ="END pin incorrect";
                 }else {
-                    processPayment(phoneNumber, inputs[2], inputs[3], inputs[1]);
+                    processPayment(phoneNumber, inputs[1], inputs[3], inputs[2]);
                 }
 
             }
