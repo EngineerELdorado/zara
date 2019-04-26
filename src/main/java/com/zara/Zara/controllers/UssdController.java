@@ -99,12 +99,12 @@ public class UssdController {
 
             else if (text.equals("2")){
                 message ="CON entrez le numero identifiant de l'agent";
-            }else if (inputs[0].equals("2") && inputs.length==1){
+            }else if (inputs[0].equals("2") && inputs.length==2){
                 message ="CON entrez le montant à retirer";
             }
-            else if (inputs[0].equals("2") && inputs.length==2){
+            else if (inputs[0].equals("2") && inputs.length==3){
                 message ="CON entrez votre pin";
-            }else if (inputs[0].equals("2") && inputs.length==3){
+            }else if (inputs[0].equals("2") && inputs.length==4){
                 Agent agent = agentService.findByAgentNumber(inputs[1]);
                 if (agent==null){
                     message="END agent non trouvé";
