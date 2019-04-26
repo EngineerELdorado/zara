@@ -11,17 +11,15 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.nio.charset.Charset;
-
-
 @Service
 public class BusinessCallbackService {
 
-    Logger LOGGER = LogManager.getLogger(SafePayService.class);
+    Logger LOGGER = LogManager.getLogger(BusinessCallbackService.class);
     RestTemplate restTemplate = new RestTemplate();
 
     public ResponseEntity<?> postData(CallBackData callBackData, String url) throws JsonProcessingException {
 
+        LOGGER.info("POSTING TO BUSINESS CALLBACK");
             ResponseEntity<Object>responseEntity = restTemplate.exchange
                     (url,
                             HttpMethod.POST, new HttpEntity<>(callBackData, null),
