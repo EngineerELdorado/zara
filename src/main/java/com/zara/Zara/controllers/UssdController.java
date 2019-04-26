@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/ussd")
@@ -57,6 +59,11 @@ public class UssdController {
                 customer.setFullName(inputs[1]);
                 customer.setPhoneNumber(phoneNumber);
                 customer.setPin(bCryptPasswordEncoder.encode(inputs[2]));
+                customer.setCreationDate(new Date());
+                customer.setVerified(true);
+                customer.setStatus("ACTIVE");
+                customer.setStatusDescription("the customer verified");
+                customer.setBalance(new BigDecimal("0"));
                 customerService.save(customer);
                 message ="END Votre compte vient d'etre creer. bienvenu sur PesaPay "+inputs[1];
                 String sms ="Bievenu sur PesaPay. maintenant vous pouvez retirer deposer " +
