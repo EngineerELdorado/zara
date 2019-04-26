@@ -1,10 +1,13 @@
 package com.zara.Zara.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.*;
+import com.zara.Zara.models.CallBackData;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
 import com.zara.Zara.services.*;
+import com.zara.Zara.services.banking.BusinessCallbackService;
 import com.zara.Zara.services.utils.OtpService;
 import com.zara.Zara.services.utils.SmsService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
@@ -44,7 +47,7 @@ public class PaymentController {
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
 
     @PostMapping("/buy/post")
-    public ResponseEntity<?> post(@RequestBody TransactionRequestBody requestBody) throws UnsupportedEncodingException {
+    public ResponseEntity<?> post(@RequestBody TransactionRequestBody requestBody) throws UnsupportedEncodingException, JsonProcessingException {
 
 
                     Business business = businessService.findByBusinessNumber(requestBody.getReceiver());
@@ -101,6 +104,15 @@ public class PaymentController {
                             }
                             if (!requestBody.getUniqueIdentifier().equals("")){
                                 transaction.setUniqueIdentifier(requestBody.getUniqueIdentifier());
+
+                                if (!business.getCallBackUrl().equals("") && business.getCallBackUrl()!=null){
+                                    CallBackData callBackData = new CallBackData();
+                                    callBackData.setAccountNumber(requestBody.getUniqueIdentifier());
+                                    callBackData.setAmount(requestBody.getAmount());
+                                    new BusinessCallbackService()
+                                            .postData(callBackData,business.getCallBackUrl());
+                                }
+
                             }
 
                             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
@@ -120,7 +132,7 @@ public class PaymentController {
                                 Customer updatedCustomer = customerService.save(customer);
                                 Sms sms1 = new Sms();
                                 String msg1=customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via PesaPay. Description "+requestBody.getDescription()+
-                                        ". type de transaction PAYMENT DE FACTURE. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
+                                        ". type de transaction PAYMENT DE FACTURE. votre solde actuel est "+updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms1.setTo(customer.getPhoneNumber());
                                 sms1.setMessage(msg1);
                                 SmsService.sendSms(sms1);
@@ -137,7 +149,7 @@ public class PaymentController {
                                 Sms sms2 = new Sms();
                                 sms2.setTo(business.getPhoneNumber());
                                 String msg2 =business.getBusinessName()+ " vous venez de recevoir un payment de "+requestBody.getAmount()+" USD venant  "+customer.getFullName()+" via PesaPay. "+
-                                        " type de transaction PAYMENT DE FACTURE. votre solde actuel est "+updatedBusiness.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber();
+                                        " type de transaction PAYMENT DE FACTURE. votre solde actuel est "+updatedBusiness.getBalance().setScale(2,BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms2.setMessage(msg2);
                                 SmsService.sendSms(sms2);
 
