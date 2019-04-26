@@ -194,6 +194,7 @@ public class UssdController {
                 }else if (!bCryptPasswordEncoder.matches(inputs[4],customer.getPin())){
                     message ="END pin incorrect";
                 }else {
+                    message = "END Operation reussie. merci d'utiliser PesaPay";
                     processPayment(phoneNumber, inputs[1], inputs[3], inputs[2]);
                 }
 
@@ -260,6 +261,7 @@ public class UssdController {
                     CallBackData callBackData = new CallBackData();
                     callBackData.setAccountNumber(accountNumber);
                     callBackData.setAmount(amount);
+                    LOGGER.info("GETTING THE CALLBACK_SERVICE");
                     new BusinessCallbackService()
                             .postData(callBackData,business.getCallBackUrl());
                 }
