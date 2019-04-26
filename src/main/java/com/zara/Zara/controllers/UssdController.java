@@ -105,7 +105,7 @@ public class UssdController {
             else if (inputs[0].equals("2") && inputs.length==3){
                 message ="CON entrez votre pin";
             }else if (inputs[0].equals("2") && inputs.length==4){
-                Agent agent = agentService.findByAgentNumber(inputs[1]);
+                Agent agent = agentService.findByAgentNumber(inputs[2]);
                 if (agent==null){
                     message="END agent non trouvé";
                 }else if (!agent.getStatus().equals("ACTIVE")){
