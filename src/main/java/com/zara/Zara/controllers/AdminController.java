@@ -2,6 +2,7 @@ package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Admin;
+import com.zara.Zara.entities.AdminLogin;
 import com.zara.Zara.models.LoginObject;
 import com.zara.Zara.services.IAdminService;
 import io.swagger.annotations.Api;
@@ -56,7 +57,7 @@ public class AdminController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?>login(@RequestBody LoginObject loginObject){
+    public ResponseEntity<?>login(@RequestBody AdminLogin loginObject){
         Admin admin = adminService.findByUsername(loginObject.getEmail());
         if (admin==null){
             apiResponse.setResponseCode("01");
