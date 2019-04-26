@@ -19,7 +19,7 @@ public class UssdController {
      @Autowired
      BCryptPasswordEncoder bCryptPasswordEncoder;
 
-     @PostMapping("")
+     @PostMapping("/process")
     public String ussdRequest(@RequestParam String sessionId,
                               @RequestParam String serviceCode,
                               @RequestParam String phoneNumber,
