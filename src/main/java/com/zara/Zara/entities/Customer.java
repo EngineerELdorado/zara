@@ -29,7 +29,7 @@ public class Customer {
     private boolean verified;
     private String statusDescription;
     private Date creationDate;
-    @JsonIgnore
+//    @JsonIgnore
     private BigDecimal balance;
     @Transient
     private String otp;

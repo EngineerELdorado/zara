@@ -26,7 +26,7 @@ public class Agent {
     private String address;
     private String pin;
     private String role;
-    @JsonIgnore
+//    @JsonIgnore
     private BigDecimal balance;
     private BigDecimal commission;
     private Date createdOn;
