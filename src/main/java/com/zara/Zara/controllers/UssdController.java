@@ -70,6 +70,17 @@ public class UssdController {
                 "payer en ligne transferer ainsi effectuer tout genre de payment avec votre telephone.";
                 sendSms(inputs[1],phoneNumber,sms);
             }
+        }else{
+            if (text.equals("")){
+                message ="CON Salut..."+customer.getFullName()+" Quelle operation voulez vous effectuer?\n" +
+                        "1. Solde\n" +
+                        "2. Retirer \n" +
+                        "3. Envoyer \n" +
+                        "4. Payer pour un achat\n" +
+                        "5. Payer pour un service";
+            }else if (text.equals("")){
+                message ="END votre solde actuel est de "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD";
+            }
         }
 
         return message;
