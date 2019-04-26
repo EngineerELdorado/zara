@@ -111,10 +111,10 @@ public class UssdController {
                 }else if (!agent.getStatus().equals("ACTIVE")){
                     message ="END le compte de cet agent n'est pas operationel";
                 }
-               else if (!bCryptPasswordEncoder.matches(inputs[4], customer.getPin())){
+               else if (!bCryptPasswordEncoder.matches(inputs[3], customer.getPin())){
                     message ="END pin incorrect";
                 }
-               else if (customer.getBalance().compareTo(new BigDecimal(inputs[3]))<0){
+               else if (customer.getBalance().compareTo(new BigDecimal(inputs[2]))<0){
                     message ="END volde insuffisant. votre compte a actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP);
                 }else{
                      message ="END operation reussie. merci d'utiliser PesaPay ";
@@ -137,6 +137,7 @@ public class UssdController {
                 }else if (customer.getBalance().compareTo(new BigDecimal(inputs[2]))<0){
                     message ="END volde insuffisant. votre compte a actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP);
                 }else{
+                    message ="END operation reussie. merci d'utiliser PesaPay ";
                     processSending(phoneNumber, inputs[1],inputs[2]);
                 }
             }else if (inputs[0].equals("4")){
@@ -156,6 +157,7 @@ public class UssdController {
                 }else if (!bCryptPasswordEncoder.matches(inputs[3],customer.getPin())){
                     message ="END pin incorrect";
                 }else {
+                    message ="END operation reussie. merci d'utiliser PesaPay ";
                     processPayment(phoneNumber, inputs[1], inputs[2],null);
                 }
 
