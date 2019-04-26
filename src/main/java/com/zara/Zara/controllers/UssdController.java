@@ -257,7 +257,7 @@ public class UssdController {
             notificationService.save(notification2);
 
             if (accountNumber!=null && !accountNumber.equals("")){
-                if (business.getCallBackUrl()!=null && business.getCallBackUrl().equals("")){
+                if (business.getCallBackUrl()!=null && !business.getCallBackUrl().equals("")){
                     CallBackData callBackData = new CallBackData();
                     callBackData.setAccountNumber(accountNumber);
                     callBackData.setAmount(amount);
