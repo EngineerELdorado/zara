@@ -111,24 +111,25 @@ public class UssdController {
                 }else if (!agent.getStatus().equals("ACTIVE")){
                     message ="END le compte de cet agent n'est pas operationel";
                 }
-               else if (!bCryptPasswordEncoder.matches(inputs[3], customer.getPin())){
+               else if (!bCryptPasswordEncoder.matches(inputs[4], customer.getPin())){
                     message ="END pin incorrect";
                 }
-               else if (customer.getBalance().compareTo(new BigDecimal(inputs[2]))<0){
+               else if (customer.getBalance().compareTo(new BigDecimal(inputs[3]))<0){
                     message ="END volde insuffisant. votre compte a actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP);
                 }else{
-                     processWithdrawal(phoneNumber, inputs[1],inputs[2]);
+                     message ="END operation reussie. merci d'utiliser PesaPay ";
+                     processWithdrawal(phoneNumber, inputs[2],inputs[3]);
                 }
             }else if (inputs[0].equals("3")){
                 message ="CON entrez le numero de telephone du beneficiaire";
-            }else if (inputs[0].equals("3") && inputs.length==1){
-                message ="CON entrez le montant à retirer";
             }else if (inputs[0].equals("3") && inputs.length==2){
+                message ="CON entrez le montant à retirer";
+            }else if (inputs[0].equals("3") && inputs.length==3){
                 message ="CON entrez votre pin";
             }
-            else if (inputs[0].equals("3") && inputs.length==3){
+            else if (inputs[0].equals("3") && inputs.length==4){
                 Customer receiver = customerService.findByPhoneNumber(inputs[1]);
-                if (!bCryptPasswordEncoder.matches(inputs[3], customer.getPin())){
+                if (!bCryptPasswordEncoder.matches(inputs[4], customer.getPin())){
                     message ="END pin incorrect";
                 }
                 else if (receiver==null){
