@@ -34,7 +34,7 @@ public class UssdController {
         if (customer==null){
             if (text.equals("") || text.length()==0){
 
-                message = "Bienvenu sur PesaPay. veillez choisir une option\n\n" +
+                message = "CON Bienvenu sur PesaPay. veillez choisir une option\n\n" +
                         "1. Creer un compte\n" +
                         "2. Voir nos tarifications";
             }else if (text.equals("1")){
@@ -48,16 +48,17 @@ public class UssdController {
                         "300$---400$: 4$\n" +
                         "500---600$: 5$";
             }else if (inputs[0].equals("1") && !inputs[0].equals("")  && inputs.length==1){
-                message ="Entrer votre nom et postnom";
+                message ="CON Entrer votre nom et postnom";
             }
             else if (inputs[0].equals("1") && !inputs[1].equals("")  && inputs.length==2){
-                message ="Creer un pin (4 chiffres)";
+                message ="CON Creer un pin (4 chiffres)";
             }else if (inputs[0].equals("1") && !inputs[2].equals("")  && inputs.length==3){
                 customer = new Customer();
                 customer.setFullName(inputs[1]);
                 customer.setPhoneNumber(phoneNumber);
                 customer.setPin(bCryptPasswordEncoder.encode(inputs[2]));
                 customerService.save(customer);
+                message ="END Votre compte vient d'etre creer. bienvenu sur PesaPay "+inputs[1];
                 String sms ="Bievenu sur PesaPay. maintenant vous pouvez retirer deposer " +
                 "payer en ligne transferer ainsi effectuer tout genre de payment avec votre telephone.";
                 sendSms(inputs[1],phoneNumber,sms);
