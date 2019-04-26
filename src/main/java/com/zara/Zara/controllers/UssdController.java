@@ -157,6 +157,9 @@ public class UssdController {
             }else if (inputs[0].equals("4") && inputs.length==3){
                 message ="CON entrez votre pin";
 
+            }
+            else if (customer.getBalance().compareTo(new BigDecimal(inputs[2]))<0){
+                message ="END volde insuffisant. votre compte a actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP);
             }else if (inputs[0].equals("4") && inputs.length==4){
                 Business business = businessService.findByBusinessNumber(inputs[1]);
                 if (business==null){
@@ -193,7 +196,10 @@ public class UssdController {
                     message ="END cet compte business n'est pas operationnel";
                 }else if (!bCryptPasswordEncoder.matches(inputs[4],customer.getPin())){
                     message ="END pin incorrect";
-                }else {
+                }else if (customer.getBalance().compareTo(new BigDecimal(inputs[2]))<0){
+                    message ="END volde insuffisant. votre compte a actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP);
+                }
+                else {
                     message = "END Operation reussie. merci d'utiliser PesaPay";
                     processPayment(phoneNumber, inputs[1], inputs[3], inputs[2]);
                 }
