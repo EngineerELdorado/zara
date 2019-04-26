@@ -8,6 +8,8 @@ import com.zara.Zara.services.*;
 import com.zara.Zara.services.banking.BusinessCallbackService;
 import com.zara.Zara.services.utils.SmsService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -37,12 +39,14 @@ public class UssdController {
      @Autowired
      INotificationService notificationService;
     BigDecimal agentCommission=new BigDecimal("1.0");
+    Logger LOGGER = LogManager.getLogger();
      @PostMapping("/process")
     public String ussdRequest(@RequestParam String sessionId,
                               @RequestParam String serviceCode,
                               @RequestParam String phoneNumber,
                               @RequestParam String text) throws UnsupportedEncodingException, JsonProcessingException {
         String message="";
+        LOGGER.info("USSD REQUEST "+text);
         String inputs[]=text.split("\\*");
         Customer customer= customerService.findByPhoneNumber(phoneNumber);
         if (customer==null){
