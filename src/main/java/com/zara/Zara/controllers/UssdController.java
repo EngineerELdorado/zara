@@ -324,7 +324,7 @@ public class UssdController {
             String msg1= " vous venez de retirer de votre compte " + finalAmount + "USD au numero agent " + agent.getAgentNumber() + " " + agent.getFullName() + " via PesaPay. " +
                     " type de transaction RETRAIT DIRECT. votre solde actuel est " + updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP) + " USD. numero de transaction " + transaction.getTransactionNumber();
             sendSms(customer.getFullName(), customer.getPhoneNumber(), msg1);
-            agent.setCommission(agent.getCommission().add(agentCommission));
+            //agent.setCommission(agent.getCommission().add(agentCommission));
             agent.setBalance(agent.getBalance().add(amount));
             Agent updatedAgent = agentService.save(agent);
 
