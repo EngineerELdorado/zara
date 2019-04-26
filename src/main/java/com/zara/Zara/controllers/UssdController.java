@@ -124,7 +124,7 @@ public class UssdController {
                      message ="END operation reussie. merci d'utiliser PesaPay ";
                      processWithdrawal(phoneNumber, inputs[1],inputs[2]);
                 }
-            }else if (inputs[0].equals("3")){
+            }else if (text.equals("3")){
                 message ="CON entrez le numero de telephone du beneficiaire";
             }else if (inputs[0].equals("3") && inputs.length==2){
                 message ="CON entrez le montant à retirer";
@@ -144,7 +144,7 @@ public class UssdController {
                     message ="END operation reussie. merci d'utiliser PesaPay ";
                     processSending(phoneNumber, inputs[1],inputs[2]);
                 }
-            }else if (inputs[0].equals("4")){
+            }else if (text.equals("4")){
                 message ="CON entrez le numero identifiant du business";
             }else if (inputs[0].equals("4") && inputs.length==2){
                 message ="CON entrez le montant à payer";
@@ -167,7 +167,7 @@ public class UssdController {
 
             }
 
-            else if (inputs[0].equals("5")){
+            else if (text.equals("5")){
                 message ="CON entrez le numero identifiant du business";
             }else if (inputs[0].equals("5") && inputs.length==2){
                 message ="CON entrez numero d'abonnement";
