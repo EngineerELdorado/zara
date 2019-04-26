@@ -91,7 +91,7 @@ public class UssdController {
                 message = "END votre compte est bloquE veillez contacter le service client de Pesapay au 09987542365";
             }
            else if (text.equals("")){
-                message ="CON Salut..."+customer.getFullName()+" Quelle operation voulez vous effectuer?\n" +
+                message ="CON Salut..."+customer.getFullName()+" Quelle operation voulez vous effectuer?\n\n" +
                         "1. Solde\n" +
                         "2. Retirer \n" +
                         "3. Envoyer \n" +
