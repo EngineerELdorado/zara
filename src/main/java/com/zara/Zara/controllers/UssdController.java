@@ -127,7 +127,7 @@ public class UssdController {
             }else if (text.equals("3")){
                 message ="CON entrez le numero de telephone du beneficiaire";
             }else if (inputs[0].equals("3") && inputs.length==2){
-                message ="CON entrez le montant à retirer";
+                message ="CON entrez le montant à envoyer";
             }else if (inputs[0].equals("3") && inputs.length==3){
                 message ="CON entrez votre pin";
             }
@@ -140,7 +140,12 @@ public class UssdController {
                     message ="END le numero du beneficiaire n'a pas de compte sur PesaPay";
                 }else if (customer.getBalance().compareTo(new BigDecimal(inputs[2]))<0){
                     message ="END volde insuffisant. votre compte a actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP);
-                }else{
+                }else if (phoneNumber.equals(receiver.getPhoneNumber())){
+                    message ="END Operation impossible. le numero du beneficiaire est le meme " +
+                            "que le votre";
+                }
+
+                else{
                     message ="END operation reussie. merci d'utiliser PesaPay ";
                     processSending(phoneNumber, inputs[1],inputs[2]);
                 }
