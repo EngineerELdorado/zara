@@ -42,7 +42,7 @@ public class AppEventListener implements CommandLineRunner {
             transaction.setFinalAmount(sent);
             transaction.setCharges(charges);
             transactionService.addTransaction(transaction);
-            LOGGER.info("UPDATED TRANSACTION "+ count +"\n orinalAmount :"+amount
+            LOGGER.info("UPDATED TRANSACTION "+ count +"\n originalAmount :"+amount
             +"\n charges: "+charges+" \n finalAmount: "+sent);
         }
 
