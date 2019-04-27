@@ -33,17 +33,17 @@ public class AppEventListener implements CommandLineRunner {
         int count =0;
         for(PesapayTransaction transaction: transactions){
 
-            BigDecimal amount = transaction.getFinalAmount();
-            BigDecimal charges = amount.multiply(new BigDecimal("5")).divide(
+            BigDecimal originalAmount = transaction.getOriginalAmount();
+            BigDecimal charges = originalAmount.multiply(new BigDecimal("5")).divide(
                     new BigDecimal("100")
             );
-            transaction.setOriginalAmount(amount);
-            BigDecimal sent = amount.subtract(charges);
-            transaction.setFinalAmount(sent);
+            transaction.setOriginalAmount(originalAmount);
+            BigDecimal finalAmount = originalAmount.subtract(charges);
+            transaction.setFinalAmount(finalAmount);
             transaction.setCharges(charges);
             transactionService.addTransaction(transaction);
-            LOGGER.info("UPDATED TRANSACTION "+ count +"\n originalAmount :"+amount
-            +"\n charges: "+charges+" \n finalAmount: "+sent);
+            LOGGER.info("UPDATED TRANSACTION "+ count +"\n originalAmount :"+originalAmount
+            +"\n charges: "+charges+" \n finalAmount: "+finalAmount);
         }
 
     }
