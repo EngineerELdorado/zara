@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
-
+import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2B;
+import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2C;
 import static com.zara.Zara.constants.ConstantVariables.*;
 
 @RestController
@@ -59,11 +60,11 @@ public class UssdController {
                 message ="CON entrez votre nom et postnom";
             }else if (text.equals("2")){
                 message ="END Nos tarifications:\n\n" +
-                        "10$---100$: 1$\n" +
-                        "100$---200$: 2$\n" +
-                        "200$---300$: 3$\n" +
-                        "300$---400$: 4$\n" +
-                        "500---600$: 5$";
+                        "Client à Client: 2.5%\n" +
+                        "Client à Business: 2.5%\n" +
+                        "Business à Client: 5%\n" +
+                        "Business à Business: 5%\n" +
+                        "Retrait : 2.5%";
             }else if (inputs[0].equals("1") && !inputs[0].equals("")  && inputs.length==1){
                 message ="CON Entrer votre nom et postnom";
             }
@@ -117,8 +118,19 @@ public class UssdController {
                else if (!bCryptPasswordEncoder.matches(inputs[3], customer.getPin())){
                     message ="END pin incorrect";
                 }
-               else if (customer.getBalance().compareTo(new BigDecimal(inputs[2]))<0){
+                else if (customer.getBalance().compareTo(new BigDecimal(inputs[2]).add(
+                        new BigDecimal(inputs[2]).multiply(new BigDecimal(PERCENTAGE_ON_C2B))
+                                .divide(new BigDecimal("100"))
+                ))<0){
                     message ="END volde insuffisant. votre compte a actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP);
+
+                    Sms sms = new Sms();
+                    sms.setTo(customer.getPhoneNumber());
+                    sms.setMessage("Votre solde est insuffisant pour retirer "+inputs[2]+" USD et supporter les frais de retrait. vous avez actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD." +
+                            "Il vous faut au moins "+new BigDecimal(inputs[2]).
+                            add(new BigDecimal(inputs[2]).multiply(new BigDecimal(PERCENTAGE_ON_C2B))
+                                    .divide(new BigDecimal("100")))+" USD pour effectuer cette transaction");
+                    SmsService.sendSms(sms);
                 }else{
                      message ="END operation reussie. merci d'utiliser PesaPay ";
                      processWithdrawal(phoneNumber, inputs[1],inputs[2]);
@@ -137,8 +149,19 @@ public class UssdController {
                 }
                 else if (receiver==null){
                     message ="END le numero du beneficiaire n'a pas de compte sur PesaPay";
-                }else if (customer.getBalance().compareTo(new BigDecimal(inputs[2]))<0){
+                }else if (customer.getBalance().compareTo(new BigDecimal(inputs[2]).add(
+                        new BigDecimal(inputs[2]).multiply(new BigDecimal(PERCENTAGE_ON_C2B))
+                                .divide(new BigDecimal("100"))
+                ))<0){
                     message ="END volde insuffisant. votre compte a actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP);
+
+                    Sms sms = new Sms();
+                    sms.setTo(customer.getPhoneNumber());
+                    sms.setMessage("Votre solde est insuffisant pour envoyer "+inputs[2]+" USD et supporter les frais de retrait. vous avez actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD." +
+                            "Il vous faut au moins "+new BigDecimal(inputs[2]).
+                            add(new BigDecimal(inputs[2]).multiply(new BigDecimal(PERCENTAGE_ON_C2B))
+                                    .divide(new BigDecimal("100")))+" USD pour effectuer cette transaction");
+                    SmsService.sendSms(sms);
                 }else if (phoneNumber.equals(receiver.getPhoneNumber())){
                     message ="END Operation impossible. le numero du beneficiaire est le meme " +
                             "que le votre";
@@ -165,8 +188,19 @@ public class UssdController {
                     message ="END cet compte business n'est pas operationnel";
                 }else if (!bCryptPasswordEncoder.matches(inputs[3],customer.getPin())){
                     message ="END pin incorrect";
-                }else if (customer.getBalance().compareTo(new BigDecimal(inputs[2]))<0){
+                }else if (customer.getBalance().compareTo(new BigDecimal(inputs[2]).add(
+                        new BigDecimal(inputs[2]).multiply(new BigDecimal(PERCENTAGE_ON_C2B))
+                                .divide(new BigDecimal("100"))
+                ))<0){
                     message ="END volde insuffisant. votre compte a actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP);
+
+                    Sms sms = new Sms();
+                    sms.setTo(customer.getPhoneNumber());
+                    sms.setMessage("Votre solde est insuffisant pour payer "+inputs[2]+" USD et supporter les frais de retrait. vous avez actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD." +
+                            "Il vous faut au moins "+new BigDecimal(inputs[2]).
+                            add(new BigDecimal(inputs[2]).multiply(new BigDecimal(PERCENTAGE_ON_C2B))
+                                    .divide(new BigDecimal("100")))+" USD pour effectuer cette transaction");
+                    SmsService.sendSms(sms);
                 }else {
                     message ="END operation reussie. merci d'utiliser PesaPay ";
                     processPayment(phoneNumber, inputs[1], inputs[2],null);
@@ -195,8 +229,19 @@ public class UssdController {
                     message ="END cet compte business n'est pas operationnel";
                 }else if (!bCryptPasswordEncoder.matches(inputs[4],customer.getPin())){
                     message ="END pin incorrect";
-                }else if (customer.getBalance().compareTo(new BigDecimal(inputs[3]))<0){
+                }else if (customer.getBalance().compareTo(new BigDecimal(inputs[3]).add(
+                        new BigDecimal(inputs[3]).multiply(new BigDecimal(PERCENTAGE_ON_C2B))
+                        .divide(new BigDecimal("100"))
+                ))<0){
                     message ="END volde insuffisant. votre compte a actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP);
+
+                    Sms sms = new Sms();
+                    sms.setTo(customer.getPhoneNumber());
+                    sms.setMessage("Votre solde est insuffisant pour payer "+inputs[3]+" USD et supporter les frais de retrait. vous avez actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD." +
+                            "Il vous faut au moins "+new BigDecimal(inputs[3]).
+                            add(new BigDecimal(inputs[3]).multiply(new BigDecimal(PERCENTAGE_ON_C2B))
+                            .divide(new BigDecimal("100")))+" USD pour effectuer cette transaction");
+                    SmsService.sendSms(sms);
                 }
                 else {
                     message = "END Operation reussie. merci d'utiliser PesaPay";
