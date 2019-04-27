@@ -3,9 +3,7 @@ package com.zara.Zara.controllers;
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.*;
 import com.zara.Zara.models.B2CRequest;
-import com.zara.Zara.models.BulkPaymentRequest;
 import com.zara.Zara.models.Sms;
-import com.zara.Zara.models.TransactionRequestBody;
 import com.zara.Zara.services.*;
 import com.zara.Zara.services.utils.SmsService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
@@ -19,13 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Date;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static com.zara.Zara.constants.ConstantVariables.TRANSACITION_B2C;
-import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_BULKPAYMENT;
 
 @RestController
 @RequestMapping("/b2cTransactions")
@@ -61,7 +55,7 @@ public class B2CtransactionController {
                             Customer customer = customerService.findByPhoneNumber(requestBody.getReceiver());
                             PesapayTransaction transaction = new PesapayTransaction();
                             transaction.setCreatedOn(new Date());
-                            transaction.setAmount(new BigDecimal(requestBody.getAmount()));
+                            transaction.setFinalAmount(new BigDecimal(requestBody.getAmount()));
                             transaction.setTransactionType("b2c");
                             transaction.setCreatedByBusiness(business);
                             transaction.setReceivedByCustomer(customer);

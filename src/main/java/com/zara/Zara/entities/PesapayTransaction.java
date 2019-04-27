@@ -30,8 +30,9 @@ public class PesapayTransaction {
     public String type;
     @OneToOne
     public Customer receivedByCustomer;
-    public BigDecimal amount;
+    public BigDecimal originalAmount;
     public BigDecimal charges;
+    public BigDecimal finalAmount;
     @ManyToOne
     public Agent createdByAgent;
     @ManyToOne

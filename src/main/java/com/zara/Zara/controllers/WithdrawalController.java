@@ -94,7 +94,7 @@ public class WithdrawalController {
         }else{
             PesapayTransaction transaction = new PesapayTransaction();
             finalAmount = new BigDecimal(request.getAmount()).subtract(agentCommission);
-            transaction.setAmount(finalAmount);
+            transaction.setFinalAmount(finalAmount);
             transaction.setCreatedOn(new Date());
             transaction.setStatus("00");
             transaction.setDescription("Withdrawal successful");
@@ -183,7 +183,7 @@ public class WithdrawalController {
         }else{
             finalAmount = new BigDecimal(request.getAmount()).subtract(agentCommission);
             PesapayTransaction transaction = new PesapayTransaction();
-            transaction.setAmount(finalAmount);
+            transaction.setFinalAmount(finalAmount);
             transaction.setCreatedOn(new Date());
             transaction.setStatus("00");
             transaction.setDescription("Withdrawal successful");

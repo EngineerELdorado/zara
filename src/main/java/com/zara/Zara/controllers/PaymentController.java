@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION__BILL_PAYMENT;
-import static com.zara.Zara.constants.ConstantVariables.TRANSACTION__ONLINE_PAYMENT;
 
 @RestController
 @RequestMapping("/payments")
@@ -94,7 +93,7 @@ public class PaymentController {
 
                         else {
                             PesapayTransaction transaction = new PesapayTransaction();
-                            transaction.setAmount(new BigDecimal(requestBody.getAmount()));
+                            transaction.setFinalAmount(new BigDecimal(requestBody.getAmount()));
                             transaction.setCreatedOn(new Date());
                             transaction.setStatus("00");
                             if (requestBody.getDescription().equals("")){

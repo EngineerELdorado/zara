@@ -68,7 +68,7 @@ public class BulkPaymentB2BController {
                             Business receiver = businessService.findByBusinessNumber(beneficiary.getBusinessNumber());
                             PesapayTransaction transaction = new PesapayTransaction();
                             transaction.setCreatedOn(new Date());
-                            transaction.setAmount(beneficiary.getAmount());
+                            transaction.setFinalAmount(beneficiary.getAmount());
                             transaction.setTransactionType("b2b");
                             transaction.setCreatedByBusiness(business);
                             transaction.setReceivedByBusiness(receiver);

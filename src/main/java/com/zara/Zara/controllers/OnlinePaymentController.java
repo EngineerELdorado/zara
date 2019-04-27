@@ -122,7 +122,7 @@ public class OnlinePaymentController{
 
                         else {
                             PesapayTransaction transaction = new PesapayTransaction();
-                            transaction.setAmount(new BigDecimal(requestBody.getAmount()));
+                            transaction.setFinalAmount(new BigDecimal(requestBody.getAmount()));
                             transaction.setCreatedOn(new Date());
                             transaction.setStatus("00");
                             transaction.setDescription("Online payment successful");

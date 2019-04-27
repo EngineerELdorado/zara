@@ -11,7 +11,6 @@ import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.utils.SmsService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
-import com.zara.Zara.utils.GenerateRandomStuff;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_CUSTOMER_RANSFER;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_DEPOSIT;
 
 @RestController
@@ -93,7 +91,7 @@ public class DepositController {
         }else{
             PesapayTransaction transaction = new PesapayTransaction();
             finalAmount = new BigDecimal(request.getAmount()).subtract(agentCommission);
-            transaction.setAmount(finalAmount);
+            transaction.setFinalAmount(finalAmount);
             transaction.setCreatedOn(new Date());
             transaction.setStatus("00");
             transaction.setDescription("Deposit successful");

@@ -2,7 +2,6 @@ package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Business;
-import com.zara.Zara.entities.Customer;
 import com.zara.Zara.entities.Notification;
 import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.models.B2CRequest;
@@ -23,7 +22,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import static com.zara.Zara.constants.ConstantVariables.TRANSACITION_B2B;
-import static com.zara.Zara.constants.ConstantVariables.TRANSACITION_B2C;
 
 @RestController
 @RequestMapping("/b2bTransactions")
@@ -59,7 +57,7 @@ public class B2BTransactionController {
                             Business receiver = businessService.findByBusinessNumber(requestBody.getReceiver());
                             PesapayTransaction transaction = new PesapayTransaction();
                             transaction.setCreatedOn(new Date());
-                            transaction.setAmount(new BigDecimal(requestBody.getAmount()));
+                            transaction.setFinalAmount(new BigDecimal(requestBody.getAmount()));
                             transaction.setTransactionType("b2b");
                             transaction.setCreatedByBusiness(business);
                             transaction.setReceivedByBusiness(receiver);

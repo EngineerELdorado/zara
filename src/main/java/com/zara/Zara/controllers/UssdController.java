@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import static com.zara.Zara.constants.ConstantVariables.*;
-import static com.zara.Zara.utils.CheckingUtils.LOGGER;
 
 @RestController
 @RequestMapping("/ussd")
@@ -218,7 +217,7 @@ public class UssdController {
         Business business = businessService.findByBusinessNumber(businessNumber);
 
         PesapayTransaction transaction = new PesapayTransaction();
-        transaction.setAmount(new BigDecimal(amount));
+        transaction.setFinalAmount(new BigDecimal(amount));
         transaction.setCreatedOn(new Date());
         transaction.setStatus("00");
 
@@ -280,7 +279,7 @@ public class UssdController {
         Customer receiverCustomer = customerService.findByPhoneNumber(receiverNumber);
         PesapayTransaction transaction = new PesapayTransaction();
         transaction.setCreatedOn(new Date());
-        transaction.setAmount(new BigDecimal(amount));
+        transaction.setFinalAmount(new BigDecimal(amount));
         transaction.setStatus("00");
         transaction.setDescription("Transaction Reussie");
         transaction.setCreatedByCustomer(senderCustomer);
@@ -324,7 +323,7 @@ public class UssdController {
 
         PesapayTransaction transaction = new PesapayTransaction();
         BigDecimal finalAmount = amount.subtract(agentCommission);
-        transaction.setAmount(finalAmount);
+        transaction.setFinalAmount(finalAmount);
         transaction.setCreatedOn(new Date());
         transaction.setStatus("00");
         transaction.setDescription("Withdrawal successful");

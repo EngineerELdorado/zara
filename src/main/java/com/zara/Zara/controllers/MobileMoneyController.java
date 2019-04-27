@@ -96,7 +96,7 @@ public class MobileMoneyController {
             try {
 
                 PesapayTransaction transaction = new PesapayTransaction();
-                transaction.setAmount(new BigDecimal(request.getAmount()));
+                transaction.setFinalAmount(new BigDecimal(request.getAmount()));
                 transaction.setCreatedOn(new Date());
                 transaction.setStatus("02");
                 transaction.setForPaypalEmail(request.getForPaypalEmail());
@@ -164,7 +164,7 @@ public class MobileMoneyController {
             try {
 
                 PesapayTransaction transaction = new PesapayTransaction();
-                transaction.setAmount(new BigDecimal(request.getAmount()));
+                transaction.setFinalAmount(new BigDecimal(request.getAmount()));
                 transaction.setCreatedOn(new Date());
                 transaction.setStatus("02");
                 transaction.setForPaypalEmail(request.getForPaypalEmail());

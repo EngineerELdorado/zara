@@ -78,7 +78,7 @@ public class CreditCardTransactionController {
                      apiResponse.setResponseMessage("Transaction Reussie");
 
                      PesapayTransaction transaction = new PesapayTransaction();
-                     transaction.setAmount(new BigDecimal(request.getAmount()));
+                     transaction.setFinalAmount(new BigDecimal(request.getAmount()));
                      transaction.setCreatedOn(new Date());
                      transaction.setStatus("00");
                      transaction.setDescription("Deposit(card) successful");
@@ -155,7 +155,7 @@ public class CreditCardTransactionController {
                     apiResponse.setResponseMessage("Transaction Reussie");
 
                     PesapayTransaction transaction = new PesapayTransaction();
-                    transaction.setAmount(new BigDecimal(request.getAmount()));
+                    transaction.setFinalAmount(new BigDecimal(request.getAmount()));
                     transaction.setCreatedOn(new Date());
                     transaction.setStatus("00");
                     transaction.setDescription("Deposit(card) successful");
@@ -225,7 +225,7 @@ public class CreditCardTransactionController {
             try {
 
                     PesapayTransaction transaction = new PesapayTransaction();
-                    transaction.setAmount(new BigDecimal(request.getAmount()));
+                    transaction.setFinalAmount(new BigDecimal(request.getAmount()));
                     transaction.setCreatedOn(new Date());
                     transaction.setCreatedByBusiness(business);
                     transaction.setStatus("00");
@@ -292,7 +292,7 @@ public class CreditCardTransactionController {
             try {
 
                 PesapayTransaction transaction = new PesapayTransaction();
-                transaction.setAmount(new BigDecimal(request.getAmount()));
+                transaction.setFinalAmount(new BigDecimal(request.getAmount()));
                 transaction.setCreatedOn(new Date());
                 transaction.setStatus("00");
                 transaction.setDescription("Deposit(PayPal) successful");
@@ -377,7 +377,7 @@ public class CreditCardTransactionController {
             try {
 
                 PesapayTransaction transaction = new PesapayTransaction();
-                transaction.setAmount(new BigDecimal(request.getAmount()));
+                transaction.setFinalAmount(new BigDecimal(request.getAmount()));
                 transaction.setCreatedOn(new Date());
                 transaction.setStatus("02");
                 transaction.setForPaypalEmail(request.getForPaypalEmail());
@@ -464,7 +464,7 @@ public class CreditCardTransactionController {
             try {
 
                 PesapayTransaction transaction = new PesapayTransaction();
-                transaction.setAmount(new BigDecimal(request.getAmount()));
+                transaction.setFinalAmount(new BigDecimal(request.getAmount()));
                 transaction.setCreatedOn(new Date());
                 transaction.setStatus("02");
                 transaction.setForPaypalEmail(request.getForPaypalEmail());

@@ -2,7 +2,6 @@ package com.zara.Zara.listeners;
 
 
 import com.zara.Zara.entities.PesapayTransaction;
-import com.zara.Zara.entities.Role;
 import com.zara.Zara.services.IRoleService;
 import com.zara.Zara.services.ITransactionService;
 import org.apache.logging.log4j.LogManager;
@@ -12,10 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
-
-import static com.zara.Zara.constants.ConstantVariables.*;
 
 
 @Component
@@ -37,16 +33,17 @@ public class AppEventListener implements CommandLineRunner {
         int count =0;
         for(PesapayTransaction transaction: transactions){
 
-            BigDecimal amount = transaction.getAmount();
+            BigDecimal amount = transaction.getFinalAmount();
             BigDecimal charges = amount.multiply(new BigDecimal("5")).divide(
                     new BigDecimal("100")
             );
+            transaction.setOriginalAmount(amount);
             BigDecimal sent = amount.subtract(charges);
-            transaction.setAmount(sent);
+            transaction.setFinalAmount(sent);
             transaction.setCharges(charges);
             transactionService.addTransaction(transaction);
-            LOGGER.info("UPDATED TRANSACTION "+ count +"\n amount :"+amount
-            +"\n charges: "+charges+" \n sent: "+sent);
+            LOGGER.info("UPDATED TRANSACTION "+ count +"\n orinal finalAmount :"+amount
+            +"\n charges: "+charges+" \n finalAmount: "+sent);
         }
 
     }

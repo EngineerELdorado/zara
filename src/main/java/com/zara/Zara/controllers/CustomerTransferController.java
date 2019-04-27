@@ -106,7 +106,7 @@ public class CustomerTransferController {
 
             PesapayTransaction transaction = new PesapayTransaction();
             transaction.setCreatedOn(new Date());
-            transaction.setAmount(new BigDecimal(request.getAmount()));
+            transaction.setFinalAmount(new BigDecimal(request.getAmount()));
             transaction.setStatus("00");
             transaction.setDescription("Transaction Reussie");
             transaction.setCreatedByCustomer(senderCustomer);
