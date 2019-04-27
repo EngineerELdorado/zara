@@ -25,6 +25,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2C;
+import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_WITHDRAWAL;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_WITHDRAWAL;
 
 @RestController
@@ -45,15 +47,19 @@ public class WithdrawalController {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     BigDecimal agentCommission=new BigDecimal("1.0");
     BigDecimal pesapayCharges;
-    BigDecimal finalAmount;
+    BigDecimal agentFinalAmount;
 
+    BigDecimal originalAmount,charges,finalAmount;
     @Autowired
     IAgentService agentService;
     Logger LOGGER = LogManager.getLogger(WithdrawalController.class);
 
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {
-
+        originalAmount =new BigDecimal(request.getAmount());
+        charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_WITHDRAWAL))
+                .multiply(new BigDecimal("100"));
+        finalAmount = originalAmount;
         Agent agent = agentService.findByAgentNumber(request.getReceiver());
         Customer customer = customerService.findByPhoneNumber(request.getSender());
         if (agent==null){
@@ -87,14 +93,19 @@ public class WithdrawalController {
             apiResponse.setResponseMessage("Pin Incorrect");
             LOGGER.info("INCORRECT PIN FOR CUSTOMER "+ agent.getAgentNumber());
         }
-        else if (customer.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
+        else if (customer.getBalance().compareTo(originalAmount.add(charges))<0){
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Solde Insuffisant "+customer.getBalance()+" USD");
+            apiResponse.setResponseMessage("Solde Insuffisant ");
             LOGGER.info("CUSTOMER BALANCE INSUFFICIENT FOR CUSTOMER "+customer.getFullName());
+            Sms sms = new Sms();
+            sms.setTo(customer.getPhoneNumber());
+            sms.setMessage("Votre solde est insuffisant pour retirer "+originalAmount+" USD et supporter les frais de retrait. vous avez actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD." +
+                    "Il vous faut au moins "+originalAmount.add(charges)+"USD pour effectuer cette transaction");
+            SmsService.sendSms(sms);
         }else{
             PesapayTransaction transaction = new PesapayTransaction();
-            finalAmount = new BigDecimal(request.getAmount()).subtract(agentCommission);
-            transaction.setFinalAmount(finalAmount);
+            agentFinalAmount = new BigDecimal(request.getAmount()).subtract(agentCommission);
+            transaction.setFinalAmount(agentFinalAmount);
             transaction.setCreatedOn(new Date());
             transaction.setStatus("00");
             transaction.setDescription("Withdrawal successful");
@@ -115,8 +126,8 @@ public class WithdrawalController {
 
                 Sms sms1 = new Sms();
                 sms1.setTo(customer.getPhoneNumber());
-                sms1.setMessage(customer.getFullName()+ " vous venez de retirer de votre compte "+finalAmount+"USD au numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via PesaPay. "+
-                        " type de transaction RETRAIT DIRECT. votre solde actuel est "+updatedCustomer.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber());
+                sms1.setMessage(customer.getFullName()+ " vous venez de retirer de votre compte "+ originalAmount +"USD au numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via PesaPay. "+
+                        " les frais de transactions on ete de "+ charges+"USD.  type de transaction RETRAIT DIRECT. votre solde actuel est "+updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms1);
                 agent.setCommission(agent.getCommission().add(agentCommission));
                 agent.setBalance(agent.getBalance().add(new BigDecimal(request.getAmount())));
@@ -124,7 +135,7 @@ public class WithdrawalController {
                 Sms sms2 = new Sms();
                 sms2.setTo(agent.getPhoneNumber());
                 sms2.setMessage(agent.getFullName()+ " vous venez de recevoir "+request.getAmount()+" USD venant de "+customer.getFullName()+" via PesaPay. "+
-                        " type de transaction RETRAIT DIRECT. votre solde actuel est "+updatedAgent.getBalance()+" USD. numero de transaction "+transaction.getTransactionNumber()+" commission obtenue "+agentCommission+" USD");
+                        " type de transaction RETRAIT DIRECT. votre solde actuel est "+updatedAgent.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber()+" commission obtenue "+agentCommission+" USD");
                 SmsService.sendSms(sms2);
 
 
@@ -181,9 +192,9 @@ public class WithdrawalController {
             apiResponse.setResponseMessage("Solde Insuffisant "+business.getBalance()+" USD");
             LOGGER.info("CUSTOMER BALANCE INSUFFICIENT FOR CUSTOMER "+business.getBusinessName());
         }else{
-            finalAmount = new BigDecimal(request.getAmount()).subtract(agentCommission);
+            agentFinalAmount = new BigDecimal(request.getAmount()).subtract(agentCommission);
             PesapayTransaction transaction = new PesapayTransaction();
-            transaction.setFinalAmount(finalAmount);
+            transaction.setFinalAmount(agentFinalAmount);
             transaction.setCreatedOn(new Date());
             transaction.setStatus("00");
             transaction.setDescription("Withdrawal successful");

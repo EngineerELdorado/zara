@@ -19,6 +19,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2B;
+import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2C;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION__ONLINE_PAYMENT;
 
 @RestController
@@ -45,11 +47,12 @@ public class OnlinePaymentController{
     @Autowired
     INotificationService notificationService;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
-
+    BigDecimal originalAmount,charges,finalAmount;
     @PostMapping("/generateOtp")
     public ResponseEntity<?> generateOtp(@RequestBody OnlineOtpRequest otpObject) throws UnsupportedEncodingException {
         Developer developer = developerService.findByApiKey(otpObject.getApiKey());
         Customer customer  = customerService.findByPhoneNumber(otpObject.getPhoneNumber());
+
           if (customer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Ce numero de client n'a de compte PesaPay");
@@ -78,6 +81,10 @@ public class OnlinePaymentController{
     public ResponseEntity <?> validateOtp(@RequestBody OnlinePaymentRequest requestBody) throws UnsupportedEncodingException {
 
 //Validate the Otp
+        originalAmount = new BigDecimal(requestBody.getAmount());
+        charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_C2B))
+                .multiply(new BigDecimal("100"));
+        finalAmount = originalAmount;
         if(Integer.valueOf(requestBody.getOtp()) >= 0){
             int serverOtp = otpService.getOtp(requestBody.getSender());
             if(serverOtp > 0){
@@ -113,16 +120,22 @@ public class OnlinePaymentController{
                             apiResponse.setResponseMessage("ce BUSINESS n'est pas encore verifie "+business.getBusinessName()+" "+business.getStatusDescription());
                             LOGGER.info("BUSINESS ACCOUNT NOT VERIFIED FOR "+requestBody.getSender());
 
-                        }else if (customer.getBalance().compareTo(new BigDecimal(requestBody.getAmount()))<0){
+                        }else if (customer.getBalance().compareTo(originalAmount.add(charges))<0){
                             apiResponse.setResponseCode("01");
                             apiResponse.setResponseMessage("Solde insuffisant "+customer.getBalance()+" USD");
                             LOGGER.info("INSUFFICIENT BALANCE FOR "+requestBody.getSender());
-
+                            Sms sms = new Sms();
+                            sms.setTo(customer.getPhoneNumber());
+                            sms.setMessage("Votre solde est insuffisant pour payer "+originalAmount+" USD et supporter les frais de retrait. vous avez actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD." +
+                                    "Il vous faut au moins "+originalAmount.add(charges)+"USD pour effectuer cette transaction");
+                            SmsService.sendSms(sms);
                         }
 
                         else {
                             PesapayTransaction transaction = new PesapayTransaction();
-                            transaction.setFinalAmount(new BigDecimal(requestBody.getAmount()));
+                            transaction.setOriginalAmount(originalAmount);
+                            transaction.setCharges(charges);
+                            transaction.setFinalAmount(finalAmount);
                             transaction.setCreatedOn(new Date());
                             transaction.setStatus("00");
                             transaction.setDescription("Online payment successful");
@@ -138,12 +151,15 @@ public class OnlinePaymentController{
                                 LOGGER.info("TRANSACTION FAILED TO PERSIST TO DATABASE");
                             }else {
 
-                                customer.setBalance(customer.getBalance().subtract(new BigDecimal(requestBody.getAmount())));
+                                customer.setBalance(customer.getBalance().subtract(originalAmount.add(charges)));
                                 Customer updatedCustomer = customerService.save(customer);
                                 Sms sms1 = new Sms();
                                 sms1.setTo(customer.getPhoneNumber());
+                                if (requestBody.getDescription()==null || requestBody.getDescription().equals("")){
+                                    requestBody.setDescription("commande en ligne");
+                                }
                                 String msg1 =customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via PesaPay. pour "+requestBody.getDescription()+
-                                        ". type de transaction PAYMENT EN LIGNE. votre solde actuel est "+updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber();
+                                        ". Les frais de transaction sont de "+charges+" USD. type de transaction PAYMENT EN LIGNE. votre solde actuel est "+updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms1.setMessage(msg1);
                                 SmsService.sendSms(sms1);
 
@@ -153,7 +169,7 @@ public class OnlinePaymentController{
                                 notification1.setMessage(msg1);
                                 notificationService.save(notification1);
 
-                                business.setBalance(business.getBalance().add(new BigDecimal(requestBody.getAmount())));
+                                business.setBalance(business.getBalance().add(originalAmount));
                                 Business updatedBusiness = businessService.save(business);
 
                                 Sms sms2 = new Sms();

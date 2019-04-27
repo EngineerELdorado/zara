@@ -22,6 +22,9 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_B2B_BULK;
+import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_B2C_BULK;
+import static com.zara.Zara.constants.ConstantVariables.TRANSACITION_B2C;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_BULKPAYMENT;
 
 @RestController
@@ -46,6 +49,7 @@ public class BulkPaymentB2CController {
     INotificationService notificationService;
     boolean insufficientBalanceMessageAlreadySent=false;
     Logger LOGGER = LogManager.getLogger(BankTransferController.class);
+    BigDecimal originalAmount, charges, finalAmount;
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody BulkPaymentRequest requestBody) throws UnsupportedEncodingException {
         Business business = businessService.findByBusinessNumber(requestBody.getSender());
@@ -56,6 +60,7 @@ public class BulkPaymentB2CController {
         Business updatedBusiness = null;
         int failureCount = 0;
         BigDecimal amountSpent = new BigDecimal("0");
+        BigDecimal totalCharges = new BigDecimal("0");
         if (business.isVerified()){
 
             if (business.getStatus().equals("ACTIVE")){
@@ -69,11 +74,16 @@ public class BulkPaymentB2CController {
                             Customer customer = customerService.findByPhoneNumber(beneficiary.getPhoneNumber());
                             PesapayTransaction transaction = new PesapayTransaction();
                             transaction.setCreatedOn(new Date());
-                            transaction.setFinalAmount(beneficiary.getAmount());
-                            transaction.setTransactionType("b2c");
+                            originalAmount =beneficiary.getAmount();
+                            charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_B2C_BULK))
+                                    .multiply(new BigDecimal("100"));
+                            finalAmount = originalAmount;
+                            transaction.setOriginalAmount(originalAmount);
+                            transaction.setCharges(charges);
+                            transaction.setFinalAmount(finalAmount);
+                            transaction.setTransactionType(TRANSACITION_B2C);
                             transaction.setCreatedByBusiness(business);
                             transaction.setReceivedByCustomer(customer);
-                            transaction.setTransactionType(TRANSACTION_BULKPAYMENT);
                             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
 
                             if (business.getStatus().equals("ACTIVE")){
@@ -98,7 +108,7 @@ public class BulkPaymentB2CController {
                                         transactionService.addTransaction(transaction);
                                     }
 
-                                    else if(business.getBalance().compareTo(beneficiary.getAmount())<0){
+                                    else if(business.getBalance().compareTo(beneficiary.getAmount().add(charges))<0){
                                         transaction.setStatus("01");
                                         transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                                         transaction.setDescription("Transaction echoue. SOLDE DU BUSINESS EST EPUISE ");
@@ -113,16 +123,21 @@ public class BulkPaymentB2CController {
                                         transaction.setStatus("00");
                                         transaction.setDescription("bulk transaction reussie");
                                         transactionService.addTransaction(transaction);
-                                        customer.setBalance(customer.getBalance().add(beneficiary.getAmount()));
-                                        business.setBalance(business.getBalance().subtract(beneficiary.getAmount()));
+                                        customer.setBalance(customer.getBalance().add(finalAmount));
+                                        business.setBalance(business.getBalance().subtract(originalAmount.add(charges)));
                                         Customer updatedCustomer = customerService.save(customer);
                                         updatedBusiness = businessService.save(business);
                                         successCount++;
                                         amountSpent= amountSpent.add(beneficiary.getAmount());
+                                        totalCharges = totalCharges.add(charges);
                                         LOGGER.info("TRANSACTION SUCCESSFUL "+customer.getFullName());
                                         Sms sms = new Sms();
                                         sms.setTo(customer.getPhoneNumber());
-                                        String msg1=customer.getFullName()+" vous avez recu "+beneficiary.getAmount()+" USD venant de "+business.getBusinessName()+" votre solde actuel est de "+updatedCustomer.getBalance()+" USD. type de transaction BULK PAYMENT";
+                                        String msg1 = "transaction confirmee. vous avez recu "+originalAmount+"USD venant de "+business.getBusinessName()+" " +
+                                                "via PesaPay. type de transaction B2C. numero de transactinon "+transaction.getTransactionNumber()+"" +
+                                                " votre solde balance est de "+updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD";
+
+                                        sms.setMessage(msg1);
                                         sms.setMessage(msg1);
                                         Notification notification1 = new Notification();
                                         notification1.setCustomer(customer);
@@ -157,7 +172,7 @@ public class BulkPaymentB2CController {
                         notification2.setMessage(msg2);
                         notificationService.save(notification2);
                         apiResponse.setResponseCode("00");
-                        apiResponse.setResponseMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via PesaPay dont "+successCount+" reussis et "+failureCount+" echoues. le total de vos transfer en bulk est de "+amountSpent+"USD. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
+                        apiResponse.setResponseMessage(business.getBusinessName()+" vous avez effectuE "+bulkBeneficiaries.size()+" payments via PesaPay dont "+successCount+" reussis et "+failureCount+" echoues. le total de vos transfer en bulk est de "+amountSpent+"USD. le total des frais de transfer est de "+totalCharges+" USD. votre solde actuel est de "+updatedBusiness.getBalance()+" USD. type de transaction BULK PAYMENT ");
 
                     }
                     else{

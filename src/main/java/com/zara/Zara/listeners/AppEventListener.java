@@ -29,22 +29,22 @@ public class AppEventListener implements CommandLineRunner {
     public void run(String... args) {
         LOGGER.info("............PESAPAY BACKEND HAS STARTED...........");
 
-        Collection<PesapayTransaction> transactions = transactionService.getAll();
-        int count =0;
-        for(PesapayTransaction transaction: transactions){
-
-            BigDecimal originalAmount = transaction.getOriginalAmount();
-            BigDecimal charges = originalAmount.multiply(new BigDecimal("5")).divide(
-                    new BigDecimal("100")
-            );
-            transaction.setOriginalAmount(originalAmount);
-            BigDecimal finalAmount = originalAmount.subtract(charges);
-            transaction.setFinalAmount(finalAmount);
-            transaction.setCharges(charges);
-            transactionService.addTransaction(transaction);
-            LOGGER.info("UPDATED TRANSACTION "+ count +"\n originalAmount :"+originalAmount
-            +"\n charges: "+charges+" \n finalAmount: "+finalAmount);
-        }
+//        Collection<PesapayTransaction> transactions = transactionService.getAll();
+//        int count =0;
+//        for(PesapayTransaction transaction: transactions){
+//
+//            BigDecimal originalAmount = transaction.getOriginalAmount();
+//            BigDecimal charges = originalAmount.multiply(new BigDecimal("2.5")).divide(
+//                    new BigDecimal("100")
+//            );
+//            transaction.setOriginalAmount(originalAmount);
+//            BigDecimal finalAmount = originalAmount.subtract(charges);
+//            transaction.setFinalAmount(finalAmount);
+//            transaction.setCharges(charges);
+//            transactionService.addTransaction(transaction);
+//            LOGGER.info("UPDATED TRANSACTION "+ count +"\n originalAmount :"+originalAmount
+//            +"\n charges: "+charges+" \n finalAmount: "+finalAmount);
+//        }
 
     }
 

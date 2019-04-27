@@ -21,6 +21,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_B2B_BULK;
+import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2C;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_CUSTOMER_RANSFER;
 
 @RestController
@@ -38,12 +40,15 @@ public class CustomerTransferController {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
-
+    BigDecimal originalAmount,charges,finalAmount;
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {
         Customer senderCustomer = customerService.findByPhoneNumber(request.getSender());
         Customer receiverCustomer = customerService.findByPhoneNumber(request.getReceiver());
-
+        originalAmount =new BigDecimal(request.getAmount());
+        charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_C2C))
+                .multiply(new BigDecimal("100"));
+        finalAmount = originalAmount;
         if (senderCustomer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
@@ -67,10 +72,14 @@ public class CustomerTransferController {
             apiResponse.setResponseMessage("votre pin est incorrect");
             LOGGER.info("WRONG PIN FOR "+request.getSender());
         }
-        else if (senderCustomer.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
+        else if (senderCustomer.getBalance().compareTo(originalAmount.add(charges))<0){
            apiResponse.setResponseCode("01");
-           apiResponse.setResponseMessage("Solde insuffisant: "+senderCustomer.getBalance()+" USD");
-
+           apiResponse.setResponseMessage("Solde insuffisant");
+            Sms sms = new Sms();
+            sms.setTo(senderCustomer.getPhoneNumber());
+            sms.setMessage("Votre solde est insuffisant pour envoyer "+originalAmount+" USD et supporter les frais de retrait. vous avez actuellement "+senderCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD." +
+                    "Il vous faut au moins "+originalAmount.add(charges)+"USD pour effectuer cette transaction");
+            SmsService.sendSms(sms);
             LOGGER.info("SENDER BALANCE INSUFFICIENT "+request.getSender());
         }
         else if (receiverCustomer==null){
@@ -106,7 +115,10 @@ public class CustomerTransferController {
 
             PesapayTransaction transaction = new PesapayTransaction();
             transaction.setCreatedOn(new Date());
-            transaction.setFinalAmount(new BigDecimal(request.getAmount()));
+
+            transaction.setOriginalAmount(originalAmount);
+            transaction.setCharges(charges);
+            transaction.setFinalAmount(finalAmount);
             transaction.setStatus("00");
             transaction.setDescription("Transaction Reussie");
             transaction.setCreatedByCustomer(senderCustomer);
@@ -116,8 +128,8 @@ public class CustomerTransferController {
             transaction.setTransactionType(TRANSACTION_CUSTOMER_RANSFER);
 
             PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
-            senderCustomer.setBalance(senderCustomer.getBalance().subtract(new BigDecimal(request.getAmount())));
-            receiverCustomer.setBalance(receiverCustomer.getBalance().add(new BigDecimal(request.getAmount())));
+            senderCustomer.setBalance(senderCustomer.getBalance().subtract(originalAmount.add(charges)));
+            receiverCustomer.setBalance(receiverCustomer.getBalance().add(originalAmount));
             if (createdTransaction==null){
                 apiResponse.setResponseCode("01");
                 apiResponse.setResponseMessage("Transaction echoue pour des raisons techniques");
@@ -128,8 +140,8 @@ public class CustomerTransferController {
                 customerService.save(senderCustomer);
                 Sms sms1 = new Sms();
                 sms1.setTo(senderCustomer.getPhoneNumber());
-                sms1.setMessage("Vous avez envoye "+request.getAmount()+" USD via PesaPay A " +
-                        ""+receiverCustomer.getFullName()+". type de transaction TRANSFER DIRECT. " +
+                sms1.setMessage("Vous avez envoye "+originalAmount+" USD via PesaPay A " +
+                        ""+receiverCustomer.getFullName()+". les frais de transaction ont ete de "+charges+"USD. type de transaction TRANSFER DIRECT. " +
                         "votre solde actuel est de "+senderCustomer.getBalance().setScale(2,BigDecimal.ROUND_UP)+
                         " USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms1);
@@ -142,8 +154,8 @@ public class CustomerTransferController {
                 apiResponse.setResponseMessage("Transfert Reussi");
                 Sms sms2 = new Sms();
                 sms2.setTo(receiverCustomer.getPhoneNumber());
-                sms2.setMessage("Vous avez recu "+request.getAmount()+"USD via PesaPay venant de "+senderCustomer.getFullName()+"." +
-                        " type de transaction TRANSFER DIRECT." +
+                sms2.setMessage("transaction confirmee. vous avez recu "+originalAmount+"USD venant de "+senderCustomer.getFullName()+" USD via PesaPay."+
+                        " type de transaction C2C." +
                         " votre solde actuel est de "+receiverCustomer.getBalance().setScale(2,BigDecimal.ROUND_UP)+
                         " USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms2);

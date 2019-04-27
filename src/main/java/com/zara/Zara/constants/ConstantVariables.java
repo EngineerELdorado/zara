@@ -3,14 +3,8 @@ package com.zara.Zara.constants;
 import java.util.Calendar;
 
 public class ConstantVariables {
-    public static Calendar now = Calendar.getInstance();
-    public static String APP_NAME="Zaka";
-    public static String ROLE_SUPERADMIN="ROLE_SUPERADMIN";
-    public static String ROLE_ADMIN="ROLE_ADMIN";
-    public static String ROLE_STAFF="ROLE_STAFF";
-    public static String ROLE_USER="ROLE_USER";
-    public static String ROLE_AGENT="ROLE_AGENT";
-    public static String ROLE_MASS_PAYER="ROLE_MASS_PAYER";
+
+
     public static String TRANSACTION_DEPOSIT="DEPOSIT";
     public static String TRANSACTION_CREDIT_CARD_DEPOSIT="CREDIT_CARD_DEPOSIT";
     public static String TRANSACTION_PAYPAL_DEPOSIT="PAYPAL_DEPOSIT";
@@ -25,7 +19,6 @@ public class ConstantVariables {
     public static String TRANSACITION_B2C="B2C_PAYMENT";
     public static String TRANSACITION_B2B="B2B_PAYMENT";
     public static String TRANSACTION_CUSTOMER_RANSFER="C2C";
-    public static String TRANSACTION_BALANCE="BALANCE_ENQUIRY";
     public static String BUDGET_SMS_URL="https://api.budgetsms.net/sendsms/";
     public static String BUDGET_SMS_USERNAME="feljor";
     public static String BUDGET_SMS_USER_ID="16513";

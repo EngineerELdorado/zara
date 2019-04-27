@@ -23,6 +23,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2B;
+import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2C;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION__BILL_PAYMENT;
 
 @RestController
@@ -44,11 +46,14 @@ public class PaymentController {
     @Autowired
     INotificationService notificationService;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
-
+    BigDecimal originalAmount,charges,finalAmount;
     @PostMapping("/buy/post")
     public ResponseEntity<?> post(@RequestBody TransactionRequestBody requestBody) throws UnsupportedEncodingException, JsonProcessingException {
 
-
+        originalAmount =new BigDecimal(requestBody.getAmount());
+        charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_C2B))
+                .multiply(new BigDecimal("100"));
+        finalAmount = originalAmount;
                     Business business = businessService.findByBusinessNumber(requestBody.getReceiver());
                      if (business==null){
                         apiResponse.setResponseCode("01");
@@ -80,10 +85,15 @@ public class PaymentController {
                             apiResponse.setResponseMessage("ce BUSINESS n'est pas encore verifie "+business.getBusinessName()+" "+business.getStatusDescription());
                             LOGGER.info("BUSINESS ACCOUNT NOT VERIFIED FOR "+requestBody.getSender());
 
-                        }else if (customer.getBalance().compareTo(new BigDecimal(requestBody.getAmount()))<0){
+                        }else if (customer.getBalance().compareTo(originalAmount.add(charges))<0){
                             apiResponse.setResponseCode("01");
-                            apiResponse.setResponseMessage("Solde insuffisant "+customer.getBalance()+" USD");
+                            apiResponse.setResponseMessage("Solde insuffisant ");
                             LOGGER.info("INSUFFICIENT BALANCE FOR "+requestBody.getSender());
+                            Sms sms = new Sms();
+                            sms.setTo(customer.getPhoneNumber());
+                            sms.setMessage("Votre solde est insuffisant pour payer "+originalAmount+" USD et supporter les frais de retrait. vous avez actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD." +
+                                    "Il vous faut au moins "+originalAmount.add(charges)+"USD pour effectuer cette transaction");
+                            SmsService.sendSms(sms);
 
                         }else if (!bCryptPasswordEncoder.matches(requestBody.getPin(), customer.getPin())){
                             apiResponse.setResponseCode("01");
@@ -127,11 +137,11 @@ public class PaymentController {
                                 LOGGER.info("TRANSACTION FAILED TO PERSIST TO DATABASE");
                             }else {
 
-                                customer.setBalance(customer.getBalance().subtract(new BigDecimal(requestBody.getAmount())));
+                                customer.setBalance(customer.getBalance().subtract(originalAmount.add(charges)));
                                 Customer updatedCustomer = customerService.save(customer);
                                 Sms sms1 = new Sms();
-                                String msg1=customer.getFullName()+ " vous venez de payer "+requestBody.getAmount()+" USD A "+business.getBusinessName()+" via PesaPay. Description "+requestBody.getDescription()+
-                                        ". type de transaction PAYMENT DE FACTURE. votre solde actuel est "+updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber();
+                                String msg1=customer.getFullName()+ " vous venez de payer "+originalAmount+" USD A "+business.getBusinessName()+
+                                        ". Les frais de transaction ont ete de "+charges+" USD. type de transaction PAYMENT. votre solde actuel est "+updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms1.setTo(customer.getPhoneNumber());
                                 sms1.setMessage(msg1);
                                 SmsService.sendSms(sms1);
@@ -142,13 +152,13 @@ public class PaymentController {
                                 notification1.setMessage(msg1);
                                 notificationService.save(notification1);
 
-                                business.setBalance(business.getBalance().add(new BigDecimal(requestBody.getAmount())));
+                                business.setBalance(business.getBalance().add(originalAmount));
                                 Business updatedBusiness = businessService.save(business);
 
                                 Sms sms2 = new Sms();
                                 sms2.setTo(business.getPhoneNumber());
                                 String msg2 =business.getBusinessName()+ " vous venez de recevoir un payment de "+requestBody.getAmount()+" USD venant  "+customer.getFullName()+" via PesaPay. "+
-                                        " type de transaction PAYMENT DE FACTURE. votre solde actuel est "+updatedBusiness.getBalance().setScale(2,BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber();
+                                        " type de transaction PAYMENT. votre solde actuel est "+updatedBusiness.getBalance().setScale(2,BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms2.setMessage(msg2);
                                 SmsService.sendSms(sms2);
 
