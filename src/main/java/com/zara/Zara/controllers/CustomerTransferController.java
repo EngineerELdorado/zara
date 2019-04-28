@@ -47,7 +47,7 @@ public class CustomerTransferController {
         Customer receiverCustomer = customerService.findByPhoneNumber(request.getReceiver());
         originalAmount =new BigDecimal(request.getAmount());
         charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_C2C))
-                .multiply(new BigDecimal("100"));
+                .divide(new BigDecimal("100"));
         finalAmount = originalAmount;
         if (senderCustomer==null){
             apiResponse.setResponseCode("01");
