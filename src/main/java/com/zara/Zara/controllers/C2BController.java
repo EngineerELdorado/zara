@@ -166,7 +166,7 @@ public class C2BController {
 
                                     if (!business.getCallBackUrl().equals("") && business.getCallBackUrl()!=null){
                                         CallBackData callBackData = new CallBackData();
-                                        callBackData.setReferenceNumber(transaction.getTransactionNumber());
+                                        callBackData.setReferenceNumber(createdTransaction.getTransactionNumber());
                                         callBackData.setChannel("PesaPay");
                                         callBackData.setAccountNumber(requestBody.getUniqueIdentifier());
                                         callBackData.setAmount(requestBody.getAmount());
