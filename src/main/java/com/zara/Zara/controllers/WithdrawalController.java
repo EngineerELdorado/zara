@@ -58,7 +58,7 @@ public class WithdrawalController {
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {
         originalAmount =new BigDecimal(request.getAmount());
         charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_WITHDRAWAL))
-                .multiply(new BigDecimal("100"));
+                .divide(new BigDecimal("100"));
         finalAmount = originalAmount;
         Agent agent = agentService.findByAgentNumber(request.getReceiver());
         Customer customer = customerService.findByPhoneNumber(request.getSender());

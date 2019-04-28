@@ -52,7 +52,7 @@ public class PaymentController {
 
         originalAmount =new BigDecimal(requestBody.getAmount());
         charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_C2B))
-                .multiply(new BigDecimal("100"));
+                .divide(new BigDecimal("100"));
         finalAmount = originalAmount;
                     Business business = businessService.findByBusinessNumber(requestBody.getReceiver());
                      if (business==null){

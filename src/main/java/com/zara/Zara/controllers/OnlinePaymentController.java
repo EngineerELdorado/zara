@@ -83,7 +83,7 @@ public class OnlinePaymentController{
 //Validate the Otp
         originalAmount = new BigDecimal(requestBody.getAmount());
         charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_C2B))
-                .multiply(new BigDecimal("100"));
+                .divide(new BigDecimal("100"));
         finalAmount = originalAmount;
         if(Integer.valueOf(requestBody.getOtp()) >= 0){
             int serverOtp = otpService.getOtp(requestBody.getSender());

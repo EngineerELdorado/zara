@@ -53,7 +53,7 @@ public class B2CtransactionController {
 
         originalAmount = new BigDecimal(requestBody.getAmount());
         charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_B2C))
-                .multiply(new BigDecimal("100"));
+                .divide(new BigDecimal("100"));
         finalAmount = originalAmount;
 
         if (business.isVerified()){
