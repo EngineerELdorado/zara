@@ -111,20 +111,7 @@ public class PaymentController {
                             }else{
                                 transaction.setDescription(requestBody.getDescription());
                             }
-                            if (!requestBody.getUniqueIdentifier().equals("")){
-                                transaction.setUniqueIdentifier(requestBody.getUniqueIdentifier());
 
-                                if (!business.getCallBackUrl().equals("") && business.getCallBackUrl()!=null){
-                                    CallBackData callBackData = new CallBackData();
-                                    callBackData.setReferenceNumber(transaction.getTransactionNumber());
-                                    callBackData.setChannel("PesaPay");
-                                    callBackData.setAccountNumber(requestBody.getUniqueIdentifier());
-                                    callBackData.setAmount(requestBody.getAmount());
-                                    new BusinessCallbackService()
-                                            .postData(callBackData,business.getCallBackUrl());
-                                }
-
-                            }
 
                             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                             transaction.setCreatedByCustomer(customer);
@@ -173,7 +160,21 @@ public class PaymentController {
                                 apiResponse.setResponseCode("00");
                                 apiResponse.setResponseMessage("TRANSACTION REUSSIE");
                                 LOGGER.info("DEPOSIT TRANSACTION SUCCESSFUL "+transaction.getTransactionNumber());
-                                otpService.clearOTP(requestBody.getSender());
+
+                                if (!requestBody.getUniqueIdentifier().equals("")){
+                                    transaction.setUniqueIdentifier(requestBody.getUniqueIdentifier());
+
+                                    if (!business.getCallBackUrl().equals("") && business.getCallBackUrl()!=null){
+                                        CallBackData callBackData = new CallBackData();
+                                        callBackData.setReferenceNumber(transaction.getTransactionNumber());
+                                        callBackData.setChannel("PesaPay");
+                                        callBackData.setAccountNumber(requestBody.getUniqueIdentifier());
+                                        callBackData.setAmount(requestBody.getAmount());
+                                        new BusinessCallbackService()
+                                                .postData(callBackData,business.getCallBackUrl());
+                                    }
+
+                                }
                             }
 
                         }
