@@ -6,6 +6,7 @@ import lombok.Data;
 public class CallBackData {
 
     private String accountNumber;
+    private String referenceNumber;
     private String amount;
 
 }

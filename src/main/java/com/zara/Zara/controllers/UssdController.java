@@ -311,6 +311,7 @@ public class UssdController {
                     CallBackData callBackData = new CallBackData();
                     callBackData.setAccountNumber(accountNumber);
                     callBackData.setAmount(amount);
+                    callBackData.setReferenceNumber(transaction.getTransactionNumber());
                     LOGGER.info("GETTING THE CALLBACK_SERVICE");
                     new BusinessCallbackService()
                             .postData(callBackData,business.getCallBackUrl());
