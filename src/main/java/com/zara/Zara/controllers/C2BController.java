@@ -30,7 +30,7 @@ import static com.zara.Zara.constants.ConstantVariables.TRANSACTION__BILL_PAYMEN
 @RestController
 @RequestMapping("/payments")
 @CrossOrigin(origins = "*")
-public class PaymentController {
+public class C2BController {
     ApiResponse apiResponse = new ApiResponse();
     Sms sms = new Sms();
     @Autowired
