@@ -27,8 +27,11 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
     @Query(value = "select * from transaction where received_by_customer_id=?1 order by id desc", nativeQuery = true)
     Collection<PesapayTransaction> findCustomerEntries(Long id);
 
-    @Query(value = "select * from transaction where created_by_customer_id=?1 and transaction_type not like %':keyword'% order by id desc", nativeQuery = true)
-    Collection<PesapayTransaction> findCustomerOuts(Long id, @Param("keyword") String keyword);
+    @Query(value = "select * from transaction where created_by_customer_id=?1 and transaction_type ='WITHDRAWAL'" +
+            "or transaction_type ='PAYPAYL_WITHDRAWAL' or transaction_type ='AIRTELMONEY_WITHDRAWAL'" +
+            "or transaction_type ='ORANGEMONEY_WITHDRAWAL'" +
+            "or transaction_type ='MPESA_WITHDRAWAL' order by id desc", nativeQuery = true)
+    Collection<PesapayTransaction> findCustomerOuts(Long id);
     @Query(value = "select * from transaction where created_by_business_id=?1 or received_by_business_id=?1",
             countQuery = "select count(*) from transaction where created_by_business_id=?1 or received_by_business_id=?1",
             nativeQuery = true)
@@ -38,20 +41,23 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
             countQuery = "select count(*) from transaction where received_by_business_id=?1",
             nativeQuery = true)
     Page<PesapayTransaction> findEntriesByBusiness(Long id, Pageable pageable);
-    @Query(value = "select * from transaction where created_by_business_id=?1 and transaction_type not like %:keyword%",
+    @Query(value = "select * from transaction where created_by_business_id=?1 and transaction_type ='WITHDRAWAL'" +
+            "or transaction_type ='PAYPAYL_WITHDRAWAL' or transaction_type ='AIRTELMONEY_WITHDRAWAL'" +
+            "or transaction_type ='ORANGEMONEY_WITHDRAWAL'" +
+            "or transaction_type ='MPESA_WITHDRAWAL' order by id desc",
             countQuery = "select count(*) from transaction where created_by_business_id=?1",
             nativeQuery = true)
-    Page<PesapayTransaction> findOutsByBusiness(Long id, Pageable pageable,@Param("keyword") String keyword);
+    Page<PesapayTransaction> findOutsByBusiness(Long id, Pageable pageable);
 
-    @Query(value = "select * from transaction where created_by_business_id=?1 and transaction_type like %:keyword%",
+    @Query(value = "select * from transaction where created_by_business_id=?1 and transaction_type ='WITHDRAWAL' order by id desc",
             countQuery = "select count(*) from transaction where created_by_business_id=?1 and transaction_type like %:keyword%",
             nativeQuery = true)
-    Page<PesapayTransaction> findWithdrawalsByBusiness(Long id, Pageable pageable, @Param("keyword") String keyword);
+    Page<PesapayTransaction> findWithdrawalsByBusiness(Long id, Pageable pageable);
 
-    @Query(value = "select * from transaction where created_by_customer_id=?1 and transaction_type like %:keyword% ",
+    @Query(value = "select * from transaction where created_by_customer_id=?1 and transaction_type ='WITHDRAWAL'",
             countQuery = "select count(*) from transaction where created_by_customer_id=?1 and transaction_type like %:keyword%",
             nativeQuery = true)
-    Page<PesapayTransaction> findWithdrawalsByCustomer(Long id, Pageable pageable, @Param("keyword") String keyword);
+    Page<PesapayTransaction> findWithdrawalsByCustomer(Long id, Pageable pageable);
 
     @Query(value = "select count(*) from transaction where created_by_business_id=?1 or received_by_business_id=?1", nativeQuery = true)
     int countByBusiness(Long id);

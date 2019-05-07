@@ -37,7 +37,7 @@ public class TransactionServiceImp implements ITransactionService {
 
     @Override
     public Collection<PesapayTransaction> findCustomerOuts(Long id) {
-        return transactionRepository.findCustomerOuts(id,"WITHDRAWAL");
+        return transactionRepository.findCustomerOuts(id);
     }
 
     @Override
@@ -67,17 +67,17 @@ public class TransactionServiceImp implements ITransactionService {
 
     @Override
     public Page<PesapayTransaction> findOutsByBusiness(Long id, Pageable pageable) {
-        return transactionRepository.findOutsByBusiness(id, pageable,"WITHDRAWAL");
+        return transactionRepository.findOutsByBusiness(id, pageable);
     }
 
     @Override
     public Page<PesapayTransaction> findWithdrawalsByBusiness(Long id, Pageable pageable) {
-        return transactionRepository.findWithdrawalsByBusiness(id, pageable, "WITHDRAWAL");
+        return transactionRepository.findWithdrawalsByBusiness(id, pageable);
     }
 
     @Override
     public Page<PesapayTransaction> findWithdrawalsByCustomer(Long id, Pageable pageable) {
-        return transactionRepository.findWithdrawalsByCustomer(id,pageable, "WITHDRAWAL");
+        return transactionRepository.findWithdrawalsByCustomer(id,pageable);
     }
 
     @Override
