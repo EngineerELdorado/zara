@@ -14,6 +14,7 @@ import java.util.Date;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
