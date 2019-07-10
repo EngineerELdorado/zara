@@ -55,6 +55,7 @@ public class AgentController {
         agent.setStatusDescription("the customer verified");
         agent.setAgentNumber(BusinessNumbersGenerator.generateAgentNumber(agentService));
         agent.setBalance(new BigDecimal("0"));
+        agent.setCommission(new BigDecimal("0"));
         if (!isPhoneTaken(agent.getPhoneNumber())){
             Agent savedAgent = agentService.save(agent);
             if (savedAgent!=null){
