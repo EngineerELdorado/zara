@@ -27,8 +27,7 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
     @Query(value = "select * from transaction where received_by_customer_id=?1 order by id desc", nativeQuery = true)
     Collection<PesapayTransaction> findCustomerEntries(Long id);
 
-    @Query(value = "select * from transaction where created_by_customer_id=?1" +
-            "and transaction_type ='WITHDRAWAL'" +
+    @Query(value = "select * from transaction where created_by_customer_id=?1 and transaction_type ='WITHDRAWAL'" +
             "or transaction_type ='PAYPAYL_WITHDRAWAL' " +
             "or transaction_type ='C2C' "+
             "or transaction_type ='AIRTELMONEY_WITHDRAWAL'" +
