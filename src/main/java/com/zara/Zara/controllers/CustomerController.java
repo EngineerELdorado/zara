@@ -191,8 +191,9 @@ public class CustomerController {
 
     @PostMapping("/updateImage")
     public ResponseEntity<?>update(@Param("image_url")String image_url,
-                                   @Param("phone") String phoneNumber){
-        Customer customer = customerService.findByPhoneNumber(phoneNumber);
+                                   @Param("phone") String phone){
+        Customer customer = customerService.findByPhoneNumber(phone);
+        LOG.info("CUSTOMER "+customer.toString());
         customer.setProfilePic(image_url);
         customerService.save(customer);
         apiResponse.setResponseCode("00");
