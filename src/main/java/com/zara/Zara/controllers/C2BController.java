@@ -160,7 +160,7 @@ public class C2BController {
                                 apiResponse.setResponseCode("00");
                                 apiResponse.setResponseMessage("TRANSACTION REUSSIE");
                                 LOGGER.info("DEPOSIT TRANSACTION SUCCESSFUL "+transaction.getTransactionNumber());
-
+                                 LOGGER.info("BUSINESS CALLBACK URL"+business.getCallBackUrl());
                                 if (!requestBody.getUniqueIdentifier().equals("")){
                                     transaction.setUniqueIdentifier(requestBody.getUniqueIdentifier());
 
