@@ -193,6 +193,7 @@ public class CustomerController {
     public ResponseEntity<?>update(@RequestParam("image_url")String image_url,
                                    @RequestParam("phone") String phone){
 
+        LOG.info("CUSTOMER_PHONE "+phone);
         if (!phone.startsWith("+")){
             phone= "+"+phone;
         }
