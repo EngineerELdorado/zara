@@ -170,8 +170,18 @@ public class C2BController {
                                         callBackData.setChannel("PesaPay");
                                         callBackData.setAccountNumber(requestBody.getUniqueIdentifier());
                                         callBackData.setAmount(requestBody.getAmount());
-                                        new BusinessCallbackService()
-                                                .postData(callBackData,business.getCallBackUrl());
+                                        try{
+                                            new BusinessCallbackService()
+                                                    .postData(callBackData,business.getCallBackUrl());
+                                            apiResponse.setResponseCode("00");
+                                            apiResponse.setResponseMessage("TRANSACTION REUSSIE ET ENVOYE A "+business.getBusinessName());
+
+                                        }catch (Exception e){
+                                            apiResponse.setResponseCode("00");
+                                            apiResponse.setResponseMessage("TRANSACTION REUSSIE SUR PESAPAY MAIS ECHEC DE RECEPTION DU COTE DE "+business.getBusinessName());
+                                            LOGGER.info("BUSINESS CALLBACK URL NOT WORKING");
+                                        }
+
                                     }
 
                                 }
