@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -188,5 +189,15 @@ public class CustomerController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    @PostMapping("/updateImage")
+    public ResponseEntity<?>update(@Param("image_url")String image_url,
+                                   @Param("phone") String phoneNumber){
+        Customer customer = customerService.findByPhoneNumber(phoneNumber);
+        customer.setProfilePic(image_url);
+        customerService.save(customer);
+        apiResponse.setResponseCode("00");
+        apiResponse.setResponseMessage("Image saved");
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 
 }
