@@ -198,7 +198,7 @@ public class CustomerController {
             phone= "+"+phone;
         }
         LOG.info("CUSTOMER_PHONE_AFTER "+phone);
-        Customer customer = customerService.findByPhoneNumber(phone);
+        Customer customer = customerService.findByPhoneNumber(phone.trim());
         if (customer==null){
             LOG.info("CUSTOMER "+"CUSTOMER NOT FOUND");
             apiResponse.setResponseCode("01");
