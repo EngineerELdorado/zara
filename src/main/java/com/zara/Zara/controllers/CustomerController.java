@@ -195,10 +195,10 @@ public class CustomerController {
 
         LOG.info("CUSTOMER_PHONE_BEFORE "+phone);
         if (!phone.startsWith("+")){
-            phone= "+"+phone;
+            phone= "+"+phone.replaceAll("\\s+","");
         }
         LOG.info("CUSTOMER_PHONE_AFTER "+phone);
-        Customer customer = customerService.findByPhoneNumber(phone.trim());
+        Customer customer = customerService.findByPhoneNumber(phone);
         if (customer==null){
             LOG.info("CUSTOMER "+"CUSTOMER NOT FOUND");
             apiResponse.setResponseCode("01");
