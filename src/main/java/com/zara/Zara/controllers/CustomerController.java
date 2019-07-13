@@ -192,6 +192,10 @@ public class CustomerController {
     @PostMapping("/updateImage")
     public ResponseEntity<?>update(@RequestParam("image_url")String image_url,
                                    @RequestParam("phone") String phone){
+
+        if (!phone.startsWith("+")){
+            phone= "+"+phone;
+        }
         Customer customer = customerService.findByPhoneNumber(phone);
         if (customer==null){
             LOG.info("CUSTOMER "+"CUSTOMER NOT FOUND");
