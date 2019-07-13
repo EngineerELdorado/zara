@@ -190,8 +190,8 @@ public class CustomerController {
     }
 
     @PostMapping("/updateImage")
-    public ResponseEntity<?>update(@Param("image_url")String image_url,
-                                   @Param("phone") String phone){
+    public ResponseEntity<?>update(@RequestParam("image_url")String image_url,
+                                   @RequestParam("phone") String phone){
         Customer customer = customerService.findByPhoneNumber(phone);
         LOG.info("CUSTOMER "+customer.toString());
         customer.setProfilePic(image_url);
