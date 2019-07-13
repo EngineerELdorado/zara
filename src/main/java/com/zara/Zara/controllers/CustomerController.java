@@ -193,10 +193,11 @@ public class CustomerController {
     public ResponseEntity<?>update(@RequestParam("image_url")String image_url,
                                    @RequestParam("phone") String phone){
 
-        LOG.info("CUSTOMER_PHONE "+phone);
+        LOG.info("CUSTOMER_PHONE_BEFORE "+phone);
         if (!phone.startsWith("+")){
             phone= "+"+phone;
         }
+        LOG.info("CUSTOMER_PHONE_AFTER "+phone);
         Customer customer = customerService.findByPhoneNumber(phone);
         if (customer==null){
             LOG.info("CUSTOMER "+"CUSTOMER NOT FOUND");
