@@ -193,11 +193,19 @@ public class CustomerController {
     public ResponseEntity<?>update(@RequestParam("image_url")String image_url,
                                    @RequestParam("phone") String phone){
         Customer customer = customerService.findByPhoneNumber(phone);
-        LOG.info("CUSTOMER "+customer.toString());
-        customer.setProfilePic(image_url);
-        customerService.save(customer);
-        apiResponse.setResponseCode("00");
-        apiResponse.setResponseMessage("Image saved");
+        if (customer==null){
+            LOG.info("CUSTOMER "+"CUSTOMER NOT FOUND");
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Customer Not Found");
+        }else{
+            LOG.info("CUSTOMER "+customer.toString());
+            customer.setProfilePic(image_url);
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage("Image saved");
+            customerService.save(customer);
+
+        }
+
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
