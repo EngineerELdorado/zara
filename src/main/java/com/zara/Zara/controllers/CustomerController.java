@@ -3,10 +3,7 @@ package com.zara.Zara.controllers;
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.Customer;
-import com.zara.Zara.models.LoginObject;
-import com.zara.Zara.models.OtpObject;
-import com.zara.Zara.models.PaymentSetting;
-import com.zara.Zara.models.Sms;
+import com.zara.Zara.models.*;
 import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.utils.OtpService;
 import com.zara.Zara.services.utils.SmsService;
@@ -190,22 +187,17 @@ public class CustomerController {
     }
 
     @PostMapping("/updateImage")
-    public ResponseEntity<?>update(@RequestParam("image_url")String image_url,
-                                   @RequestParam("phone") String phone){
+    public ResponseEntity<?>update(@RequestBody UpdateProfileObject profileObject){
 
-        LOG.info("CUSTOMER_PHONE_BEFORE "+phone);
-        if (!phone.startsWith("+")){
-            phone= "+"+phone.replaceAll("\\s+","");
-        }
-        LOG.info("CUSTOMER_PHONE_AFTER "+phone);
-        Customer customer = customerService.findByPhoneNumber(phone);
+
+        Customer customer = customerService.findByPhoneNumber(profileObject.getPhone());
         if (customer==null){
             LOG.info("CUSTOMER "+"CUSTOMER NOT FOUND");
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Customer Not Found");
         }else{
             LOG.info("CUSTOMER "+customer.toString());
-            customer.setProfilePic(image_url);
+            customer.setProfilePic(profileObject.getPic());
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Image saved");
             customerService.save(customer);
