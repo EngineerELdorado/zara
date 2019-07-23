@@ -213,13 +213,15 @@ public class CustomerController {
     @PostMapping("/updateProfile")
     public ResponseEntity<?>profileUpdate(@RequestBody UpdateProfileObject profileObject) throws ParseException {
         Customer customer = customerService.findByPhoneNumber(profileObject.getPhone());
+        LOG.info("UPDATE PROFILE REQUEST BODY "+profileObject.toString());
+
         if (customer==null){
             LOG.info("CUSTOMER "+"CUSTOMER NOT FOUND");
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Customer Not Found");
         }
        if (bCryptPasswordEncoder.matches(profileObject.getPin(), customer.getPin())){
-            LOG.info("CUSTOMER "+customer.toString());
+
             customer.setEmail(profileObject.getEmail());
             customer.setGender(profileObject.getGender());
             customer.setCountry(profileObject.getCountry());

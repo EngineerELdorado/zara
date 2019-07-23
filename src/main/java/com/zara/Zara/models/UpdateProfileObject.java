@@ -13,4 +13,17 @@ public class UpdateProfileObject {
     private String country;
     private String dob;
     private String pin;
+
+    @Override
+    public String toString() {
+        return "UpdateProfileObject{" +
+                "phone='" + phone + '\'' +
+                ", pic='" + pic + '\'' +
+                ", email='" + email + '\'' +
+                ", gender='" + gender + '\'' +
+                ", country='" + country + '\'' +
+                ", dob='" + dob + '\'' +
+                ", pin='" + pin + '\'' +
+                '}';
+    }
 }
