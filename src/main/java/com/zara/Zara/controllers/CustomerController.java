@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
@@ -202,6 +204,38 @@ public class CustomerController {
             apiResponse.setResponseMessage("Image saved");
             customerService.save(customer);
 
+        }
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/updateProfile")
+    public ResponseEntity<?>profileUpdate(@RequestBody UpdateProfileObject profileObject) throws ParseException {
+        Customer customer = customerService.findByPhoneNumber(profileObject.getPhone());
+        if (customer==null){
+            LOG.info("CUSTOMER "+"CUSTOMER NOT FOUND");
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Customer Not Found");
+        }
+       if (bCryptPasswordEncoder.matches(profileObject.getPin(), customer.getPin())){
+            LOG.info("CUSTOMER "+customer.toString());
+            customer.setEmail(profileObject.getEmail());
+            customer.setGender(profileObject.getGender());
+            customer.setCountry(profileObject.getCountry());
+            if (profileObject.getDob()!=null && !profileObject.getDob().equalsIgnoreCase("")){
+                customer.setDob1(new SimpleDateFormat("dd/MM/yyyy").parse(profileObject.getDob())  );
+                customer.setDob2(new SimpleDateFormat("dd/MM/yyyy").parse(profileObject.getDob()).getTime());
+
+            }
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage("Profile updated");
+            customerService.save(customer);
+
+        }
+        else{
+           apiResponse.setResponseCode("01");
+           apiResponse.setResponseMessage("Pin Incorrect");
         }
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);

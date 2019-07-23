@@ -23,6 +23,11 @@ public class Customer {
     private String fullName;
     @Column(unique = true)
     private String phoneNumber;
+    private String email;
+    private Date dob1;
+    private Long dob2;
+    private String gender;
+    private String country;
     private String pin;
     private String role;
     private String status;
