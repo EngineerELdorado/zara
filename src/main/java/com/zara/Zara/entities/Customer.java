@@ -24,6 +24,7 @@ public class Customer {
     @Column(unique = true)
     private String phoneNumber;
     private String email;
+    private String dob;
     private Date dob1;
     private Long dob2;
     private String gender;

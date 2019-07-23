@@ -226,6 +226,7 @@ public class CustomerController {
             customer.setGender(profileObject.getGender());
             customer.setCountry(profileObject.getCountry());
             if (profileObject.getDob()!=null && !profileObject.getDob().equalsIgnoreCase("")){
+                customer.setDob(profileObject.getDob());
                 customer.setDob1(new SimpleDateFormat("dd/MM/yyyy").parse(profileObject.getDob())  );
                 customer.setDob2(new SimpleDateFormat("dd/MM/yyyy").parse(profileObject.getDob()).getTime());
 
