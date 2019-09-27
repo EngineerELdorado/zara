@@ -14,8 +14,8 @@ public class EmailService {
 
     public static void sendmail(String subject, String mail, String email) throws AddressException, MessagingException, IOException {
         Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
+//        props.put("mail.smtp.auth", "true");
+//        props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.pesapay.org");
         props.put("mail.smtp.port", "465");
 
