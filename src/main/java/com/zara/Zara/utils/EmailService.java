@@ -16,7 +16,7 @@ public class EmailService {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.pesapay.com");
+        props.put("mail.smtp.host", "smtp.pesapay.org");
         props.put("mail.smtp.port", "465");
 
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
