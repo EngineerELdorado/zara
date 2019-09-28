@@ -244,4 +244,24 @@ public class CustomerController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    @PostMapping("/changePin")
+    public ResponseEntity<?>changePin(@RequestBody ChangePinObjet pinObjet){
+        if (!pinObjet.getIdentifier().startsWith("+")){
+            pinObjet.setIdentifier("+"+pinObjet.getIdentifier());
+        }
+        Customer customer = customerService.findByPhoneNumber(pinObjet.getIdentifier());
+
+        if (!bCryptPasswordEncoder.matches(pinObjet.getOldPin(), customer.getPin())){
+             apiResponse.setResponseCode("01");
+             apiResponse.setResponseMessage("Pin incorrect");
+        }else{
+            customer.setPin(bCryptPasswordEncoder.encode(pinObjet.getNewPin()));
+            customerService.save(customer);
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage("Pin Changed");
+        }
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
 }
