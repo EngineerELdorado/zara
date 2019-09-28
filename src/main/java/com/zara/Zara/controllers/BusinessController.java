@@ -126,10 +126,10 @@ public class BusinessController {
 
 //Validate the Otp
         if(Integer.parseInt(otpObject.getOtp()) >= 0){
-            int serverOtp = otpService.getOtp(otpObject.getEmail());
+            int serverOtp = otpService.getOtp(otpObject.getPhoneNumber());
             if(serverOtp > 0){
                 if(Integer.parseInt(otpObject.getOtp()) == serverOtp){
-                    otpService.clearOTP(otpObject.getEmail());
+                    otpService.clearOTP(otpObject.getPhoneNumber());
                     apiResponse.setResponseCode("00");
                     apiResponse.setResponseMessage("SUCCESS");
 
