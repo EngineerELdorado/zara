@@ -52,7 +52,7 @@ public class BusinessController {
         business.setBusinessName(business.getBusinessName());
         business.setStatusDescription("the business is verified");
         business.setBalance(new BigDecimal("0"));
-        if (!isEmailTaken(business.getEmail())){
+        if (!isPhoneTaken(business.getPhoneNumber())){
             Business savedBusiness = businessService.save(business);
             if (savedBusiness!=null){
                 apiResponse.setResponseCode("00");
@@ -101,6 +101,15 @@ public class BusinessController {
 
     public boolean isEmailTaken(String businessNumber){
         Business business = businessService.findByEmail(businessNumber);
+        if (business!=null){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean isPhoneTaken(String businessNumber){
+        Business business = businessService.findByPhoneNumber(businessNumber);
         if (business!=null){
             return true;
         }else {
