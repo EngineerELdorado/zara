@@ -79,13 +79,13 @@ public class BusinessController {
 
     @PostMapping("/login")
     public ResponseEntity<?>login(@RequestBody LoginObject loginObject){
-        Business business = businessService.findByEmail(loginObject.getEmail());
+        Business business = businessService.findByPhoneNumber(loginObject.getPhoneNumber());
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("identifiant non reconnu");
             LOG.info("LOGIN FAILED FOR==> "+loginObject.getPhoneNumber()+" BUSINESS NUMBER NOT FOUND");
         }else{
-            if (bCryptPasswordEncoder.matches(loginObject.getPassword(), business.getPassword())){
+            if (bCryptPasswordEncoder.matches(loginObject.getPin(), business.getPin())){
                 apiResponse.setResponseCode("00");
                 apiResponse.setResponseMessage("Bienvenu");
                 apiResponse.setBusiness(business);
@@ -225,4 +225,9 @@ public class BusinessController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/find-page")
+    public ResponseEntity<?> findBusinesses(@RequestParam int start, @RequestParam int end, @RequestParam String filter){
+
+return null;
+    }
 }
