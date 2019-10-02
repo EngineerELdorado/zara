@@ -61,7 +61,7 @@ public class BusinessController {
                 LOG.info("REGISTRATION SUCCESSFUL");
                 Sms sms = new Sms();
                 sms.setTo(savedBusiness.getPhoneNumber());
-                emailService.sendmail("WELCOME","Cher "+business.getBusinessName()+" Bievenu sur PesaPay. votre identifiant unique est: "+savedBusiness.getBusinessNumber(),savedBusiness.getEmail());
+               // emailService.sendmail("WELCOME","Cher "+business.getBusinessName()+" Bievenu sur PesaPay. votre identifiant unique est: "+savedBusiness.getBusinessNumber(),savedBusiness.getEmail());
                 sms.setMessage("Cher "+business.getBusinessName()+" Bievenu sur PesaPay. votre identifiant unique est: "+savedBusiness.getBusinessNumber());
                 SmsService.sendSms(sms);
             }else{
