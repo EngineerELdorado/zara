@@ -3,9 +3,10 @@ package com.zara.Zara.services;
 import com.zara.Zara.entities.Admin;
 import com.zara.Zara.repositories.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 
 @Service
 public class AdminServiceImp implements IAdminService {
@@ -23,7 +24,13 @@ public class AdminServiceImp implements IAdminService {
     }
 
     @Override
-    public Collection<Admin> findAll() {
-        return adminRepository.findAll();
+    public Admin findOne(Long id) {
+        return adminRepository.getOne(id);
+    }
+
+    @Override
+    public Page<Admin> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return adminRepository.findAll(pageable);
     }
 }

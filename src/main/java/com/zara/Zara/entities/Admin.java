@@ -18,10 +18,12 @@ public class Admin {
     private Long id;
     private String fullName;
     private String phoneNumber;
+    private String status;
     @Column(unique = true)
     private String email;
     private String password;
     private String type;
+    private String office;
     private String createdBy;
     private Date createdOn;
 }
