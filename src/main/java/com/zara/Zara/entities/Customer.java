@@ -34,7 +34,8 @@ public class Customer {
     private String status;
     private boolean verified;
     private String statusDescription;
-    private Date creationDate;
+    private Long creationDate;
+    private Date createdOn;
 //    @JsonIgnore
     private BigDecimal balance;
     @Transient

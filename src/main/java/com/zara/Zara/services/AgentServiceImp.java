@@ -3,6 +3,9 @@ package com.zara.Zara.services;
 import com.zara.Zara.entities.Agent;
 import com.zara.Zara.repositories.AgentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -18,6 +21,11 @@ public class AgentServiceImp implements IAgentService {
     }
 
     @Override
+    public Agent findOne(Long id) {
+        return agentRepository.getOne(id);
+    }
+
+    @Override
     public Agent findByPhoneNumber(String phoneNumber) {
         return agentRepository.findByPhoneNumber(phoneNumber);
     }
@@ -28,8 +36,10 @@ public class AgentServiceImp implements IAgentService {
     }
 
     @Override
-    public Collection<Agent> findAll() {
-        return agentRepository.findAll();
+    public Page<Agent> findAll(int page, int size, Long start, Long end, String param) {
+
+        Pageable pageable = PageRequest.of(page,size);
+        return agentRepository.findPagedAgent(start,end,param,pageable);
     }
 
     @Override

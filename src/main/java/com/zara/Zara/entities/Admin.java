@@ -24,6 +24,7 @@ public class Admin {
     private String password;
     private String type;
     private String office;
+    private Long creationDate;
     private String createdBy;
     private Date createdOn;
 }

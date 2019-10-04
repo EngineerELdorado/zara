@@ -21,6 +21,7 @@ public class PesapayTransaction {
     @Column(columnDefinition = "TEXT")
     public String description;
     public String status;
+    private Long creationDate;
     public Date createdOn;
     // TODO: 18/02/2019 rename this variable to createdByCustomer
     @ManyToOne

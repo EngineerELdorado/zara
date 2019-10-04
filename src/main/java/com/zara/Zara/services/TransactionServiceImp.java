@@ -4,6 +4,7 @@ import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,11 @@ public class TransactionServiceImp implements ITransactionService {
     @Override
     public PesapayTransaction addTransaction(PesapayTransaction transaction) {
         return transactionRepository.save(transaction);
+    }
+
+    @Override
+    public PesapayTransaction findOne(Long id) {
+        return transactionRepository.findOne(id);
     }
 
     @Override
@@ -153,5 +159,12 @@ public class TransactionServiceImp implements ITransactionService {
     @Override
     public Page<PesapayTransaction> findOutsByAgent(Long id, Pageable pageable) {
         return transactionRepository.findOutsByAgent(id,pageable);
+    }
+
+    @Override
+    public Page<PesapayTransaction> findAll(int page, int size, Long start, Long end, String param) {
+        Pageable pageable = PageRequest.of(page,size);
+
+        return transactionRepository.findPagedTransactions(start,end,param, pageable);
     }
 }

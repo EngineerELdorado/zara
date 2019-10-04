@@ -4,6 +4,7 @@ import com.zara.Zara.entities.Customer;
 import com.zara.Zara.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,11 @@ public class CustomerServiceImp implements ICustomerService {
     }
 
     @Override
+    public Customer findOne(Long id) {
+        return customerRepository.getOne(id);
+    }
+
+    @Override
     public Customer findByPhoneNumber(String phoneNumber) {
         return customerRepository.findByPhoneNumber(phoneNumber);
     }
@@ -29,8 +35,10 @@ public class CustomerServiceImp implements ICustomerService {
     }
 
     @Override
-    public Page<Customer> findAll(Pageable pageable) {
-        return customerRepository.findAllCusotomers(pageable);
+    public Page<Customer> findAll(int page, int size, Long start, Long end, String param) {
+
+        Pageable pageable = PageRequest.of(page,size);
+        return customerRepository.findAllCusotomers(start, end, param, pageable);
     }
 
     @Override

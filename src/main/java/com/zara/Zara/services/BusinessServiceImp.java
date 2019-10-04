@@ -3,6 +3,9 @@ package com.zara.Zara.services;
 import com.zara.Zara.entities.Business;
 import com.zara.Zara.repositories.BusinessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -28,8 +31,14 @@ public class BusinessServiceImp implements IBusinessService {
     }
 
     @Override
-    public Collection<Business> findAll() {
-        return businessRepository.findAll();
+    public Page<Business> findAll(int page, int size, Long start, Long end, String param) {
+        Pageable pageable = PageRequest.of(page,size);
+        return businessRepository.findPagedBusinesses(start,end,param,pageable);
+    }
+
+    @Override
+    public Business findOne(Long id) {
+        return businessRepository.getOne(id);
     }
 
     @Override

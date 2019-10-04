@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity(name = "developers")
@@ -20,4 +21,6 @@ public class Developer {
     @Column(unique = true)
     private String apiKey;
     private String status;
+    private Long creationDate;
+    private Date createdOn;
 }

@@ -29,6 +29,7 @@ public class Agent {
 //    @JsonIgnore
     private BigDecimal balance;
     private BigDecimal commission;
+    private Long creationDate;
     private Date createdOn;
     private String status;
     private String statusDescription;

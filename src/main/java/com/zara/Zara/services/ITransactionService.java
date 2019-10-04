@@ -12,6 +12,7 @@ import java.util.Date;
 public interface ITransactionService {
 
     PesapayTransaction addTransaction(PesapayTransaction transaction);
+    PesapayTransaction findOne(Long id);
     Collection<PesapayTransaction>getAll();
     Collection<PesapayTransaction>findByCustomerId(Long id);
     Collection<PesapayTransaction>findCustomerEntries(Long id);
@@ -46,4 +47,7 @@ public interface ITransactionService {
     Page<PesapayTransaction> findByAgentWithFilter(Long id, String filter, Pageable pageable);
     Page<PesapayTransaction> findEntriesByAgent(Long id, Pageable pageable);
     Page<PesapayTransaction> findOutsByAgent(Long id, Pageable pageable);
+
+    //ADMIN STUFF
+    Page<PesapayTransaction>findAll(int page, int size, Long start, Long end, String param);
 }

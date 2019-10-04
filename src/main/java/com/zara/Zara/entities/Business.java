@@ -28,6 +28,7 @@ public class Business {
 //    @JsonIgnore
     private BigDecimal balance;
     private Date createdOn;
+    private Long creationDate;
     private String status;
     private String statusDescription;
     private boolean verified;
