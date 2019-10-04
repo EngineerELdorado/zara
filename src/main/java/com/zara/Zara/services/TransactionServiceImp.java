@@ -179,6 +179,11 @@ public class TransactionServiceImp implements ITransactionService {
     }
 
     @Override
+    public BigDecimal amountsPending(Long start, Long end) {
+        return transactionRepository.amountsPenfing(start,end);
+    }
+
+    @Override
     public BigDecimal commissions(Long start, Long end) {
         return transactionRepository.commissions(start,end);
     }

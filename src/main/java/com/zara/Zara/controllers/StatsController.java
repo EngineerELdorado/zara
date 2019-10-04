@@ -43,6 +43,7 @@ public class StatsController {
         apiResponse.setAllRecentTransactions(transactionService.allStatsTransactionsByBusiness(business.getId()));
         apiResponse.setEntriesRecentTransactions(transactionService.entriesStatsTransactionsByBusiness(business.getId()));
         apiResponse.setOutsRecentTransactions(transactionService.outsStatsTransactionsByBusiness(business.getId()));
+
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

@@ -13,5 +13,6 @@ public class Stat {
     private Long transactions;
     private BigDecimal amounts;
     private BigDecimal commissions;
+    private BigDecimal pending;
 
 }

@@ -39,6 +39,7 @@ public class _StatsController {
         stat.setTransactions(businessService.findCount(start,end));
         stat.setAmounts(transactionService.amounts(start,end));
         stat.setCommissions(transactionService.commissions(start,end));
+        stat.setPending(transactionService.amountsPending(start,end));
         apiResponse.setData(stat);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }

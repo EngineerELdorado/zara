@@ -135,4 +135,7 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
     BigDecimal commissions(Long start, Long end);
     @Query(value = "select sum(original_amount) from transaction where creation_date between ?1 and ?2", nativeQuery = true)
     BigDecimal amounts(Long start, Long end);
+
+    @Query(value = "select sum(original_amount) from transaction where creation_date between ?1 and ?2 and status='02'", nativeQuery = true)
+    BigDecimal amountsPenfing(Long start, Long end);
 }
