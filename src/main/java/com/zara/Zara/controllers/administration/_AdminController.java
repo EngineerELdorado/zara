@@ -96,5 +96,5 @@ public class _AdminController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    
+
 }
