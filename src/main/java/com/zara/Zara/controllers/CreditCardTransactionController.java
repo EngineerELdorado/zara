@@ -87,7 +87,7 @@ public class CreditCardTransactionController {
                      transaction.setCreatedByCustomer(senderCustomer);
                      transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                      transaction.setReceivedByCustomer(senderCustomer);
-                     transaction.setSender(senderCustomer.getFullName() +" Via Carte de credit");
+                     transaction.setSender("CREDIT CARD");
                      transaction.setReceriver(senderCustomer.getFullName());
                      transaction.setTransactionType(TRANSACTION_CREDIT_CARD_DEPOSIT);
 
@@ -168,7 +168,7 @@ public class CreditCardTransactionController {
                     transaction.setCreatedByBusiness(business);
                     transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                     transaction.setReceivedByBusiness(business);
-                    transaction.setSender(business.getBusinessName()+" Via Carte de credit");
+                    transaction.setSender("CREDIT CARD");
                     transaction.setReceriver(business.getBusinessName());
                     transaction.setTransactionType(TRANSACTION_CREDIT_CARD_DEPOSIT);
 
@@ -242,7 +242,7 @@ public class CreditCardTransactionController {
                     transaction.setDescription("Deposit(PayPal) successful");
                     transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                     transaction.setReceivedByBusiness(business);
-                    transaction.setSender(business.getBusinessName()+" Via PayPal");
+                    transaction.setSender("PayPal");
                     transaction.setReceriver(business.getBusinessName());
                     transaction.setTransactionType(TRANSACTION_PAYPAL_DEPOSIT);
 
@@ -313,7 +313,7 @@ public class CreditCardTransactionController {
                 transaction.setCreatedByCustomer(customer);
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                 transaction.setReceivedByCustomer(customer);
-                transaction.setSender(customer.getFullName()+" Via PayPal");
+                transaction.setSender("PayPal");
                 transaction.setReceriver(customer.getFullName());
                 transaction.setTransactionType(TRANSACTION_PAYPAL_DEPOSIT);
 
