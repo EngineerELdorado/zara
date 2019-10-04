@@ -79,6 +79,7 @@ public class CreditCardTransactionController {
 
                      PesapayTransaction transaction = new PesapayTransaction();
                      transaction.setFinalAmount(new BigDecimal(request.getAmount()));
+                     transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
                      transaction.setCreatedOn(new Date());
                      transaction.setCreationDate(System.currentTimeMillis());
                      transaction.setStatus("00");
@@ -157,7 +158,9 @@ public class CreditCardTransactionController {
 
                     PesapayTransaction transaction = new PesapayTransaction();
                     transaction.setFinalAmount(new BigDecimal(request.getAmount()));
+                    transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
                     transaction.setCreatedOn(new Date());
+                    transaction.setCreationDate(System.currentTimeMillis());
                     transaction.setStatus("00");
                     transaction.setDescription("Deposit(card) successful");
                     transaction.setCreatedByBusiness(business);
@@ -227,7 +230,9 @@ public class CreditCardTransactionController {
 
                     PesapayTransaction transaction = new PesapayTransaction();
                     transaction.setFinalAmount(new BigDecimal(request.getAmount()));
+                    transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
                     transaction.setCreatedOn(new Date());
+                    transaction.setCreationDate(System.currentTimeMillis());
                     transaction.setCreatedByBusiness(business);
                     transaction.setStatus("00");
                     transaction.setDescription("Deposit(PayPal) successful");
@@ -294,7 +299,9 @@ public class CreditCardTransactionController {
 
                 PesapayTransaction transaction = new PesapayTransaction();
                 transaction.setFinalAmount(new BigDecimal(request.getAmount()));
+                transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
                 transaction.setCreatedOn(new Date());
+                transaction.setCreationDate(System.currentTimeMillis());
                 transaction.setStatus("00");
                 transaction.setDescription("Deposit(PayPal) successful");
                 transaction.setCreatedByCustomer(customer);
@@ -379,7 +386,9 @@ public class CreditCardTransactionController {
 
                 PesapayTransaction transaction = new PesapayTransaction();
                 transaction.setFinalAmount(new BigDecimal(request.getAmount()));
+                transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
                 transaction.setCreatedOn(new Date());
+                transaction.setCreationDate(System.currentTimeMillis());
                 transaction.setStatus("02");
                 transaction.setForPaypalEmail(request.getForPaypalEmail());
                 transaction.setDescription("transfer ver(PayPal) en suspens. en destination de paypal au compte "+request.getForPaypalEmail());
@@ -466,7 +475,9 @@ public class CreditCardTransactionController {
 
                 PesapayTransaction transaction = new PesapayTransaction();
                 transaction.setFinalAmount(new BigDecimal(request.getAmount()));
+                transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
                 transaction.setCreatedOn(new Date());
+                transaction.setCreationDate(System.currentTimeMillis());
                 transaction.setStatus("02");
                 transaction.setForPaypalEmail(request.getForPaypalEmail());
                 transaction.setDescription("transfer ver(PayPal) en suspens. en destination de paypal au compte "+request.getForPaypalEmail());
