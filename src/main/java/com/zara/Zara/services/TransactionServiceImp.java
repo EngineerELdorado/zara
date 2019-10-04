@@ -167,4 +167,19 @@ public class TransactionServiceImp implements ITransactionService {
 
         return transactionRepository.findPagedTransactions(start,end,param, pageable);
     }
+
+    @Override
+    public Long findCount(Long start, Long end) {
+        return transactionRepository.findCount(start,end);
+    }
+
+    @Override
+    public BigDecimal amounts(Long start, Long end) {
+        return transactionRepository.amounts(start,end);
+    }
+
+    @Override
+    public BigDecimal commissions(Long start, Long end) {
+        return transactionRepository.commissions(start,end);
+    }
 }

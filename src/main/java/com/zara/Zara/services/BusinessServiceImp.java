@@ -45,4 +45,9 @@ public class BusinessServiceImp implements IBusinessService {
     public Business findByPhoneNumber(String phoneNumber) {
         return businessRepository.findByPhoneNumber(phoneNumber);
     }
+
+    @Override
+    public Long findCount(Long start, Long end) {
+        return businessRepository.findCount(start,end);
+    }
 }

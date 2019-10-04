@@ -23,4 +23,7 @@ public interface AgentRepository extends JpaRepository<Agent, Long> {
 
     @Query(value = "select  from agents where creation_date between ?1 and ?2 and lower(full_name) like %?3%", nativeQuery = true)
     Page<Agent> findPagedAgent(Long start, Long end, String param, Pageable pageable);
+
+    @Query(value = "select count(*) from agents where creation_date between ?1 and ?2", nativeQuery = true)
+    Long findCount(Long start, Long end);
 }

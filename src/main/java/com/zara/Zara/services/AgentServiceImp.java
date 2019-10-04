@@ -46,4 +46,9 @@ public class AgentServiceImp implements IAgentService {
     public Collection<Agent> findByStatus(String status) {
         return agentRepository.findByStatus(status);
     }
+
+    @Override
+    public Long findCount(Long start, Long end) {
+        return agentRepository.findCount(start,end);
+    }
 }

@@ -2,6 +2,7 @@ package com.zara.Zara.controllers.administration;
 
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Admin;
+import com.zara.Zara.models.ChangePinObjet;
 import com.zara.Zara.models.LoginObject;
 import com.zara.Zara.services.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,4 +80,21 @@ public class _AdminController {
         apiResponse.setData(admins);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+    @PostMapping("/change-password")
+    public ResponseEntity<?>changePassword(@RequestBody ChangePinObjet pinObjet){
+
+        Admin admin = adminService.findOne(pinObjet.getId());
+        if(bCryptPasswordEncoder.matches(pinObjet.getOldPassword(),admin.getPassword())){
+            admin.setPassword(bCryptPasswordEncoder.encode(pinObjet.getNewPassword()));
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage("MOT DE PASSE CHANGE");
+        }else{
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("ANCIEN MOT DE PASSE INCORRECT");
+        }
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    
 }

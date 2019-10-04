@@ -11,7 +11,7 @@ public class Stat {
     private Long customers;
     private Long agents;
     private Long transactions;
-    private BigDecimal amount;
+    private BigDecimal amounts;
     private BigDecimal commissions;
-    
+
 }

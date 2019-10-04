@@ -128,4 +128,11 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
 
     @Query(value = "select * from transaction where id =?1", nativeQuery = true)
     PesapayTransaction findOne(Long id);
+
+    @Query(value = "select count(*) from transaction where creation_date between ?1 and ?2", nativeQuery = true)
+    Long findCount(Long start, Long end);
+    @Query(value = "select sum(charges) from transaction where creation_date between ?1 and ?2", nativeQuery = true)
+    BigDecimal commissions(Long start, Long end);
+    @Query(value = "select sum(original_amount) from transaction where creation_date between ?1 and ?2", nativeQuery = true)
+    BigDecimal amounts(Long start, Long end);
 }

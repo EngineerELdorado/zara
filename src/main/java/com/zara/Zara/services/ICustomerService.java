@@ -15,4 +15,5 @@ public interface ICustomerService {
     BigDecimal getBalance(Long  customerId);
     Page<Customer> findAll(int page, int size, Long start, Long end, String param);
     Collection<Customer>findByStatus(String status);
+    Long findCount(Long start, Long end);
 }

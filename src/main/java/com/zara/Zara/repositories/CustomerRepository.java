@@ -20,4 +20,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Page<Customer> findAllCusotomers(Long start, Long end, String param, Pageable pageable);
 
     List<Customer> findByStatus(String status);
+
+    @Query(value = "select count(*) from customers where creation_date between ?1 and ?2", nativeQuery = true)
+    Long findCount(Long start, Long end);
 }

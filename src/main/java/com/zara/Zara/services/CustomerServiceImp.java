@@ -46,5 +46,10 @@ public class CustomerServiceImp implements ICustomerService {
         return customerRepository.findByStatus(status);
     }
 
+    @Override
+    public Long findCount(Long start, Long end) {
+        return customerRepository.findCount(start,end);
+    }
+
 
 }

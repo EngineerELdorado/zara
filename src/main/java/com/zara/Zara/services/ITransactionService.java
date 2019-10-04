@@ -50,4 +50,7 @@ public interface ITransactionService {
 
     //ADMIN STUFF
     Page<PesapayTransaction>findAll(int page, int size, Long start, Long end, String param);
+    Long findCount(Long start, Long end);
+    BigDecimal amounts(Long start, Long end);
+    BigDecimal commissions(Long start, Long end);
 }

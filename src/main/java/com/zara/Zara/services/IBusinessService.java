@@ -13,4 +13,5 @@ public interface IBusinessService {
     Page<Business> findAll(int page, int size, Long start, Long end, String param);
     Business findOne(Long id);
     Business findByPhoneNumber(String phoneNumber);
+    Long findCount(Long start, Long end);
 }
