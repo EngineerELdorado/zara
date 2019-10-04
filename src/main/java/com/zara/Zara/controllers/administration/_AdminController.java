@@ -30,7 +30,7 @@ public class _AdminController {
 
         admin.setCreatedOn(new Date());
         admin.setPassword(bCryptPasswordEncoder.encode(admin.getPassword()));
-        admin.setStatus("ON");
+        admin.setStatus("ACTIVE");
         adminService.save(admin);
         apiResponse.setResponseCode("00");
         apiResponse.setResponseMessage("Admin Created");
@@ -61,12 +61,12 @@ public class _AdminController {
     public ResponseEntity<?>blockAdmin(@PathVariable Long id){
         Admin admin = adminService.findOne(id);
 
-        if (admin.getStatus().equalsIgnoreCase("ON")){
-            admin.setStatus("OFF");
+        if (admin.getStatus().equalsIgnoreCase("ACTIVE")){
+            admin.setStatus("INACTIVE");
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("COMPTE BLOQUE");
-        }else if (admin.getStatus().equalsIgnoreCase("OFF")){
-            admin.setStatus("ON");
+        }else if (admin.getStatus().equalsIgnoreCase("INACTIVE")){
+            admin.setStatus("ACTIVE");
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("COMPTE DEBLOQUE");
         }
