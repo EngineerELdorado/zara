@@ -36,6 +36,7 @@ public class _StatsController {
         stat.setTransactions(transactionService.findCount(start,end));
         stat.setCustomers(customerService.findCount(start,end));
         stat.setBusinesses(businessService.findCount(start,end));
+        stat.setTransactions(businessService.findCount(start,end));
         stat.setAmounts(transactionService.amounts(start,end));
         stat.setCommissions(transactionService.commissions(start,end));
         apiResponse.setData(stat);
