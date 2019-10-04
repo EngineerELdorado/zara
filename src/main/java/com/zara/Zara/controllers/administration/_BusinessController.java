@@ -2,22 +2,20 @@ package com.zara.Zara.controllers.administration;
 
 import com.zara.Zara.constants.ApiResponse;
 import com.zara.Zara.entities.Business;
-import com.zara.Zara.entities.Customer;
 import com.zara.Zara.services.IBusinessService;
-import com.zara.Zara.services.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/admins/customers")
+@RequestMapping("/admins/businesses")
 @RestController
 @CrossOrigin(origins = "*")
-public class CustomerController {
+public class _BusinessController {
 
     @Autowired
-    ICustomerService customerService;
+    IBusinessService businessService;
     ApiResponse apiResponse = new ApiResponse();
     @GetMapping("/find-all")
     public ResponseEntity<?>findAll(@RequestParam int page,
@@ -26,21 +24,21 @@ public class CustomerController {
                                     @RequestParam Long end,
                                     @RequestParam String param){
 
-        Page<Customer>customers = customerService.findAll(page,size,start,end,param);
+        Page<Business>businesses = businessService.findAll(page,size,start,end,param);
 //        apiResponse.setResponseCode("00");
-        apiResponse.setData(customers);
+        apiResponse.setData(businesses);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("/block/{id}")
     public ResponseEntity<?>block(@PathVariable Long id){
-        Customer customer = customerService.findOne(id);
-        if (customer.getStatus().equalsIgnoreCase("ACTIVE")){
-            customer.setStatus("INACTIVE");
+        Business business = businessService.findOne(id);
+        if (business.getStatus().equalsIgnoreCase("ACTIVE")){
+            business.setStatus("INACTIVE");
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("COMPTE BLOQUE");
-        }else if (customer.getStatus().equalsIgnoreCase("INACTIVE")){
-            customer.setStatus("ACTIVE");
+        }else if (business.getStatus().equalsIgnoreCase("INACTIVE")){
+            business.setStatus("ACTIVE");
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("COMPTE DEBLOQUE");
         }

@@ -1,9 +1,9 @@
 package com.zara.Zara.controllers.administration;
 
 import com.zara.Zara.constants.ApiResponse;
-import com.zara.Zara.entities.Agent;
+import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.Customer;
-import com.zara.Zara.services.IAgentService;
+import com.zara.Zara.services.IBusinessService;
 import com.zara.Zara.services.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,13 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/admins/agents")
+@RequestMapping("/admins/customers")
 @RestController
 @CrossOrigin(origins = "*")
-public class AgentController {
+public class _CustomerController {
 
     @Autowired
-    IAgentService agentService;
+    ICustomerService customerService;
     ApiResponse apiResponse = new ApiResponse();
     @GetMapping("/find-all")
     public ResponseEntity<?>findAll(@RequestParam int page,
@@ -26,21 +26,21 @@ public class AgentController {
                                     @RequestParam Long end,
                                     @RequestParam String param){
 
-        Page<Agent>agents = agentService.findAll(page,size,start,end,param);
+        Page<Customer>customers = customerService.findAll(page,size,start,end,param);
 //        apiResponse.setResponseCode("00");
-        apiResponse.setData(agents);
+        apiResponse.setData(customers);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("/block/{id}")
     public ResponseEntity<?>block(@PathVariable Long id){
-        Agent agent = agentService.findOne(id);
-        if (agent.getStatus().equalsIgnoreCase("ACTIVE")){
-            agent.setStatus("INACTIVE");
+        Customer customer = customerService.findOne(id);
+        if (customer.getStatus().equalsIgnoreCase("ACTIVE")){
+            customer.setStatus("INACTIVE");
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("COMPTE BLOQUE");
-        }else if (agent.getStatus().equalsIgnoreCase("INACTIVE")){
-            agent.setStatus("ACTIVE");
+        }else if (customer.getStatus().equalsIgnoreCase("INACTIVE")){
+            customer.setStatus("ACTIVE");
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("COMPTE DEBLOQUE");
         }

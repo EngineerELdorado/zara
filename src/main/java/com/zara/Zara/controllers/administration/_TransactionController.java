@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/admins/transactions")
 @CrossOrigin(origins = "*")
-public class TransactionController {
+public class _TransactionController {
 
     @Autowired
     ITransactionService transactionService;

@@ -16,7 +16,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/admins/users")
 @CrossOrigin(origins = "*")
-public class AdminController {
+public class _AdminController {
 
     @Autowired
     IAdminService adminService;
