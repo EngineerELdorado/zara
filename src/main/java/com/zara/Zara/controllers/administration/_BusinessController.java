@@ -22,7 +22,7 @@ public class _BusinessController {
                                     @RequestParam int size,
                                     @RequestParam Long start,
                                     @RequestParam Long end,
-                                    @RequestParam String param){
+                                    @RequestParam (required = false) String param){
 
         Page<Business>businesses = businessService.findAll(page,size,start,end,param);
 //        apiResponse.setResponseCode("00");

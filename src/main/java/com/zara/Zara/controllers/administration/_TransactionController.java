@@ -20,7 +20,7 @@ public class _TransactionController {
     @GetMapping("/find-all")
     public ResponseEntity<?>findAll(@RequestParam int page, @RequestParam int size,
                                     @RequestParam Long start,@RequestParam Long end,
-                                    @RequestParam String param){
+                                    @RequestParam(required = false) String param){
         Page<PesapayTransaction>transactions = transactionService.findAll(page, size, start,end,param);
         apiResponse.setData(transactions);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);

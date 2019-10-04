@@ -24,7 +24,7 @@ public class _AgentController {
                                     @RequestParam int size,
                                     @RequestParam Long start,
                                     @RequestParam Long end,
-                                    @RequestParam String param){
+                                    @RequestParam (required = false) String param){
 
         Page<Agent>agents = agentService.findAll(page,size,start,end,param);
 //        apiResponse.setResponseCode("00");

@@ -81,7 +81,8 @@ public class _AdminController {
     }
 
     @GetMapping("/find-all")
-    public ResponseEntity<?>getAllAdmins(@RequestParam int page, @RequestParam int size,@RequestParam String param){
+    public ResponseEntity<?>getAllAdmins(@RequestParam int page, @RequestParam int size,
+                                         @RequestParam (required = false) String param){
 
         Page<Admin>admins = adminService.findAll(page,size);
         apiResponse.setData(admins);
