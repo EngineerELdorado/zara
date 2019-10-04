@@ -117,7 +117,8 @@ public class C2BController {
                             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                             transaction.setCreatedByCustomer(customer);
                             transaction.setReceivedByBusiness(business);
-
+                            transaction.setSender(customer.getFullName());
+                            transaction.setReceriver(business.getBusinessName());
                             transaction.setTransactionType(TRANSACTION__BILL_PAYMENT);
 
                             PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);

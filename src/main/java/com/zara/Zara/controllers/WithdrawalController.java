@@ -113,6 +113,8 @@ public class WithdrawalController {
             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
             transaction.setCreatedByCustomer(customer);
             transaction.setReceivedByAgent(agent);
+            transaction.setSender(customer.getFullName());
+            transaction.setReceriver(agent.getFullName());
             transaction.setTransactionType(TRANSACTION_WITHDRAWAL);
 
             PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);

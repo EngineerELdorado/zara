@@ -44,5 +44,7 @@ public class PesapayTransaction {
     public Business receivedByBusiness;
     private String uniqueIdentifier;
     private String forPaypalEmail;
+    private String sender;
+    private String receriver;
 
 }

@@ -73,6 +73,8 @@ public class B2CtransactionController {
                         transaction.setFinalAmount(finalAmount);
                         transaction.setCreatedByBusiness(business);
                         transaction.setReceivedByCustomer(customer);
+                        transaction.setSender(business.getBusinessName());
+                        transaction.setReceriver(customer.getFullName());
                         transaction.setTransactionType(TRANSACITION_B2C);
                         transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
 

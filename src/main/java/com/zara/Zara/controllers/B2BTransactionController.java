@@ -70,6 +70,8 @@ public class B2BTransactionController {
                                 transaction.setFinalAmount(finalAmount);
                                 transaction.setCreatedByBusiness(business);
                                 transaction.setReceivedByBusiness(receiver);
+                                transaction.setSender(business.getBusinessName());
+                                transaction.setReceriver(receiver.getBusinessName());
                                 transaction.setTransactionType(TRANSACITION_B2B);
                                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                                 if(business.getBusinessNumber().equals(receiver.getBusinessNumber())){

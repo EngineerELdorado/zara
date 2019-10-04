@@ -87,6 +87,8 @@ public class CreditCardTransactionController {
                      transaction.setCreatedByCustomer(senderCustomer);
                      transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                      transaction.setReceivedByCustomer(senderCustomer);
+                     transaction.setSender(senderCustomer.getFullName() +" Via Carte de credit");
+                     transaction.setReceriver(senderCustomer.getFullName());
                      transaction.setTransactionType(TRANSACTION_CREDIT_CARD_DEPOSIT);
 
                      PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
@@ -166,6 +168,8 @@ public class CreditCardTransactionController {
                     transaction.setCreatedByBusiness(business);
                     transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                     transaction.setReceivedByBusiness(business);
+                    transaction.setSender(business.getBusinessName()+" Via Carte de credit");
+                    transaction.setReceriver(business.getBusinessName());
                     transaction.setTransactionType(TRANSACTION_CREDIT_CARD_DEPOSIT);
 
                     PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
@@ -238,6 +242,8 @@ public class CreditCardTransactionController {
                     transaction.setDescription("Deposit(PayPal) successful");
                     transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                     transaction.setReceivedByBusiness(business);
+                    transaction.setSender(business.getBusinessName()+" Via PayPal");
+                    transaction.setReceriver(business.getBusinessName());
                     transaction.setTransactionType(TRANSACTION_PAYPAL_DEPOSIT);
 
                     PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
@@ -307,6 +313,8 @@ public class CreditCardTransactionController {
                 transaction.setCreatedByCustomer(customer);
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                 transaction.setReceivedByCustomer(customer);
+                transaction.setSender(customer.getFullName()+" Via PayPal");
+                transaction.setReceriver(customer.getFullName());
                 transaction.setTransactionType(TRANSACTION_PAYPAL_DEPOSIT);
 
                 PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
@@ -395,6 +403,8 @@ public class CreditCardTransactionController {
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                 transaction.setCreatedByCustomer(customer);
                 transaction.setReceivedByCustomer(customer);
+                transaction.setSender(customer.getFullName());
+                transaction.setReceriver("PayPal");
                 transaction.setTransactionType(TRANSACTION_PESAPAY_TO_PAYPAL_CUSTOMER);
 
                 PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
@@ -483,6 +493,8 @@ public class CreditCardTransactionController {
                 transaction.setDescription("transfer ver(PayPal) en suspens. en destination de paypal au compte "+request.getForPaypalEmail());
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                 transaction.setCreatedByBusiness(business);
+                transaction.setSender(business.getBusinessName());
+                transaction.setReceriver("PayPal");
                 transaction.setTransactionType(TRANSACTION_PESAPAY_TO_PAYPAL_CUSTOMER);
 
                 PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);

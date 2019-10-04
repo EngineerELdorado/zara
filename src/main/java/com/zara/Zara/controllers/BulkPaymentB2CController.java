@@ -85,6 +85,8 @@ public class BulkPaymentB2CController {
                             transaction.setTransactionType(TRANSACITION_B2C);
                             transaction.setCreatedByBusiness(business);
                             transaction.setReceivedByCustomer(customer);
+                            transaction.setSender(business.getBusinessName());
+                            transaction.setReceriver(customer.getFullName());
                             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
 
                             if (business.getStatus().equals("ACTIVE")){

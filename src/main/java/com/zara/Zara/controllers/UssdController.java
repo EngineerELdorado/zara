@@ -272,7 +272,8 @@ public class UssdController {
         transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
         transaction.setCreatedByCustomer(customer);
         transaction.setReceivedByBusiness(business);
-
+        transaction.setSender(customer.getFullName());
+        transaction.setReceriver(business.getBusinessName());
         transaction.setTransactionType(TRANSACTION__BILL_PAYMENT);
 
         transactionService.addTransaction(transaction);
@@ -333,6 +334,8 @@ public class UssdController {
         transaction.setDescription("Transaction Reussie");
         transaction.setCreatedByCustomer(senderCustomer);
         transaction.setReceivedByCustomer(receiverCustomer);
+        transaction.setSender(senderCustomer.getFullName());
+        transaction.setReceriver(receiverCustomer.getFullName());
         transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
 
         transaction.setTransactionType(TRANSACTION_CUSTOMER_RANSFER);
@@ -380,6 +383,8 @@ public class UssdController {
         transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
         transaction.setCreatedByCustomer(customer);
         transaction.setReceivedByAgent(agent);
+        transaction.setSender(customer.getFullName());
+        transaction.setReceriver(agent.getFullName());
         transaction.setTransactionType(TRANSACTION_WITHDRAWAL);
 
         PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);

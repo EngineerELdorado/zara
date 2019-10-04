@@ -143,6 +143,8 @@ public class OnlinePaymentController{
                             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                             transaction.setCreatedByCustomer(customer);
                             transaction.setReceivedByBusiness(business);
+                            transaction.setSender(customer.getFullName());
+                            transaction.setReceriver(business.getBusinessName());
                             transaction.setTransactionType(TRANSACTION__ONLINE_PAYMENT);
 
                             PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
