@@ -28,12 +28,18 @@ public class _AdminController {
     @PostMapping("/create")
     public ResponseEntity<?>save(@RequestBody Admin admin,@RequestParam String createdBy){
 
-        admin.setCreatedOn(new Date());
-        admin.setPassword(bCryptPasswordEncoder.encode(admin.getPassword()));
-        admin.setStatus("ACTIVE");
-        adminService.save(admin);
-        apiResponse.setResponseCode("00");
-        apiResponse.setResponseMessage("Admin Created");
+        if(adminService.findByUsername(admin.getEmail())==null){
+            admin.setCreatedOn(new Date());
+            admin.setPassword(bCryptPasswordEncoder.encode(admin.getPassword()));
+            admin.setStatus("ACTIVE");
+            adminService.save(admin);
+            apiResponse.setResponseCode("00");
+            apiResponse.setResponseMessage("Admin Created");
+        }else{
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Email indisponible");
+        }
+
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
