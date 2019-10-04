@@ -16,7 +16,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query(value = "select balance from customers where id =?1", nativeQuery = true)
     BigDecimal getBalance(Long customerId);
 
-    @Query(value = "select * from customers where creation_date between ?1 and ?2 and lower(full_name) like %?3% order by id desc", nativeQuery = true)
+    @Query(value = "select * from customers where creation_date between ?1 and ?2 and lower(full_name) like %?3% or phone_number like %?3% order by id desc", nativeQuery = true)
     Page<Customer> findAllCusotomers(Long start, Long end, String param, Pageable pageable);
 
     List<Customer> findByStatus(String status);
