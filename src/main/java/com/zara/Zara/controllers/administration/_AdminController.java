@@ -55,6 +55,7 @@ public class _AdminController {
             if(bCryptPasswordEncoder.matches(loginObject.getPassword(), admin.getPassword())){
                 apiResponse.setResponseCode("00");
                 apiResponse.setResponseMessage("Bien venu "+admin.getFullName());
+                apiResponse.setData(admin);
             }else{
                 apiResponse.setResponseCode("01");
                 apiResponse.setResponseMessage("Email ou mot de passe incorrect");
