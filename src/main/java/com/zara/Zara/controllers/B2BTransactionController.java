@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_B2B;
-import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_B2B_BULK;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACITION_B2B;
 
 @RestController
@@ -71,7 +70,7 @@ public class B2BTransactionController {
                                 transaction.setCreatedByBusiness(business);
                                 transaction.setReceivedByBusiness(receiver);
                                 transaction.setSender(business.getBusinessName());
-                                transaction.setReceriver(receiver.getBusinessName());
+                                transaction.setReceiver(receiver.getBusinessName());
                                 transaction.setTransactionType(TRANSACITION_B2B);
                                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                                 if(business.getBusinessNumber().equals(receiver.getBusinessNumber())){

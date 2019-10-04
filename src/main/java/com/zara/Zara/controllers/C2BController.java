@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2B;
-import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2C;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION__BILL_PAYMENT;
 
 @RestController
@@ -118,7 +117,7 @@ public class C2BController {
                             transaction.setCreatedByCustomer(customer);
                             transaction.setReceivedByBusiness(business);
                             transaction.setSender(customer.getFullName());
-                            transaction.setReceriver(business.getBusinessName());
+                            transaction.setReceiver(business.getBusinessName());
                             transaction.setTransactionType(TRANSACTION__BILL_PAYMENT);
 
                             PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);

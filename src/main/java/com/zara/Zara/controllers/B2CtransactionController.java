@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_B2C;
-import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2C;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACITION_B2C;
 
 @RestController
@@ -74,7 +73,7 @@ public class B2CtransactionController {
                         transaction.setCreatedByBusiness(business);
                         transaction.setReceivedByCustomer(customer);
                         transaction.setSender(business.getBusinessName());
-                        transaction.setReceriver(customer.getFullName());
+                        transaction.setReceiver(customer.getFullName());
                         transaction.setTransactionType(TRANSACITION_B2C);
                         transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
 

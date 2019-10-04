@@ -18,7 +18,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2B;
-import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2C;
 import static com.zara.Zara.constants.ConstantVariables.*;
 
 @RestController
@@ -273,7 +272,7 @@ public class UssdController {
         transaction.setCreatedByCustomer(customer);
         transaction.setReceivedByBusiness(business);
         transaction.setSender(customer.getFullName());
-        transaction.setReceriver(business.getBusinessName());
+        transaction.setReceiver(business.getBusinessName());
         transaction.setTransactionType(TRANSACTION__BILL_PAYMENT);
 
         transactionService.addTransaction(transaction);
@@ -335,7 +334,7 @@ public class UssdController {
         transaction.setCreatedByCustomer(senderCustomer);
         transaction.setReceivedByCustomer(receiverCustomer);
         transaction.setSender(senderCustomer.getFullName());
-        transaction.setReceriver(receiverCustomer.getFullName());
+        transaction.setReceiver(receiverCustomer.getFullName());
         transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
 
         transaction.setTransactionType(TRANSACTION_CUSTOMER_RANSFER);
@@ -384,7 +383,7 @@ public class UssdController {
         transaction.setCreatedByCustomer(customer);
         transaction.setReceivedByAgent(agent);
         transaction.setSender(customer.getFullName());
-        transaction.setReceriver(agent.getFullName());
+        transaction.setReceiver(agent.getFullName());
         transaction.setTransactionType(TRANSACTION_WITHDRAWAL);
 
         PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);

@@ -82,7 +82,7 @@ public class BulkPaymentB2BController {
                             transaction.setCreatedByBusiness(business);
                             transaction.setReceivedByBusiness(receiver);
                             transaction.setSender(business.getBusinessName());
-                            transaction.setReceriver(receiver.getBusinessName());
+                            transaction.setReceiver(receiver.getBusinessName());
                             transaction.setTransactionType(TRANSACTION_BULKPAYMENT);
                             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
 

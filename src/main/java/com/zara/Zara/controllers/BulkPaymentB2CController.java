@@ -22,10 +22,8 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_B2B_BULK;
 import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_B2C_BULK;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACITION_B2C;
-import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_BULKPAYMENT;
 
 @RestController
 @RequestMapping("/bulkpayments/b2c")
@@ -86,7 +84,7 @@ public class BulkPaymentB2CController {
                             transaction.setCreatedByBusiness(business);
                             transaction.setReceivedByCustomer(customer);
                             transaction.setSender(business.getBusinessName());
-                            transaction.setReceriver(customer.getFullName());
+                            transaction.setReceiver(customer.getFullName());
                             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
 
                             if (business.getStatus().equals("ACTIVE")){

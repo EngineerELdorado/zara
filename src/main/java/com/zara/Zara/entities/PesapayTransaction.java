@@ -45,6 +45,6 @@ public class PesapayTransaction {
     private String uniqueIdentifier;
     private String forPaypalEmail;
     private String sender;
-    private String receriver;
+    private String receiver;
 
 }

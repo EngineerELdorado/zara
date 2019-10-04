@@ -105,7 +105,7 @@ public class MobileMoneyController {
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                 transaction.setCreatedByBusiness(business);
                 transaction.setSender(business.getBusinessName());
-                transaction.setReceriver(service.toUpperCase());
+                transaction.setReceiver(service.toUpperCase());
                 if (service.equals("mpesa")){
                     transaction.setTransactionType(TRANSACTION_MPESA_WITHRAWAL);
                 }else if (service.equals("airtel_money")){
@@ -175,7 +175,7 @@ public class MobileMoneyController {
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                 transaction.setCreatedByCustomer(customer);
                 transaction.setSender(customer.getFullName());
-                transaction.setReceriver(service.toUpperCase());
+                transaction.setReceiver(service.toUpperCase());
                 if (service.equals("mpesa")){
                     transaction.setTransactionType(TRANSACTION_MPESA_WITHRAWAL);
                 }else if (service.equals("airtel_money")){
