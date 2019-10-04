@@ -20,6 +20,6 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
 
     Business findByEmail(String email);
 
-    @Query(value = "select * from businesses where creation_date between ?1 and ?2 and lower (name) like %?3%", nativeQuery = true)
+    @Query(value = "select * from businesses where creation_date between ?1 and ?2 and lower (business_name) like %?3%", nativeQuery = true)
     Page<Business> findPagedBusinesses(Long start, Long end, String param,Pageable pageable);
 }
