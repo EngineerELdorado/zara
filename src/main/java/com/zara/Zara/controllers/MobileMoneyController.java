@@ -98,6 +98,7 @@ public class MobileMoneyController {
                 PesapayTransaction transaction = new PesapayTransaction();
                 transaction.setFinalAmount(new BigDecimal(request.getAmount()));
                 transaction.setCreatedOn(new Date());
+                transaction.setCreationDate(System.currentTimeMillis());
                 transaction.setStatus("02");
                 transaction.setForPaypalEmail(request.getForPaypalEmail());
                 transaction.setDescription("transfer ver mobile money en suspens. en destination du compte "+service+" "+request.getReceiver());

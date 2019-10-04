@@ -105,6 +105,7 @@ public class C2BController {
                             PesapayTransaction transaction = new PesapayTransaction();
                             transaction.setFinalAmount(new BigDecimal(requestBody.getAmount()));
                             transaction.setCreatedOn(new Date());
+                            transaction.setCreationDate(System.currentTimeMillis());
                             transaction.setStatus("00");
                             if (requestBody.getDescription().equals("")){
                                 transaction.setDescription("Payment de Facture");

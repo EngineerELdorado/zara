@@ -75,7 +75,8 @@ public class UssdController {
                 customer.setFullName(inputs[1]);
                 customer.setPhoneNumber(phoneNumber);
                 customer.setPin(bCryptPasswordEncoder.encode(inputs[2]));
-                customer.setCreationDate(new Date());
+                customer.setCreationDate(System.currentTimeMillis());
+                customer.setCreatedOn(new Date());
                 customer.setVerified(true);
                 customer.setStatus("ACTIVE");
                 customer.setStatusDescription("the customer verified");
@@ -264,6 +265,7 @@ public class UssdController {
         PesapayTransaction transaction = new PesapayTransaction();
         transaction.setFinalAmount(new BigDecimal(amount));
         transaction.setCreatedOn(new Date());
+        transaction.setCreationDate(System.currentTimeMillis());
         transaction.setStatus("00");
 
 
@@ -325,6 +327,7 @@ public class UssdController {
         Customer receiverCustomer = customerService.findByPhoneNumber(receiverNumber);
         PesapayTransaction transaction = new PesapayTransaction();
         transaction.setCreatedOn(new Date());
+        transaction.setCreationDate(System.currentTimeMillis());
         transaction.setFinalAmount(new BigDecimal(amount));
         transaction.setStatus("00");
         transaction.setDescription("Transaction Reussie");
@@ -371,6 +374,7 @@ public class UssdController {
         BigDecimal finalAmount = amount.subtract(agentCommission);
         transaction.setFinalAmount(finalAmount);
         transaction.setCreatedOn(new Date());
+        transaction.setCreationDate(System.currentTimeMillis());
         transaction.setStatus("00");
         transaction.setDescription("Withdrawal successful");
         transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));

@@ -107,6 +107,7 @@ public class WithdrawalController {
             agentFinalAmount = new BigDecimal(request.getAmount()).subtract(agentCommission);
             transaction.setFinalAmount(agentFinalAmount);
             transaction.setCreatedOn(new Date());
+            transaction.setCreationDate(System.currentTimeMillis());
             transaction.setStatus("00");
             transaction.setDescription("Withdrawal successful");
             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));

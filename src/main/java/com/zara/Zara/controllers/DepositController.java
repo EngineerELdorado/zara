@@ -93,6 +93,7 @@ public class DepositController {
             finalAmount = new BigDecimal(request.getAmount()).subtract(agentCommission);
             transaction.setFinalAmount(finalAmount);
             transaction.setCreatedOn(new Date());
+            transaction.setCreationDate(System.currentTimeMillis());
             transaction.setStatus("00");
             transaction.setDescription("Deposit successful");
             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));

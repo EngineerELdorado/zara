@@ -50,6 +50,7 @@ public class AgentController {
 
         agent.setPin(bCryptPasswordEncoder.encode(agent.getPin()));
         agent.setCreatedOn(new Date());
+        agent.setCreationDate(System.currentTimeMillis());
         agent.setVerified(true);
         agent.setStatus("ACTIVE");
         agent.setStatusDescription("the customer verified");

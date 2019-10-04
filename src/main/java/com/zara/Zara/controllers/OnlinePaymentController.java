@@ -138,6 +138,7 @@ public class OnlinePaymentController{
                             transaction.setFinalAmount(finalAmount);
                             transaction.setCreatedOn(new Date());
                             transaction.setStatus("00");
+                            transaction.setCreationDate(System.currentTimeMillis());
                             transaction.setDescription("Online payment successful");
                             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                             transaction.setCreatedByCustomer(customer);

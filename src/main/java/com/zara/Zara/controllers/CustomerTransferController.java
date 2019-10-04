@@ -115,7 +115,7 @@ public class CustomerTransferController {
 
             PesapayTransaction transaction = new PesapayTransaction();
             transaction.setCreatedOn(new Date());
-
+            transaction.setCreationDate(System.currentTimeMillis());
             transaction.setOriginalAmount(originalAmount);
             transaction.setCharges(charges);
             transaction.setFinalAmount(finalAmount);

@@ -67,6 +67,7 @@ public class B2CtransactionController {
                         Customer customer = customerService.findByPhoneNumber(requestBody.getReceiver());
                         PesapayTransaction transaction = new PesapayTransaction();
                         transaction.setCreatedOn(new Date());
+                        transaction.setCreationDate(System.currentTimeMillis());
                         transaction.setOriginalAmount(originalAmount);
                         transaction.setCharges(charges);
                         transaction.setFinalAmount(finalAmount);

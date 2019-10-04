@@ -74,6 +74,7 @@ public class BulkPaymentB2CController {
                             Customer customer = customerService.findByPhoneNumber(beneficiary.getPhoneNumber());
                             PesapayTransaction transaction = new PesapayTransaction();
                             transaction.setCreatedOn(new Date());
+                            transaction.setCreationDate(System.currentTimeMillis());
                             originalAmount =beneficiary.getAmount();
                             charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_B2C_BULK))
                                     .multiply(new BigDecimal("100"));

@@ -32,7 +32,7 @@ public class TransactionController {
         PesapayTransaction transaction = transactionService.findOne(id);
         transaction.setStatus("APPROVED");
         apiResponse.setResponseCode("00");
-        apiResponse.setResponseMessage("TRANSACTION APPROUVEE");
+        apiResponse.setResponseMessage("00");
         // TODO: 03/10/2019  perform some processing logic here or send to RabbitMQ
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);

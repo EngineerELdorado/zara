@@ -64,6 +64,7 @@ public class B2BTransactionController {
                                 Business receiver = businessService.findByBusinessNumber(requestBody.getReceiver());
                                 PesapayTransaction transaction = new PesapayTransaction();
                                 transaction.setCreatedOn(new Date());
+                                transaction.setCreationDate(System.currentTimeMillis());
                                 transaction.setOriginalAmount(originalAmount);
                                 transaction.setCharges(charges);
                                 transaction.setFinalAmount(finalAmount);

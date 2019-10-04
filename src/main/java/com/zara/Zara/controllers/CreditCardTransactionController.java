@@ -80,6 +80,7 @@ public class CreditCardTransactionController {
                      PesapayTransaction transaction = new PesapayTransaction();
                      transaction.setFinalAmount(new BigDecimal(request.getAmount()));
                      transaction.setCreatedOn(new Date());
+                     transaction.setCreationDate(System.currentTimeMillis());
                      transaction.setStatus("00");
                      transaction.setDescription("Deposit(card) successful");
                      transaction.setCreatedByCustomer(senderCustomer);
