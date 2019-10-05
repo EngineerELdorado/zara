@@ -124,7 +124,8 @@ public class CustomerTransferController {
             transaction.setCreatedByCustomer(senderCustomer);
             transaction.setReceivedByCustomer(receiverCustomer);
             transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
-
+            transaction.setSender(senderCustomer.getFullName());
+            transaction.setReceiver(receiverCustomer.getFullName());
             transaction.setTransactionType(TRANSACTION_CUSTOMER_RANSFER);
 
             PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
