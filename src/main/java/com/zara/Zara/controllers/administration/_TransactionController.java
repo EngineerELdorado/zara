@@ -47,7 +47,7 @@ public class _TransactionController {
     }
 
     @GetMapping("/approve/{id}")
-    public ResponseEntity<?> approveTransaction(Long id) throws UnsupportedEncodingException {
+    public ResponseEntity<?> approveTransaction(@PathVariable Long id) throws UnsupportedEncodingException {
 
         PesapayTransaction transaction = transactionService.findOne(id);
         Customer customer = transaction.createdByCustomer;
