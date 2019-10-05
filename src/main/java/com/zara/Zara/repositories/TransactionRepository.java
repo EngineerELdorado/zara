@@ -123,7 +123,7 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
     Page<PesapayTransaction> findByAgentWithFilter(@Param("id")Long id, @Param("filter") String filter, Pageable pageable);
 
 
-    @Query(value = "select * from transaction where creation_date between ?1 order by id desc", nativeQuery = true)
+    @Query(value = "select * from transaction where creation_date between ?1 and ?2 order by id desc", nativeQuery = true)
     Page<PesapayTransaction> findPagedTransactions(Long start, Long end, String param, Pageable pageable);
 
     @Query(value = "select * from transaction where id =?1", nativeQuery = true)
