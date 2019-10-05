@@ -38,7 +38,7 @@ public class _StatsController {
         stat.setTransactions(transactionService.findCount(start,end)==null?0:transactionService.findCount(start,end));
         stat.setCustomers(customerService.findCount(start,end)==null?0:customerService.findCount(start,end));
         stat.setBusinesses(businessService.findCount(start,end)==null?0:businessService.findCount(start,end));
-        stat.setTransactions(transactionService.findCount(start,end)==null?0:businessService.findCount(start,end));
+        stat.setTransactions(transactionService.findCount(start,end)==null?0:transactionService.findCount(start,end));
         stat.setAmounts(transactionService.amounts(start,end)==null?new BigDecimal(0) :transactionService.amounts(start,end));
         stat.setCommissions(transactionService.commissions(start,end)==null?new BigDecimal(0):transactionService.commissions(start,end));
         stat.setPending(transactionService.amountsPending(start,end)==null?new BigDecimal(0):transactionService.amountsPending(start,end));
