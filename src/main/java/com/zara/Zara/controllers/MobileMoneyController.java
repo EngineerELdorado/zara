@@ -167,8 +167,11 @@ public class MobileMoneyController {
             try {
 
                 PesapayTransaction transaction = new PesapayTransaction();
+                transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
+                transaction.setCharges(new BigDecimal(0));
                 transaction.setFinalAmount(new BigDecimal(request.getAmount()));
                 transaction.setCreatedOn(new Date());
+                transaction.setCreationDate(System.currentTimeMillis());
                 transaction.setStatus("02");
                 transaction.setForPaypalEmail(request.getForPaypalEmail());
                 transaction.setDescription("transfer ver mobile money en suspens. en destination du compte "+service+" "+request.getReceiver());
@@ -176,11 +179,11 @@ public class MobileMoneyController {
                 transaction.setCreatedByCustomer(customer);
                 transaction.setSender(customer.getFullName());
                 transaction.setReceiver(service.toUpperCase());
-                if (service.equals("mpesa")){
+                if (service.equalsIgnoreCase("mpesa")){
                     transaction.setTransactionType(TRANSACTION_MPESA_WITHRAWAL);
-                }else if (service.equals("airtel_money")){
+                }else if (service.equalsIgnoreCase("airtel_money")){
                     transaction.setTransactionType(TRANSACTION_AIRTEL_WITHRAWAL);
-                }else if (service.equals("orange_money")){
+                }else if (service.equalsIgnoreCase("orange_money")){
                     transaction.setTransactionType(TRANSACTION_ORANGE_WITHRAWAL);
                 }
                 process(transaction, service);
