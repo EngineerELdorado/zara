@@ -102,6 +102,8 @@ public class C2BController {
 
                         else {
                             PesapayTransaction transaction = new PesapayTransaction();
+                            transaction.setCharges(new BigDecimal(0));
+                            transaction.setOriginalAmount(new BigDecimal(requestBody.getAmount()));
                             transaction.setFinalAmount(new BigDecimal(requestBody.getAmount()));
                             transaction.setCreatedOn(new Date());
                             transaction.setCreationDate(System.currentTimeMillis());
