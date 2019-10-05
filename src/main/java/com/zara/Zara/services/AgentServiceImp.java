@@ -43,6 +43,13 @@ public class AgentServiceImp implements IAgentService {
     }
 
     @Override
+    public Page<Agent> filter(int page, int size, String param) {
+
+        Pageable pageable = PageRequest.of(page,size);
+        return agentRepository.filter(param,pageable);
+    }
+
+    @Override
     public Collection<Agent> findByStatus(String status) {
         return agentRepository.findByStatus(status);
     }

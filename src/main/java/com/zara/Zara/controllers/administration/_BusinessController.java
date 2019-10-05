@@ -24,7 +24,12 @@ public class _BusinessController {
                                     @RequestParam Long end,
                                     @RequestParam (required = false) String param){
 
-        Page<Business>businesses = businessService.findAll(page,size,start,end,param);
+        Page<Business>businesses;
+          if (param.length()>0){
+              businesses = businessService.filter(page,size,param.toLowerCase());
+          }else{
+              businesses = businessService.findAll(page,size,start,end,param.toLowerCase());
+          }
 //        apiResponse.setResponseCode("00");
         apiResponse.setData(businesses);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);

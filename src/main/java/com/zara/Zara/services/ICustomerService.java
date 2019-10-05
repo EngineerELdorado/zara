@@ -13,7 +13,7 @@ public interface ICustomerService {
     Customer findOne(Long id);
     Customer findByPhoneNumber(String phoneNumber);
     BigDecimal getBalance(Long  customerId);
-    Page<Customer> findAll(int page, int size, Long start, Long end);
+    Page<Customer> findAll(int page, int size, Long start, Long end,String param);
     Page<Customer>filter(int page, int size, String param);
     Collection<Customer>findByStatus(String status);
     Long findCount(Long start, Long end);

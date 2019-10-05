@@ -26,14 +26,12 @@ public class _CustomerController {
                                     @RequestParam Long end,
                                     @RequestParam (required = false) String param){
 
-        Page<Customer>customers = null;
+        Page<Customer>customers;
         if (param.length()>0){
             customers= customerService.filter(page,size,param.toLowerCase());
         }else{
-            customers = customerService.findAll(page,size,start,end);
+            customers = customerService.findAll(page,size,start,end,param.toLowerCase());
         }
-        ;
-//        apiResponse.setResponseCode("00");
         apiResponse.setData(customers);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }

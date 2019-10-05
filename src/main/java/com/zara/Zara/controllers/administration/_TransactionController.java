@@ -21,7 +21,14 @@ public class _TransactionController {
     public ResponseEntity<?>findAll(@RequestParam int page, @RequestParam int size,
                                     @RequestParam Long start,@RequestParam Long end,
                                     @RequestParam(required = false) String param){
-        Page<PesapayTransaction>transactions = transactionService.findAll(page, size, start,end,param);
+        Page<PesapayTransaction>transactions;
+
+
+        if (param.length()>0){
+            transactions = transactionService.filter(page,size,param.toLowerCase());
+        }else{
+            transactions = transactionService.findAll(page, size, start,end,param.toLowerCase());
+        }
         apiResponse.setData(transactions);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }

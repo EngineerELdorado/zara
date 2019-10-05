@@ -12,6 +12,7 @@ public interface IAgentService {
     Agent findByPhoneNumber(String phoneNumber);
     Agent findByAgentNumber(String agentNumber);
     Page<Agent> findAll(int page, int size, Long start, Long end, String param);
+    Page<Agent> filter(int page, int size,String param);
     Collection<Agent>findByStatus(String status);
     Long findCount(Long start, Long end);
 }

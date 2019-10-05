@@ -33,4 +33,10 @@ public class AdminServiceImp implements IAdminService {
         Pageable pageable = PageRequest.of(page, size);
         return adminRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Admin> filter(int page, int size,String param) {
+        Pageable pageable = PageRequest.of(page, size);
+        return adminRepository.filter(param,pageable);
+    }
 }

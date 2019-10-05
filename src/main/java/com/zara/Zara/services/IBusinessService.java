@@ -11,6 +11,7 @@ public interface IBusinessService {
     Business findByBusinessNumber(String businessNumber);
     Business findByEmail(String email);
     Page<Business> findAll(int page, int size, Long start, Long end, String param);
+    Page<Business> filter(int page, int size, String param);
     Business findOne(Long id);
     Business findByPhoneNumber(String phoneNumber);
     Long findCount(Long start, Long end);

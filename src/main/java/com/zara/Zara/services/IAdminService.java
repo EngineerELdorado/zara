@@ -11,4 +11,5 @@ public interface IAdminService {
     Admin findByUsername(String username);
     Admin findOne(Long id);
     Page<Admin> findAll(int page, int size);
+    Page<Admin> filter(int page, int size, String param);
 }

@@ -25,4 +25,6 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
 
     @Query(value = "select count(*) from businesses where creation_date between ?1 and ?2", nativeQuery = true)
     Long findCount(Long start, Long end);
+    @Query(value = "select * from businesses where lower (business_name) like %?1% or lower (business_number) like %?1% order by id DESC", nativeQuery = true)
+    Page<Business> filter(String param, Pageable pageable);
 }

@@ -84,7 +84,12 @@ public class _AdminController {
     public ResponseEntity<?>getAllAdmins(@RequestParam int page, @RequestParam int size,
                                          @RequestParam (required = false) String param){
 
-        Page<Admin>admins = adminService.findAll(page,size);
+        Page<Admin>admins;
+        if (param.length()>0){
+            admins = adminService.filter(page,size,param);
+        }else{
+            admins = adminService.findAll(page,size);
+        }
         apiResponse.setData(admins);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }

@@ -138,4 +138,6 @@ public interface TransactionRepository extends PagingAndSortingRepository<Pesapa
 
     @Query(value = "select sum(original_amount) from transaction where creation_date between ?1 and ?2 and status='02'", nativeQuery = true)
     BigDecimal amountsPenfing(Long start, Long end);
+    @Query(value = "select * from transaction where status=?1 or transaction_type =?1 or transaction_number like %?1% order by id DESC",nativeQuery = true)
+    Page<PesapayTransaction> filter(String param, Pageable pageable);
 }

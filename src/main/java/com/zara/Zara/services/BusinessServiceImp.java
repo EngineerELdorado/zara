@@ -37,6 +37,12 @@ public class BusinessServiceImp implements IBusinessService {
     }
 
     @Override
+    public Page<Business> filter(int page, int size, String param) {
+        Pageable pageable = PageRequest.of(page,size);
+        return businessRepository.filter(param,pageable);
+    }
+
+    @Override
     public Business findOne(Long id) {
         return businessRepository.getOne(id);
     }

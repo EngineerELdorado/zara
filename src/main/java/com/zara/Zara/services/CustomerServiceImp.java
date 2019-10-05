@@ -35,10 +35,10 @@ public class CustomerServiceImp implements ICustomerService {
     }
 
     @Override
-    public Page<Customer> findAll(int page, int size, Long start, Long end) {
+    public Page<Customer> findAll(int page, int size, Long start, Long end, String param) {
 
         Pageable pageable = PageRequest.of(page,size);
-        return customerRepository.findAllCusotomers(start, end,pageable);
+        return customerRepository.findAllCusotomers(start, end, param, pageable);
     }
 
     @Override

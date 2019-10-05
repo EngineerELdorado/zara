@@ -167,6 +167,12 @@ public class TransactionServiceImp implements ITransactionService {
 
         return transactionRepository.findPagedTransactions(start,end,param, pageable);
     }
+    @Override
+    public Page<PesapayTransaction> filter(int page, int size, String param) {
+        Pageable pageable = PageRequest.of(page,size);
+
+        return transactionRepository.filter(param, pageable);
+    }
 
     @Override
     public Long findCount(Long start, Long end) {

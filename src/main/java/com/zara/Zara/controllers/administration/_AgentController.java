@@ -26,8 +26,12 @@ public class _AgentController {
                                     @RequestParam Long end,
                                     @RequestParam (required = false) String param){
 
-        Page<Agent>agents = agentService.findAll(page,size,start,end,param);
-//        apiResponse.setResponseCode("00");
+        Page<Agent>agents;
+        if (param.length()>0){
+            agents = agentService.filter(page,size,param.toLowerCase());
+        }else{
+            agents = agentService.findAll(page,size,start,end,param.toLowerCase());
+        }
         apiResponse.setData(agents);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
