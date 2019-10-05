@@ -224,7 +224,7 @@ public class MobileMoneyController {
                 notification = new Notification();
                msg = " Votre transfer PesaPay A "+service+" est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte "+service+
                         "  "+
-                        " dans moins de 3h. no de transaction "+createdTransaction.getTransactionNumber();
+                        " dans moins de 3h. Votre solde actuel est de "+updatedBusiness.getBalance()+" USD. no de transaction "+createdTransaction.getTransactionNumber();
             }
 
             if (customer!=null){
@@ -235,7 +235,7 @@ public class MobileMoneyController {
                 notification = new Notification();
                 msg = " Votre transfer PesaPay A "+service+" est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte "+service+
                         "  "+
-                        " dans moins de 3h. no de transaction "+createdTransaction.getTransactionNumber();
+                        " dans moins de 3h. Votre solde actuel est de "+updatedCustomer.getBalance().setScale(2,BigDecimal.ROUND_UP) +"USD. no de transaction "+createdTransaction.getTransactionNumber();
             }
 
 
