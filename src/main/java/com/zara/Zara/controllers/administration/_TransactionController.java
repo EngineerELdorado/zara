@@ -125,11 +125,12 @@ public class _TransactionController {
         if(customer!=null){
 
             transaction.setStatus("03");
+            transaction.setCharges(new BigDecimal(0));
             transaction.setDescription("Transaction renvoyee A "+customer.getFullName());
             transactionService.addTransaction(transaction);
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("TRANSACTION REJETEE");
-            customer.setBalance(customer.getBalance().add(transaction.getFinalAmount()));
+            customer.setBalance(customer.getBalance().add(transaction.getOriginalAmount()));
             Customer updatedCust = customerService.save(customer);
             Sms sms = new Sms();
             sms.setTo(customer.getPhoneNumber());
@@ -142,10 +143,11 @@ public class _TransactionController {
 
             transaction.setStatus("03");
             transaction.setDescription("Transaction renvoyee A "+business.getBusinessName());
+            transaction.setCharges(new BigDecimal(0));
             transactionService.addTransaction(transaction);
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("TRANSACTION RENVOYEE");
-            business.setBalance(business.getBalance().add(transaction.getFinalAmount()));
+            business.setBalance(business.getBalance().add(transaction.getOriginalAmount()));
             Business business1 = businessService.save(business);
             Sms sms = new Sms();
             sms.setTo(business.getPhoneNumber());
