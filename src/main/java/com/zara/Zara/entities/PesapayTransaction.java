@@ -22,6 +22,8 @@ public class PesapayTransaction {
     public String description;
     public String status;
     private Long creationDate;
+    private Long approvedOn;
+    private Long reversedOn;
     public Date createdOn;
     // TODO: 18/02/2019 rename this variable to createdByCustomer
     @ManyToOne

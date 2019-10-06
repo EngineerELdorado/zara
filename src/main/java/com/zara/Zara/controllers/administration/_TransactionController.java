@@ -66,12 +66,14 @@ public class _TransactionController {
         if(customer!=null){
 
             transaction.setStatus("00");
+            transaction.setApprovedOn(System.currentTimeMillis());
             transaction.setDescription("Transaction envoyee A "+service);
             transactionService.addTransaction(transaction);
+
+            customer.setBalance(customer.getBalance().add(transaction.getFinalAmount()));
+            Customer updatedCust = customerService.save(customer);
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("TRANSACTION APPROUVEE");
-            //customer.setBalance(customer.getBalance().subtract(transaction.getOriginalAmount()));
-            //Customer updatedCust = customerService.save(customer);
             Sms sms = new Sms();
             sms.setTo(customer.getPhoneNumber());
             sms.setMessage(customer.getFullName()+" Votre transaction numero "+transaction.getTransactionNumber() +
@@ -103,7 +105,7 @@ public class _TransactionController {
     }
 
 
-    @GetMapping("/reject/{id}")
+    @GetMapping("/reversal/{id}")
     public ResponseEntity<?> rejectTransaction(@PathVariable Long id) throws UnsupportedEncodingException {
 
         PesapayTransaction transaction = transactionService.findOne(id);
@@ -123,32 +125,32 @@ public class _TransactionController {
         if(customer!=null){
 
             transaction.setStatus("03");
-            transaction.setDescription("Transaction envoyee A "+service);
+            transaction.setDescription("Transaction renvoyee A "+customer.getFullName());
             transactionService.addTransaction(transaction);
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("TRANSACTION REJETEE");
-            //customer.setBalance(customer.getBalance().subtract(transaction.getOriginalAmount()));
-            //Customer updatedCust = customerService.save(customer);
+            customer.setBalance(customer.getBalance().add(transaction.getFinalAmount()));
+            Customer updatedCust = customerService.save(customer);
             Sms sms = new Sms();
             sms.setTo(customer.getPhoneNumber());
             sms.setMessage(customer.getFullName()+" Votre transaction numero "+transaction.getTransactionNumber() +
-                    " vers "+service+" vient d etre rejetee");
+                    " vers "+service+" vient d etre revenvoyee dans votre compte PesaPay. Votre nouveau solde est de "+updatedCust.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD.");
             SmsService.sendSms(sms);
         }
 
         if(business!=null){
 
             transaction.setStatus("03");
-            transaction.setDescription("Transaction envoyee A "+service);
+            transaction.setDescription("Transaction renvoyee A "+business.getBusinessName());
             transactionService.addTransaction(transaction);
             apiResponse.setResponseCode("00");
-            apiResponse.setResponseMessage("TRANSACTION REJETEE");
-            //business.setBalance(business.getBalance().subtract(transaction.getOriginalAmount()));
-            //Business business1 = businessService.save(business);
+            apiResponse.setResponseMessage("TRANSACTION RENVOYEE");
+            business.setBalance(business.getBalance().add(transaction.getFinalAmount()));
+            Business business1 = businessService.save(business);
             Sms sms = new Sms();
             sms.setTo(business.getPhoneNumber());
             sms.setMessage(business.getBusinessName()+" Votre transaction numero "+transaction.getTransactionNumber() +
-                    " vers "+service+" vient d etre rejetee.");
+                    " vers "+service+" vient d etre revenvoyee dans votre compte PesaPay. Votre nouveau solde est de "+business1.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD.");
             SmsService.sendSms(sms);
         }
 
