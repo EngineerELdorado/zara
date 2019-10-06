@@ -8,4 +8,5 @@ public interface ICommissionSettingService {
      CommissionSetting save(CommissionSetting commissionSetting);
      Page<CommissionSetting>findAll(int page, int size);
      Page<CommissionSetting>filter(int page, int size, String param);
+     CommissionSetting findOne(Long id);
 }

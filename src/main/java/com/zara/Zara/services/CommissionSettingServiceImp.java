@@ -28,7 +28,11 @@ public class CommissionSettingServiceImp implements ICommissionSettingService {
     @Override
     public Page<CommissionSetting> filter(int page, int size, String param) {
 
-        Pageable pageable = PageRequest.of(page,size);
-        return commissionSettingsRepository.filter(pageable, param);
+        return null;
+    }
+
+    @Override
+    public CommissionSetting findOne(Long id) {
+        return commissionSettingsRepository.getOne(id);
     }
 }

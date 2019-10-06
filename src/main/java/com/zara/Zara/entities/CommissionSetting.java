@@ -13,5 +13,8 @@ public class CommissionSetting {
     private BigDecimal ceil;
     private BigDecimal top;
     private BigDecimal commission;
-    private String setBy;
+    private String createdBy;
+    private String updatedBy;
+    private Long createdOn;
+    private Long updatedOn;
 }

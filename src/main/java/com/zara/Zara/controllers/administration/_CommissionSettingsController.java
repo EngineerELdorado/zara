@@ -20,11 +20,29 @@ public class _CommissionSettingsController {
     @PostMapping("/save")
     public ResponseEntity<?>save(@RequestBody CommissionSetting commissionSetting, @RequestParam String by){
 
-       commissionSetting.setSetBy(by);
+       commissionSetting.setCreatedBy(by);
+       commissionSetting.setCreatedOn(System.currentTimeMillis());
        commissionSettingService.save(commissionSetting);
        apiResponse.setResponseCode("00");
        apiResponse.setResponseMessage("SETTING SAVED");
        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+
+    }
+
+    @PostMapping("/update/{id}")
+    public ResponseEntity<?>update(@RequestBody CommissionSetting commission,
+                                   @PathVariable Long id,
+                                   @RequestParam String by){
+        CommissionSetting commissionSetting = commissionSettingService.findOne(id);
+        commissionSetting.setUpdatedBy(by);
+        commissionSetting.setUpdatedOn(System.currentTimeMillis());
+        commissionSetting.setCeil(commission.getCeil());
+        commissionSetting.setTop(commission.getTop());
+        commissionSetting.setCommission(commission.getCommission());
+        commissionSettingService.save(commissionSetting);
+        apiResponse.setResponseCode("00");
+        apiResponse.setResponseMessage("SETTING SAVED");
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
     }
 
