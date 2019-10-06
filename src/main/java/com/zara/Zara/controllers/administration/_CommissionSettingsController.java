@@ -16,7 +16,6 @@ public class _CommissionSettingsController {
     @Autowired
     ICommissionSettingService commissionSettingService;
     ApiResponse apiResponse = new ApiResponse();
-
     @PostMapping("/save")
     public ResponseEntity<?>save(@RequestBody CommissionSetting commissionSetting, @RequestParam String by){
 
