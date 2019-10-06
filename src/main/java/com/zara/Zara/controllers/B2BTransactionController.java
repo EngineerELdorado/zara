@@ -48,13 +48,14 @@ public class B2BTransactionController {
     Logger LOGGER = LogManager.getLogger(BankTransferController.class);
     Business updatedBusiness=null;
     BigDecimal originalAmount, charges,finalAmount;
+    @Autowired
+    ICommissionSettingService commissionSettingService;
     @PostMapping("/post")
     public ResponseEntity<?> post(@RequestBody B2CRequest requestBody) throws UnsupportedEncodingException {
         Business business = businessService.findByBusinessNumber(requestBody.getSender());
         originalAmount = new BigDecimal(requestBody.getAmount());
-        charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_B2B))
-                .divide(new BigDecimal("100"));
-        finalAmount = originalAmount;
+        charges = commissionSettingService.getCommission(new BigDecimal(requestBody.getAmount()));
+        finalAmount = originalAmount.subtract(charges);
         if (business.isVerified()){
 
             if (business.getStatus().equals("ACTIVE")){

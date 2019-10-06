@@ -46,13 +46,14 @@ public class C2BController {
     INotificationService notificationService;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
     BigDecimal originalAmount,charges,finalAmount;
+    @Autowired
+    ICommissionSettingService commissionSettingService;
     @PostMapping("/buy/post")
     public ResponseEntity<?> post(@RequestBody TransactionRequestBody requestBody) throws UnsupportedEncodingException, JsonProcessingException {
 
         originalAmount =new BigDecimal(requestBody.getAmount());
-        charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_C2B))
-                .divide(new BigDecimal("100"));
-        finalAmount = originalAmount;
+        charges = commissionSettingService.getCommission(originalAmount);
+        finalAmount = originalAmount.subtract(charges);
                     Business business = businessService.findByBusinessNumber(requestBody.getReceiver());
                      if (business==null){
                         apiResponse.setResponseCode("01");
@@ -102,9 +103,9 @@ public class C2BController {
 
                         else {
                             PesapayTransaction transaction = new PesapayTransaction();
-                            transaction.setCharges(new BigDecimal(0));
-                            transaction.setOriginalAmount(new BigDecimal(requestBody.getAmount()));
-                            transaction.setFinalAmount(new BigDecimal(requestBody.getAmount()));
+                            transaction.setCharges(charges);
+                            transaction.setOriginalAmount(originalAmount);
+                            transaction.setFinalAmount(finalAmount);
                             transaction.setCreatedOn(new Date());
                             transaction.setCreationDate(System.currentTimeMillis());
                             transaction.setStatus("00");

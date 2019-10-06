@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class CommissionSettingServiceImp implements ICommissionSettingService {
 
@@ -34,5 +36,11 @@ public class CommissionSettingServiceImp implements ICommissionSettingService {
     @Override
     public CommissionSetting findOne(Long id) {
         return commissionSettingsRepository.getOne(id);
+    }
+
+    @Override
+    public BigDecimal getCommission(BigDecimal amount) {
+
+        return commissionSettingsRepository.getCommission(amount);
     }
 }

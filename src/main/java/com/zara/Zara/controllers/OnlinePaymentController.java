@@ -47,6 +47,8 @@ public class OnlinePaymentController{
     INotificationService notificationService;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
     BigDecimal originalAmount,charges,finalAmount;
+    @Autowired
+    ICommissionSettingService commissionSettingService;
     @PostMapping("/generateOtp")
     public ResponseEntity<?> generateOtp(@RequestBody OnlineOtpRequest otpObject) throws UnsupportedEncodingException {
         Developer developer = developerService.findByApiKey(otpObject.getApiKey());
@@ -81,9 +83,8 @@ public class OnlinePaymentController{
 
 //Validate the Otp
         originalAmount = new BigDecimal(requestBody.getAmount());
-        charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_C2B))
-                .divide(new BigDecimal("100"));
-        finalAmount = originalAmount;
+        charges = commissionSettingService.getCommission(originalAmount);
+        finalAmount = originalAmount.subtract(charges);
         if(Integer.valueOf(requestBody.getOtp()) >= 0){
             int serverOtp = otpService.getOtp(requestBody.getSender());
             if(serverOtp > 0){

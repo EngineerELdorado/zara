@@ -47,6 +47,8 @@ public class BulkPaymentB2BController {
     boolean insufficientBalanceMessageAlreadySent=false;
     Logger LOGGER = LogManager.getLogger(BankTransferController.class);
     BigDecimal originalAmount,charges,finalAmount;
+    @Autowired
+    ICommissionSettingService commissionSettingService;
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody BulkPaymentRequest requestBody) throws UnsupportedEncodingException {
         Business business = businessService.findByBusinessNumber(requestBody.getSender());
@@ -73,9 +75,8 @@ public class BulkPaymentB2BController {
                             transaction.setCreatedOn(new Date());
                             transaction.setCreationDate(System.currentTimeMillis());
                             originalAmount =beneficiary.getAmount();
-                            charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_B2B_BULK))
-                                    .multiply(new BigDecimal("100"));
-                            finalAmount = originalAmount;
+                            charges = commissionSettingService.getCommission(originalAmount);
+                            finalAmount = originalAmount.subtract(charges);
                             transaction.setOriginalAmount(originalAmount);
                             transaction.setCharges(charges);
                             transaction.setFinalAmount(finalAmount);

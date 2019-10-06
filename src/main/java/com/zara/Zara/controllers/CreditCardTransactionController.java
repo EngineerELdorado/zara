@@ -5,8 +5,7 @@ import com.stripe.model.Charge;
 import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.Notification;
 import com.zara.Zara.entities.PesapayTransaction;
-import com.zara.Zara.services.IBusinessService;
-import com.zara.Zara.services.INotificationService;
+import com.zara.Zara.services.*;
 import com.zara.Zara.services.banking.StripeService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,6 @@ import com.zara.Zara.entities.Customer;
 import com.zara.Zara.models.ChargeRequest;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
-import com.zara.Zara.services.ICustomerService;
-import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.utils.SmsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -54,10 +51,16 @@ public class CreditCardTransactionController {
 
     @Autowired
     INotificationService notificationService;
+    BigDecimal originalAmount,charges,finalAmount;
+    @Autowired
+    ICommissionSettingService commissionSettingService;
+
     @PostMapping("/post")
     public ResponseEntity<?> post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
         Customer senderCustomer = customerService.findByPhoneNumber(request.getReceiver());
-
+        originalAmount =new BigDecimal(request.getAmount());
+        charges = commissionSettingService.getCommission(originalAmount);
+        finalAmount = originalAmount;
         if (senderCustomer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");

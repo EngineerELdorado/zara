@@ -7,10 +7,7 @@ import com.zara.Zara.entities.Customer;
 import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
-import com.zara.Zara.services.IAgentService;
-import com.zara.Zara.services.IBusinessService;
-import com.zara.Zara.services.ICustomerService;
-import com.zara.Zara.services.ITransactionService;
+import com.zara.Zara.services.*;
 import com.zara.Zara.services.utils.SmsService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
 import org.apache.logging.log4j.LogManager;
@@ -50,15 +47,16 @@ public class WithdrawalController {
 
     BigDecimal originalAmount,charges,finalAmount;
     @Autowired
+    ICommissionSettingService commissionSettingService;
+    @Autowired
     IAgentService agentService;
     Logger LOGGER = LogManager.getLogger(WithdrawalController.class);
 
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {
         originalAmount =new BigDecimal(request.getAmount());
-        charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_WITHDRAWAL))
-                .divide(new BigDecimal("100"));
-        finalAmount = originalAmount;
+        charges = commissionSettingService.getCommission(originalAmount);
+        finalAmount = originalAmount.subtract(charges);
         Agent agent = agentService.findByAgentNumber(request.getReceiver());
         Customer customer = customerService.findByPhoneNumber(request.getSender());
         if (agent==null){
