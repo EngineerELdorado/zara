@@ -5,6 +5,7 @@ import com.zara.Zara.entities.Customer;
 import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
+import com.zara.Zara.services.ICommissionSettingService;
 import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.ITransactionService;
 import com.zara.Zara.services.utils.SmsService;
@@ -41,14 +42,15 @@ public class CustomerTransferController {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
     BigDecimal originalAmount,charges,finalAmount;
+    @Autowired
+    ICommissionSettingService commissionSettingService;
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {
         Customer senderCustomer = customerService.findByPhoneNumber(request.getSender());
         Customer receiverCustomer = customerService.findByPhoneNumber(request.getReceiver());
         originalAmount =new BigDecimal(request.getAmount());
-        charges = originalAmount.multiply(new BigDecimal(PERCENTAGE_ON_C2C))
-                .divide(new BigDecimal("100"));
-        finalAmount = originalAmount;
+        charges = commissionSettingService.getCommission(originalAmount);
+        finalAmount = originalAmount.subtract(charges);
         if (senderCustomer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
