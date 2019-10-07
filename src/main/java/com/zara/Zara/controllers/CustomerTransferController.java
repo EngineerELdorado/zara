@@ -51,6 +51,7 @@ public class CustomerTransferController {
         originalAmount =new BigDecimal(request.getAmount());
         charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(request.getAmount())));
         finalAmount = originalAmount.subtract(charges);
+        LOGGER.info("ORIGINAL ="+originalAmount+"USD \n CHARGES = "+charges+" USD\n FINAL = "+charges+" USD\n");
         if (senderCustomer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
