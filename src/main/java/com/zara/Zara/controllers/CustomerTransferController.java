@@ -50,9 +50,10 @@ public class CustomerTransferController {
         Customer receiverCustomer = customerService.findByPhoneNumber(request.getReceiver());
         originalAmount =new BigDecimal(request.getAmount());
         charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(request.getAmount())));
+        LOGGER.info("ORIGINAL ="+originalAmount+"USD \n CHARGES = "+charges+" USD\n ");
+
         finalAmount = originalAmount.subtract(charges);
-        LOGGER.info("ORIGINAL ="+originalAmount+"USD \n CHARGES = "+charges+" USD\n FINAL = "+charges+" USD\n");
-        if (senderCustomer==null){
+         if (senderCustomer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
             LOGGER.info("SENDER ACCOUNT NOT FOUND FOR "+request.getReceiver());
