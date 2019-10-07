@@ -23,7 +23,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2B;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION__BILL_PAYMENT;
 
 @RestController
@@ -45,7 +44,7 @@ public class C2BController {
     @Autowired
     INotificationService notificationService;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
-    BigDecimal originalAmount,charges,finalAmount;
+    BigDecimal originalAmount,charges, chargeableAmount;
     @Autowired
     ICommissionSettingService commissionSettingService;
     @PostMapping("/buy/post")
@@ -53,8 +52,7 @@ public class C2BController {
 
         originalAmount =new BigDecimal(requestBody.getAmount());
         charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(requestBody.getAmount())));
-        finalAmount = originalAmount.subtract(charges);
-        finalAmount = originalAmount.subtract(charges);
+        chargeableAmount = originalAmount.add(charges);
                     Business business = businessService.findByBusinessNumber(requestBody.getReceiver());
                      if (business==null){
                         apiResponse.setResponseCode("01");
@@ -86,14 +84,14 @@ public class C2BController {
                             apiResponse.setResponseMessage("ce BUSINESS n'est pas encore verifie "+business.getBusinessName()+" "+business.getStatusDescription());
                             LOGGER.info("BUSINESS ACCOUNT NOT VERIFIED FOR "+requestBody.getSender());
 
-                        }else if (customer.getBalance().compareTo(originalAmount.add(charges))<0){
+                        }else if (customer.getBalance().compareTo(chargeableAmount)<0){
                             apiResponse.setResponseCode("01");
                             apiResponse.setResponseMessage("Solde insuffisant ");
                             LOGGER.info("INSUFFICIENT BALANCE FOR "+requestBody.getSender());
                             Sms sms = new Sms();
                             sms.setTo(customer.getPhoneNumber());
                             sms.setMessage("Votre solde est insuffisant pour payer "+originalAmount+" USD et supporter les frais de retrait. vous avez actuellement "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD." +
-                                    "Il vous faut au moins "+originalAmount.add(charges)+"USD pour effectuer cette transaction");
+                                    "Il vous faut au moins "+chargeableAmount+"USD pour effectuer cette transaction");
                             SmsService.sendSms(sms);
 
                         }else if (!bCryptPasswordEncoder.matches(requestBody.getPin(), customer.getPin())){
@@ -106,7 +104,7 @@ public class C2BController {
                             PesapayTransaction transaction = new PesapayTransaction();
                             transaction.setCharges(charges);
                             transaction.setOriginalAmount(originalAmount);
-                            transaction.setFinalAmount(finalAmount);
+                            transaction.setFinalAmount(chargeableAmount);
                             transaction.setCreatedOn(new Date());
                             transaction.setCreationDate(System.currentTimeMillis());
                             transaction.setStatus("00");
