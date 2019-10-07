@@ -11,5 +11,5 @@ public interface ICommissionSettingService {
      Page<CommissionSetting>findAll(int page, int size);
      Page<CommissionSetting>filter(int page, int size, String param);
      CommissionSetting findOne(Long id);
-     BigDecimal getCommission(BigDecimal amount);
+     Double getCommission(Double amount);
 }

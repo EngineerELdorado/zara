@@ -75,7 +75,8 @@ public class BulkPaymentB2BController {
                             transaction.setCreatedOn(new Date());
                             transaction.setCreationDate(System.currentTimeMillis());
                             originalAmount =beneficiary.getAmount();
-                            charges = commissionSettingService.getCommission(originalAmount);
+                            charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(String.valueOf(beneficiary.getAmount()))));
+
                             finalAmount = originalAmount.subtract(charges);
                             transaction.setOriginalAmount(originalAmount);
                             transaction.setCharges(charges);

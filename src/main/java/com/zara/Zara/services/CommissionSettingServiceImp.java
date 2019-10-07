@@ -39,7 +39,7 @@ public class CommissionSettingServiceImp implements ICommissionSettingService {
     }
 
     @Override
-    public BigDecimal getCommission(BigDecimal amount) {
+    public Double getCommission(Double amount) {
 
         return commissionSettingsRepository.getCommission(amount);
     }

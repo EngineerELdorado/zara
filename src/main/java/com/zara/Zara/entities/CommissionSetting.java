@@ -15,9 +15,9 @@ public class CommissionSetting {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private BigDecimal ceil;
-    private BigDecimal top;
-    private BigDecimal commission;
+    private Double ceil;
+    private Double top;
+    private Double commission;
     private String createdBy;
     private String updatedBy;
     private Long createdOn;

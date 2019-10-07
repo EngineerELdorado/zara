@@ -52,7 +52,8 @@ public class C2BController {
     public ResponseEntity<?> post(@RequestBody TransactionRequestBody requestBody) throws UnsupportedEncodingException, JsonProcessingException {
 
         originalAmount =new BigDecimal(requestBody.getAmount());
-        charges = commissionSettingService.getCommission(originalAmount);
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(requestBody.getAmount())));
+        finalAmount = originalAmount.subtract(charges);
         finalAmount = originalAmount.subtract(charges);
                     Business business = businessService.findByBusinessNumber(requestBody.getReceiver());
                      if (business==null){

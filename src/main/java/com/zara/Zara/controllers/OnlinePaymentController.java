@@ -83,7 +83,8 @@ public class OnlinePaymentController{
 
 //Validate the Otp
         originalAmount = new BigDecimal(requestBody.getAmount());
-        charges = commissionSettingService.getCommission(originalAmount);
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(requestBody.getAmount())));
+        finalAmount = originalAmount.subtract(charges);
         finalAmount = originalAmount.subtract(charges);
         if(Integer.valueOf(requestBody.getOtp()) >= 0){
             int serverOtp = otpService.getOtp(requestBody.getSender());

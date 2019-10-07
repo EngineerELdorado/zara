@@ -54,7 +54,7 @@ public class B2BTransactionController {
     public ResponseEntity<?> post(@RequestBody B2CRequest requestBody) throws UnsupportedEncodingException {
         Business business = businessService.findByBusinessNumber(requestBody.getSender());
         originalAmount = new BigDecimal(requestBody.getAmount());
-        charges = commissionSettingService.getCommission(new BigDecimal(requestBody.getAmount()));
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(requestBody.getAmount())));
         finalAmount = originalAmount.subtract(charges);
         if (business.isVerified()){
 

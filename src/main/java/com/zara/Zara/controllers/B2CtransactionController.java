@@ -53,7 +53,7 @@ public class B2CtransactionController {
         Business business = businessService.findByBusinessNumber(requestBody.getSender());
 
         originalAmount = new BigDecimal(requestBody.getAmount());
-        charges = commissionSettingService.getCommission(new BigDecimal(requestBody.getAmount()));
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(requestBody.getAmount())));
         finalAmount = originalAmount.subtract(charges);
 
         if (business.isVerified()){

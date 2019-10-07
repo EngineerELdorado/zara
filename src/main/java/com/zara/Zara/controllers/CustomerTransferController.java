@@ -49,7 +49,7 @@ public class CustomerTransferController {
         Customer senderCustomer = customerService.findByPhoneNumber(request.getSender());
         Customer receiverCustomer = customerService.findByPhoneNumber(request.getReceiver());
         originalAmount =new BigDecimal(request.getAmount());
-        charges = commissionSettingService.getCommission(originalAmount);
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(request.getAmount())));
         finalAmount = originalAmount.subtract(charges);
         if (senderCustomer==null){
             apiResponse.setResponseCode("01");

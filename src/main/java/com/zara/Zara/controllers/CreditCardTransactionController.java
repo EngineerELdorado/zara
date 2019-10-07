@@ -59,7 +59,8 @@ public class CreditCardTransactionController {
     public ResponseEntity<?> post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
         Customer senderCustomer = customerService.findByPhoneNumber(request.getReceiver());
         originalAmount =new BigDecimal(request.getAmount());
-        charges = commissionSettingService.getCommission(originalAmount);
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(request.getAmount())));
+        finalAmount = originalAmount.subtract(charges);
         finalAmount = originalAmount;
         if (senderCustomer==null){
             apiResponse.setResponseCode("01");

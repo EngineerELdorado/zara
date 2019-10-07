@@ -15,5 +15,5 @@ public interface CommissionSettingsRepository extends JpaRepository<CommissionSe
     Page<CommissionSetting> findAll(Pageable pageable);
 
     @Query(value = "select commission from commission_settings where ceil >=?1 and top <=?1", nativeQuery = true)
-    BigDecimal getCommission(BigDecimal amount);
+    Double getCommission(Double amount);
 }
