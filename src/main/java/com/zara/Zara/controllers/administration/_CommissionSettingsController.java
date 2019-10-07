@@ -51,4 +51,11 @@ public class _CommissionSettingsController {
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
 
     }
+
+    @GetMapping("/getCommission/{amount}")
+    public ResponseEntity<?>getCommission(@PathVariable Double amount){
+
+        apiResponse.setData(commissionSettingService.getCommission(amount));
+        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
+    }
 }
