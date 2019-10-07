@@ -22,8 +22,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_B2B_BULK;
-import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2C;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_CUSTOMER_RANSFER;
 
 @RestController
@@ -41,7 +39,7 @@ public class CustomerTransferController {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
-    BigDecimal originalAmount,charges,finalAmount;
+    BigDecimal originalAmount,charges, chargeableAmount;
     @Autowired
     ICommissionSettingService commissionSettingService;
     @PostMapping("/post")
@@ -52,7 +50,7 @@ public class CustomerTransferController {
         charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(request.getAmount())));
         LOGGER.info("ORIGINAL ="+originalAmount+"USD \n CHARGES = "+charges+" USD\n ");
 
-        finalAmount = originalAmount.subtract(charges);
+        chargeableAmount = originalAmount.add(charges);
          if (senderCustomer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
@@ -76,13 +74,13 @@ public class CustomerTransferController {
             apiResponse.setResponseMessage("votre pin est incorrect");
             LOGGER.info("WRONG PIN FOR "+request.getSender());
         }
-        else if (senderCustomer.getBalance().compareTo(originalAmount.add(charges))<0){
+        else if (senderCustomer.getBalance().compareTo(chargeableAmount)<0){
            apiResponse.setResponseCode("01");
            apiResponse.setResponseMessage("Solde insuffisant");
             Sms sms = new Sms();
             sms.setTo(senderCustomer.getPhoneNumber());
             sms.setMessage("Votre solde est insuffisant pour envoyer "+originalAmount+" USD et supporter les frais de retrait. vous avez actuellement "+senderCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD." +
-                    "Il vous faut au moins "+originalAmount.add(charges)+"USD pour effectuer cette transaction");
+                    "Il vous faut au moins "+chargeableAmount+"USD pour effectuer cette transaction");
             SmsService.sendSms(sms);
             LOGGER.info("SENDER BALANCE INSUFFICIENT "+request.getSender());
         }
@@ -122,7 +120,7 @@ public class CustomerTransferController {
             transaction.setCreationDate(System.currentTimeMillis());
             transaction.setOriginalAmount(originalAmount);
             transaction.setCharges(charges);
-            transaction.setFinalAmount(finalAmount);
+            transaction.setFinalAmount(chargeableAmount);
             transaction.setStatus("00");
             transaction.setDescription("Transaction Reussie");
             transaction.setCreatedByCustomer(senderCustomer);
@@ -133,7 +131,7 @@ public class CustomerTransferController {
             transaction.setTransactionType(TRANSACTION_CUSTOMER_RANSFER);
 
             PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
-            senderCustomer.setBalance(senderCustomer.getBalance().subtract(originalAmount.add(charges)));
+            senderCustomer.setBalance(senderCustomer.getBalance().subtract(chargeableAmount));
             receiverCustomer.setBalance(receiverCustomer.getBalance().add(originalAmount));
             if (createdTransaction==null){
                 apiResponse.setResponseCode("01");
