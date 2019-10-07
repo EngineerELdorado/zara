@@ -55,7 +55,7 @@ public class WithdrawalController {
     @PostMapping("/post")
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {
         originalAmount =new BigDecimal(request.getAmount());
-        charges = commissionSettingService.getCommission(originalAmount);
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.parseDouble(request.getAmount())));
         finalAmount = originalAmount.subtract(charges);
         Agent agent = agentService.findByAgentNumber(request.getReceiver());
         Customer customer = customerService.findByPhoneNumber(request.getSender());
