@@ -15,4 +15,5 @@ public interface IBusinessService {
     Business findOne(Long id);
     Business findByPhoneNumber(String phoneNumber);
     Long findCount(Long start, Long end);
+    Business findByType(String type);
 }

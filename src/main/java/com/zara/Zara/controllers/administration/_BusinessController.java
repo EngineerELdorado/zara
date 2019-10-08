@@ -50,4 +50,11 @@ public class _BusinessController {
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+    @GetMapping("/{type}")
+    public ResponseEntity<?>getByType(@PathVariable String type){
+        Business business = businessService.findByType(type);
+        apiResponse.setData(business);
+        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
+    }
 }

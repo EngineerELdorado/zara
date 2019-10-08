@@ -56,4 +56,9 @@ public class BusinessServiceImp implements IBusinessService {
     public Long findCount(Long start, Long end) {
         return businessRepository.findCount(start,end);
     }
+
+    @Override
+    public Business findByType(String type) {
+        return businessRepository.findByType(type);
+    }
 }

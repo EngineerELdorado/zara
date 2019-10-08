@@ -27,4 +27,6 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
     Long findCount(Long start, Long end);
     @Query(value = "select * from businesses where lower (business_name) like %?1% or lower (business_number) like %?1% order by id DESC", nativeQuery = true)
     Page<Business> filter(String param, Pageable pageable);
+    @Query(value = "select * from business where upper(type) =?1", nativeQuery = true)
+    Business findByType(String type);
 }
