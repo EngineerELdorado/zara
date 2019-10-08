@@ -81,8 +81,9 @@ public class BankingTransactionController {
                      apiResponse.setResponseMessage("Transaction Reussie");
 
                      PesapayTransaction transaction = new PesapayTransaction();
-                     transaction.setFinalAmount(new BigDecimal(request.getAmount()));
-                     transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
+                     transaction.setFinalAmount(chargeableAmount);
+                     transaction.setOriginalAmount(originalAmount);
+                     transaction.setCharges(charges);
                      transaction.setCreatedOn(new Date());
                      transaction.setCreationDate(System.currentTimeMillis());
                      transaction.setStatus("00");
@@ -141,7 +142,9 @@ public class BankingTransactionController {
     @PostMapping("/business/cardTopesapay")
     public ResponseEntity<?> cardToPesaPay(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
         Business business = businessService.findByBusinessNumber(request.getReceiver());
-
+        originalAmount =new BigDecimal(request.getAmount());
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(request.getAmount())));
+        chargeableAmount = originalAmount.add(charges);
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
@@ -162,8 +165,9 @@ public class BankingTransactionController {
                     apiResponse.setResponseMessage("Transaction Reussie");
 
                     PesapayTransaction transaction = new PesapayTransaction();
-                    transaction.setFinalAmount(new BigDecimal(request.getAmount()));
-                    transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
+                    transaction.setFinalAmount(chargeableAmount);
+                    transaction.setOriginalAmount(originalAmount);
+                    transaction.setCharges(charges);
                     transaction.setCreatedOn(new Date());
                     transaction.setCreationDate(System.currentTimeMillis());
                     transaction.setStatus("00");
@@ -185,7 +189,9 @@ public class BankingTransactionController {
 
                         business.setBalance(business.getBalance().add(new BigDecimal(request.getAmount())));
                         Business updatedBusiness = businessService.save(business);
-
+                        Business pesapay = businessService.findByType(BUSINESS_TYPE);
+                        pesapay.setBalance(pesapay.getBalance().add(charges));
+                        businessService.save(pesapay);
                         Sms sms2 = new Sms();
                         sms2.setTo(business.getPhoneNumber());
                         Notification notification = new Notification();
@@ -225,7 +231,9 @@ public class BankingTransactionController {
     @PostMapping("/business/paypalTopesapay")
     public ResponseEntity<?> postForBusiness(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
         Business business = businessService.findByBusinessNumber(request.getReceiver());
-
+        originalAmount =new BigDecimal(request.getAmount());
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(request.getAmount())));
+        chargeableAmount = originalAmount.add(charges);
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
@@ -236,8 +244,9 @@ public class BankingTransactionController {
             try {
 
                     PesapayTransaction transaction = new PesapayTransaction();
-                    transaction.setFinalAmount(new BigDecimal(request.getAmount()));
-                    transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
+                    transaction.setFinalAmount(chargeableAmount);
+                    transaction.setOriginalAmount(originalAmount);
+                    transaction.setCharges(charges);
                     transaction.setCreatedOn(new Date());
                     transaction.setCreationDate(System.currentTimeMillis());
                     transaction.setCreatedByBusiness(business);
@@ -259,9 +268,12 @@ public class BankingTransactionController {
                         apiResponse.setResponseCode("00");
                         apiResponse.setResponseMessage("Transaction Reussie");
 
-
                         business.setBalance(business.getBalance().add(new BigDecimal(request.getAmount())));
                         Business updatedBusiness = businessService.save(business);
+
+                        Business pesapay = businessService.findByType(BUSINESS_TYPE);
+                        pesapay.setBalance(pesapay.getBalance().add(charges));
+                        businessService.save(pesapay);
                         Sms sms2 = new Sms();
                         sms2.setTo(business.getPhoneNumber());
                         Notification notification = new Notification();
@@ -296,7 +308,9 @@ public class BankingTransactionController {
     @PostMapping("/customer/paypalTopesapay")
     public ResponseEntity<?> postForCustomer(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
         Customer customer = customerService.findByPhoneNumber(request.getReceiver());
-
+        originalAmount =new BigDecimal(request.getAmount());
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.parseDouble(request.getAmount())));
+        chargeableAmount = originalAmount.subtract(charges);
         if (customer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
@@ -307,8 +321,9 @@ public class BankingTransactionController {
             try {
 
                 PesapayTransaction transaction = new PesapayTransaction();
-                transaction.setFinalAmount(new BigDecimal(request.getAmount()));
-                transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
+                transaction.setFinalAmount(chargeableAmount);
+                transaction.setOriginalAmount(originalAmount);
+                transaction.setCharges(charges);
                 transaction.setCreatedOn(new Date());
                 transaction.setCreationDate(System.currentTimeMillis());
                 transaction.setStatus("00");
@@ -333,6 +348,9 @@ public class BankingTransactionController {
 
                     customer.setBalance(customer.getBalance().add(new BigDecimal(request.getAmount())));
                     Customer updatedCustomer = customerService.save(customer);
+                    Business pesapay = businessService.findByType(BUSINESS_TYPE);
+                    pesapay.setBalance(pesapay.getBalance().add(charges));
+                    businessService.save(pesapay);
                     Sms sms2 = new Sms();
                     sms2.setTo(customer.getPhoneNumber());
                     Notification notification = new Notification();
@@ -366,7 +384,9 @@ public class BankingTransactionController {
     @PostMapping("/customer/pesapayTopaypal")
     public ResponseEntity<?> pesapayTopaypalCustomer(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
         Customer customer = customerService.findByPhoneNumber(request.getSender());
-LOGGER.info(request.toString());
+        originalAmount =new BigDecimal(request.getAmount());
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.parseDouble(request.getAmount())));
+        chargeableAmount = originalAmount.subtract(charges);
         if (customer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
@@ -396,8 +416,9 @@ LOGGER.info(request.toString());
             try {
 
                 PesapayTransaction transaction = new PesapayTransaction();
-                transaction.setFinalAmount(new BigDecimal(request.getAmount()));
-                transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
+                transaction.setFinalAmount(chargeableAmount);
+                transaction.setOriginalAmount(originalAmount);
+                transaction.setCharges(charges);
                 transaction.setCreatedOn(new Date());
                 transaction.setCreationDate(System.currentTimeMillis());
                 transaction.setStatus("02");
@@ -424,12 +445,15 @@ LOGGER.info(request.toString());
 
                     customer.setBalance(customer.getBalance().subtract(new BigDecimal(request.getAmount())));
                     Customer updatedCustomer = customerService.save(customer);
+                    Business pesapay = businessService.findByType(BUSINESS_TYPE);
+                    pesapay.setBalance(pesapay.getBalance().add(charges));
+                    businessService.save(pesapay);
                     Sms sms2 = new Sms();
                     sms2.setTo(customer.getPhoneNumber());
                     Notification notification = new Notification();
                     String msg = " Votre transfer PesaPay Pesa vers PayPal est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte PayPal"+
                             "  "+request.getForPaypalEmail()+
-                            " dans moins de 3h. no de transaction "+transaction.getTransactionNumber();
+                            " dans moins de 3h. no de transaction "+transaction.getTransactionNumber()+". Votre balance actuel est de "+updatedCustomer.getBalance().setScale(2)+" USD";
                     notification.setCustomer(customer);
                     notification.setMessage(msg);
                     notification.setDate(new Date());
@@ -458,6 +482,9 @@ LOGGER.info(request.toString());
     @PostMapping("/customer/pesapayToBank")
     public ResponseEntity<?> pesapayToBank(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
         Customer customer = customerService.findByPhoneNumber(request.getSender());
+        originalAmount =new BigDecimal(request.getAmount());
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.parseDouble(request.getAmount())));
+        chargeableAmount = originalAmount.subtract(charges);
         LOGGER.info(request.toString());
         if (customer==null){
             apiResponse.setResponseCode("01");
@@ -558,7 +585,9 @@ LOGGER.info(request.toString());
     @PostMapping("/business/pesapayTopaypal")
     public ResponseEntity<?> pesapayTopaypalBusiness(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
         Business business = businessService.findByBusinessNumber(request.getSender());
-
+        originalAmount =new BigDecimal(request.getAmount());
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.parseDouble(request.getAmount())));
+        chargeableAmount = originalAmount.subtract(charges);
         if (business==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
@@ -588,9 +617,8 @@ LOGGER.info(request.toString());
             try {
 
                 PesapayTransaction transaction = new PesapayTransaction();
-                transaction.setFinalAmount(new BigDecimal(request.getAmount()));
-                transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
                 transaction.setFinalAmount(chargeableAmount);
+                transaction.setOriginalAmount(originalAmount);
                 transaction.setCharges(charges);
                 transaction.setCreatedOn(new Date());
                 transaction.setCreationDate(System.currentTimeMillis());

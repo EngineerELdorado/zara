@@ -22,7 +22,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_WITHDRAWAL;
 import static com.zara.Zara.constants.ConstantVariables.BUSINESS_TYPE;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_WITHDRAWAL;
 
@@ -46,7 +45,7 @@ public class WithdrawalController {
     BigDecimal pesapayCharges;
     BigDecimal agentFinalAmount;
 
-    BigDecimal originalAmount,charges,finalAmount;
+    BigDecimal originalAmount,charges, chargeableAmount;
     @Autowired
     ICommissionSettingService commissionSettingService;
     @Autowired
@@ -57,7 +56,7 @@ public class WithdrawalController {
     public ResponseEntity<?>post(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException {
         originalAmount =new BigDecimal(request.getAmount());
         charges = new BigDecimal(commissionSettingService.getCommission(Double.parseDouble(request.getAmount())));
-        finalAmount = originalAmount.subtract(charges);
+        chargeableAmount = originalAmount.subtract(charges);
         Agent agent = agentService.findByAgentNumber(request.getReceiver());
         Customer customer = customerService.findByPhoneNumber(request.getSender());
         if (agent==null){

@@ -9,10 +9,7 @@ import com.zara.Zara.entities.Notification;
 import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
-import com.zara.Zara.services.IBusinessService;
-import com.zara.Zara.services.ICustomerService;
-import com.zara.Zara.services.INotificationService;
-import com.zara.Zara.services.ITransactionService;
+import com.zara.Zara.services.*;
 import com.zara.Zara.services.banking.StripeService;
 import com.zara.Zara.services.utils.SmsService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
@@ -57,10 +54,15 @@ public class MobileMoneyController {
     Customer customer;
     String name;
     String phone;
+    BigDecimal originalAmount,charges, chargeableAmount;
+    @Autowired
+    ICommissionSettingService commissionSettingService;
 
     @PostMapping("/business/withdraw")
     public ResponseEntity<?> businessPesaPayToMobileMoney(@RequestBody TransactionRequestBody request,
                                                           @RequestParam String service) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
+
+
 
         business = businessService.findByBusinessNumber(request.getSender());
         name = business.getBusinessName();
@@ -71,9 +73,9 @@ public class MobileMoneyController {
             apiResponse.setResponseMessage("Votre compte n'existe pas");
             LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getSender());
         }
-        else if (business.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
+        else if (business.getBalance().compareTo(chargeableAmount)<0){
             apiResponse.setResponseCode("01");
-            apiResponse.setResponseMessage("Solde insuffisant. vous avez "+business.getBalance()+" USD");
+            apiResponse.setResponseMessage("Solde insuffisant. vous avez "+business.getBalance()+" USD. VOus devez avoir au moins "+chargeableAmount+"USD");
             LOGGER.info("INSUFFICIENT FUNDS"+request.getReceiver());
         }
         else if (!business.getStatus().equals("ACTIVE")){
@@ -96,7 +98,9 @@ public class MobileMoneyController {
             try {
 
                 PesapayTransaction transaction = new PesapayTransaction();
-                transaction.setFinalAmount(new BigDecimal(request.getAmount()));
+                transaction.setOriginalAmount(originalAmount);
+                transaction.setCharges(charges);
+                transaction.setFinalAmount(chargeableAmount);
                 transaction.setCreatedOn(new Date());
                 transaction.setCreationDate(System.currentTimeMillis());
                 transaction.setStatus("02");
@@ -133,6 +137,9 @@ public class MobileMoneyController {
     public ResponseEntity<?> customerPesaPayToMobileMoney(@RequestBody TransactionRequestBody request,
                                                      @RequestParam String service) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
 
+        originalAmount =new BigDecimal(request.getAmount());
+        charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(request.getAmount())));
+        chargeableAmount = originalAmount.add(charges);
         customer = customerService.findByPhoneNumber(request.getSender());
         name = customer.getFullName();
         phone = customer.getPhoneNumber();
@@ -167,9 +174,9 @@ public class MobileMoneyController {
             try {
 
                 PesapayTransaction transaction = new PesapayTransaction();
-                transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
-                transaction.setCharges(new BigDecimal(0));
-                transaction.setFinalAmount(new BigDecimal(request.getAmount()));
+                transaction.setOriginalAmount(originalAmount);
+                transaction.setCharges(charges);
+                transaction.setFinalAmount(chargeableAmount);
                 transaction.setCreatedOn(new Date());
                 transaction.setCreationDate(System.currentTimeMillis());
                 transaction.setStatus("02");
@@ -213,6 +220,9 @@ public class MobileMoneyController {
 
             apiResponse.setResponseCode("00");
             apiResponse.setResponseMessage("Transaction Reussie");
+            Business pesapay = businessService.findByType(BUSINESS_TYPE);
+            pesapay.setBalance(pesapay.getBalance().add(charges));
+            businessService.save(pesapay);
             Notification notification=null;
             Sms sms2= new Sms();
             String msg="";
