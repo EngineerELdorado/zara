@@ -495,7 +495,7 @@ LOGGER.info(request.toString());
                 transaction.setCreationDate(System.currentTimeMillis());
                 transaction.setStatus("02");
                 transaction.setForPaypalEmail(request.getForPaypalEmail());
-                transaction.setDescription("transfer ver(PayPal) en suspens. en destination de paypal au compte "+request.getForPaypalEmail());
+                transaction.setDescription("transfer ver(PayPal) en suspens. en destination de la banque "+request.getBankName()+" Numero de compte "+request.getAccountNumber());
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                 transaction.setCreatedByCustomer(customer);
                 transaction.setReceivedByCustomer(customer);
@@ -524,9 +524,9 @@ LOGGER.info(request.toString());
                     Sms sms2 = new Sms();
                     sms2.setTo(customer.getPhoneNumber());
                     Notification notification = new Notification();
-                    String msg = " Votre transfer PesaPay Pesa vers PayPal est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte PayPal"+
+                    String msg = " Votre transfer PesaPay Pesa vers la baque "+request.getBankName()+" numero de compte "+request.getAccountNumber()+" est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte PayPal"+
                             "  "+request.getForPaypalEmail()+
-                            " dans moins de 3h. no de transaction "+transaction.getTransactionNumber();
+                            " dans moins de 3h. no de transaction "+transaction.getTransactionNumber()+". Votre solde actuel est de "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD";
                     notification.setCustomer(customer);
                     notification.setMessage(msg);
                     notification.setDate(new Date());
