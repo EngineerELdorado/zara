@@ -133,7 +133,7 @@ public class C2BController {
                                 Customer updatedCustomer = customerService.save(customer);
                                 Sms sms1 = new Sms();
                                 String msg1=customer.getFullName()+ " vous venez de payer "+originalAmount+" USD A "+business.getBusinessName()+
-                                        ". Les frais de transaction ont ete de "+charges+" USD. type de transaction PAYMENT. votre solde actuel est "+updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber();
+                                        ". Les frais de transaction ont ete de "+charges.setScale(2, BigDecimal.ROUND_UP)+" USD. type de transaction PAYMENT. votre solde actuel est "+updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms1.setTo(customer.getPhoneNumber());
                                 sms1.setMessage(msg1);
                                 SmsService.sendSms(sms1);
