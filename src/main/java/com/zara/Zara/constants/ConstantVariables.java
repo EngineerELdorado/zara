@@ -5,6 +5,7 @@ import java.util.Calendar;
 public class ConstantVariables {
 
 
+    public static String BUSINESS_TYPE="AAZZYY";
     public static String TRANSACTION_DEPOSIT="DEPOSIT";
     public static String TRANSACTION_CREDIT_CARD_DEPOSIT="CREDIT_CARD_DEPOSIT";
     public static String TRANSACTION_PAYPAL_DEPOSIT="PAYPAL_DEPOSIT";

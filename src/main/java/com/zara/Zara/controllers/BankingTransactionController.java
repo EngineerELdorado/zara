@@ -51,7 +51,7 @@ public class BankingTransactionController {
 
     @Autowired
     INotificationService notificationService;
-    BigDecimal originalAmount,charges,finalAmount;
+    BigDecimal originalAmount,charges, chargeableAmount;
     @Autowired
     ICommissionSettingService commissionSettingService;
 
@@ -60,8 +60,7 @@ public class BankingTransactionController {
         Customer senderCustomer = customerService.findByPhoneNumber(request.getReceiver());
         originalAmount =new BigDecimal(request.getAmount());
         charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(request.getAmount())));
-        finalAmount = originalAmount.subtract(charges);
-        finalAmount = originalAmount;
+        chargeableAmount = originalAmount.add(charges);
         if (senderCustomer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
@@ -489,9 +488,10 @@ LOGGER.info(request.toString());
             try {
 
                 PesapayTransaction transaction = new PesapayTransaction();
-                transaction.setFinalAmount(new BigDecimal(request.getAmount()));
+                transaction.setFinalAmount(chargeableAmount);
                 transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
                 transaction.setCreatedOn(new Date());
+                transaction.setCharges(charges);
                 transaction.setCreationDate(System.currentTimeMillis());
                 transaction.setStatus("02");
                 transaction.setForPaypalEmail(request.getForPaypalEmail());
@@ -524,7 +524,10 @@ LOGGER.info(request.toString());
                     Sms sms2 = new Sms();
                     sms2.setTo(customer.getPhoneNumber());
                     Notification notification = new Notification();
-                    String msg = " Votre transfer PesaPay Pesa vers la baque "+request.getBankName()+" numero de compte "+request.getAccountNumber()+" est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte PayPal"+
+                    Business pesapay = businessService.findByType(BUSINESS_TYPE);
+                    pesapay.setBalance(pesapay.getBalance().add(charges));
+                    businessService.save(pesapay);
+                    String msg = " Votre transfer PesaPay Pesa vers la banque "+request.getBankName()+" numero de compte "+request.getAccountNumber()+" est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte PayPal"+
                             "  "+request.getForPaypalEmail()+
                             " dans moins de 3h. no de transaction "+transaction.getTransactionNumber()+". Votre solde actuel est de "+customer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD";
                     notification.setCustomer(customer);
@@ -587,6 +590,8 @@ LOGGER.info(request.toString());
                 PesapayTransaction transaction = new PesapayTransaction();
                 transaction.setFinalAmount(new BigDecimal(request.getAmount()));
                 transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
+                transaction.setFinalAmount(chargeableAmount);
+                transaction.setCharges(charges);
                 transaction.setCreatedOn(new Date());
                 transaction.setCreationDate(System.currentTimeMillis());
                 transaction.setStatus("02");
@@ -595,7 +600,7 @@ LOGGER.info(request.toString());
                 transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
                 transaction.setCreatedByBusiness(business);
                 transaction.setSender(business.getBusinessName());
-                transaction.setReceiver("PayPal");
+                transaction.setReceiver("PayPal "+request.getForPaypalEmail());
                 transaction.setTransactionType(TRANSACTION_PESAPAY_TO_PAYPAL_CUSTOMER);
 
                 PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
@@ -611,6 +616,9 @@ LOGGER.info(request.toString());
 
                     business.setBalance(business.getBalance().subtract(new BigDecimal(request.getAmount())));
                     Business updatedBusiness = businessService.save(business);
+                    Business pesapay = businessService.findByType(BUSINESS_TYPE);
+                    business.setBalance(pesapay.getBalance().add(charges));
+                    businessService.save(pesapay);
                     Sms sms2 = new Sms();
                     sms2.setTo(business.getPhoneNumber());
                     Notification notification = new Notification();

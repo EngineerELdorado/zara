@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_B2C;
+import static com.zara.Zara.constants.ConstantVariables.BUSINESS_TYPE;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACITION_B2C;
 
 @RestController
@@ -43,7 +44,7 @@ public class B2CtransactionController {
     INotificationService notificationService;
     ApiResponse apiResponse = new ApiResponse();
     boolean insufficientBalanceMessageAlreadySent=false;
-    Logger LOGGER = LogManager.getLogger(BankTransferController.class);
+    Logger LOGGER = LogManager.getLogger(B2CtransactionController.class);
     Business updatedBusiness=null;
     BigDecimal originalAmount, charges,finalAmount;
     @Autowired
@@ -120,6 +121,9 @@ public class B2CtransactionController {
                                     Customer updatedCustomer = customerService.save(customer);
                                     updatedBusiness = businessService.save(business);
                                     LOGGER.info("TRANSACTION SUCCESSFUL "+customer.getFullName());
+                                    Business pesapay = businessService.findByType(BUSINESS_TYPE);
+                                    pesapay.setBalance(pesapay.getBalance().add(charges));
+                                    businessService.save(pesapay);
                                     Sms sms = new Sms();
                                     sms.setTo(customer.getPhoneNumber());
                                     String msg1 = "transaction confirmee. vous avez recu "+originalAmount+" USD via PesaPay venant de "+business.getBusinessName()+" " +

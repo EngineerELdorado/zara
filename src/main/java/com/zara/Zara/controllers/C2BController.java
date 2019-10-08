@@ -23,6 +23,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static com.zara.Zara.constants.ConstantVariables.BUSINESS_TYPE;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION__BILL_PAYMENT;
 
 @RestController
@@ -132,6 +133,9 @@ public class C2BController {
                                 customer.setBalance(customer.getBalance().subtract(originalAmount.add(charges)));
                                 Customer updatedCustomer = customerService.save(customer);
                                 Sms sms1 = new Sms();
+                                Business pesapay = businessService.findByType(BUSINESS_TYPE);
+                                pesapay.setBalance(pesapay.getBalance().add(charges));
+                                businessService.save(pesapay);
                                 String msg1=customer.getFullName()+ " vous venez de payer "+originalAmount+" USD A "+business.getBusinessName()+
                                         ". Les frais de transaction ont ete de "+charges.setScale(2, BigDecimal.ROUND_UP)+" USD. type de transaction PAYMENT. votre solde actuel est "+updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD. numero de transaction "+transaction.getTransactionNumber();
                                 sms1.setTo(customer.getPhoneNumber());

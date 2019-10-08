@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static com.zara.Zara.constants.Configs.*;
+import static com.zara.Zara.constants.ConstantVariables.BUSINESS_TYPE;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_BULKPAYMENT;
 
 @RestController
@@ -45,7 +46,7 @@ public class BulkPaymentB2BController {
     INotificationService notificationService;
     ApiResponse apiResponse = new ApiResponse();
     boolean insufficientBalanceMessageAlreadySent=false;
-    Logger LOGGER = LogManager.getLogger(BankTransferController.class);
+    Logger LOGGER = LogManager.getLogger(BulkPaymentB2BController.class);
     BigDecimal originalAmount,charges,finalAmount;
     @Autowired
     ICommissionSettingService commissionSettingService;
@@ -78,6 +79,10 @@ public class BulkPaymentB2BController {
                             charges = new BigDecimal(commissionSettingService.getCommission(Double.valueOf(String.valueOf(beneficiary.getAmount()))));
 
                             finalAmount = originalAmount.subtract(charges);
+
+                            Business pesapay = businessService.findByType(BUSINESS_TYPE);
+                            business.setBalance(pesapay.getBalance().add(charges));
+                            businessService.save(pesapay);
                             transaction.setOriginalAmount(originalAmount);
                             transaction.setCharges(charges);
                             transaction.setFinalAmount(finalAmount);
@@ -135,6 +140,9 @@ public class BulkPaymentB2BController {
                                         LOGGER.info("TRANSACTION SUCCESSFUL "+receiver.getBusinessName());
                                         Sms sms = new Sms();
                                         sms.setTo(receiver.getPhoneNumber());
+                                        Business _pesapay = businessService.findByType(BUSINESS_TYPE);
+                                        _pesapay.setBalance(_pesapay.getBalance().add(totalCharges));
+                                        businessService.save(_pesapay);
                                         String msg1 = "transaction confirmee. vous avez recu"+originalAmount+" USD via PesaPay de la part de "+business.getBusinessName()+" " +
                                                 ". type de transaction B2B. numero de transactinon "+transaction.getTransactionNumber()+"" +
                                                 " votre solde balance est de "+updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD";

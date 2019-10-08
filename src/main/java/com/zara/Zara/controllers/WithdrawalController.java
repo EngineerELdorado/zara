@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_WITHDRAWAL;
+import static com.zara.Zara.constants.ConstantVariables.BUSINESS_TYPE;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_WITHDRAWAL;
 
 @RestController
@@ -212,7 +213,9 @@ public class WithdrawalController {
 
                 business.setBalance(business.getBalance().subtract(new BigDecimal(request.getAmount())));
                 Business updatedbusiness = businessService.save(business);
-
+                Business pesapay = businessService.findByType(BUSINESS_TYPE);
+                pesapay.setBalance(pesapay.getBalance().add(charges));
+                businessService.save(pesapay);
                 Sms sms1 = new Sms();
                 sms1.setTo(business.getPhoneNumber());
                 sms1.setMessage(business.getBusinessName()+ " vous venez de retirer de votre compte "+request.getAmount()+"USD au numero agent "+agent.getAgentNumber()+" "+agent.getFullName()+" via PesaPay. "+

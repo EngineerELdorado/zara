@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2B;
+import static com.zara.Zara.constants.ConstantVariables.BUSINESS_TYPE;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION__ONLINE_PAYMENT;
 
 @RestController
@@ -157,6 +158,9 @@ public class OnlinePaymentController{
 
                                 customer.setBalance(customer.getBalance().subtract(originalAmount.add(charges)));
                                 Customer updatedCustomer = customerService.save(customer);
+                                Business pesapay = businessService.findByType(BUSINESS_TYPE);
+                                pesapay.setBalance(pesapay.getBalance().add(charges));
+                                businessService.save(pesapay);
                                 Sms sms1 = new Sms();
                                 sms1.setTo(customer.getPhoneNumber());
                                 if (requestBody.getDescription()==null || requestBody.getDescription().equals("")){

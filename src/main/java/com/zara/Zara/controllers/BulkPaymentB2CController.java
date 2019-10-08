@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_B2C_BULK;
+import static com.zara.Zara.constants.ConstantVariables.BUSINESS_TYPE;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACITION_B2C;
 
 @RestController
@@ -46,7 +47,7 @@ public class BulkPaymentB2CController {
     @Autowired
     INotificationService notificationService;
     boolean insufficientBalanceMessageAlreadySent=false;
-    Logger LOGGER = LogManager.getLogger(BankTransferController.class);
+    Logger LOGGER = LogManager.getLogger(BulkPaymentB2CController.class);
     BigDecimal originalAmount, charges, finalAmount;
     @Autowired
     ICommissionSettingService commissionSettingService;
@@ -135,6 +136,9 @@ public class BulkPaymentB2CController {
                                         LOGGER.info("TRANSACTION SUCCESSFUL "+customer.getFullName());
                                         Sms sms = new Sms();
                                         sms.setTo(customer.getPhoneNumber());
+                                        Business pesapay = businessService.findByType(BUSINESS_TYPE);
+                                        business.setBalance(pesapay.getBalance().add(totalCharges));
+                                        businessService.save(pesapay);
                                         String msg1 = "transaction confirmee. vous avez recu "+originalAmount+"USD venant de "+business.getBusinessName()+" " +
                                                 "via PesaPay. type de transaction B2C. numero de transactinon "+transaction.getTransactionNumber()+"" +
                                                 " votre solde balance est de "+updatedCustomer.getBalance().setScale(2, BigDecimal.ROUND_UP)+" USD";

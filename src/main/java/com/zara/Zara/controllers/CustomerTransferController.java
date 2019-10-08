@@ -1,10 +1,12 @@
 package com.zara.Zara.controllers;
 
 import com.zara.Zara.constants.ApiResponse;
+import com.zara.Zara.entities.Business;
 import com.zara.Zara.entities.Customer;
 import com.zara.Zara.entities.PesapayTransaction;
 import com.zara.Zara.models.Sms;
 import com.zara.Zara.models.TransactionRequestBody;
+import com.zara.Zara.services.IBusinessService;
 import com.zara.Zara.services.ICommissionSettingService;
 import com.zara.Zara.services.ICustomerService;
 import com.zara.Zara.services.ITransactionService;
@@ -22,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static com.zara.Zara.constants.ConstantVariables.BUSINESS_TYPE;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_CUSTOMER_RANSFER;
 
 @RestController
@@ -36,6 +39,8 @@ public class CustomerTransferController {
     ICustomerService customerService;
     @Autowired
     ITransactionService transactionService;
+    @Autowired
+    IBusinessService businessService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
     Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
@@ -141,6 +146,9 @@ public class CustomerTransferController {
                 LOGGER.info("TRANSDACTION FAILED FOR UNKNOWN REASON. PLEASE CHECK THE DATABASE CONNECTION");
             }else{
                 customerService.save(senderCustomer);
+                Business pesapay = businessService.findByType(BUSINESS_TYPE);
+                pesapay.setBalance(pesapay.getBalance().add(charges));
+                businessService.save(pesapay);
                 Sms sms1 = new Sms();
                 sms1.setTo(senderCustomer.getPhoneNumber());
                 sms1.setMessage("Vous avez envoye "+originalAmount+" USD via PesaPay A " +
