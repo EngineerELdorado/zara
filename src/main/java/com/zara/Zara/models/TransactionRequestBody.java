@@ -19,7 +19,7 @@ public class TransactionRequestBody {
 
     private String bankName;
     private String accountName;
-    private String switfCode;
+    private String swiftCode;
     private String accountNumber;
 
     @Override

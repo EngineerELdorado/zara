@@ -502,7 +502,7 @@ LOGGER.info(request.toString());
                 transaction.setSender(customer.getFullName());
                 transaction.setReceiver("BANK: "+request.getBankName()+"\n" +
                         "ACCOUNT HOLDER: "+request.getAccountName()+"\n" +
-                        "SWIFT: "+request.getSwitfCode()+"\n" +
+                        "SWIFT: "+request.getSwiftCode()+"\n" +
                         "NUMERO DE COMPTE: "+request.getAccountNumber());
                 transaction.setCharges(new BigDecimal(0));
 
