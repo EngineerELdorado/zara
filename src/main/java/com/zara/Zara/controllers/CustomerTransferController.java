@@ -144,7 +144,7 @@ public class CustomerTransferController {
                 Sms sms1 = new Sms();
                 sms1.setTo(senderCustomer.getPhoneNumber());
                 sms1.setMessage("Vous avez envoye "+originalAmount+" USD via PesaPay A " +
-                        ""+receiverCustomer.getFullName()+". les frais de transaction ont ete de "+charges+"USD. type de transaction TRANSFER DIRECT. " +
+                        ""+receiverCustomer.getFullName()+". les frais de transaction ont ete de "+charges.setScale(2,BigDecimal.ROUND_UP)+"USD. type de transaction TRANSFER DIRECT. " +
                         "votre solde actuel est de "+senderCustomer.getBalance().setScale(2,BigDecimal.ROUND_UP)+
                         " USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms1);
