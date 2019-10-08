@@ -19,7 +19,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import static com.zara.Zara.constants.Configs.PERCENTAGE_ON_C2B;
 import static com.zara.Zara.constants.ConstantVariables.BUSINESS_TYPE;
 import static com.zara.Zara.constants.ConstantVariables.TRANSACTION__ONLINE_PAYMENT;
 
@@ -46,7 +45,7 @@ public class OnlinePaymentController{
     IAgentService agentService;
     @Autowired
     INotificationService notificationService;
-    Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
+    Logger LOGGER = LogManager.getLogger(C2CTransactionController.class);
     BigDecimal originalAmount,charges,finalAmount;
     @Autowired
     ICommissionSettingService commissionSettingService;

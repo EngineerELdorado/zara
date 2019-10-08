@@ -44,7 +44,7 @@ public class C2BController {
     OtpService otpService;
     @Autowired
     INotificationService notificationService;
-    Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
+    Logger LOGGER = LogManager.getLogger(C2CTransactionController.class);
     BigDecimal originalAmount,charges, chargeableAmount;
     @Autowired
     ICommissionSettingService commissionSettingService;

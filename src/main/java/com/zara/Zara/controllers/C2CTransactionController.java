@@ -30,7 +30,7 @@ import static com.zara.Zara.constants.ConstantVariables.TRANSACTION_CUSTOMER_RAN
 @RestController
 @RequestMapping("/customerTransfers")
 @CrossOrigin(origins = "*")
-public class CustomerTransferController {
+public class C2CTransactionController {
 
 
     ApiResponse apiResponse = new ApiResponse();
@@ -43,7 +43,7 @@ public class CustomerTransferController {
     IBusinessService businessService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
-    Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
+    Logger LOGGER = LogManager.getLogger(C2CTransactionController.class);
     BigDecimal originalAmount,charges, chargeableAmount;
     @Autowired
     ICommissionSettingService commissionSettingService;
@@ -153,7 +153,7 @@ public class CustomerTransferController {
                 sms1.setTo(senderCustomer.getPhoneNumber());
                 sms1.setMessage("Vous avez envoye "+originalAmount+" USD via PesaPay A " +
                         ""+receiverCustomer.getFullName()+". les frais de transaction ont ete de "+charges.setScale(2,BigDecimal.ROUND_UP)+"USD. type de transaction TRANSFER DIRECT. " +
-                        "votre solde actuel est de "+senderCustomer.getBalance().setScale(2,BigDecimal.ROUND_UP)+
+                        "votre solde actuel est de "+senderCustomer.getBalance().setScale(1)+
                         " USD. numero de transaction "+transaction.getTransactionNumber());
                 SmsService.sendSms(sms1);
                 apiResponse.setResponseCode("01");

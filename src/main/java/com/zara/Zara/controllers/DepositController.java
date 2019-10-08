@@ -42,7 +42,7 @@ public class DepositController {
 
     @Autowired
     IAgentService agentService;
-    Logger LOGGER = LogManager.getLogger(CustomerTransferController.class);
+    Logger LOGGER = LogManager.getLogger(C2CTransactionController.class);
 
     BigDecimal agentCommission = new BigDecimal("1.0");
     BigDecimal pesaPayCharges;
