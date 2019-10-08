@@ -17,6 +17,11 @@ public class TransactionRequestBody {
     private String uniqueIdentifier;
     private String forPaypalEmail;
 
+    private String bankName;
+    private String accountName;
+    private String switfCode;
+    private String accountNumber;
+
     @Override
     public String toString() {
         return "TransactionRequestBody{" +

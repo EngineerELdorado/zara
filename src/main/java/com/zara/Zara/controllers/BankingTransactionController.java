@@ -32,7 +32,7 @@ import static com.zara.Zara.constants.ConstantVariables.*;
 @RestController
 @RequestMapping("/creditCardsTransactions")
 @CrossOrigin(origins = "*")
-public class CreditCardTransactionController {
+public class BankingTransactionController {
 
     ApiResponse apiResponse = new ApiResponse();
     Sms sms = new Sms();
@@ -42,7 +42,7 @@ public class CreditCardTransactionController {
     ITransactionService transactionService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
-    Logger LOGGER = LogManager.getLogger(CreditCardTransactionController.class);
+    Logger LOGGER = LogManager.getLogger(BankingTransactionController.class);
     @Autowired
     StripeService stripeService;
     Charge charge;
@@ -411,6 +411,102 @@ LOGGER.info(request.toString());
                 transaction.setReceiver(request.getReceiver());
                 transaction.setCharges(new BigDecimal(0));
                 transaction.setTransactionType(TRANSACTION_PESAPAY_TO_PAYPAL_CUSTOMER);
+
+                PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
+                if (createdTransaction==null){
+                    apiResponse.setResponseCode("01");
+                    apiResponse.setResponseMessage("ECHEC");
+                    LOGGER.info("TRANSACTION FAILED TO PERSIST TO DATABASE");
+                }else {
+
+                    apiResponse.setResponseCode("00");
+                    apiResponse.setResponseMessage("Transaction Reussie");
+
+
+                    customer.setBalance(customer.getBalance().subtract(new BigDecimal(request.getAmount())));
+                    Customer updatedCustomer = customerService.save(customer);
+                    Sms sms2 = new Sms();
+                    sms2.setTo(customer.getPhoneNumber());
+                    Notification notification = new Notification();
+                    String msg = " Votre transfer PesaPay Pesa vers PayPal est en cours. montant "+request.getAmount()+" USD. la somme sera disponiblea dans votre compte PayPal"+
+                            "  "+request.getForPaypalEmail()+
+                            " dans moins de 3h. no de transaction "+transaction.getTransactionNumber();
+                    notification.setCustomer(customer);
+                    notification.setMessage(msg);
+                    notification.setDate(new Date());
+                    sms2.setMessage(msg);
+                    SmsService.sendSms(sms2);
+                    notificationService.save(notification);
+                    apiResponse.setResponseCode("00");
+                    apiResponse.setResponseMessage("TRANSACTION REUSSIE");
+                }
+
+
+
+            }catch (Exception e){
+                apiResponse.setResponseCode("01");
+                apiResponse.setResponseMessage(e.getLocalizedMessage());
+                LOGGER.info("STRIPE_FAILURE_MESSAGE "+e.getLocalizedMessage());
+                e.printStackTrace();
+            }
+
+        }
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+
+    }
+
+
+    @PostMapping("/customer/pesapayToBank")
+    public ResponseEntity<?> pesapayToBank(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
+        Customer customer = customerService.findByPhoneNumber(request.getSender());
+        LOGGER.info(request.toString());
+        if (customer==null){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'existe pas");
+            LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getReceiver());
+        }
+        else if (customer.getBalance().compareTo(new BigDecimal(request.getAmount()))<0){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Solde insuffisant. vous avez "+customer.getBalance()+" USD");
+            LOGGER.info("RECEIVER ACCOUNT NOT FOUND FOR "+request.getReceiver());
+        }
+        else if (!customer.getStatus().equals("ACTIVE")){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'est pas actif. veillez contacter le service clientel de PesaPay");
+            LOGGER.info("SENDER ACCOUNT NOT ACTIVE FOR "+request.getReceiver());
+        }else if (!customer.isVerified()){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("Votre compte n'est pas encore verifie");
+            LOGGER.info("SENDER ACCOUNT NOT VERIFIED FOR "+request.getReceiver());
+
+        }else if (!bCryptPasswordEncoder.matches(request.getPin(), customer.getPin())){
+            apiResponse.setResponseCode("01");
+            apiResponse.setResponseMessage("votre pin est incorrect");
+            LOGGER.info("WRONG PIN FOR "+request.getSender());
+        }
+
+        else{
+            try {
+
+                PesapayTransaction transaction = new PesapayTransaction();
+                transaction.setFinalAmount(new BigDecimal(request.getAmount()));
+                transaction.setOriginalAmount(new BigDecimal(request.getAmount()));
+                transaction.setCreatedOn(new Date());
+                transaction.setCreationDate(System.currentTimeMillis());
+                transaction.setStatus("02");
+                transaction.setForPaypalEmail(request.getForPaypalEmail());
+                transaction.setDescription("transfer ver(PayPal) en suspens. en destination de paypal au compte "+request.getForPaypalEmail());
+                transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+                transaction.setCreatedByCustomer(customer);
+                transaction.setReceivedByCustomer(customer);
+                transaction.setSender(customer.getFullName());
+                transaction.setReceiver("BANK: "+request.getBankName()+"\n" +
+                        "ACCOUNT HOLDER: "+request.getAccountName()+"\n" +
+                        "SWIFT: "+request.getSwitfCode()+"\n" +
+                        "NUMERO DE COMPTE: "+request.getAccountNumber());
+                transaction.setCharges(new BigDecimal(0));
+
+                transaction.setTransactionType(TRANSACTION_PESAPAY_TO_BANK_CUSTOMER);
 
                 PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
                 if (createdTransaction==null){

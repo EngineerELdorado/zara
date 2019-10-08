@@ -43,7 +43,7 @@ public class MobileMoneyController {
     ITransactionService transactionService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
-    Logger LOGGER = LogManager.getLogger(CreditCardTransactionController.class);
+    Logger LOGGER = LogManager.getLogger(BankingTransactionController.class);
     @Autowired
     StripeService stripeService;
     Charge charge;
