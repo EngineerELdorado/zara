@@ -17,6 +17,19 @@ public class TransactionRequestBody {
     private String uniqueIdentifier;
     private String forPaypalEmail;
 
-
-
+    @Override
+    public String toString() {
+        return "TransactionRequestBody{" +
+                "sender='" + sender + '\'' +
+                ", receiver='" + receiver + '\'' +
+                ", pin='" + pin + '\'' +
+                ", description='" + description + '\'' +
+                ", amount='" + amount + '\'' +
+                ", apiKey='" + apiKey + '\'' +
+                ", stripeToken='" + stripeToken + '\'' +
+                ", bulkCategoryId='" + bulkCategoryId + '\'' +
+                ", uniqueIdentifier='" + uniqueIdentifier + '\'' +
+                ", forPaypalEmail='" + forPaypalEmail + '\'' +
+                '}';
+    }
 }

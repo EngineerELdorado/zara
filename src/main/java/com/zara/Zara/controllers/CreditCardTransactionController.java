@@ -367,7 +367,7 @@ public class CreditCardTransactionController {
     @PostMapping("/customer/pesapayTopaypal")
     public ResponseEntity<?> pesapayTopaypalCustomer(@RequestBody TransactionRequestBody request) throws UnsupportedEncodingException, CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
         Customer customer = customerService.findByPhoneNumber(request.getSender());
-
+LOGGER.info(request.toString());
         if (customer==null){
             apiResponse.setResponseCode("01");
             apiResponse.setResponseMessage("Votre compte n'existe pas");
