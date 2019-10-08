@@ -409,6 +409,7 @@ LOGGER.info(request.toString());
                 transaction.setReceivedByCustomer(customer);
                 transaction.setSender(customer.getFullName());
                 transaction.setReceiver(request.getReceiver());
+                transaction.setCharges(new BigDecimal(0));
                 transaction.setTransactionType(TRANSACTION_PESAPAY_TO_PAYPAL_CUSTOMER);
 
                 PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
