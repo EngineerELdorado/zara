@@ -408,7 +408,7 @@ LOGGER.info(request.toString());
                 transaction.setCreatedByCustomer(customer);
                 transaction.setReceivedByCustomer(customer);
                 transaction.setSender(customer.getFullName());
-                transaction.setReceiver("PayPal");
+                transaction.setReceiver(request.getReceiver());
                 transaction.setTransactionType(TRANSACTION_PESAPAY_TO_PAYPAL_CUSTOMER);
 
                 PesapayTransaction createdTransaction = transactionService.addTransaction(transaction);
