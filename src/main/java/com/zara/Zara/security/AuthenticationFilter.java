@@ -3,7 +3,7 @@
 package com.zara.Zara.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zara.Zara.entities.AppUser;
+import com.zara.Zara.entities.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +33,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     AuthenticationManager authenticationManager;
     Logger LOGGER = LogManager.getLogger(AuthenticationFilter.class);
-    AppUser appUser;
+    User appUser;
 
     public AuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -44,7 +44,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
        try
        {
          appUser  = new ObjectMapper()
-                   .readValue(request.getInputStream(), AppUser.class);
+                   .readValue(request.getInputStream(), User.class);
            if (appUser==null){
                response.addHeader(RESPONSE_CODE,RESPONSE_FAILURE);
                response.addHeader(RESPONSE_MESSAGE,"Wrong Username Or Password");

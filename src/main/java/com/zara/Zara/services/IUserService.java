@@ -1,16 +1,15 @@
 package com.zara.Zara.services;
 
-import com.zara.Zara.entities.AppUser;
+import com.zara.Zara.entities.User;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public interface IUserService {
 
-    AppUser addUser(AppUser appUser);
-    AppUser findByAccountNumber(String accounNumber);
-    AppUser findByPhoneNumber(String phoneNumber);
-    AppUser findByAgentNumber(String agentNumber);
+    User addUser(User user);
+    User findByAccountNumber(String accounNumber);
+    User findByPhoneNumber(String phoneNumber);
+    User findByAgentNumber(String agentNumber);
     Double getUserBalance(String accountNumber);
-    Collection<AppUser> getAll();
+    Collection<User> getAll();
 }

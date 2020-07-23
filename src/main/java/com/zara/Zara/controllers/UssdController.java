@@ -268,7 +268,7 @@ public class UssdController {
         transaction.setStatus("00");
 
 
-        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+        //transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
         transaction.setCreatedByCustomer(customer);
         transaction.setReceivedByBusiness(business);
         transaction.setSender(customer.getFullName());
@@ -335,7 +335,7 @@ public class UssdController {
         transaction.setReceivedByCustomer(receiverCustomer);
         transaction.setSender(senderCustomer.getFullName());
         transaction.setReceiver(receiverCustomer.getFullName());
-        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+        //transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
 
         transaction.setTransactionType(TRANSACTION_CUSTOMER_RANSFER);
 
@@ -379,7 +379,7 @@ public class UssdController {
         transaction.setCreationDate(System.currentTimeMillis());
         transaction.setStatus("00");
         transaction.setDescription("Withdrawal successful");
-        transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
+        //transaction.setTransactionNumber(BusinessNumbersGenerator.generateTransationNumber(transactionService));
         transaction.setCreatedByCustomer(customer);
         transaction.setReceivedByAgent(agent);
         transaction.setSender(customer.getFullName());

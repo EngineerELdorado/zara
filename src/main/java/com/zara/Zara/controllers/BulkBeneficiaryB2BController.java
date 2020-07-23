@@ -36,7 +36,7 @@ public class BulkBeneficiaryB2BController {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
     ApiResponse apiResponse = new ApiResponse();
-    Logger LOG = LogManager.getLogger(CustomerController.class);
+    Logger LOG = LogManager.getLogger(BulkBeneficiaryB2BController.class);
     @PostMapping("/post")
     public ResponseEntity<?>post (@RequestBody BulkBeneficiary bulkBeneficiary){
 

@@ -1,7 +1,7 @@
 /**
 package com.zara.Zara.security;
 
-import com.zara.Zara.entities.AppUser;
+import com.zara.Zara.entities.User;
 import com.zara.Zara.entities.Role;
 import com.zara.Zara.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
             LOGGER.info("BEFORE LOADING USER "+username);
-            AppUser applicationUser = userRepository.findByAccountNumber(username);
+            User applicationUser = userRepository.findByAccountNumber(username);
             LOGGER.info("LOADED USER BY USERNAME---> "+applicationUser.getFullName());
             Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
             for (Role role : applicationUser.getRoles()){

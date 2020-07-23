@@ -18,7 +18,4 @@ public class Role {
     private Long id;
     @Column(unique = true)
     private String name;
-    @JsonIgnore
-    @ManyToMany(mappedBy = "roles")
-    private Collection<AppUser>users;
 }

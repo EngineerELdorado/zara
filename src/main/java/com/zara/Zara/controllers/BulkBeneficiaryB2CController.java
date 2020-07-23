@@ -37,13 +37,11 @@ public class BulkBeneficiaryB2CController {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
     ApiResponse apiResponse = new ApiResponse();
-    Logger LOG = LogManager.getLogger(CustomerController.class);
     @PostMapping("/post")
     public ResponseEntity<?>post (@RequestBody BulkBeneficiary bulkBeneficiary){
 
-        LOG.info("CATEGORY_ID=> "+bulkBeneficiary.getCategoryId());
         BulkCategory category = categoryService.findById(Long.valueOf(bulkBeneficiary.getCategoryId()));
-        LOG.info("CATEGORY_ID=> "+category.toString());
+
         Business business = category.getBusiness();
         if (business==null){
             apiResponse.setResponseCode("01");

@@ -1,12 +1,11 @@
 package com.zara.Zara.services;
 
-import com.zara.Zara.entities.AppUser;
+import com.zara.Zara.entities.User;
 import com.zara.Zara.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @Service
 public class UserServiceImp implements IUserService {
@@ -14,33 +13,33 @@ public class UserServiceImp implements IUserService {
     @Autowired
     UserRepository userRepository;
     @Override
-    public AppUser addUser(AppUser appUser) {
-        return userRepository.save(appUser);
+    public User addUser(User user) {
+        return userRepository.save(user);
     }
 
     @Override
-    public AppUser findByAccountNumber(String accountNumber) {
-        return userRepository.findByAccountNumber(accountNumber);
+    public User findByAccountNumber(String accountNumber) {
+        return null;
     }
 
     @Override
-    public AppUser findByPhoneNumber(String phoneNumber) {
-        return userRepository.findByPhoneNumber(phoneNumber);
+    public User findByPhoneNumber(String phoneNumber) {
+        return null;
     }
 
     @Override
-    public AppUser findByAgentNumber(String agentNumber) {
-        return userRepository.findByAgentNumber(agentNumber);
+    public User findByAgentNumber(String agentNumber) {
+        return null;
     }
 
     @Override
     public Double getUserBalance(String accountNumber) {
-        return userRepository.getUserBalance(accountNumber);
+        return null;
     }
 
     @Override
-    public Collection<AppUser> getAll() {
-        return userRepository.getAll();
+    public Collection<User> getAll() {
+        return null;
     }
 
 

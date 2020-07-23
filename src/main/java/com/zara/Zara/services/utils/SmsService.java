@@ -1,6 +1,5 @@
 package com.zara.Zara.services.utils;
 
-import com.zara.Zara.controllers.CustomerController;
 import com.zara.Zara.models.Sms;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
