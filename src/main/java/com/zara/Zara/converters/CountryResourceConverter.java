@@ -13,6 +13,7 @@ public class CountryResourceConverter {
                 .code(country.getCode())
                 .name(country.getName())
                 .flag(country.getFlagUrl())
+                .iso3(country.getIsoName3())
                 .build();
     }
 }
