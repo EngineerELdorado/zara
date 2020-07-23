@@ -12,4 +12,5 @@ public class CurrencyResponse {
     private String code;
     private String name;
     private BigDecimal rate;
+    private String symbol;
 }

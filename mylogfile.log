@@ -5480,3 +5480,10 @@ Caused by: java.lang.IllegalArgumentException: No parameter available for part n
 2020-07-24 02:54:02.049  INFO 5319 --- [http-nio-5050-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
 2020-07-24 02:54:02.049  INFO 5319 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
 2020-07-24 02:54:02.063  INFO 5319 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 14 ms
+2020-07-24 02:57:17.234  INFO 5319 --- [Thread-42] ConfigServletWebServerApplicationContext : Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@29626d54: startup date [Fri Jul 24 02:53:03 EAT 2020]; root of context hierarchy
+2020-07-24 02:57:17.236  INFO 5319 --- [Thread-42] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2020-07-24 02:57:17.237  INFO 5319 --- [Thread-42] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2020-07-24 02:57:17.238  INFO 5319 --- [Thread-42] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2020-07-24 02:57:17.242  INFO 5319 --- [Thread-42] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-24 02:57:17.243  INFO 5319 --- [Thread-42] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-24 02:57:17.255  INFO 5319 --- [Thread-42] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
