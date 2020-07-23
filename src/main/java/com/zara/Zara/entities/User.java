@@ -28,11 +28,13 @@ public class User {
     private boolean onboarded;
     @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable = false, unique = true)
-    private String phone;
+    @Column(unique = true)
+    private String phoneNumber;
     private String pin;
     private Date dob;
     private String password;
+    @Transient
+    private String token;
 
     @CreationTimestamp
     @Setter(value = AccessLevel.NONE)

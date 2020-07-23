@@ -21,8 +21,10 @@ import java.util.Date;
 public class Currency {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
+    private String name;
     @Column(unique = true)
     private String code;
 
@@ -36,4 +38,9 @@ public class Currency {
     private Date updatedAt;
 
     private Date deletedAt;
+
+    public Currency(String name, String code) {
+        this.name = name;
+        this.code = code;
+    }
 }

@@ -6,8 +6,9 @@ import lombok.Data;
 @Data
 public class OnboardingRequest {
 
+    private String phoneNumber;
     private AccountType accountType;
-    //private String countryCode;
+    private String countryCode;
     private String currencyCode;
     private String pin;
 }

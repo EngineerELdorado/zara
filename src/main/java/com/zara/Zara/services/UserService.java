@@ -1,9 +1,11 @@
 package com.zara.Zara.services;
 
+import com.zara.Zara.configs.security.JwtUtil;
 import com.zara.Zara.dtos.requests.LoginRequest;
 import com.zara.Zara.dtos.requests.OnboardingRequest;
 import com.zara.Zara.dtos.requests.UserRegistrationRequest;
 import com.zara.Zara.entities.Account;
+import com.zara.Zara.entities.Country;
 import com.zara.Zara.entities.Currency;
 import com.zara.Zara.entities.User;
 import com.zara.Zara.exceptions.exceptions.Zaka400Exception;
@@ -16,6 +18,8 @@ import com.zara.Zara.services.mail.EmailService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +37,9 @@ public class UserService {
     private final CountryRepository countryRepository;
     private final CurrencyRepository currencyRepsotory;
     private final AccountRepository accountRepository;
+    private final JwtUtil jwtUtil;
+    @Qualifier("userDetailsServiceImp")
+    private final UserDetailsService userDetailsService;
 
     @Transactional
     public void createUser(UserRegistrationRequest userRegistrationRequest) {
@@ -66,29 +73,47 @@ public class UserService {
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new Zaka400Exception("Wrong username or password");
         }
+        String token = jwtUtil.generateToken(this.userDetailsService.loadUserByUsername(user.getEmail()));
+        user.setToken(token);
         return user;
     }
 
     @Transactional
-    public User onboard(Long userId, OnboardingRequest request) {
+    public Account onboard(Long userId, OnboardingRequest request) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new Zaka400Exception("User not found"));
+        if (userRepository.findByPhoneNumber(request.getPhoneNumber()).isPresent()) {
+            throw new Zaka400Exception("Phone number already taken");
+        }
         Currency currency = currencyRepsotory.findByCode(request.getCurrencyCode())
+                .orElseThrow(() -> new Zaka400Exception("Currency not found"));
+        Country country = countryRepository.findByCode(request.getCountryCode())
                 .orElseThrow(() -> new Zaka400Exception("Currency not found"));
         Account account = new Account();
         account.setAccountNumber(BusinessNumbersGenerator.generateAccountNumber(accountRepository));
         account.setCurrency(currency);
         account.setBalance(BigDecimal.ZERO);
         account.setUser(user);
+        account.setPin(passwordEncoder.encode(request.getPin()));
+        account.setCountry(country);
+        account.setType(request.getAccountType());
+
         try {
             accountRepository.save(account);
+            user.setPhoneNumber(request.getPhoneNumber());
             user.setOnboarded(true);
             userRepository.save(user);
+            String emailMsg = "Congratulations...Your account has been fully setup. \n" +
+                    "Account holder: " + user.getFirstName() + " " + user.getLastName() + "\n" +
+                    "Account number: " + account.getAccountNumber() + "\n" +
+                    "Balance " + account.getBalance() + "\n" +
+                    "Currency " + account.getCurrency().getCode();
+            emailService.sendEmail("toraposltd@gmail.com", user.getEmail(), "Account Setup", emailMsg);
         } catch (Exception e) {
             log.error("Failed to create account. Possible cause: " + e.getCause());
             throw new Zaka500Exception("Account Creation Failed");
         }
-        return user;
+        return account;
     }
 }

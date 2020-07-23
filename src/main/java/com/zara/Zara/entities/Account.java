@@ -26,21 +26,27 @@ import static javax.persistence.FetchType.LAZY;
 @Where(clause = "deleted_at IS NULL")
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    @Column(nullable = false, unique = true)
     private String accountNumber;
+    @Column(nullable = false)
     private String pin;
 
     @NotNull(message = "Missing required field userId")
     @OneToOne(targetEntity = User.class, fetch = LAZY, optional = false, cascade = ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true, updatable = false, nullable = false)
     private User user;
+    @Column(nullable = false)
     private BigDecimal balance;
     @ManyToOne
     private Currency currency;
 
+    @ManyToOne
+    private Country country;
+
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AccountType type;
 
     @CreationTimestamp

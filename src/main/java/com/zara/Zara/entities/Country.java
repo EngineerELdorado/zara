@@ -21,7 +21,7 @@ import java.util.Date;
 public class Country {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     @Column(unique = true)
@@ -37,4 +37,9 @@ public class Country {
     private Date updatedAt;
 
     private Date deletedAt;
+
+    public Country(String name, String code) {
+        this.name = name;
+        this.code = code;
+    }
 }

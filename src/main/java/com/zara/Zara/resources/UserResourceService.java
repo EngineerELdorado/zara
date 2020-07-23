@@ -4,7 +4,8 @@ import com.zara.Zara.converters.UserResourceConverter;
 import com.zara.Zara.dtos.requests.LoginRequest;
 import com.zara.Zara.dtos.requests.OnboardingRequest;
 import com.zara.Zara.dtos.requests.UserRegistrationRequest;
-import com.zara.Zara.dtos.responses.UserResponse;
+import com.zara.Zara.dtos.responses.OnboardingResponse;
+import com.zara.Zara.dtos.responses.UserLoginResponse;
 import com.zara.Zara.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -25,13 +26,13 @@ public class UserResourceService {
     }
 
     @Transactional
-    public UserResponse login(LoginRequest loginRequest) {
+    public UserLoginResponse login(LoginRequest loginRequest) {
 
-        return userResourceConverter.convert(userService.login(loginRequest));
+        return userResourceConverter.convertLoginResponse(userService.login(loginRequest));
     }
 
     @Transactional
-    public UserResponse onboard(Long userId, OnboardingRequest onboardingRequest) {
-        return userResourceConverter.convert(userService.onboard(userId, onboardingRequest));
+    public OnboardingResponse onboard(Long userId, OnboardingRequest onboardingRequest) {
+        return userResourceConverter.convertOnboardingResponse(userService.onboard(userId, onboardingRequest));
     }
 }

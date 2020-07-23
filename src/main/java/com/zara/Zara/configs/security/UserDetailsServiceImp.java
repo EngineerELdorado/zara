@@ -37,7 +37,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
                 @Override
                 public String getUsername() {
-                    return appUser.getPhone();
+                    return appUser.getEmail();
                 }
 
                 @Override
