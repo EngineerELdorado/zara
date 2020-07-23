@@ -14,6 +14,6 @@ public class CountryService {
     private final CountryRepository countryRepository;
 
     public List<Country> findAll(){
-        return countryRepository.findAll();
+        return countryRepository.findAllOrderByName();
     }
 }

@@ -14,6 +14,6 @@ public class CurrencyService {
     private final CurrencyRepository currencyRepository;
 
     public List<Currency> findAll() {
-        return currencyRepository.findAll();
+        return currencyRepository.findAllOrderByName();
     }
 }
