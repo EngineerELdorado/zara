@@ -64,5 +64,4 @@ public class Account {
     protected void onDelete() {
         deletedAt = new Date();
     }
-
 }
