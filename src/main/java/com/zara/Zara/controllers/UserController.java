@@ -34,7 +34,7 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/{userId}/onboard")
+    @PostMapping(value = "/{userId}/onboard", headers = "Authorization")
     public ResponseEntity<UserResponse> onboardUser(@PathVariable Long userId, @Valid OnboardingRequest onboardingRequest) {
 
         UserResponse userResponse = userResourceService.onboard(userId, onboardingRequest);

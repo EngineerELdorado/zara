@@ -10,7 +10,7 @@ import com.zara.Zara.exceptions.exceptions.Zaka400Exception;
 import com.zara.Zara.exceptions.exceptions.Zaka500Exception;
 import com.zara.Zara.repositories.AccountRepository;
 import com.zara.Zara.repositories.CountryRepository;
-import com.zara.Zara.repositories.CurrencyRepsotory;
+import com.zara.Zara.repositories.CurrencyRepository;
 import com.zara.Zara.repositories.UserRepository;
 import com.zara.Zara.services.mail.EmailService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
@@ -31,7 +31,7 @@ public class UserService {
     private final EmailService emailService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final CountryRepository countryRepository;
-    private final CurrencyRepsotory currencyRepsotory;
+    private final CurrencyRepository currencyRepsotory;
     private final AccountRepository accountRepository;
 
     @Transactional
