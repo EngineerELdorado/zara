@@ -27,7 +27,7 @@ public class ZaraApplication  {
 	@Scheduled(fixedRate = 600000)
 	public void keepServerAlive(){
 
-		final String uri = "https://pesapay-alpha.herokuapp.com/users";
+		final String uri = "https://pesapay-alpha.herokuapp.com/welcome";
 
 		RestTemplate restTemplate = new RestTemplate();
 		String result = restTemplate.getForObject(uri, String.class);
