@@ -21,21 +21,21 @@ public class UserController {
     private final UserResourceService userResourceService;
 
     @PostMapping("")
-    public ResponseEntity<?> createUser(@Valid UserRegistrationRequest userRegistrationRequest) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserRegistrationRequest userRegistrationRequest) {
 
         userResourceService.createUser(userRegistrationRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponse> loginUser(@Valid LoginRequest loginRequest) {
+    public ResponseEntity<UserResponse> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         UserResponse userResponse = userResourceService.login(loginRequest);
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
     @PostMapping(value = "/{userId}/onboard", headers = "Authorization")
-    public ResponseEntity<UserResponse> onboardUser(@PathVariable Long userId, @Valid OnboardingRequest onboardingRequest) {
+    public ResponseEntity<UserResponse> onboardUser(@PathVariable Long userId, @Valid @RequestBody OnboardingRequest onboardingRequest) {
 
         UserResponse userResponse = userResourceService.onboard(userId, onboardingRequest);
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
