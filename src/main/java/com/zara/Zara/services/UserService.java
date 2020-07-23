@@ -57,7 +57,7 @@ public class UserService {
         try {
             userRepository.save(user);
             String welcomeMsg = user.getFirstName() + " Welcome to PesaPay";
-            emailService.sendEmail("torapos@gmail.com", user.getEmail(), "User registration", welcomeMsg);
+            //emailService.sendEmail("torapos@gmail.com", user.getEmail(), "User registration", welcomeMsg);
         } catch (Exception e) {
             log.info("User creation failed. Possible cause: " + e.getCause());
             throw new Zaka500Exception("Account creation failed. Please try again or contact support");
@@ -109,7 +109,7 @@ public class UserService {
                     "Account number: " + account.getAccountNumber() + "\n" +
                     "Balance: " + account.getBalance() + "\n" +
                     "Currency: " + account.getCurrency().getCode();
-            emailService.sendEmail("toraposltd@gmail.com", user.getEmail(), "Account Setup", emailMsg);
+            //emailService.sendEmail("toraposltd@gmail.com", user.getEmail(), "Account Setup", emailMsg);
         } catch (Exception e) {
             log.error("Failed to create account. Possible cause: " + e.getCause());
             throw new Zaka500Exception("Account Creation Failed");
