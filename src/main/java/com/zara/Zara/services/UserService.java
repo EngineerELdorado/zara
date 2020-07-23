@@ -87,9 +87,9 @@ public class UserService {
             throw new Zaka400Exception("Phone number already taken");
         }
         Currency currency = currencyRepsotory.findByCode(request.getCurrencyCode())
-                .orElseThrow(() -> new Zaka400Exception("Currency not found"));
+                .orElseThrow(() -> new Zaka400Exception("Currency not supported"));
         Country country = countryRepository.findByCode(request.getCountryCode())
-                .orElseThrow(() -> new Zaka400Exception("Currency not found"));
+                .orElseThrow(() -> new Zaka400Exception("Country not supported"));
         Account account = new Account();
         account.setAccountNumber(BusinessNumbersGenerator.generateAccountNumber(accountRepository));
         account.setCurrency(currency);
