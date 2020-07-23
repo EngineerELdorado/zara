@@ -4163,3 +4163,801 @@ Caused by: org.postgresql.util.PSQLException: ERROR: relation "calling_codes" do
 2020-07-24 00:21:28.309  INFO 3460 --- [main] com.zara.Zara.PesaPay                    : Started PesaPay in 19.806 seconds (JVM running for 25.264)
 2020-07-24 00:21:31.150  INFO 3460 --- [pool-1-thread-1] com.zara.Zara.services.CurrencyService   : Called the exchange rates API
 2020-07-24 00:21:31.173  INFO 3460 --- [pool-1-thread-1] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+2020-07-24 00:31:32.612  INFO 3460 --- [pool-1-thread-1] com.zara.Zara.services.CurrencyService   : Called the exchange rates API
+2020-07-24 00:31:32.625  WARN 3460 --- [pool-1-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 42703
+2020-07-24 00:31:32.626 ERROR 3460 --- [pool-1-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: column currency0_.created_at does not exist
+  Position: 62
+2020-07-24 00:31:32.638 ERROR 3460 --- [pool-1-thread-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task.
+
+org.springframework.dao.InvalidDataAccessResourceUsageException: could not extract ResultSet; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:242) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:225) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:527) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:242) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:153) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:135) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.repository.core.support.SurroundingTransactionDetectorMethodInterceptor.invoke(SurroundingTransactionDetectorMethodInterceptor.java:61) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at com.sun.proxy.$Proxy118.findAll(Unknown Source) ~[na:na]
+	at com.zara.Zara.services.CurrencyService.updateCurrenciesExchangeRates(CurrencyService.java:50) ~[classes/:na]
+	at com.zara.Zara.services.CurrencyService$$FastClassBySpringCGLIB$$d0ab1621.invoke(<generated>) ~[classes/:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204) ~[spring-core-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:746) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at com.zara.Zara.services.CurrencyService$$EnhancerBySpringCGLIB$$9a243826.updateCurrenciesExchangeRates(<generated>) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_251]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_251]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_251]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_251]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:65) ~[spring-context-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [na:1.8.0_251]
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308) [na:1.8.0_251]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180) [na:1.8.0_251]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294) [na:1.8.0_251]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_251]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_251]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_251]
+Caused by: org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:106) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:111) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:97) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:69) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.getResultSet(Loader.java:2168) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:1931) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:1893) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doQuery(Loader.java:938) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:341) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doList(Loader.java:2692) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doList(Loader.java:2675) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2507) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.list(Loader.java:2502) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:502) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:392) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.query.spi.HQLQueryPlan.performList(HQLQueryPlan.java:216) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1490) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.internal.AbstractProducedQuery.doList(AbstractProducedQuery.java:1445) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1414) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.Query.getResultList(Query.java:146) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.criteria.internal.compile.CriteriaQueryTypeQueryAdapter.getResultList(CriteriaQueryTypeQueryAdapter.java:72) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.findAll(SimpleJpaRepository.java:307) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.findAll(SimpleJpaRepository.java:74) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_251]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_251]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_251]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_251]
+	at org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:377) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:200) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:629) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.doInvoke(RepositoryFactorySupport.java:593) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.invoke(RepositoryFactorySupport.java:578) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:59) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:139) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	... 32 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: column currency0_.created_at does not exist
+  Position: 62
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2433) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2178) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:306) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:155) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:118) ~[postgresql-42.2.2.jar:42.2.2]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-2.7.9.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-2.7.9.jar:na]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:60) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	... 68 common frames omitted
+
+2020-07-24 00:41:33.827  INFO 3460 --- [pool-1-thread-1] com.zara.Zara.services.CurrencyService   : Called the exchange rates API
+2020-07-24 00:41:33.830  WARN 3460 --- [pool-1-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 42703
+2020-07-24 00:41:33.830 ERROR 3460 --- [pool-1-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: column currency0_.created_at does not exist
+  Position: 62
+2020-07-24 00:41:33.832 ERROR 3460 --- [pool-1-thread-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task.
+
+org.springframework.dao.InvalidDataAccessResourceUsageException: could not extract ResultSet; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:242) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:225) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:527) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:242) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:153) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:135) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.repository.core.support.SurroundingTransactionDetectorMethodInterceptor.invoke(SurroundingTransactionDetectorMethodInterceptor.java:61) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at com.sun.proxy.$Proxy118.findAll(Unknown Source) ~[na:na]
+	at com.zara.Zara.services.CurrencyService.updateCurrenciesExchangeRates(CurrencyService.java:50) ~[classes/:na]
+	at com.zara.Zara.services.CurrencyService$$FastClassBySpringCGLIB$$d0ab1621.invoke(<generated>) ~[classes/:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204) ~[spring-core-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:746) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at com.zara.Zara.services.CurrencyService$$EnhancerBySpringCGLIB$$9a243826.updateCurrenciesExchangeRates(<generated>) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_251]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_251]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_251]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_251]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:65) ~[spring-context-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [na:1.8.0_251]
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308) [na:1.8.0_251]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180) [na:1.8.0_251]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294) [na:1.8.0_251]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_251]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_251]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_251]
+Caused by: org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:106) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:111) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:97) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:69) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.getResultSet(Loader.java:2168) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:1931) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:1893) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doQuery(Loader.java:938) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:341) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doList(Loader.java:2692) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doList(Loader.java:2675) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2507) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.list(Loader.java:2502) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:502) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:392) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.query.spi.HQLQueryPlan.performList(HQLQueryPlan.java:216) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1490) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.internal.AbstractProducedQuery.doList(AbstractProducedQuery.java:1445) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1414) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.Query.getResultList(Query.java:146) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.criteria.internal.compile.CriteriaQueryTypeQueryAdapter.getResultList(CriteriaQueryTypeQueryAdapter.java:72) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.findAll(SimpleJpaRepository.java:307) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.findAll(SimpleJpaRepository.java:74) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_251]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_251]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_251]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_251]
+	at org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:377) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:200) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:629) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.doInvoke(RepositoryFactorySupport.java:593) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.invoke(RepositoryFactorySupport.java:578) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:59) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:139) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	... 32 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: column currency0_.created_at does not exist
+  Position: 62
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2433) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2178) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:306) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:155) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:118) ~[postgresql-42.2.2.jar:42.2.2]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-2.7.9.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-2.7.9.jar:na]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:60) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	... 68 common frames omitted
+
+2020-07-24 00:51:35.266  INFO 3460 --- [pool-1-thread-1] com.zara.Zara.services.CurrencyService   : Called the exchange rates API
+2020-07-24 00:51:35.269  WARN 3460 --- [pool-1-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 42703
+2020-07-24 00:51:35.269 ERROR 3460 --- [pool-1-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: column currency0_.created_at does not exist
+  Position: 62
+2020-07-24 00:51:35.271 ERROR 3460 --- [pool-1-thread-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task.
+
+org.springframework.dao.InvalidDataAccessResourceUsageException: could not extract ResultSet; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:242) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:225) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:527) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:242) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:153) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:135) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.repository.core.support.SurroundingTransactionDetectorMethodInterceptor.invoke(SurroundingTransactionDetectorMethodInterceptor.java:61) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at com.sun.proxy.$Proxy118.findAll(Unknown Source) ~[na:na]
+	at com.zara.Zara.services.CurrencyService.updateCurrenciesExchangeRates(CurrencyService.java:50) ~[classes/:na]
+	at com.zara.Zara.services.CurrencyService$$FastClassBySpringCGLIB$$d0ab1621.invoke(<generated>) ~[classes/:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204) ~[spring-core-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:746) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at com.zara.Zara.services.CurrencyService$$EnhancerBySpringCGLIB$$9a243826.updateCurrenciesExchangeRates(<generated>) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_251]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_251]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_251]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_251]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:65) ~[spring-context-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [na:1.8.0_251]
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308) [na:1.8.0_251]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180) [na:1.8.0_251]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294) [na:1.8.0_251]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_251]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_251]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_251]
+Caused by: org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:106) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:111) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:97) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:69) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.getResultSet(Loader.java:2168) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:1931) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:1893) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doQuery(Loader.java:938) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:341) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doList(Loader.java:2692) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doList(Loader.java:2675) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2507) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.list(Loader.java:2502) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:502) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:392) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.query.spi.HQLQueryPlan.performList(HQLQueryPlan.java:216) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1490) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.internal.AbstractProducedQuery.doList(AbstractProducedQuery.java:1445) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1414) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.Query.getResultList(Query.java:146) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.criteria.internal.compile.CriteriaQueryTypeQueryAdapter.getResultList(CriteriaQueryTypeQueryAdapter.java:72) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.findAll(SimpleJpaRepository.java:307) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.findAll(SimpleJpaRepository.java:74) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_251]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_251]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_251]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_251]
+	at org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:377) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:200) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:629) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.doInvoke(RepositoryFactorySupport.java:593) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.invoke(RepositoryFactorySupport.java:578) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:59) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:139) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	... 32 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: column currency0_.created_at does not exist
+  Position: 62
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2433) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2178) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:306) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:155) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:118) ~[postgresql-42.2.2.jar:42.2.2]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-2.7.9.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-2.7.9.jar:na]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:60) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	... 68 common frames omitted
+
+2020-07-24 01:01:36.387  INFO 3460 --- [pool-1-thread-1] com.zara.Zara.services.CurrencyService   : Called the exchange rates API
+2020-07-24 01:01:36.390  WARN 3460 --- [pool-1-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 42703
+2020-07-24 01:01:36.390 ERROR 3460 --- [pool-1-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: column currency0_.created_at does not exist
+  Position: 62
+2020-07-24 01:01:36.392 ERROR 3460 --- [pool-1-thread-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task.
+
+org.springframework.dao.InvalidDataAccessResourceUsageException: could not extract ResultSet; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:242) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:225) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:527) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:242) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:153) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:135) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.repository.core.support.SurroundingTransactionDetectorMethodInterceptor.invoke(SurroundingTransactionDetectorMethodInterceptor.java:61) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at com.sun.proxy.$Proxy118.findAll(Unknown Source) ~[na:na]
+	at com.zara.Zara.services.CurrencyService.updateCurrenciesExchangeRates(CurrencyService.java:50) ~[classes/:na]
+	at com.zara.Zara.services.CurrencyService$$FastClassBySpringCGLIB$$d0ab1621.invoke(<generated>) ~[classes/:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204) ~[spring-core-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:746) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at com.zara.Zara.services.CurrencyService$$EnhancerBySpringCGLIB$$9a243826.updateCurrenciesExchangeRates(<generated>) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_251]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_251]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_251]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_251]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:65) ~[spring-context-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [na:1.8.0_251]
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308) [na:1.8.0_251]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180) [na:1.8.0_251]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294) [na:1.8.0_251]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_251]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_251]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_251]
+Caused by: org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:106) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:111) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:97) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:69) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.getResultSet(Loader.java:2168) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:1931) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:1893) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doQuery(Loader.java:938) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:341) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doList(Loader.java:2692) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doList(Loader.java:2675) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2507) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.list(Loader.java:2502) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:502) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:392) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.query.spi.HQLQueryPlan.performList(HQLQueryPlan.java:216) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1490) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.internal.AbstractProducedQuery.doList(AbstractProducedQuery.java:1445) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1414) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.Query.getResultList(Query.java:146) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.criteria.internal.compile.CriteriaQueryTypeQueryAdapter.getResultList(CriteriaQueryTypeQueryAdapter.java:72) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.findAll(SimpleJpaRepository.java:307) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.findAll(SimpleJpaRepository.java:74) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_251]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_251]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_251]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_251]
+	at org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:377) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:200) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:629) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.doInvoke(RepositoryFactorySupport.java:593) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.invoke(RepositoryFactorySupport.java:578) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:59) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:139) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	... 32 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: column currency0_.created_at does not exist
+  Position: 62
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2433) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2178) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:306) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:155) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:118) ~[postgresql-42.2.2.jar:42.2.2]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-2.7.9.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-2.7.9.jar:na]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:60) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	... 68 common frames omitted
+
+2020-07-24 01:11:37.812  INFO 3460 --- [pool-1-thread-1] com.zara.Zara.services.CurrencyService   : Called the exchange rates API
+2020-07-24 01:11:37.816  WARN 3460 --- [pool-1-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 42703
+2020-07-24 01:11:37.816 ERROR 3460 --- [pool-1-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: column currency0_.created_at does not exist
+  Position: 62
+2020-07-24 01:11:37.819 ERROR 3460 --- [pool-1-thread-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task.
+
+org.springframework.dao.InvalidDataAccessResourceUsageException: could not extract ResultSet; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:242) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:225) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:527) ~[spring-orm-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:242) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:153) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:135) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.repository.core.support.SurroundingTransactionDetectorMethodInterceptor.invoke(SurroundingTransactionDetectorMethodInterceptor.java:61) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at com.sun.proxy.$Proxy118.findAll(Unknown Source) ~[na:na]
+	at com.zara.Zara.services.CurrencyService.updateCurrenciesExchangeRates(CurrencyService.java:50) ~[classes/:na]
+	at com.zara.Zara.services.CurrencyService$$FastClassBySpringCGLIB$$d0ab1621.invoke(<generated>) ~[classes/:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204) ~[spring-core-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:746) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at com.zara.Zara.services.CurrencyService$$EnhancerBySpringCGLIB$$9a243826.updateCurrenciesExchangeRates(<generated>) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_251]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_251]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_251]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_251]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:65) ~[spring-context-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [na:1.8.0_251]
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308) [na:1.8.0_251]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180) [na:1.8.0_251]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294) [na:1.8.0_251]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_251]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_251]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_251]
+Caused by: org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:106) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:111) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:97) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:69) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.getResultSet(Loader.java:2168) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:1931) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:1893) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doQuery(Loader.java:938) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:341) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doList(Loader.java:2692) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.doList(Loader.java:2675) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2507) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.Loader.list(Loader.java:2502) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:502) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:392) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.engine.query.spi.HQLQueryPlan.performList(HQLQueryPlan.java:216) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1490) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.internal.AbstractProducedQuery.doList(AbstractProducedQuery.java:1445) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1414) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.Query.getResultList(Query.java:146) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.hibernate.query.criteria.internal.compile.CriteriaQueryTypeQueryAdapter.getResultList(CriteriaQueryTypeQueryAdapter.java:72) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.findAll(SimpleJpaRepository.java:307) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.findAll(SimpleJpaRepository.java:74) ~[spring-data-jpa-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_251]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_251]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_251]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_251]
+	at org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:377) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:200) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:629) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.doInvoke(RepositoryFactorySupport.java:593) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.invoke(RepositoryFactorySupport.java:578) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:59) ~[spring-data-commons-2.0.8.RELEASE.jar:2.0.8.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185) ~[spring-aop-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:139) ~[spring-tx-5.0.7.RELEASE.jar:5.0.7.RELEASE]
+	... 32 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: column currency0_.created_at does not exist
+  Position: 62
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2433) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2178) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:306) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:155) ~[postgresql-42.2.2.jar:42.2.2]
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:118) ~[postgresql-42.2.2.jar:42.2.2]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-2.7.9.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-2.7.9.jar:na]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:60) ~[hibernate-core-5.2.17.Final.jar:5.2.17.Final]
+	... 68 common frames omitted
+
+2020-07-24 01:48:15.154  WARN 3460 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=35m19s45ms).
+2020-07-24 02:07:30.825  WARN 3460 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=19m15s672ms).
+2020-07-24 02:07:46.102  INFO 3460 --- [Thread-43] ConfigServletWebServerApplicationContext : Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@63355449: startup date [Fri Jul 24 00:21:23 EAT 2020]; root of context hierarchy
+2020-07-24 02:07:46.105  INFO 3460 --- [Thread-43] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2020-07-24 02:07:46.106  INFO 3460 --- [Thread-43] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2020-07-24 02:07:46.107  INFO 3460 --- [Thread-43] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2020-07-24 02:07:46.110  INFO 3460 --- [Thread-43] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-24 02:07:46.110  INFO 3460 --- [Thread-43] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed drop of schema as part of SessionFactory shut-down'
+2020-07-24 02:07:46.162  INFO 3460 --- [Thread-43] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-24 02:07:46.166  INFO 3460 --- [Thread-43] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-24 02:08:09.413  INFO 4358 --- [main] com.zara.Zara.PesaPay                    : Starting PesaPay on Deniss-MacBook-Pro.local with PID 4358 (/Users/deniseldorado/Documents/PROJECTS/Eldonets/PesaPay/target/classes started by deniseldorado in /Users/deniseldorado/Documents/PROJECTS/Eldonets/PesaPay)
+2020-07-24 02:08:09.415  INFO 4358 --- [main] com.zara.Zara.PesaPay                    : No active profile set, falling back to default profiles: default
+2020-07-24 02:08:09.439  INFO 4358 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@5ae50ce6: startup date [Fri Jul 24 02:08:09 EAT 2020]; root of context hierarchy
+2020-07-24 02:08:09.935  INFO 4358 --- [main] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'dataSource' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Dbcp2; factoryMethodName=dataSource; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Dbcp2.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari; factoryMethodName=dataSource; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]]
+2020-07-24 02:08:10.266  INFO 4358 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$a51acab3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-07-24 02:08:10.465  INFO 4358 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 5050 (http)
+2020-07-24 02:08:10.484  INFO 4358 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-24 02:08:10.485  INFO 4358 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.31
+2020-07-24 02:08:10.488  INFO 4358 --- [localhost-startStop-1] o.a.catalina.core.AprLifecycleListener   : The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [/Users/deniseldorado/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.]
+2020-07-24 02:08:10.571  INFO 4358 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-24 02:08:10.571  INFO 4358 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1132 ms
+2020-07-24 02:08:10.773  INFO 4358 --- [localhost-startStop-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-24 02:08:10.825  INFO 4358 --- [localhost-startStop-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-24 02:08:10.874  INFO 4358 --- [localhost-startStop-1] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2020-07-24 02:08:10.947  INFO 4358 --- [localhost-startStop-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-07-24 02:08:11.005  INFO 4358 --- [localhost-startStop-1] org.hibernate.Version                    : HHH000412: Hibernate Core {5.2.17.Final}
+2020-07-24 02:08:11.007  INFO 4358 --- [localhost-startStop-1] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2020-07-24 02:08:11.032  INFO 4358 --- [localhost-startStop-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2020-07-24 02:08:11.110  INFO 4358 --- [localhost-startStop-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2020-07-24 02:08:11.197  INFO 4358 --- [localhost-startStop-1] o.h.e.j.e.i.LobCreatorBuilderImpl        : HHH000421: Disabling contextual LOB creation as hibernate.jdbc.lob.non_contextual_creation is true
+2020-07-24 02:08:11.198  INFO 4358 --- [localhost-startStop-1] org.hibernate.type.BasicTypeRegistry     : HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@68163f3a
+2020-07-24 02:08:11.585  INFO 4358 --- [localhost-startStop-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-24 02:08:11.883  INFO 4358 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2020-07-24 02:08:11.883  INFO 4358 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2020-07-24 02:08:11.883  INFO 4358 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2020-07-24 02:08:11.883  INFO 4358 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2020-07-24 02:08:11.883  INFO 4358 --- [localhost-startStop-1] .s.DelegatingFilterProxyRegistrationBean : Mapping filter: 'springSecurityFilterChain' to: [/*]
+2020-07-24 02:08:11.884  INFO 4358 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'authorizationFilter' to: [/*]
+2020-07-24 02:08:11.884  INFO 4358 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Servlet dispatcherServlet mapped to [/]
+2020-07-24 02:08:12.323  WARN 4358 --- [main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-07-24 02:08:12.365  INFO 4358 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/users],methods=[POST]}" onto public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.UserController.createUser(com.zara.Zara.dtos.requests.UserRegistrationRequest)
+2020-07-24 02:08:12.366  INFO 4358 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/users/login],methods=[POST]}" onto public org.springframework.http.ResponseEntity<com.zara.Zara.dtos.responses.UserLoginResponse> com.zara.Zara.controllers.UserController.loginUser(com.zara.Zara.dtos.requests.LoginRequest)
+2020-07-24 02:08:12.367  INFO 4358 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/users/{userId}/onboard],methods=[POST],headers=[Authorization]}" onto public org.springframework.http.ResponseEntity<com.zara.Zara.dtos.responses.OnboardingResponse> com.zara.Zara.controllers.UserController.onboardUser(java.lang.Long,com.zara.Zara.dtos.requests.OnboardingRequest)
+2020-07-24 02:08:12.367  INFO 4358 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/ussd/process],methods=[POST]}" onto public java.lang.String com.zara.Zara.controllers.UssdController.ussdRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String) throws java.io.UnsupportedEncodingException,com.fasterxml.jackson.core.JsonProcessingException
+2020-07-24 02:08:12.368  INFO 4358 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/welcome],methods=[GET]}" onto public java.lang.String com.zara.Zara.controllers.WelcomeContoller.welcome()
+2020-07-24 02:08:12.371  INFO 4358 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/security]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2020-07-24 02:08:12.372  INFO 4358 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/ui]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2020-07-24 02:08:12.373  INFO 4358 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources]}" onto public org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2020-07-24 02:08:12.375  INFO 4358 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2020-07-24 02:08:12.375  INFO 4358 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2020-07-24 02:08:12.481  INFO 4358 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-07-24 02:08:12.629  INFO 4358 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: org.springframework.security.web.util.matcher.AnyRequestMatcher@1, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2daf06fc, org.springframework.security.web.context.SecurityContextPersistenceFilter@107bfcb2, org.springframework.security.web.header.HeaderWriterFilter@2f860823, org.springframework.security.web.authentication.logout.LogoutFilter@c017175, com.zara.Zara.configs.security.AuthorizationFilter@6930f1f7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2ab26378, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@462e1e64, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@28237492, org.springframework.security.web.session.SessionManagementFilter@15efda6c, org.springframework.security.web.access.ExceptionTranslationFilter@65eb76cd, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3679d92e]
+2020-07-24 02:08:12.683  INFO 4358 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-07-24 02:08:12.796  INFO 4358 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@5ae50ce6: startup date [Fri Jul 24 02:08:09 EAT 2020]; root of context hierarchy
+2020-07-24 02:08:12.831  INFO 4358 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-07-24 02:08:12.831  INFO 4358 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-07-24 02:08:12.844  INFO 4358 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : Detected @ExceptionHandler methods in controllerAdvisor
+2020-07-24 02:08:13.047  INFO 4358 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2020-07-24 02:08:13.049  INFO 4358 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2020-07-24 02:08:13.054  INFO 4358 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
+2020-07-24 02:08:13.058  INFO 4358 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2020-07-24 02:08:13.058  INFO 4358 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-24 02:08:13.069  INFO 4358 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-24 02:08:13.092  INFO 4358 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-24 02:08:13.226  INFO 4358 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2020-07-24 02:08:13.265  INFO 4358 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 5050 (http) with context path ''
+2020-07-24 02:08:13.269  INFO 4358 --- [main] com.zara.Zara.PesaPay                    : Started PesaPay in 19.127 seconds (JVM running for 24.556)
+2020-07-24 02:08:15.818  INFO 4358 --- [pool-1-thread-1] com.zara.Zara.services.CurrencyService   : Called the exchange rates API
+2020-07-24 02:08:15.830  INFO 4358 --- [pool-1-thread-1] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+2020-07-24 02:18:17.336  INFO 4358 --- [pool-1-thread-1] com.zara.Zara.services.CurrencyService   : Called the exchange rates API
+2020-07-24 02:19:16.422  INFO 4358 --- [Thread-42] ConfigServletWebServerApplicationContext : Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@5ae50ce6: startup date [Fri Jul 24 02:08:09 EAT 2020]; root of context hierarchy
+2020-07-24 02:19:16.425  INFO 4358 --- [Thread-42] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2020-07-24 02:19:16.425  INFO 4358 --- [Thread-42] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2020-07-24 02:19:16.426  INFO 4358 --- [Thread-42] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2020-07-24 02:19:16.428  INFO 4358 --- [Thread-42] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-24 02:19:16.429  INFO 4358 --- [Thread-42] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-24 02:19:16.436  INFO 4358 --- [Thread-42] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-24 02:19:39.935  INFO 4557 --- [main] com.zara.Zara.PesaPay                    : Starting PesaPay on Deniss-MacBook-Pro.local with PID 4557 (/Users/deniseldorado/Documents/PROJECTS/Eldonets/PesaPay/target/classes started by deniseldorado in /Users/deniseldorado/Documents/PROJECTS/Eldonets/PesaPay)
+2020-07-24 02:19:39.940  INFO 4557 --- [main] com.zara.Zara.PesaPay                    : No active profile set, falling back to default profiles: default
+2020-07-24 02:19:39.973  INFO 4557 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@29626d54: startup date [Fri Jul 24 02:19:39 EAT 2020]; root of context hierarchy
+2020-07-24 02:19:40.472  INFO 4557 --- [main] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'dataSource' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Dbcp2; factoryMethodName=dataSource; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Dbcp2.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari; factoryMethodName=dataSource; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]]
+2020-07-24 02:19:40.804  INFO 4557 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$ea2acd5f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-07-24 02:19:40.993  INFO 4557 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 5050 (http)
+2020-07-24 02:19:41.008  INFO 4557 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-24 02:19:41.009  INFO 4557 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.31
+2020-07-24 02:19:41.013  INFO 4557 --- [localhost-startStop-1] o.a.catalina.core.AprLifecycleListener   : The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [/Users/deniseldorado/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.]
+2020-07-24 02:19:41.104  INFO 4557 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-24 02:19:41.105  INFO 4557 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1132 ms
+2020-07-24 02:19:41.306  INFO 4557 --- [localhost-startStop-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-24 02:19:41.351  INFO 4557 --- [localhost-startStop-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-24 02:19:41.380  INFO 4557 --- [localhost-startStop-1] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2020-07-24 02:19:41.443  INFO 4557 --- [localhost-startStop-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-07-24 02:19:41.486  INFO 4557 --- [localhost-startStop-1] org.hibernate.Version                    : HHH000412: Hibernate Core {5.2.17.Final}
+2020-07-24 02:19:41.487  INFO 4557 --- [localhost-startStop-1] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2020-07-24 02:19:41.523  INFO 4557 --- [localhost-startStop-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2020-07-24 02:19:41.612  INFO 4557 --- [localhost-startStop-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2020-07-24 02:19:41.681  INFO 4557 --- [localhost-startStop-1] o.h.e.j.e.i.LobCreatorBuilderImpl        : HHH000421: Disabling contextual LOB creation as hibernate.jdbc.lob.non_contextual_creation is true
+2020-07-24 02:19:41.682  INFO 4557 --- [localhost-startStop-1] org.hibernate.type.BasicTypeRegistry     : HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@2d3b00f2
+2020-07-24 02:19:42.050  INFO 4557 --- [localhost-startStop-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-24 02:19:42.300  INFO 4557 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2020-07-24 02:19:42.300  INFO 4557 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2020-07-24 02:19:42.300  INFO 4557 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2020-07-24 02:19:42.300  INFO 4557 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2020-07-24 02:19:42.301  INFO 4557 --- [localhost-startStop-1] .s.DelegatingFilterProxyRegistrationBean : Mapping filter: 'springSecurityFilterChain' to: [/*]
+2020-07-24 02:19:42.301  INFO 4557 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'authorizationFilter' to: [/*]
+2020-07-24 02:19:42.301  INFO 4557 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Servlet dispatcherServlet mapped to [/]
+2020-07-24 02:19:42.712  WARN 4557 --- [main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-07-24 02:19:42.749  INFO 4557 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/countries],methods=[GET]}" onto public org.springframework.http.ResponseEntity<java.util.List<com.zara.Zara.dtos.responses.CountryResponse>> com.zara.Zara.controllers.CountryController.findAll()
+2020-07-24 02:19:42.753  INFO 4557 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/users],methods=[POST]}" onto public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.UserController.createUser(com.zara.Zara.dtos.requests.UserRegistrationRequest)
+2020-07-24 02:19:42.754  INFO 4557 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/users/login],methods=[POST]}" onto public org.springframework.http.ResponseEntity<com.zara.Zara.dtos.responses.UserLoginResponse> com.zara.Zara.controllers.UserController.loginUser(com.zara.Zara.dtos.requests.LoginRequest)
+2020-07-24 02:19:42.755  INFO 4557 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/users/{userId}/onboard],methods=[POST],headers=[Authorization]}" onto public org.springframework.http.ResponseEntity<com.zara.Zara.dtos.responses.OnboardingResponse> com.zara.Zara.controllers.UserController.onboardUser(java.lang.Long,com.zara.Zara.dtos.requests.OnboardingRequest)
+2020-07-24 02:19:42.756  INFO 4557 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/ussd/process],methods=[POST]}" onto public java.lang.String com.zara.Zara.controllers.UssdController.ussdRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String) throws java.io.UnsupportedEncodingException,com.fasterxml.jackson.core.JsonProcessingException
+2020-07-24 02:19:42.756  INFO 4557 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/welcome],methods=[GET]}" onto public java.lang.String com.zara.Zara.controllers.WelcomeContoller.welcome()
+2020-07-24 02:19:42.759  INFO 4557 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/security]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2020-07-24 02:19:42.760  INFO 4557 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/ui]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2020-07-24 02:19:42.760  INFO 4557 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources]}" onto public org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2020-07-24 02:19:42.762  INFO 4557 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2020-07-24 02:19:42.763  INFO 4557 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2020-07-24 02:19:42.851  INFO 4557 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-07-24 02:19:42.982  INFO 4557 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: org.springframework.security.web.util.matcher.AnyRequestMatcher@1, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6a12c7a8, org.springframework.security.web.context.SecurityContextPersistenceFilter@1e1b061, org.springframework.security.web.header.HeaderWriterFilter@37baddde, org.springframework.security.web.authentication.logout.LogoutFilter@135a8c6f, com.zara.Zara.configs.security.AuthorizationFilter@668a9515, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4a8e6e89, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@204abeff, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@161aa04a, org.springframework.security.web.session.SessionManagementFilter@3b705be7, org.springframework.security.web.access.ExceptionTranslationFilter@4f3faa70, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@78a515e4]
+2020-07-24 02:19:43.050  INFO 4557 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-07-24 02:19:43.164  INFO 4557 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@29626d54: startup date [Fri Jul 24 02:19:39 EAT 2020]; root of context hierarchy
+2020-07-24 02:19:43.199  INFO 4557 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-07-24 02:19:43.199  INFO 4557 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-07-24 02:19:43.210  INFO 4557 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : Detected @ExceptionHandler methods in controllerAdvisor
+2020-07-24 02:19:43.410  INFO 4557 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2020-07-24 02:19:43.412  INFO 4557 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2020-07-24 02:19:43.418  INFO 4557 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
+2020-07-24 02:19:43.422  INFO 4557 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2020-07-24 02:19:43.422  INFO 4557 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-24 02:19:43.434  INFO 4557 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-24 02:19:43.455  INFO 4557 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-24 02:19:43.581  INFO 4557 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2020-07-24 02:19:43.617  INFO 4557 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 5050 (http) with context path ''
+2020-07-24 02:19:43.620  INFO 4557 --- [main] com.zara.Zara.PesaPay                    : Started PesaPay in 18.958 seconds (JVM running for 24.393)
+2020-07-24 02:19:46.271  INFO 4557 --- [pool-1-thread-1] com.zara.Zara.services.CurrencyService   : Called the exchange rates API
+2020-07-24 02:19:46.286  INFO 4557 --- [pool-1-thread-1] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+2020-07-24 02:21:02.356  INFO 4557 --- [http-nio-5050-exec-1] o.apache.tomcat.util.http.parser.Cookie  : A cookie header was received [answered":true,"dnt":false,"gdpr":true,"stats":false,"ignore":2,"token":"","categories":[{"cid":10005,"id":"required","value":true},{"cid":10006,"id":"analytics","value":true},{"cid":10007,"id":"marketing","value":true}]}; auth0.ssodata=%22{%5C%22lastUsedConnection%5C%22:%5C%22AdminPortal-DEV%5C%22%2C%5C%22lastUsedSub%5C%22:%5C%22auth0|5e281dbd5b68ed0e987155a7%5C%22}%22] that contained an invalid cookie. That cookie will be ignored.Note: further occurrences of this error will be logged at DEBUG level.
+2020-07-24 02:21:02.362  INFO 4557 --- [http-nio-5050-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2020-07-24 02:21:02.362  INFO 4557 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2020-07-24 02:21:02.380  INFO 4557 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 18 ms
+2020-07-24 02:21:56.268  INFO 4557 --- [Thread-42] ConfigServletWebServerApplicationContext : Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@29626d54: startup date [Fri Jul 24 02:19:39 EAT 2020]; root of context hierarchy
+2020-07-24 02:21:56.270  INFO 4557 --- [Thread-42] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2020-07-24 02:21:56.271  INFO 4557 --- [Thread-42] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2020-07-24 02:21:56.271  INFO 4557 --- [Thread-42] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2020-07-24 02:21:56.274  INFO 4557 --- [Thread-42] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-24 02:21:56.278  INFO 4557 --- [Thread-42] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-24 02:21:56.289  INFO 4557 --- [Thread-42] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-24 02:22:20.579  INFO 4617 --- [main] com.zara.Zara.PesaPay                    : Starting PesaPay on Deniss-MacBook-Pro.local with PID 4617 (/Users/deniseldorado/Documents/PROJECTS/Eldonets/PesaPay/target/classes started by deniseldorado in /Users/deniseldorado/Documents/PROJECTS/Eldonets/PesaPay)
+2020-07-24 02:22:20.583  INFO 4617 --- [main] com.zara.Zara.PesaPay                    : No active profile set, falling back to default profiles: default
+2020-07-24 02:22:20.615  INFO 4617 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@1622f1b: startup date [Fri Jul 24 02:22:20 EAT 2020]; root of context hierarchy
+2020-07-24 02:22:21.158  INFO 4617 --- [main] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'dataSource' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Dbcp2; factoryMethodName=dataSource; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Dbcp2.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari; factoryMethodName=dataSource; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]]
+2020-07-24 02:22:21.523  INFO 4617 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$7e47ffa0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-07-24 02:22:21.728  INFO 4617 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 5050 (http)
+2020-07-24 02:22:21.744  INFO 4617 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-24 02:22:21.744  INFO 4617 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.31
+2020-07-24 02:22:21.747  INFO 4617 --- [localhost-startStop-1] o.a.catalina.core.AprLifecycleListener   : The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [/Users/deniseldorado/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.]
+2020-07-24 02:22:21.827  INFO 4617 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-24 02:22:21.827  INFO 4617 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1212 ms
+2020-07-24 02:22:22.045  INFO 4617 --- [localhost-startStop-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-24 02:22:22.089  INFO 4617 --- [localhost-startStop-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-24 02:22:22.122  INFO 4617 --- [localhost-startStop-1] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2020-07-24 02:22:22.193  INFO 4617 --- [localhost-startStop-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-07-24 02:22:22.244  INFO 4617 --- [localhost-startStop-1] org.hibernate.Version                    : HHH000412: Hibernate Core {5.2.17.Final}
+2020-07-24 02:22:22.245  INFO 4617 --- [localhost-startStop-1] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2020-07-24 02:22:22.270  INFO 4617 --- [localhost-startStop-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2020-07-24 02:22:22.347  INFO 4617 --- [localhost-startStop-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2020-07-24 02:22:22.415  INFO 4617 --- [localhost-startStop-1] o.h.e.j.e.i.LobCreatorBuilderImpl        : HHH000421: Disabling contextual LOB creation as hibernate.jdbc.lob.non_contextual_creation is true
+2020-07-24 02:22:22.415  INFO 4617 --- [localhost-startStop-1] org.hibernate.type.BasicTypeRegistry     : HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@1899e5d4
+2020-07-24 02:22:22.771  INFO 4617 --- [localhost-startStop-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-24 02:22:23.022  INFO 4617 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2020-07-24 02:22:23.023  INFO 4617 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2020-07-24 02:22:23.023  INFO 4617 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2020-07-24 02:22:23.023  INFO 4617 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2020-07-24 02:22:23.023  INFO 4617 --- [localhost-startStop-1] .s.DelegatingFilterProxyRegistrationBean : Mapping filter: 'springSecurityFilterChain' to: [/*]
+2020-07-24 02:22:23.023  INFO 4617 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'authorizationFilter' to: [/*]
+2020-07-24 02:22:23.023  INFO 4617 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Servlet dispatcherServlet mapped to [/]
+2020-07-24 02:22:23.442  WARN 4617 --- [main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-07-24 02:22:23.478  INFO 4617 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/countries],methods=[GET]}" onto public org.springframework.http.ResponseEntity<java.util.List<com.zara.Zara.dtos.responses.CountryResponse>> com.zara.Zara.controllers.CountryController.findAll()
+2020-07-24 02:22:23.482  INFO 4617 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/users],methods=[POST]}" onto public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.UserController.createUser(com.zara.Zara.dtos.requests.UserRegistrationRequest)
+2020-07-24 02:22:23.483  INFO 4617 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/users/login],methods=[POST]}" onto public org.springframework.http.ResponseEntity<com.zara.Zara.dtos.responses.UserLoginResponse> com.zara.Zara.controllers.UserController.loginUser(com.zara.Zara.dtos.requests.LoginRequest)
+2020-07-24 02:22:23.483  INFO 4617 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/users/{userId}/onboard],methods=[POST],headers=[Authorization]}" onto public org.springframework.http.ResponseEntity<com.zara.Zara.dtos.responses.OnboardingResponse> com.zara.Zara.controllers.UserController.onboardUser(java.lang.Long,com.zara.Zara.dtos.requests.OnboardingRequest)
+2020-07-24 02:22:23.484  INFO 4617 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/ussd/process],methods=[POST]}" onto public java.lang.String com.zara.Zara.controllers.UssdController.ussdRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String) throws java.io.UnsupportedEncodingException,com.fasterxml.jackson.core.JsonProcessingException
+2020-07-24 02:22:23.484  INFO 4617 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/welcome],methods=[GET]}" onto public java.lang.String com.zara.Zara.controllers.WelcomeContoller.welcome()
+2020-07-24 02:22:23.486  INFO 4617 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/security]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2020-07-24 02:22:23.487  INFO 4617 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/ui]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2020-07-24 02:22:23.488  INFO 4617 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources]}" onto public org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2020-07-24 02:22:23.490  INFO 4617 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2020-07-24 02:22:23.490  INFO 4617 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2020-07-24 02:22:23.581  INFO 4617 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-07-24 02:22:23.702  INFO 4617 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: org.springframework.security.web.util.matcher.AnyRequestMatcher@1, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1e236278, org.springframework.security.web.context.SecurityContextPersistenceFilter@43984213, org.springframework.security.web.header.HeaderWriterFilter@18371d89, org.springframework.security.web.authentication.logout.LogoutFilter@1b6924cb, com.zara.Zara.configs.security.AuthorizationFilter@35bebe25, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@38830ea, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@60c73e58, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@44fff386, org.springframework.security.web.session.SessionManagementFilter@70d63e05, org.springframework.security.web.access.ExceptionTranslationFilter@2f0ed952, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2f7efd0b]
+2020-07-24 02:22:23.752  INFO 4617 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-07-24 02:22:23.869  INFO 4617 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@1622f1b: startup date [Fri Jul 24 02:22:20 EAT 2020]; root of context hierarchy
+2020-07-24 02:22:23.902  INFO 4617 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-07-24 02:22:23.902  INFO 4617 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-07-24 02:22:23.914  INFO 4617 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : Detected @ExceptionHandler methods in controllerAdvisor
+2020-07-24 02:22:24.110  INFO 4617 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2020-07-24 02:22:24.112  INFO 4617 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2020-07-24 02:22:24.117  INFO 4617 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
+2020-07-24 02:22:24.121  INFO 4617 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2020-07-24 02:22:24.121  INFO 4617 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-24 02:22:24.133  INFO 4617 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-24 02:22:24.154  INFO 4617 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-24 02:22:24.279  INFO 4617 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2020-07-24 02:22:24.314  INFO 4617 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 5050 (http) with context path ''
+2020-07-24 02:22:24.318  INFO 4617 --- [main] com.zara.Zara.PesaPay                    : Started PesaPay in 19.024 seconds (JVM running for 24.449)
+2020-07-24 02:22:27.121  INFO 4617 --- [pool-1-thread-1] com.zara.Zara.services.CurrencyService   : Called the exchange rates API
+2020-07-24 02:22:27.137  INFO 4617 --- [pool-1-thread-1] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+2020-07-24 02:27:07.427  INFO 4617 --- [Thread-42] ConfigServletWebServerApplicationContext : Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@1622f1b: startup date [Fri Jul 24 02:22:20 EAT 2020]; root of context hierarchy
+2020-07-24 02:27:07.430  INFO 4617 --- [Thread-42] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2020-07-24 02:27:07.433  INFO 4617 --- [Thread-42] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2020-07-24 02:27:07.434  INFO 4617 --- [Thread-42] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2020-07-24 02:27:07.443  INFO 4617 --- [Thread-42] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-24 02:27:07.445  INFO 4617 --- [Thread-42] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-24 02:27:07.455  INFO 4617 --- [Thread-42] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-24 02:27:30.914  INFO 4724 --- [main] com.zara.Zara.PesaPay                    : Starting PesaPay on Deniss-MacBook-Pro.local with PID 4724 (/Users/deniseldorado/Documents/PROJECTS/Eldonets/PesaPay/target/classes started by deniseldorado in /Users/deniseldorado/Documents/PROJECTS/Eldonets/PesaPay)
+2020-07-24 02:27:30.918  INFO 4724 --- [main] com.zara.Zara.PesaPay                    : No active profile set, falling back to default profiles: default
+2020-07-24 02:27:30.950  INFO 4724 --- [main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4ac3c60d: startup date [Fri Jul 24 02:27:30 EAT 2020]; root of context hierarchy
+2020-07-24 02:27:31.436  INFO 4724 --- [main] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'dataSource' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Dbcp2; factoryMethodName=dataSource; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Dbcp2.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari; factoryMethodName=dataSource; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]]
+2020-07-24 02:27:31.776  INFO 4724 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$7bfa6936] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-07-24 02:27:31.968  INFO 4724 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 5050 (http)
+2020-07-24 02:27:31.985  INFO 4724 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-24 02:27:31.985  INFO 4724 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.31
+2020-07-24 02:27:31.991  INFO 4724 --- [localhost-startStop-1] o.a.catalina.core.AprLifecycleListener   : The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [/Users/deniseldorado/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.]
+2020-07-24 02:27:32.077  INFO 4724 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-24 02:27:32.078  INFO 4724 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1128 ms
+2020-07-24 02:27:32.277  INFO 4724 --- [localhost-startStop-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-24 02:27:32.320  INFO 4724 --- [localhost-startStop-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-24 02:27:32.351  INFO 4724 --- [localhost-startStop-1] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2020-07-24 02:27:32.410  INFO 4724 --- [localhost-startStop-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-07-24 02:27:32.452  INFO 4724 --- [localhost-startStop-1] org.hibernate.Version                    : HHH000412: Hibernate Core {5.2.17.Final}
+2020-07-24 02:27:32.454  INFO 4724 --- [localhost-startStop-1] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2020-07-24 02:27:32.476  INFO 4724 --- [localhost-startStop-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2020-07-24 02:27:32.553  INFO 4724 --- [localhost-startStop-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2020-07-24 02:27:32.625  INFO 4724 --- [localhost-startStop-1] o.h.e.j.e.i.LobCreatorBuilderImpl        : HHH000421: Disabling contextual LOB creation as hibernate.jdbc.lob.non_contextual_creation is true
+2020-07-24 02:27:32.626  INFO 4724 --- [localhost-startStop-1] org.hibernate.type.BasicTypeRegistry     : HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@75ebc790
+2020-07-24 02:27:32.989  INFO 4724 --- [localhost-startStop-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-24 02:27:33.248  INFO 4724 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2020-07-24 02:27:33.249  INFO 4724 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2020-07-24 02:27:33.249  INFO 4724 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2020-07-24 02:27:33.249  INFO 4724 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2020-07-24 02:27:33.249  INFO 4724 --- [localhost-startStop-1] .s.DelegatingFilterProxyRegistrationBean : Mapping filter: 'springSecurityFilterChain' to: [/*]
+2020-07-24 02:27:33.249  INFO 4724 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'authorizationFilter' to: [/*]
+2020-07-24 02:27:33.249  INFO 4724 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Servlet dispatcherServlet mapped to [/]
+2020-07-24 02:27:33.658  WARN 4724 --- [main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-07-24 02:27:33.693  INFO 4724 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/countries],methods=[GET]}" onto public org.springframework.http.ResponseEntity<java.util.List<com.zara.Zara.dtos.responses.CountryResponse>> com.zara.Zara.controllers.CountryController.findAll()
+2020-07-24 02:27:33.694  INFO 4724 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/currencies],methods=[GET]}" onto public org.springframework.http.ResponseEntity<java.util.List<com.zara.Zara.dtos.responses.CurrencyResponse>> com.zara.Zara.controllers.CurrencyController.findAll()
+2020-07-24 02:27:33.697  INFO 4724 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/users],methods=[POST]}" onto public org.springframework.http.ResponseEntity<?> com.zara.Zara.controllers.UserController.createUser(com.zara.Zara.dtos.requests.UserRegistrationRequest)
+2020-07-24 02:27:33.698  INFO 4724 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/users/login],methods=[POST]}" onto public org.springframework.http.ResponseEntity<com.zara.Zara.dtos.responses.UserLoginResponse> com.zara.Zara.controllers.UserController.loginUser(com.zara.Zara.dtos.requests.LoginRequest)
+2020-07-24 02:27:33.698  INFO 4724 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/users/{userId}/onboard],methods=[POST],headers=[Authorization]}" onto public org.springframework.http.ResponseEntity<com.zara.Zara.dtos.responses.OnboardingResponse> com.zara.Zara.controllers.UserController.onboardUser(java.lang.Long,com.zara.Zara.dtos.requests.OnboardingRequest)
+2020-07-24 02:27:33.699  INFO 4724 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/ussd/process],methods=[POST]}" onto public java.lang.String com.zara.Zara.controllers.UssdController.ussdRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String) throws java.io.UnsupportedEncodingException,com.fasterxml.jackson.core.JsonProcessingException
+2020-07-24 02:27:33.699  INFO 4724 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/welcome],methods=[GET]}" onto public java.lang.String com.zara.Zara.controllers.WelcomeContoller.welcome()
+2020-07-24 02:27:33.702  INFO 4724 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/security]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2020-07-24 02:27:33.702  INFO 4724 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/ui]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2020-07-24 02:27:33.703  INFO 4724 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources]}" onto public org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2020-07-24 02:27:33.705  INFO 4724 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2020-07-24 02:27:33.705  INFO 4724 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2020-07-24 02:27:33.795  INFO 4724 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-07-24 02:27:33.921  INFO 4724 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: org.springframework.security.web.util.matcher.AnyRequestMatcher@1, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@52b3bf03, org.springframework.security.web.context.SecurityContextPersistenceFilter@516462cc, org.springframework.security.web.header.HeaderWriterFilter@280d4882, org.springframework.security.web.authentication.logout.LogoutFilter@4462efe1, com.zara.Zara.configs.security.AuthorizationFilter@6ae712e9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2dfb885e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@ba17be6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7cca01a8, org.springframework.security.web.session.SessionManagementFilter@58015e56, org.springframework.security.web.access.ExceptionTranslationFilter@6ca372ef, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@67507df]
+2020-07-24 02:27:33.976  INFO 4724 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-07-24 02:27:34.092  INFO 4724 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4ac3c60d: startup date [Fri Jul 24 02:27:30 EAT 2020]; root of context hierarchy
+2020-07-24 02:27:34.124  INFO 4724 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-07-24 02:27:34.125  INFO 4724 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-07-24 02:27:34.138  INFO 4724 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : Detected @ExceptionHandler methods in controllerAdvisor
+2020-07-24 02:27:34.337  INFO 4724 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2020-07-24 02:27:34.339  INFO 4724 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2020-07-24 02:27:34.345  INFO 4724 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
+2020-07-24 02:27:34.349  INFO 4724 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2020-07-24 02:27:34.349  INFO 4724 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-24 02:27:34.360  INFO 4724 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-24 02:27:34.381  INFO 4724 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-24 02:27:34.476  INFO 4724 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findAllUsingGET_1
+2020-07-24 02:27:34.509  INFO 4724 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2020-07-24 02:27:34.546  INFO 4724 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 5050 (http) with context path ''
+2020-07-24 02:27:34.551  INFO 4724 --- [main] com.zara.Zara.PesaPay                    : Started PesaPay in 18.902 seconds (JVM running for 24.334)
+2020-07-24 02:27:39.664  INFO 4724 --- [http-nio-5050-exec-1] o.apache.tomcat.util.http.parser.Cookie  : A cookie header was received [answered":true,"dnt":false,"gdpr":true,"stats":false,"ignore":2,"token":"","categories":[{"cid":10005,"id":"required","value":true},{"cid":10006,"id":"analytics","value":true},{"cid":10007,"id":"marketing","value":true}]}; auth0.ssodata=%22{%5C%22lastUsedConnection%5C%22:%5C%22AdminPortal-DEV%5C%22%2C%5C%22lastUsedSub%5C%22:%5C%22auth0|5e281dbd5b68ed0e987155a7%5C%22}%22] that contained an invalid cookie. That cookie will be ignored.Note: further occurrences of this error will be logged at DEBUG level.
+2020-07-24 02:27:39.669  INFO 4724 --- [http-nio-5050-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2020-07-24 02:27:39.669  INFO 4724 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2020-07-24 02:27:39.683  INFO 4724 --- [http-nio-5050-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 14 ms
+2020-07-24 02:27:46.159  INFO 4724 --- [http-nio-5050-exec-10] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
