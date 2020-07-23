@@ -107,8 +107,8 @@ public class UserService {
             String emailMsg = "Congratulations...Your account has been fully setup. \n" +
                     "Account holder: " + user.getFirstName() + " " + user.getLastName() + "\n" +
                     "Account number: " + account.getAccountNumber() + "\n" +
-                    "Balance " + account.getBalance() + "\n" +
-                    "Currency " + account.getCurrency().getCode();
+                    "Balance: " + account.getBalance() + "\n" +
+                    "Currency: " + account.getCurrency().getCode();
             emailService.sendEmail("toraposltd@gmail.com", user.getEmail(), "Account Setup", emailMsg);
         } catch (Exception e) {
             log.error("Failed to create account. Possible cause: " + e.getCause());
