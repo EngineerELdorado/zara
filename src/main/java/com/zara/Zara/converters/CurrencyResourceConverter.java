@@ -10,8 +10,9 @@ public class CurrencyResourceConverter {
     public CurrencyResponse convert(Currency currency) {
 
         return CurrencyResponse.builder()
-                .code(currency.getCode())
                 .name(currency.getName())
+                .code(currency.getCode())
+                .rate(currency.getRate())
                 .build();
     }
 }
