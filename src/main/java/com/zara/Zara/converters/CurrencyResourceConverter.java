@@ -13,7 +13,6 @@ public class CurrencyResourceConverter {
                 .name(currency.getName())
                 .code(currency.getCode())
                 .rate(currency.getRate())
-                .symbol(currency.getSymbol())
                 .build();
     }
 }
