@@ -3,9 +3,9 @@ package com.zara.Zara.entities;
 
 import org.hibernate.annotations.*;
 
-import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
@@ -14,7 +14,9 @@ import java.util.Date;
 @SQLDelete(sql = "UPDATE calling_codes SET deleted_at = NOW() WHERE id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "deleted_at IS NULL")
 @Table(name = "calling_codes", uniqueConstraints = {@UniqueConstraint(columnNames = {"country_id", "prefix"})})
-public class CallingCode {
+public class CallingCode implements Serializable {
+
+    private static final long serialVersionUID = -3800807628857196803L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

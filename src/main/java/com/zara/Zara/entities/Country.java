@@ -17,8 +17,9 @@ import java.util.Set;
 @SQLDelete(sql = "UPDATE countries SET deleted_at = NOW() WHERE id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "deleted_at IS NULL")
 @Table(name = "countries")
-public class Country {
+public class Country implements Serializable {
 
+    private static final long serialVersionUID = -1642127291259734789L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)

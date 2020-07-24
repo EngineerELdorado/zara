@@ -15,8 +15,9 @@ import java.util.Date;
 @Table(name = "currencies")
 @SQLDelete(sql = "UPDATE currencies SET deleted_at = NOW() WHERE id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "deleted_at IS NULL")
+public class Currency implements Serializable {
 
-public class Currency {
+    private static final long serialVersionUID = -5603819446672970788L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

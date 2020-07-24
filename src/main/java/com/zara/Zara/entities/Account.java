@@ -7,12 +7,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
@@ -24,7 +27,10 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE accounts SET deleted_at = NOW() WHERE id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "deleted_at IS NULL")
-public class Account {
+public class Account implements Serializable {
+
+    private static final long serialVersionUID = -1608107247325639364L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,6 +47,8 @@ public class Account {
     private BigDecimal balance;
     @ManyToOne
     private Currency currency;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account")
+    private List<BalanceLog> balanceLogs;
 
     @ManyToOne
     private Country country;

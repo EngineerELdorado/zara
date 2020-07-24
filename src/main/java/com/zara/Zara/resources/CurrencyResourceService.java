@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,7 @@ public class CurrencyResourceService {
     }
 
     public BigDecimal convert(ConversionRequest request) {
-        return currencyService.convert(request.getFromCurrencyCode(), request.getToCurrencyCode(), request.getAmount());
+        return currencyService.convert(request.getFromCurrencyCode(), request.getToCurrencyCode(), request.getAmount(),
+                2, RoundingMode.HALF_UP);
     }
 }

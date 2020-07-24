@@ -1,8 +1,6 @@
 package com.zara.Zara.entities;
 
 import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
 
@@ -13,31 +11,20 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "users")
-@Getter
-@Setter
-@NoArgsConstructor
-@SQLDelete(sql = "UPDATE users SET deleted_at = NOW() WHERE id = ?", check = ResultCheckStyle.COUNT)
+@Table(name = "balance_logs")
+@SQLDelete(sql = "UPDATE balance_logs SET deleted_at = NOW() WHERE id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "deleted_at IS NULL")
-public class User implements Serializable {
+public class BalanceLog implements Serializable {
 
-    private static final long serialVersionUID = 8695541412706860427L;
-
+    private static final long serialVersionUID = 4941561381885600007L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstName;
-    private String lastName;
-    private boolean onboarded;
-    @Column(nullable = false, unique = true)
-    private String email;
-    @Column(unique = true)
-    private String phoneNumber;
-    private String pin;
-    private Date dob;
-    private String password;
-    @Transient
-    private String token;
+
+    @OneToOne
+    private Transaction transaction;
+    @ManyToOne
+    private Account account;
 
     @CreationTimestamp
     @Setter(value = AccessLevel.NONE)
@@ -54,5 +41,4 @@ public class User implements Serializable {
     protected void onDelete() {
         deletedAt = new Date();
     }
-
 }
