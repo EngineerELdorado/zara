@@ -35,8 +35,6 @@ public class Currency {
     @Column(name = "name", updatable = false, nullable = false)
     private String name;
 
-    private String symbol;
-
     @CreationTimestamp
     @Column(name = "created_at")
     private Date createdAt;
@@ -80,14 +78,6 @@ public class Currency {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
     }
 
     public Date getCreatedAt() {
