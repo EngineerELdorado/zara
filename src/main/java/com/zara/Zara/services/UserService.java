@@ -88,8 +88,11 @@ public class UserService {
         }
         Currency currency = currencyRepsotory.findByCodeIgnoreCase(request.getCurrencyCode())
                 .orElseThrow(() -> new Zaka400Exception("Currency not supported"));
-        Country country = countryRepository.findByCodeIgnoreCase(request.getCountryCode())
-                .orElseThrow(() -> new Zaka400Exception("Country not supported"));
+        Country country = countryRepository.findByCodeIgnoreCase(request.getCountryCode()).get();
+        if (!countryRepository.findByCodeIgnoreCase(request.getCountryCode()).isPresent()) {
+            country = countryRepository.findByIsoName3IgnoreCase(request.getCountryCode())
+                    .orElseThrow(() -> new Zaka400Exception("Country not supported"));
+        }
         Account account = new Account();
         account.setAccountNumber(BusinessNumbersGenerator.generateAccountNumber(accountRepository));
         account.setCurrency(currency);

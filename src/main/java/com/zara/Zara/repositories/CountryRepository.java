@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface CountryRepository extends JpaRepository<Country, Long> {
 
     Optional<Country> findByCodeIgnoreCase(String code);
+    Optional<Country> findByIsoName3IgnoreCase(String iso);
     @Query(value="SELECT * FROM countries order by name ASC", nativeQuery=true)
     List<Country> findAllOrderByName();
 }
