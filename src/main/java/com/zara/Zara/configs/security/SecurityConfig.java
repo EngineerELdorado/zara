@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.GET, "/countries").permitAll()
                 .antMatchers(HttpMethod.GET, "/currencies").permitAll()
+                .antMatchers(HttpMethod.POST, "/currencies/convert").permitAll()
 
                 .anyRequest().authenticated()
                 .and()
