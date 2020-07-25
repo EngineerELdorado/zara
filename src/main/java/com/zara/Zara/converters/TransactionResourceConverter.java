@@ -37,7 +37,7 @@ public class TransactionResourceConverter {
                         .build())
                 .exchangeRate(transaction.getFxRate())
                 .senderAmount(transaction.getSenderAmount())
-                .senderAmountInUsd(transaction.getReceiverAmountInUsd())
+                .senderAmountInUsd(transaction.getSenderAmountInUsd())
                 .senderAmountInReceiverCurrency(transaction.getSenderAmountInReceiverCurrency())
                 .chargesInSenderCurrency(transaction.getChargesInSenderCurrency())
                 .chargesInUsd(transaction.getChargesInUsd())
