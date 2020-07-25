@@ -54,8 +54,8 @@ public class TransactionService {
         BigDecimal senderAmount = request.getAmount();
         BigDecimal senderAmountInUSd = currencyService.convert(senderAccount.getCurrency().getCode(),
                 "USD", request.getAmount(), 2, RoundingMode.HALF_UP);
-        BigDecimal senderAmountInReceiverCurrency = currencyService.convert(receiverAccount.getCurrency().getCode(),
-                senderAccount.getCurrency().getCode(), request.getAmount(), 2, RoundingMode.HALF_UP);
+        BigDecimal senderAmountInReceiverCurrency = currencyService.convert(senderAccount.getCurrency().getCode(),
+                receiverAccount.getCurrency().getCode(), request.getAmount(), 2, RoundingMode.HALF_UP);
 
         BigDecimal charges = senderAmount.multiply(BigDecimal.valueOf(5))
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
@@ -64,7 +64,7 @@ public class TransactionService {
                 "USD", charges, 2, RoundingMode.HALF_UP);
 
         BigDecimal chargesInReceiverCurrency = currencyService.convert(senderAccount.getCurrency().getCode(),
-                receiverAccount.getCurrency().getCode(), request.getAmount(), 2, RoundingMode.HALF_UP);
+                receiverAccount.getCurrency().getCode(), charges, 2, RoundingMode.HALF_UP);
 
 
         BigDecimal receiverAmountInSenderCurrency = senderAmount.subtract(charges);
