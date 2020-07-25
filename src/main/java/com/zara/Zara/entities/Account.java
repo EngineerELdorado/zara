@@ -47,8 +47,6 @@ public class Account implements Serializable {
     private BigDecimal balance;
     @ManyToOne
     private Currency currency;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account")
-    private List<BalanceLog> balanceLogs;
 
     @ManyToOne
     private Country country;

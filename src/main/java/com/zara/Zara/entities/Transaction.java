@@ -2,6 +2,7 @@ package com.zara.Zara.entities;
 
 import com.zara.Zara.enums.TransactionType;
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Setter;
 import org.hibernate.annotations.*;
 
@@ -13,6 +14,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Data
 @Entity
 @Table(name = "transactions")
 @SQLDelete(sql = "UPDATE transactions SET deleted_at = NOW() WHERE id = ?", check = ResultCheckStyle.COUNT)
@@ -25,6 +27,13 @@ public class Transaction implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @NotNull
+    private Account senderAccount;
+    @ManyToOne
+    @NotNull
+    private Account receiverAccount;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @NotNull
@@ -32,22 +41,35 @@ public class Transaction implements Serializable {
     @NotNull
     private BigDecimal senderAmount;
     @NotNull
-    private BigDecimal sendAmountInUsd;
+    private BigDecimal senderAmountInUsd;
+    @NotNull
+    private BigDecimal senderAmountInReceiverCurrency;
     @OneToOne
     private Currency senderCurrency;
+
     @NotNull
     private BigDecimal chargesInSenderCurrency;
     @NotNull
-    private BigDecimal chargesInReceiverCurrency;
-    @NotNull
     private BigDecimal chargesInUsd;
+    @NotNull
+    private BigDecimal chargesInReceiverCurrency;
+
     @NotNull
     private BigDecimal receiverAmount;
     @NotNull
     private BigDecimal receiverAmountInUsd;
+
+    @NotNull
+    private BigDecimal receiverAmountInSenderCurrency;
+
+    @NotNull
+    private BigDecimal fxRate;
+
     @NotNull
     @OneToOne
     private Currency receiverCurrency;
+    @Column(unique = true)
+    private String transactionNumber;
 
     @CreationTimestamp
     @Setter(value = AccessLevel.NONE)
