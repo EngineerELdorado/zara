@@ -3,8 +3,9 @@ package com.zara.Zara.controllers;
 import com.zara.Zara.dtos.requests.LoginRequest;
 import com.zara.Zara.dtos.requests.OnboardingRequest;
 import com.zara.Zara.dtos.requests.UserRegistrationRequest;
-import com.zara.Zara.dtos.responses.OnboardingResponse;
+import com.zara.Zara.dtos.responses.AccountResource;
 import com.zara.Zara.dtos.responses.UserLoginResponse;
+import com.zara.Zara.dtos.responses.UserProfileResponse;
 import com.zara.Zara.resources.UserResourceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,9 +37,15 @@ public class UserController {
     }
 
     @PostMapping(value = "/{userId}/onboard", headers = "Authorization")
-    public ResponseEntity<OnboardingResponse> onboardUser(@PathVariable Long userId, @Valid @RequestBody OnboardingRequest onboardingRequest) {
+    public ResponseEntity<AccountResource> onboardUser(@PathVariable Long userId, @Valid @RequestBody OnboardingRequest onboardingRequest) {
 
-        OnboardingResponse onboardingResponse = userResourceService.onboard(userId, onboardingRequest);
-        return new ResponseEntity<>(onboardingResponse, HttpStatus.OK);
+        AccountResource accountResource = userResourceService.onboard(userId, onboardingRequest);
+        return new ResponseEntity<>(accountResource, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/profile/{userId}", headers = "Authorization")
+    public ResponseEntity<UserProfileResponse> getProfile(@PathVariable Long userId) {
+
+        return new ResponseEntity<>(userResourceService.getProfile(userId), HttpStatus.OK);
     }
 }

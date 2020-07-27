@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
-public class OnboardingResponse {
+public class AccountResource {
 
     private Long accountId;
     private String accountNumber;

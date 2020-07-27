@@ -12,4 +12,5 @@ public class AccountResponse {
     private String accountHolder;
     private String email;
     private String phone;
+    private String accountType;
 }

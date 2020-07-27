@@ -4,8 +4,9 @@ import com.zara.Zara.converters.UserResourceConverter;
 import com.zara.Zara.dtos.requests.LoginRequest;
 import com.zara.Zara.dtos.requests.OnboardingRequest;
 import com.zara.Zara.dtos.requests.UserRegistrationRequest;
-import com.zara.Zara.dtos.responses.OnboardingResponse;
+import com.zara.Zara.dtos.responses.AccountResource;
 import com.zara.Zara.dtos.responses.UserLoginResponse;
+import com.zara.Zara.dtos.responses.UserProfileResponse;
 import com.zara.Zara.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,11 @@ public class UserResourceService {
     }
 
     @Transactional
-    public OnboardingResponse onboard(Long userId, OnboardingRequest onboardingRequest) {
-        return userResourceConverter.convertOnboardingResponse(userService.onboard(userId, onboardingRequest));
+    public AccountResource onboard(Long userId, OnboardingRequest onboardingRequest) {
+        return userResourceConverter.convertToAccountResource(userService.onboard(userId, onboardingRequest));
+    }
+
+    public UserProfileResponse getProfile(Long userId) {
+        return userResourceConverter.convertToProfileResource(userService.getProfile(userId));
     }
 }

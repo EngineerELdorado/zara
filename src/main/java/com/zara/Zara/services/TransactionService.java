@@ -14,11 +14,15 @@ import com.zara.Zara.repositories.TransactionRepository;
 import com.zara.Zara.utils.GenerateRandomStuff;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -70,11 +74,10 @@ public class TransactionService {
         BigDecimal receiverAmountInSenderCurrency = senderAmount.subtract(charges);
         BigDecimal receiverAmountInUsd = currencyService.convert(senderAccount.getCurrency().getCode(),
                 "USD", receiverAmountInSenderCurrency, 2, RoundingMode.HALF_UP);
-        BigDecimal receiverAmount = currencyService.convert(senderAccount.getCurrency().getCode(),
-                receiverAccount.getCurrency().getCode(), request.getAmount(), 2, RoundingMode.HALF_UP);
+        BigDecimal receiverAmountInReceiverCurrency = senderAmountInReceiverCurrency.subtract(chargesInReceiverCurrency);
 
         BigDecimal balanceAfterForTheSender = currentSenderBalance.subtract(senderAmount);
-        BigDecimal balanceAfterForTheReceiver = currentReceiverBalance.add(receiverAmount);
+        BigDecimal balanceAfterForTheReceiver = currentReceiverBalance.add(receiverAmountInReceiverCurrency);
 
         Transaction transaction = new Transaction();
         transaction.setType(request.getTransactionType());
@@ -86,7 +89,7 @@ public class TransactionService {
         transaction.setChargesInUsd(chargesInUsd);
         transaction.setChargesInReceiverCurrency(chargesInReceiverCurrency);
 
-        transaction.setReceiverAmount(receiverAmount);
+        transaction.setReceiverAmount(receiverAmountInReceiverCurrency);
         transaction.setReceiverAmountInUsd(receiverAmountInUsd);
         transaction.setReceiverAmountInSenderCurrency(receiverAmountInSenderCurrency);
 
@@ -148,5 +151,11 @@ public class TransactionService {
         }
 
         return transaction;
+    }
+
+    public Page<Transaction> history(int page, int size, LocalDateTime startDate, LocalDateTime endDate) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        return transactionRepository.history(startDate, endDate, pageable);
     }
 }

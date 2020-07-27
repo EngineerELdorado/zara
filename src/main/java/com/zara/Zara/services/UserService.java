@@ -119,4 +119,9 @@ public class UserService {
         }
         return account;
     }
+
+    public User getProfile(Long userId) {
+
+        return userRepository.findById(userId).orElseThrow(() -> new Zaka400Exception("User not found for ID" + userId));
+    }
 }

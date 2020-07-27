@@ -14,6 +14,7 @@ public class TransactionResponse {
     private Long transactionId;
     private String transactionNumber;
     private Date createdAt;
+    private AccountResponse sender;
     private AccountResponse recipient;
     private String type;
     private BigDecimal senderAmount;

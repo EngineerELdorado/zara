@@ -4,11 +4,14 @@ import com.zara.Zara.dtos.requests.TransactionRequest;
 import com.zara.Zara.dtos.responses.TransactionResponse;
 import com.zara.Zara.resources.TransactionResourceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/transactions")
@@ -22,5 +25,14 @@ public class TransactionController {
     public ResponseEntity<TransactionResponse> transfer(@Valid @RequestBody TransactionRequest request, @PathVariable Long accountId) {
 
         return new ResponseEntity<>(transactionResourceService.transfer(request, accountId), HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/all", headers = "Authorization")
+    public ResponseEntity<Page<TransactionResponse>> transferHistory(
+            @RequestParam int page, @RequestParam int size,
+            @RequestParam(value = "startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startDate,
+            @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDate) {
+
+        return new ResponseEntity<>(transactionResourceService.history(page, size, startDate, endDate), HttpStatus.OK);
     }
 }
