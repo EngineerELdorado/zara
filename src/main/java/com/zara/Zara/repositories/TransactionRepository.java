@@ -17,5 +17,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     Optional<Transaction> findByTransactionNumber(String transactionNumber);
 
     @Query(value = "SELECT * FROM transactions where created_at between :startDate AND :endDate order by created_at DESC", nativeQuery = true)
-    Page<Transaction> history(@Param("startDate") LocalDateTime startDate,@Param("endDate") LocalDateTime endDate, Pageable pageable);
+    Page<Transaction> history(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, Pageable pageable);
+
+    @Query(value = "SELECT * FROM transactions where sender_account_id = :accountId OR receiver_account_id = :accountId AND created_at between :startDate AND :endDate order by created_at DESC", nativeQuery = true)
+    Page<Transaction> historyByAccountId(@Param("accountId") Long accountId, @Param("startDate") LocalDateTime startDate,
+                                         @Param("endDate") LocalDateTime endDate, Pageable pageable);
 }

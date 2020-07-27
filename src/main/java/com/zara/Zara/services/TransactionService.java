@@ -185,4 +185,10 @@ public class TransactionService {
         Pageable pageable = PageRequest.of(page, size);
         return transactionRepository.history(startDate, endDate, pageable);
     }
+
+    public Page<Transaction> historyByAccountId(Long accountId, int page, int size, LocalDateTime startDate, LocalDateTime endDate) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        return transactionRepository.historyByAccountId(accountId, startDate, endDate, pageable);
+    }
 }

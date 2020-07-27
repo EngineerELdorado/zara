@@ -28,4 +28,9 @@ public class TransactionResourceService {
         Page<Transaction> transactions = transactionService.history(page, size, startDate, endDate);
         return transactions.map(transactionResourceConverter::convert);
     }
+
+    public Page<TransactionResponse> historyByAccountId(Long accountId, int page, int size, LocalDateTime startDate, LocalDateTime endDate) {
+        Page<Transaction> transactions = transactionService.historyByAccountId(accountId, page, size, startDate, endDate);
+        return transactions.map(transactionResourceConverter::convert);
+    }
 }

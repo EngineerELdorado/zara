@@ -35,4 +35,14 @@ public class TransactionController {
 
         return new ResponseEntity<>(transactionResourceService.history(page, size, startDate, endDate), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/accounts/{accountId}", headers = "Authorization")
+    public ResponseEntity<Page<TransactionResponse>> transferHistoryByAccountId(
+            @RequestParam Long accountId,
+            @RequestParam int page, @RequestParam int size,
+            @RequestParam(value = "startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startDate,
+            @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDate) {
+
+        return new ResponseEntity<>(transactionResourceService.historyByAccountId(accountId, page, size, startDate, endDate), HttpStatus.OK);
+    }
 }
