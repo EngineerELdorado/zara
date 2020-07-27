@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.*;
@@ -15,7 +14,6 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
@@ -65,6 +63,8 @@ public class Account implements Serializable {
     private Date updatedAt;
 
     private Date deletedAt;
+    @Column()
+    private boolean mainAccount;
 
     @PreRemove
     protected void onDelete() {

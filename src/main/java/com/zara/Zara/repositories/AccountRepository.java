@@ -24,4 +24,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     @Query(value = "SELECT * FROM accounts WHERE user_id =:userId FOR UPDATE", nativeQuery = true)
     Optional<Account> findByUserIdFofUpdate(Long userId);
+
+    @Query(value = "SELECT * FROM accounts WHERE main_account =:isPesaPayAccount", nativeQuery = true)
+    Optional<Account> findByMainAccount(boolean isPesaPayAccount);
 }

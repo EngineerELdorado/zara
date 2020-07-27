@@ -39,6 +39,9 @@ public class TransactionService {
     @Transactional
     public Transaction processTransaction(TransactionRequest request, Long accountId) {
 
+        Account pesaPayAccount = accountRepository.findByMainAccount(true)
+                .orElseThrow(() -> new Zaka400Exception("Main Account not found"));
+        ;
         Account senderAccount = accountRepository.findByIdForUpdate(accountId)
                 .orElseThrow(() -> new Zaka400Exception("Account not found"));
 
@@ -51,6 +54,8 @@ public class TransactionService {
 
         BigDecimal currentSenderBalance = senderAccount.getBalance();
         BigDecimal currentReceiverBalance = receiverAccount.getBalance();
+        BigDecimal currentPesaPayBalance = pesaPayAccount.getBalance();
+
         Currency currency = currencyRepository.findByCodeIgnoreCase(senderAccount.getCurrency().getCode()).orElseThrow(
                 () -> new Zaka400Exception("Currency not supported")
         );
@@ -78,6 +83,7 @@ public class TransactionService {
 
         BigDecimal balanceAfterForTheSender = currentSenderBalance.subtract(senderAmount);
         BigDecimal balanceAfterForTheReceiver = currentReceiverBalance.add(receiverAmountInReceiverCurrency);
+        BigDecimal balanceAfterForPesaPay = currentPesaPayBalance.add(chargesInUsd);
 
         Transaction transaction = new Transaction();
         transaction.setType(request.getTransactionType());
@@ -147,6 +153,27 @@ public class TransactionService {
             accountRepository.save(senderAccount);
         } catch (Exception e) {
             log.error("Failed to save balance for receiverAccount: " + e.getCause());
+            throw new Zaka500Exception("Operation failed. please try again or contact support");
+        }
+
+        BalanceLog balanceLogForPesapay = new BalanceLog();
+        balanceLogForPesapay.setAccount(pesaPayAccount);
+        balanceLogForPesapay.setTransaction(transaction);
+        balanceLogForPesapay.setBalanceBefore(currentPesaPayBalance);
+        balanceLogForPesapay.setBalanceAfter(balanceAfterForPesaPay);
+
+        try {
+            balanceLogRepository.save(balanceLogForPesapay);
+        } catch (Exception e) {
+            log.error("Failed to save balance log. Possible cause: " + e.getCause());
+            throw new Zaka500Exception("Operation failed. please try again or contact support");
+        }
+
+        pesaPayAccount.setBalance(balanceAfterForPesaPay);
+        try {
+            accountRepository.save(pesaPayAccount);
+        } catch (Exception e) {
+            log.error("Failed to save balance for senderAccount: " + e.getCause());
             throw new Zaka500Exception("Operation failed. please try again or contact support");
         }
 
