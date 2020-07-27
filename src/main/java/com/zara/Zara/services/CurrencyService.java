@@ -31,7 +31,8 @@ public class CurrencyService {
     }
 
     @Transactional
-    @Scheduled(fixedRate = 3600000) // Every one hour
+    //@Scheduled(fixedRate = 3600000) // Every one hour
+    @Scheduled(fixedDelay = 30000) // Every one hour
     public void updateCurrenciesExchangeRates() {
 
         OpenExchangeRateResponse response = null;
@@ -58,6 +59,7 @@ public class CurrencyService {
                     log.error(msg);
                 }
             });
+            log.info("Updated rates");
         } else {
 
             String msg = "Could not retrieve exchangeRates from open exchange rate service";

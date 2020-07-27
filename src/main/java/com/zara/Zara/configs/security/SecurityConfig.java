@@ -1,6 +1,6 @@
 package com.zara.Zara.configs.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -15,14 +15,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Qualifier("userDetailsServiceImp")
-    @Autowired
-    UserDetailsService userDetailsService;
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
-    AuthorizationFilter authorizationFilter;
+    private final UserDetailsService userDetailsService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AuthorizationFilter authorizationFilter;
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {

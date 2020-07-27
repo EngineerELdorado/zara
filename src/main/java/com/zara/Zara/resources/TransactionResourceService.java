@@ -5,7 +5,6 @@ import com.zara.Zara.dtos.requests.TransactionRequest;
 import com.zara.Zara.dtos.responses.TransactionResponse;
 import com.zara.Zara.services.TransactionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
