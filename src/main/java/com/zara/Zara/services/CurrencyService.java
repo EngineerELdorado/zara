@@ -31,8 +31,8 @@ public class CurrencyService {
     }
 
     @Transactional
-    //@Scheduled(fixedRate = 3600000) // Every one hour
-    @Scheduled(fixedDelay = 30000) // Every one hour
+//    @Scheduled(fixedRate = 3600000) // Every one hour
+    @Scheduled(cron = "0 0 0 * * ?")
     public void updateCurrenciesExchangeRates() {
 
         OpenExchangeRateResponse response = null;
