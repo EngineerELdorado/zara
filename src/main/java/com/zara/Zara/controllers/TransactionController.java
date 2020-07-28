@@ -29,6 +29,7 @@ public class TransactionController {
 
     @GetMapping(value = "/all", headers = "Authorization")
     public ResponseEntity<Page<TransactionResponse>> transferHistory(
+
             @RequestParam int page, @RequestParam int size,
             @RequestParam(value = "startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startDate,
             @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDate) {
@@ -38,11 +39,26 @@ public class TransactionController {
 
     @GetMapping(value = "/accounts/{accountId}", headers = "Authorization")
     public ResponseEntity<Page<TransactionResponse>> transferHistoryByAccountId(
+
             @RequestParam Long accountId,
             @RequestParam int page, @RequestParam int size,
             @RequestParam(value = "startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startDate,
             @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDate) {
 
         return new ResponseEntity<>(transactionResourceService.historyByAccountId(accountId, page, size, startDate, endDate), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/approve/{transactionId}", headers = "Authorization")
+    public ResponseEntity<?> approvePendingTransaction(@PathVariable Long transactionId) {
+
+        transactionResourceService.approve(transactionId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/reject/{transactionId}", headers = "Authorization")
+    public ResponseEntity<?> rejectPendingTransaction(@PathVariable Long transactionId) {
+
+        transactionResourceService.reject(transactionId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

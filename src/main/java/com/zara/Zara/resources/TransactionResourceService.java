@@ -37,4 +37,12 @@ public class TransactionResourceService {
         Page<Transaction> transactions = transactionService.historyByAccountId(accountId, page, size, startDate, endDate);
         return transactions.map(transactionResourceConverter::convert);
     }
+
+    public void approve(Long transactionId) {
+        transactionService.approve(transactionId);
+    }
+
+    public void reject(Long transactionId) {
+        transactionService.reject(transactionId);
+    }
 }

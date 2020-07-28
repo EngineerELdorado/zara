@@ -345,4 +345,54 @@ public class TransactionService {
         Pageable pageable = PageRequest.of(page, size);
         return transactionRepository.historyByAccountId(accountId, startDate, endDate, pageable);
     }
+
+    @Transactional
+    public void approve(Long transactionId) {
+
+        Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(() -> new Zaka400Exception("Transaction not found"));
+        transaction.setTransactionStatus(TransactionStatus.SUCCESS);
+        if (!transaction.getType().name().equals(TransactionStatus.PENDING.name())) {
+            throw new Zaka500Exception("This transaction is not pending... and cannot be approved");
+        }
+        try {
+            transactionRepository.save(transaction);
+        } catch (Exception e) {
+            log.error("Failed to approve transaction. Possible cause: " + e.getCause());
+            throw new Zaka500Exception("Operation failed. please try again or contact support");
+        }
+    }
+
+    @Transactional
+    public void reject(Long transactionId) {
+
+        Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(() -> new Zaka400Exception("Transaction not found"));
+        transaction.setTransactionStatus(TransactionStatus.REJECTED);
+        Account senderAccount = transaction.getSenderAccount();
+        Account receiverAccount = transaction.getReceiverAccount();
+        BigDecimal currentSenderBalance = senderAccount.getBalance();
+        BigDecimal currentReceiverBalance = receiverAccount.getBalance();
+
+        BigDecimal newSenderBalance = currentSenderBalance.add(transaction.getSenderAmount());
+        BigDecimal newReceiverBalance = currentReceiverBalance.subtract(transaction.getReceiverAmount());
+        senderAccount.setBalance(newSenderBalance);
+        receiverAccount.setBalance(newReceiverBalance);
+        if (!transaction.getType().name().equals(TransactionStatus.PENDING.name())) {
+            throw new Zaka500Exception("This transaction is not pending... and cannot be approved");
+        }
+
+        try {
+            transactionRepository.save(transaction);
+        } catch (Exception e) {
+            log.error("Failed to approve transaction. Possible cause: " + e.getCause());
+            throw new Zaka500Exception("Operation failed. please try again or contact support");
+        }
+
+        try {
+            accountRepository.save(senderAccount);
+            accountRepository.save(receiverAccount);
+        } catch (Exception e) {
+            log.error("Failed to approve transaction. Possible cause: " + e.getCause());
+            throw new Zaka500Exception("Operation failed. please try again or contact support");
+        }
+    }
 }
