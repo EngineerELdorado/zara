@@ -5,6 +5,7 @@ import com.zara.Zara.dtos.responses.TransactionResponse;
 import com.zara.Zara.entities.Account;
 import com.zara.Zara.entities.BalanceLog;
 import com.zara.Zara.entities.Transaction;
+import com.zara.Zara.enums.TransactionType;
 import com.zara.Zara.exceptions.exceptions.Zaka500Exception;
 import com.zara.Zara.repositories.BalanceLogRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +24,32 @@ public class TransactionResourceConverter {
                 .orElseThrow(() -> new Zaka500Exception("Something went wrong... please try again or contact support"));
         Account receiverAccount = transaction.getReceiverAccount();
         Account senderAccount = transaction.getSenderAccount();
+        AccountResponse recipient;
+        if (TransactionType.isThirdPartyTransaction(transaction.getType())) {
+            recipient = new AccountResponse();
+            if (transaction.getType().name().equals(TransactionType.PAYPAL_DEPOSIT.name())) {
+                recipient.setEmail(transaction.getThirdPartyRecipient());
+            } else if (transaction.getType().name().equals(TransactionType.MOBILE_MONEY_DEPOSIT.name())) {
+                recipient.setPhone(transaction.getThirdPartyRecipient());
+            }
+        } else {
+            recipient = AccountResponse.builder()
+                    .accountHolder(receiverAccount.getUser()
+                            .getFirstName() + " " + receiverAccount.getUser().getLastName())
+                    .accountId(receiverAccount.getId())
+                    .accountNumber(receiverAccount.getAccountNumber())
+                    .email(receiverAccount.getUser().getEmail())
+                    .phone(receiverAccount.getUser().getPhoneNumber())
+                    .accountType(receiverAccount.getType().name())
+                    .build();
+        }
         return TransactionResponse.builder()
                 .transactionId(transaction.getId())
                 .transactionNumber(transaction.getTransactionNumber())
                 .createdAt(transaction.getCreatedAt())
                 .type(transaction.getType().name())
+                .status(transaction.getTransactionStatus().name())
+                .thirdPartyRecipient(transaction.getThirdPartyRecipient())
                 .sender(AccountResponse.builder()
                         .accountHolder(senderAccount.getUser()
                                 .getFirstName() + " " + senderAccount.getUser().getLastName())
@@ -37,15 +59,7 @@ public class TransactionResourceConverter {
                         .phone(senderAccount.getUser().getPhoneNumber())
                         .accountType(senderAccount.getType().name())
                         .build())
-                .recipient(AccountResponse.builder()
-                        .accountHolder(receiverAccount.getUser()
-                                .getFirstName() + " " + receiverAccount.getUser().getLastName())
-                        .accountId(receiverAccount.getId())
-                        .accountNumber(receiverAccount.getAccountNumber())
-                        .email(receiverAccount.getUser().getEmail())
-                        .phone(receiverAccount.getUser().getPhoneNumber())
-                        .accountType(receiverAccount.getType().name())
-                        .build())
+                .recipient(recipient)
                 .exchangeRate(transaction.getFxRate())
                 .senderAmount(transaction.getSenderAmount())
                 .senderAmountInUsd(transaction.getSenderAmountInUsd())

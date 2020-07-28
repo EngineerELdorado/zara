@@ -1,6 +1,5 @@
 package com.zara.Zara.dtos.responses;
 
-import com.zara.Zara.enums.TransactionType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -31,4 +30,5 @@ public class TransactionResponse {
     private BigDecimal balanceBefore;
     private BigDecimal balanceAfter;
     private BigDecimal exchangeRate;
+    private String status;
 }

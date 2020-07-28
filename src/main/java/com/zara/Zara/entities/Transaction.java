@@ -1,5 +1,6 @@
 package com.zara.Zara.entities;
 
+import com.zara.Zara.enums.TransactionStatus;
 import com.zara.Zara.enums.TransactionType;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -64,6 +65,10 @@ public class Transaction implements Serializable {
 
     @NotNull
     private BigDecimal fxRate;
+
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus transactionStatus;
+    private String thirdPartyRecipient;
 
     @NotNull
     @OneToOne

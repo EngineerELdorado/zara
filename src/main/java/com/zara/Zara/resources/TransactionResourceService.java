@@ -4,6 +4,7 @@ import com.zara.Zara.converters.TransactionResourceConverter;
 import com.zara.Zara.dtos.requests.TransactionRequest;
 import com.zara.Zara.dtos.responses.TransactionResponse;
 import com.zara.Zara.entities.Transaction;
+import com.zara.Zara.enums.TransactionType;
 import com.zara.Zara.services.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,10 @@ public class TransactionResourceService {
 
     @Transactional
     public TransactionResponse transfer(TransactionRequest request, Long accountId) {
-        return transactionResourceConverter.convert(transactionService.processTransaction(request, accountId));
+        if (TransactionType.isThirdPartyTransaction(request.getTransactionType())) {
+            return transactionResourceConverter.convert(transactionService.processPesaPayThirdPartyTransaction(request, accountId));
+        }
+        return transactionResourceConverter.convert(transactionService.processPesaPayDirectTransaction(request, accountId));
     }
 
     public Page<TransactionResponse> history(int page, int size, LocalDateTime startDate, LocalDateTime endDate) {
