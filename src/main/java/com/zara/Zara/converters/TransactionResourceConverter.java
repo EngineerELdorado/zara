@@ -27,11 +27,7 @@ public class TransactionResourceConverter {
         AccountResponse recipient;
         if (TransactionType.isThirdPartyTransaction(transaction.getType())) {
             recipient = new AccountResponse();
-            if (transaction.getType().name().equals(TransactionType.PAYPAL_DEPOSIT.name())) {
-                recipient.setEmail(transaction.getThirdPartyRecipient());
-            } else if (transaction.getType().name().equals(TransactionType.MOBILE_MONEY_DEPOSIT.name())) {
-                recipient.setPhone(transaction.getThirdPartyRecipient());
-            }
+            recipient.setContact(transaction.getThirdPartyRecipient());
         } else {
             recipient = AccountResponse.builder()
                     .accountHolder(receiverAccount.getUser()
@@ -49,7 +45,6 @@ public class TransactionResourceConverter {
                 .createdAt(transaction.getCreatedAt())
                 .type(transaction.getType().name())
                 .status(transaction.getTransactionStatus().name())
-                .thirdPartyRecipient(transaction.getThirdPartyRecipient())
                 .sender(AccountResponse.builder()
                         .accountHolder(senderAccount.getUser()
                                 .getFirstName() + " " + senderAccount.getUser().getLastName())
@@ -77,7 +72,5 @@ public class TransactionResourceConverter {
                 .exchangeRate(transaction.getFxRate())
                 .receiverAmountInSenderCurrency(transaction.getReceiverAmountInSenderCurrency())
                 .build();
-
-
     }
 }
