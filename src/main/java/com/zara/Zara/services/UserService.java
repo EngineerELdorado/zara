@@ -98,6 +98,7 @@ public class UserService {
         account.setCurrency(currency);
         account.setBalance(BigDecimal.ZERO);
         account.setUser(user);
+        account.setMainAccount(false);
         account.setPin(passwordEncoder.encode(request.getPin()));
         account.setCountry(country);
         account.setType(request.getAccountType());
