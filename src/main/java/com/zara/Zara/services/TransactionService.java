@@ -47,11 +47,6 @@ public class TransactionService {
         Account senderAccount = accountRepository.findByIdForUpdate(accountId)
                 .orElseThrow(() -> new Zaka400Exception("Account not found"));
 
-        if (request.getAmount().compareTo(senderAccount.getBalance()) > 0) {
-
-            throw new Zaka400Exception("Insufficient Balance. Your current balance is " + senderAccount.getBalance());
-        }
-
         Account receiverAccount = accountService.findAccountByRecipient(request.getRecipient());
 
         BigDecimal currentSenderBalance = senderAccount.getBalance();
@@ -71,6 +66,12 @@ public class TransactionService {
         BigDecimal charges = senderAmount.multiply(BigDecimal.valueOf(5))
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
+        if (request.getAmount().add(charges).compareTo(senderAccount.getBalance()) > 0) {
+
+            throw new Zaka400Exception("Insufficient Balance. Your current balance is " + senderAccount.getBalance() + "" +
+                    " you needs to also pay the transfer fees: " + charges);
+        }
+
         BigDecimal chargesInUsd = currencyService.convert(senderAccount.getCurrency().getCode(),
                 "USD", charges, 2, RoundingMode.HALF_UP);
 
@@ -78,13 +79,11 @@ public class TransactionService {
                 receiverAccount.getCurrency().getCode(), charges, 2, RoundingMode.HALF_UP);
 
 
-        BigDecimal receiverAmountInSenderCurrency = senderAmount.subtract(charges);
         BigDecimal receiverAmountInUsd = currencyService.convert(senderAccount.getCurrency().getCode(),
-                "USD", receiverAmountInSenderCurrency, 2, RoundingMode.HALF_UP);
-        BigDecimal receiverAmountInReceiverCurrency = senderAmountInReceiverCurrency.subtract(chargesInReceiverCurrency);
+                "USD", senderAmount, 2, RoundingMode.HALF_UP);
 
-        BigDecimal balanceAfterForTheSender = currentSenderBalance.subtract(senderAmount);
-        BigDecimal balanceAfterForTheReceiver = currentReceiverBalance.add(receiverAmountInReceiverCurrency);
+        BigDecimal balanceAfterForTheSender = currentSenderBalance.subtract(senderAmount.add(charges));
+        BigDecimal balanceAfterForTheReceiver = currentReceiverBalance.add(senderAmountInReceiverCurrency);
         BigDecimal balanceAfterForPesaPay = currentPesaPayBalance.add(chargesInUsd);
 
         Transaction transaction = new Transaction();
@@ -97,9 +96,9 @@ public class TransactionService {
         transaction.setChargesInUsd(chargesInUsd);
         transaction.setChargesInReceiverCurrency(chargesInReceiverCurrency);
 
-        transaction.setReceiverAmount(receiverAmountInReceiverCurrency);
+        transaction.setReceiverAmount(senderAmountInReceiverCurrency);
         transaction.setReceiverAmountInUsd(receiverAmountInUsd);
-        transaction.setReceiverAmountInSenderCurrency(receiverAmountInSenderCurrency);
+        transaction.setReceiverAmountInSenderCurrency(senderAmount);
 
         transaction.setFxRate(currency.getRate());
 
@@ -193,11 +192,6 @@ public class TransactionService {
         Account senderAccount = accountRepository.findByIdForUpdate(accountId)
                 .orElseThrow(() -> new Zaka400Exception("Account not found"));
 
-        if (request.getAmount().compareTo(senderAccount.getBalance()) > 0) {
-
-            throw new Zaka400Exception("Insufficient Balance. Your current balance is " + senderAccount.getBalance());
-        }
-
         Account receiverAccount = accountRepository.findByMainAccount(true)
                 .orElseThrow(() -> new Zaka400Exception("Main Account not found"));
 
@@ -218,6 +212,12 @@ public class TransactionService {
         BigDecimal charges = senderAmount.multiply(BigDecimal.valueOf(5))
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
+        if (request.getAmount().add(charges).compareTo(senderAccount.getBalance()) > 0) {
+
+            throw new Zaka400Exception("Insufficient Balance. Your current balance is " + senderAccount.getBalance() + "" +
+                    " you needs to also pay the transfer fees: " + charges);
+        }
+
         BigDecimal chargesInUsd = currencyService.convert(senderAccount.getCurrency().getCode(),
                 "USD", charges, 2, RoundingMode.HALF_UP);
 
@@ -225,13 +225,11 @@ public class TransactionService {
                 receiverAccount.getCurrency().getCode(), charges, 2, RoundingMode.HALF_UP);
 
 
-        BigDecimal receiverAmountInSenderCurrency = senderAmount.subtract(charges);
         BigDecimal receiverAmountInUsd = currencyService.convert(senderAccount.getCurrency().getCode(),
-                "USD", receiverAmountInSenderCurrency, 2, RoundingMode.HALF_UP);
-        BigDecimal receiverAmountInReceiverCurrency = senderAmountInReceiverCurrency.subtract(chargesInReceiverCurrency);
+                "USD", senderAmount, 2, RoundingMode.HALF_UP);
 
-        BigDecimal balanceAfterForTheSender = currentSenderBalance.subtract(senderAmount);
-        BigDecimal balanceAfterForTheReceiver = currentReceiverBalance.add(receiverAmountInReceiverCurrency);
+        BigDecimal balanceAfterForTheSender = currentSenderBalance.subtract(senderAmount.add(charges));
+        BigDecimal balanceAfterForTheReceiver = currentReceiverBalance.add(senderAmountInReceiverCurrency);
         BigDecimal balanceAfterForPesaPay = currentPesaPayBalance.add(chargesInUsd);
 
         Transaction transaction = new Transaction();
@@ -244,9 +242,9 @@ public class TransactionService {
         transaction.setChargesInUsd(chargesInUsd);
         transaction.setChargesInReceiverCurrency(chargesInReceiverCurrency);
 
-        transaction.setReceiverAmount(receiverAmountInReceiverCurrency);
+        transaction.setReceiverAmount(senderAmountInReceiverCurrency);
         transaction.setReceiverAmountInUsd(receiverAmountInUsd);
-        transaction.setReceiverAmountInSenderCurrency(receiverAmountInSenderCurrency);
+        transaction.setReceiverAmountInSenderCurrency(senderAmount);
 
         transaction.setFxRate(currency.getRate());
 
