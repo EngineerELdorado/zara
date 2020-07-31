@@ -1,18 +1,13 @@
 package com.zara.Zara.services;
 
 import com.zara.Zara.dtos.requests.TransactionRequest;
-import com.zara.Zara.entities.Account;
-import com.zara.Zara.entities.BalanceLog;
-import com.zara.Zara.entities.Currency;
-import com.zara.Zara.entities.Transaction;
+import com.zara.Zara.entities.*;
+import com.zara.Zara.enums.AccountType;
 import com.zara.Zara.enums.TransactionStatus;
 import com.zara.Zara.enums.TransactionType;
 import com.zara.Zara.exceptions.exceptions.Zaka400Exception;
 import com.zara.Zara.exceptions.exceptions.Zaka500Exception;
-import com.zara.Zara.repositories.AccountRepository;
-import com.zara.Zara.repositories.BalanceLogRepository;
-import com.zara.Zara.repositories.CurrencyRepository;
-import com.zara.Zara.repositories.TransactionRepository;
+import com.zara.Zara.repositories.*;
 import com.zara.Zara.utils.GenerateRandomStuff;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,25 +32,27 @@ public class TransactionService {
     private final CurrencyService currencyService;
     private final CurrencyRepository currencyRepository;
     private final BalanceLogRepository balanceLogRepository;
+    private final CommissionAccountRepository commissionAccountRepository;
 
     @Transactional
     public Transaction processPesaPayDirectTransaction(TransactionRequest request, Long accountId) {
 
-        Account pesaPayAccount = accountRepository.findByMainAccount(true)
-                .orElseThrow(() -> new Zaka400Exception("Main Account not found"));
+        CommissionAccount pesapayCommissionAccount = commissionAccountRepository
+                .findMainCommissionAccountForUpdate(true)
+                .orElseThrow(() -> new Zaka400Exception("Commission Account not found"));
 
         Account senderAccount = accountRepository.findByIdForUpdate(accountId)
                 .orElseThrow(() -> new Zaka400Exception("Account not found"));
 
         Account receiverAccount = accountService.findAccountByRecipient(request.getRecipient());
 
+        CommissionAccount agentCommissionAccount;
+
         BigDecimal currentSenderBalance = senderAccount.getBalance();
         BigDecimal currentReceiverBalance = receiverAccount.getBalance();
-        BigDecimal currentPesaPayBalance = pesaPayAccount.getBalance();
 
         Currency currency = currencyRepository.findByCodeIgnoreCase(senderAccount.getCurrency().getCode()).orElseThrow(
-                () -> new Zaka400Exception("Currency not supported")
-        );
+                () -> new Zaka400Exception("Currency not supported"));
 
         BigDecimal senderAmount = request.getAmount();
         BigDecimal senderAmountInUSd = currencyService.convert(senderAccount.getCurrency().getCode(),
@@ -65,6 +62,10 @@ public class TransactionService {
 
         BigDecimal charges = senderAmount.multiply(BigDecimal.valueOf(5))
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+
+        BigDecimal commissionForPesaPay;
+        BigDecimal commissionForAgent;
+
 
         if (request.getAmount().add(charges).compareTo(senderAccount.getBalance()) > 0) {
 
@@ -78,13 +79,41 @@ public class TransactionService {
         BigDecimal chargesInReceiverCurrency = currencyService.convert(senderAccount.getCurrency().getCode(),
                 receiverAccount.getCurrency().getCode(), charges, 2, RoundingMode.HALF_UP);
 
+        if (request.getTransactionType().name().equals(TransactionType.WITHDRAWAL.name())) {
+
+            if (!receiverAccount.getType().name().equals(AccountType.AGENT.name())) {
+                throw new Zaka400Exception("Recipient account not an agent");
+            }
+            agentCommissionAccount = commissionAccountRepository
+                    .findByPrepaidAccountIdForUpdate(receiverAccount.getId())
+                    .orElseThrow(() -> new Zaka500Exception("Agent commission account not found"));
+
+            commissionForAgent = chargesInReceiverCurrency.multiply(BigDecimal.valueOf(10).divide(BigDecimal.valueOf(100),
+                    2, RoundingMode.HALF_UP));
+
+            commissionForPesaPay = charges.multiply(BigDecimal.valueOf(90).divide(BigDecimal.valueOf(100),
+                    2, RoundingMode.HALF_UP));
+
+            agentCommissionAccount.setBalance(agentCommissionAccount.getBalance().add(commissionForAgent));
+
+            try {
+                commissionAccountRepository.save(agentCommissionAccount);
+
+            } catch (Exception e) {
+                log.error("Failed to save commission for Agent: " + e.getCause());
+                throw new Zaka500Exception("Operation failed. please try again or contact support");
+            }
+        }
+        else{
+            commissionForPesaPay = charges;
+        }
+        pesapayCommissionAccount.setBalance(pesapayCommissionAccount.getBalance().add(commissionForPesaPay));
 
         BigDecimal receiverAmountInUsd = currencyService.convert(senderAccount.getCurrency().getCode(),
                 "USD", senderAmount, 2, RoundingMode.HALF_UP);
 
         BigDecimal balanceAfterForTheSender = currentSenderBalance.subtract(senderAmount.add(charges));
         BigDecimal balanceAfterForTheReceiver = currentReceiverBalance.add(senderAmountInReceiverCurrency);
-        BigDecimal balanceAfterForPesaPay = currentPesaPayBalance.add(chargesInUsd);
 
         Transaction transaction = new Transaction();
         transaction.setType(request.getTransactionType());
@@ -159,26 +188,15 @@ public class TransactionService {
             throw new Zaka500Exception("Operation failed. please try again or contact support");
         }
 
-        BalanceLog balanceLogForPesapay = new BalanceLog();
-        balanceLogForPesapay.setAccount(pesaPayAccount);
-        balanceLogForPesapay.setTransaction(transaction);
-        balanceLogForPesapay.setBalanceBefore(currentPesaPayBalance);
-        balanceLogForPesapay.setBalanceAfter(balanceAfterForPesaPay);
 
         try {
-            balanceLogRepository.save(balanceLogForPesapay);
+            commissionAccountRepository.save(pesapayCommissionAccount);
+
         } catch (Exception e) {
-            log.error("Failed to save balance log. Possible cause: " + e.getCause());
+            log.error("Failed to save commission for PesaPay: " + e.getCause());
             throw new Zaka500Exception("Operation failed. please try again or contact support");
         }
 
-        pesaPayAccount.setBalance(balanceAfterForPesaPay);
-        try {
-            accountRepository.save(pesaPayAccount);
-        } catch (Exception e) {
-            log.error("Failed to save balance for senderAccount: " + e.getCause());
-            throw new Zaka500Exception("Operation failed. please try again or contact support");
-        }
 
         return transaction;
     }

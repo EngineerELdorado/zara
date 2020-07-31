@@ -3,6 +3,8 @@ package com.zara.Zara.dtos.responses;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -19,4 +21,6 @@ public class AccountResponse {
     private String phone;
     private String accountType;
     private String contact;
+    private BigDecimal balance;
+    private BigDecimal commissions;
 }

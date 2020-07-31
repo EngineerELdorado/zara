@@ -4,16 +4,10 @@ import com.zara.Zara.configs.security.JwtUtil;
 import com.zara.Zara.dtos.requests.LoginRequest;
 import com.zara.Zara.dtos.requests.OnboardingRequest;
 import com.zara.Zara.dtos.requests.UserRegistrationRequest;
-import com.zara.Zara.entities.Account;
-import com.zara.Zara.entities.Country;
-import com.zara.Zara.entities.Currency;
-import com.zara.Zara.entities.User;
+import com.zara.Zara.entities.*;
 import com.zara.Zara.exceptions.exceptions.Zaka400Exception;
 import com.zara.Zara.exceptions.exceptions.Zaka500Exception;
-import com.zara.Zara.repositories.AccountRepository;
-import com.zara.Zara.repositories.CountryRepository;
-import com.zara.Zara.repositories.CurrencyRepository;
-import com.zara.Zara.repositories.UserRepository;
+import com.zara.Zara.repositories.*;
 import com.zara.Zara.services.mail.EmailService;
 import com.zara.Zara.utils.BusinessNumbersGenerator;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +34,7 @@ public class UserService {
     private final JwtUtil jwtUtil;
     @Qualifier("userDetailsServiceImp")
     private final UserDetailsService userDetailsService;
+    private final CommissionAccountRepository commissionAccountRepository;
 
     @Transactional
     public void createUser(UserRegistrationRequest userRegistrationRequest) {
@@ -104,10 +99,13 @@ public class UserService {
         account.setType(request.getAccountType());
 
         try {
-            accountRepository.save(account);
+            account = accountRepository.save(account);
             user.setPhoneNumber(request.getPhoneNumber());
             user.setOnboarded(true);
             userRepository.save(user);
+            CommissionAccount commissionAccount = new CommissionAccount();
+            commissionAccount.setAccount(account);
+            commissionAccountRepository.save(commissionAccount);
             String emailMsg = "Congratulations...Your account has been fully setup. \n" +
                     "Account holder: " + user.getFirstName() + " " + user.getLastName() + "\n" +
                     "Account number: " + account.getAccountNumber() + "\n" +
