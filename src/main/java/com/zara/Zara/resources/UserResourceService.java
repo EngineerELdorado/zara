@@ -1,10 +1,7 @@
 package com.zara.Zara.resources;
 
 import com.zara.Zara.converters.UserResourceConverter;
-import com.zara.Zara.dtos.requests.ForgotPasswordRequest;
-import com.zara.Zara.dtos.requests.LoginRequest;
-import com.zara.Zara.dtos.requests.OnboardingRequest;
-import com.zara.Zara.dtos.requests.UserRegistrationRequest;
+import com.zara.Zara.dtos.requests.*;
 import com.zara.Zara.dtos.responses.AccountResource;
 import com.zara.Zara.dtos.responses.UserLoginResponse;
 import com.zara.Zara.dtos.responses.UserProfileResponse;
@@ -47,7 +44,7 @@ public class UserResourceService {
        return userService.forgotPassword(request);
     }
 
-    public String resetPassword(String passwordResetToken, ForgotPasswordRequest request) {
+    public String resetPassword(String passwordResetToken, ResetPasswordRequest request) {
        return userService.resetPassword(passwordResetToken, request);
     }
 }

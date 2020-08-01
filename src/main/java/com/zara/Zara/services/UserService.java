@@ -1,10 +1,7 @@
 package com.zara.Zara.services;
 
 import com.zara.Zara.configs.security.JwtUtil;
-import com.zara.Zara.dtos.requests.ForgotPasswordRequest;
-import com.zara.Zara.dtos.requests.LoginRequest;
-import com.zara.Zara.dtos.requests.OnboardingRequest;
-import com.zara.Zara.dtos.requests.UserRegistrationRequest;
+import com.zara.Zara.dtos.requests.*;
 import com.zara.Zara.entities.*;
 import com.zara.Zara.exceptions.exceptions.Zaka400Exception;
 import com.zara.Zara.exceptions.exceptions.Zaka500Exception;
@@ -142,7 +139,7 @@ public class UserService {
         return "We have sent an email to your address to reset your password";
     }
 
-    public String resetPassword(String passwordResetToken, ForgotPasswordRequest request) {
+    public String resetPassword(String passwordResetToken, ResetPasswordRequest request) {
 
         return "Your password has been reset successfully";
     }
