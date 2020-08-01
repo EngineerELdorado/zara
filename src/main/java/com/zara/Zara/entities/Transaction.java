@@ -56,6 +56,43 @@ public class Transaction implements Serializable {
     private BigDecimal chargesInReceiverCurrency;
 
     @NotNull
+    @NotNull
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private BigDecimal commissionForPesaPayInSenderCurrency;
+    @NotNull
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private BigDecimal commissionForPesaPayInUSd;
+    @NotNull
+    @NotNull
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private BigDecimal commissionForPesaPayInReceiverCurrency;
+
+    @NotNull
+    @NotNull
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private BigDecimal commissionForSenderInSenderCurrency;
+    @NotNull
+    @NotNull
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private BigDecimal commissionForSenderInUSd;
+    @NotNull
+    @NotNull
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private BigDecimal commissionForSenderInReceiverCurrency;
+
+    @NotNull
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private BigDecimal commissionForReceiverInSenderCurrency;
+    @NotNull
+    @NotNull
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private BigDecimal commissionForReceiverInUSd;
+    @NotNull
+    @NotNull
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private BigDecimal commissionForReceiverInReceiverCurrency;
+
+    @NotNull
     private BigDecimal receiverAmount;
     @NotNull
     private BigDecimal receiverAmountInUsd;

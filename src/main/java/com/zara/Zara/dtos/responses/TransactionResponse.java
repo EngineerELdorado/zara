@@ -26,6 +26,15 @@ public class TransactionResponse {
     private BigDecimal receiverAmount;
     private BigDecimal receiverAmountInUsd;
     private BigDecimal receiverAmountInSenderCurrency;
+    private BigDecimal commissionForPesaPayInSenderCurrency;
+    private BigDecimal commissionForPesaPayInUSd;
+    private BigDecimal commissionForPesaPayInReceiverCurrency;
+    private BigDecimal commissionForSenderInSenderCurrency;
+    private BigDecimal commissionForSenderInUSd;
+    private BigDecimal commissionForSenderInReceiverCurrency;
+    private BigDecimal commissionForReceiverInSenderCurrency;
+    private BigDecimal commissionForReceiverInUSd;
+    private BigDecimal commissionForReceiverInReceiverCurrency;
     private String receiverCurrency;
     private BigDecimal balanceBefore;
     private BigDecimal balanceAfter;

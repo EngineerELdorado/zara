@@ -60,24 +60,28 @@ public class TransactionService {
         BigDecimal senderAmountInReceiverCurrency = currencyService.convert(senderAccount.getCurrency().getCode(),
                 receiverAccount.getCurrency().getCode(), request.getAmount(), 2, RoundingMode.HALF_UP);
 
-        BigDecimal charges = senderAmount.multiply(BigDecimal.valueOf(5))
+        BigDecimal chargesInSenderCurrency = senderAmount.multiply(BigDecimal.valueOf(5))
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
-        BigDecimal commissionForPesaPay;
-        BigDecimal commissionForAgent;
+        BigDecimal commissionForPesaPayInSenderCurrency = BigDecimal.ZERO;
+        BigDecimal commissionForPesaPayInUsd;
+        BigDecimal commissionForPesaPayInReceiverCurrency = BigDecimal.ZERO;
 
+        BigDecimal commissionForAgentInSenderCurrency = BigDecimal.ZERO;
+        BigDecimal commissionForAgentInUsd = BigDecimal.ZERO;
+        BigDecimal commissionForAgentInReceiverCurrency = BigDecimal.ZERO;
 
-        if (request.getAmount().add(charges).compareTo(senderAccount.getBalance()) > 0) {
+        if (request.getAmount().add(chargesInSenderCurrency).compareTo(senderAccount.getBalance()) > 0) {
 
             throw new Zaka400Exception("Insufficient Balance. Your current balance is " + senderAccount.getBalance() + "" +
-                    " you needs to also pay the transfer fees: " + charges);
+                    " you needs to also pay the transfer fees: " + chargesInSenderCurrency);
         }
 
         BigDecimal chargesInUsd = currencyService.convert(senderAccount.getCurrency().getCode(),
-                "USD", charges, 2, RoundingMode.HALF_UP);
+                "USD", chargesInSenderCurrency, 2, RoundingMode.HALF_UP);
 
         BigDecimal chargesInReceiverCurrency = currencyService.convert(senderAccount.getCurrency().getCode(),
-                receiverAccount.getCurrency().getCode(), charges, 2, RoundingMode.HALF_UP);
+                receiverAccount.getCurrency().getCode(), chargesInSenderCurrency, 2, RoundingMode.HALF_UP);
 
         if (request.getTransactionType().name().equals(TransactionType.WITHDRAWAL.name())) {
 
@@ -88,13 +92,22 @@ public class TransactionService {
                     .findByPrepaidAccountIdForUpdate(receiverAccount.getId())
                     .orElseThrow(() -> new Zaka500Exception("Agent commission account not found"));
 
-            commissionForAgent = chargesInReceiverCurrency.multiply(BigDecimal.valueOf(10).divide(BigDecimal.valueOf(100),
-                    2, RoundingMode.HALF_UP));
+            BigDecimal tenPercent = BigDecimal.valueOf(10).divide(BigDecimal.valueOf(100),
+                    2, RoundingMode.HALF_UP);
+            commissionForAgentInSenderCurrency = chargesInSenderCurrency.multiply(tenPercent);
 
-            commissionForPesaPay = charges.multiply(BigDecimal.valueOf(90).divide(BigDecimal.valueOf(100),
-                    2, RoundingMode.HALF_UP));
+            commissionForAgentInUsd = chargesInUsd.multiply(tenPercent);
 
-            agentCommissionAccount.setBalance(agentCommissionAccount.getBalance().add(commissionForAgent));
+            commissionForAgentInReceiverCurrency = chargesInReceiverCurrency.multiply(tenPercent);
+
+            BigDecimal ninetyPercent = BigDecimal.valueOf(90).divide(BigDecimal.valueOf(100),
+                    2, RoundingMode.HALF_UP);
+            commissionForPesaPayInSenderCurrency = chargesInSenderCurrency.multiply(ninetyPercent);
+            commissionForPesaPayInUsd = chargesInUsd.multiply(ninetyPercent);
+
+            commissionForPesaPayInReceiverCurrency = chargesInReceiverCurrency.multiply(ninetyPercent);
+
+            agentCommissionAccount.setBalance(agentCommissionAccount.getBalance().add(commissionForAgentInReceiverCurrency));
 
             try {
                 commissionAccountRepository.save(agentCommissionAccount);
@@ -105,14 +118,14 @@ public class TransactionService {
             }
         }
         else{
-            commissionForPesaPay = charges;
+            commissionForPesaPayInUsd = chargesInUsd;
         }
-        pesapayCommissionAccount.setBalance(pesapayCommissionAccount.getBalance().add(commissionForPesaPay));
+        pesapayCommissionAccount.setBalance(pesapayCommissionAccount.getBalance().add(commissionForPesaPayInUsd));
 
         BigDecimal receiverAmountInUsd = currencyService.convert(senderAccount.getCurrency().getCode(),
                 "USD", senderAmount, 2, RoundingMode.HALF_UP);
 
-        BigDecimal balanceAfterForTheSender = currentSenderBalance.subtract(senderAmount.add(charges));
+        BigDecimal balanceAfterForTheSender = currentSenderBalance.subtract(senderAmount.add(chargesInSenderCurrency));
         BigDecimal balanceAfterForTheReceiver = currentReceiverBalance.add(senderAmountInReceiverCurrency);
 
         Transaction transaction = new Transaction();
@@ -121,7 +134,7 @@ public class TransactionService {
         transaction.setSenderAmountInUsd(senderAmountInUSd);
         transaction.setSenderAmountInReceiverCurrency(senderAmountInReceiverCurrency);
 
-        transaction.setChargesInSenderCurrency(charges);
+        transaction.setChargesInSenderCurrency(chargesInSenderCurrency);
         transaction.setChargesInUsd(chargesInUsd);
         transaction.setChargesInReceiverCurrency(chargesInReceiverCurrency);
 
@@ -137,7 +150,15 @@ public class TransactionService {
         transaction.setSenderAccount(senderAccount);
         transaction.setReceiverAccount(receiverAccount);
         transaction.setTransactionStatus(TransactionStatus.SUCCESS);
-
+        transaction.setCommissionForPesaPayInSenderCurrency(commissionForPesaPayInSenderCurrency);
+        transaction.setCommissionForPesaPayInUSd(commissionForPesaPayInUsd);
+        transaction.setCommissionForPesaPayInReceiverCurrency(commissionForPesaPayInReceiverCurrency);
+        transaction.setCommissionForReceiverInSenderCurrency(commissionForAgentInSenderCurrency);
+        transaction.setCommissionForReceiverInUSd(commissionForAgentInUsd);
+        transaction.setCommissionForReceiverInReceiverCurrency(commissionForAgentInReceiverCurrency);
+        transaction.setCommissionForSenderInSenderCurrency(BigDecimal.ZERO);
+        transaction.setCommissionForSenderInUSd(BigDecimal.ZERO);
+        transaction.setCommissionForSenderInReceiverCurrency(BigDecimal.ZERO);
 
         try {
             transaction = transactionRepository.save(transaction);
