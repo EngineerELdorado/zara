@@ -1,6 +1,7 @@
 package com.zara.Zara.services;
 
 import com.zara.Zara.configs.security.JwtUtil;
+import com.zara.Zara.dtos.requests.ForgotPasswordRequest;
 import com.zara.Zara.dtos.requests.LoginRequest;
 import com.zara.Zara.dtos.requests.OnboardingRequest;
 import com.zara.Zara.dtos.requests.UserRegistrationRequest;
@@ -122,5 +123,27 @@ public class UserService {
     public User getProfile(Long userId) {
 
         return userRepository.findById(userId).orElseThrow(() -> new Zaka400Exception("User not found for ID" + userId));
+    }
+
+    public String forgotPassword(ForgotPasswordRequest request) {
+
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new Zaka500Exception("" +
+                " User not found for email " + request.getEmail()));
+        String resetPasswordToken = jwtUtil.generateToken(this.userDetailsService.loadUserByUsername(user.getEmail()));
+        user.setResetPasswordToken(resetPasswordToken);
+        try {
+            userRepository.save(user);
+        } catch (Exception e) {
+            log.error("Failed to save the resetPasswordToken. Possible cause: " + e.getCause());
+            throw new Zaka500Exception("Account Creation Failed");
+        }
+        // TODO: 02/08/2020 Send reset password link with the token
+
+        return "We have sent an email to your address to reset your password";
+    }
+
+    public String resetPassword(String passwordResetToken, ForgotPasswordRequest request) {
+
+        return "Your password has been reset successfully";
     }
 }

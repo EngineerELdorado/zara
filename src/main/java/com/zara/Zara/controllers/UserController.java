@@ -1,5 +1,6 @@
 package com.zara.Zara.controllers;
 
+import com.zara.Zara.dtos.requests.ForgotPasswordRequest;
 import com.zara.Zara.dtos.requests.LoginRequest;
 import com.zara.Zara.dtos.requests.OnboardingRequest;
 import com.zara.Zara.dtos.requests.UserRegistrationRequest;
@@ -47,5 +48,17 @@ public class UserController {
     public ResponseEntity<UserProfileResponse> getProfile(@PathVariable Long userId) {
 
         return new ResponseEntity<>(userResourceService.getProfile(userId), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/{userId}/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+
+        return new ResponseEntity<>(userResourceService.forgotPassword(request), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/{userId}/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam String passwordResetToken, @RequestBody ForgotPasswordRequest request) {
+
+        return new ResponseEntity<>(userResourceService.resetPassword(passwordResetToken, request), HttpStatus.OK);
     }
 }

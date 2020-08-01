@@ -38,6 +38,7 @@ public class User implements Serializable {
     private String password;
     @Transient
     private String token;
+    private String resetPasswordToken;
 
     @CreationTimestamp
     @Setter(value = AccessLevel.NONE)

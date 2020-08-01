@@ -1,6 +1,7 @@
 package com.zara.Zara.resources;
 
 import com.zara.Zara.converters.UserResourceConverter;
+import com.zara.Zara.dtos.requests.ForgotPasswordRequest;
 import com.zara.Zara.dtos.requests.LoginRequest;
 import com.zara.Zara.dtos.requests.OnboardingRequest;
 import com.zara.Zara.dtos.requests.UserRegistrationRequest;
@@ -39,5 +40,14 @@ public class UserResourceService {
 
     public UserProfileResponse getProfile(Long userId) {
         return userResourceConverter.convertToProfileResource(userService.getProfile(userId));
+    }
+
+    public String forgotPassword(ForgotPasswordRequest request) {
+
+       return userService.forgotPassword(request);
+    }
+
+    public String resetPassword(String passwordResetToken, ForgotPasswordRequest request) {
+       return userService.resetPassword(passwordResetToken, request);
     }
 }
