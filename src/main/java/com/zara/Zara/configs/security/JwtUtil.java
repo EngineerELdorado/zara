@@ -1,9 +1,7 @@
 package com.zara.Zara.configs.security;
 
-import com.zara.Zara.entities.Account;
-import com.zara.Zara.entities.User;
+import com.zara.Zara.entities.Admin;
 import com.zara.Zara.exceptions.exceptions.Zaka500Exception;
-import com.zara.Zara.repositories.AccountRepository;
 import com.zara.Zara.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -25,7 +23,6 @@ public class JwtUtil {
     private final String SECRET = "1234567890";
 
     private final UserRepository userRepository;
-    private final AccountRepository accountRepository;
 
     public String extractUsername(String token) {
 
@@ -57,15 +54,11 @@ public class JwtUtil {
 
 
         Map<String, Object> claims = new HashMap<>();
-        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow(
-                () -> new Zaka500Exception("User not found for username " + userDetails.getUsername())
+        Admin admin = userRepository.findByEmail(userDetails.getUsername()).orElseThrow(
+                () -> new Zaka500Exception("Admin not found for username " + userDetails.getUsername())
         );
-        claims.put("id", user.getId());
+        claims.put("id", admin.getId());
 
-        if (accountRepository.findByUserId(user.getId()).isPresent()) {
-            Account account = accountRepository.findByUserId(user.getId()).get();
-            claims.put("role", account.getType().name());
-        }
         return createToken(claims, userDetails.getUsername());
     }
 

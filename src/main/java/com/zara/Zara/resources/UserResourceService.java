@@ -1,6 +1,5 @@
 package com.zara.Zara.resources;
 
-import com.zara.Zara.converters.UserResourceConverter;
 import com.zara.Zara.dtos.requests.*;
 import com.zara.Zara.dtos.responses.AccountResource;
 import com.zara.Zara.dtos.responses.UserLoginResponse;
@@ -16,7 +15,6 @@ import javax.transaction.Transactional;
 public class UserResourceService {
 
     private final UserService userService;
-    private final UserResourceConverter userResourceConverter;
 
     @Transactional
     public void createUser(UserRegistrationRequest userRegistrationRequest) {
@@ -24,20 +22,6 @@ public class UserResourceService {
         userService.createUser(userRegistrationRequest);
     }
 
-    @Transactional
-    public UserLoginResponse login(LoginRequest loginRequest) {
-
-        return userResourceConverter.convertLoginResponse(userService.login(loginRequest));
-    }
-
-    @Transactional
-    public AccountResource onboard(Long userId, OnboardingRequest onboardingRequest) {
-        return userResourceConverter.convertToAccountResource(userService.onboard(userId, onboardingRequest));
-    }
-
-    public UserProfileResponse getProfile(Long userId) {
-        return userResourceConverter.convertToProfileResource(userService.getProfile(userId));
-    }
 
     public String forgotPassword(ForgotPasswordRequest request) {
 

@@ -1,6 +1,6 @@
 package com.zara.Zara.configs.security;
 
-import com.zara.Zara.entities.User;
+import com.zara.Zara.entities.Admin;
 import com.zara.Zara.exceptions.exceptions.Zaka400Exception;
 import com.zara.Zara.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User appUser = userService.findByEmail(username).orElseThrow(() -> new Zaka400Exception("User not found"));
+        Admin appAdmin = userService.findByEmail(username).orElseThrow(() -> new Zaka400Exception("Admin not found"));
         UserDetails userDetails;
         try {
             userDetails = new UserDetails() {
@@ -32,12 +32,12 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
                 @Override
                 public String getPassword() {
-                    return appUser.getPassword();
+                    return appAdmin.getPassword();
                 }
 
                 @Override
                 public String getUsername() {
-                    return appUser.getEmail();
+                    return appAdmin.getEmail();
                 }
 
                 @Override

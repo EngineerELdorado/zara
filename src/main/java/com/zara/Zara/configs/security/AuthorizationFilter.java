@@ -1,9 +1,5 @@
 package com.zara.Zara.configs.security;
 
-import com.zara.Zara.entities.User;
-import com.zara.Zara.exceptions.exceptions.Zaka400Exception;
-import com.zara.Zara.exceptions.exceptions.Zaka500Exception;
-import com.zara.Zara.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
