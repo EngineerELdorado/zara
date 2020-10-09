@@ -1,5 +1,8 @@
 package com.zara.Zara;
 
+import com.zara.Zara.integrations.test.countries.client.CountryClient;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;

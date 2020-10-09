@@ -41,14 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/csrf").permitAll()
                 .antMatchers("/").permitAll()
 
-                .antMatchers(HttpMethod.GET, "/welcome").permitAll()
-
-                .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .antMatchers(HttpMethod.POST, "/users/login").permitAll()
-
-                .antMatchers(HttpMethod.GET, "/countries").permitAll()
-                .antMatchers(HttpMethod.GET, "/currencies").permitAll()
-                .antMatchers(HttpMethod.POST, "/currencies/convert").permitAll()
+                .antMatchers(HttpMethod.GET, "/**").permitAll()
 
                 .anyRequest().authenticated()
                 .and()
