@@ -52,5 +52,4 @@ public class AppUser {
     private String verificationCode;
     @ManyToMany
     private Collection<Role>roles;
-
 }
