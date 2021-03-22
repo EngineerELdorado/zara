@@ -1,26 +1,19 @@
 package com.zara.Zara.utils;
 
-import com.zara.Zara.entities.Transaction;
-import com.zara.Zara.services.ITransactionService;
+import com.zara.Zara.repositories.UserRepository;
 
 public class BusinessNumbersGenerator {
 
+    public static String generateAccountNumber(UserRepository accountRepository) {
 
-
-    public static String generateTransationNumber(ITransactionService transactionService){
-        String transactionNumber = GenerateRandomStuff.getRandomString(3).toUpperCase()
-                +String.valueOf(GenerateRandomStuff.getRandomNumber(1000))
-                +GenerateRandomStuff.getRandomString(2)
-                +String.valueOf(GenerateRandomStuff.getRandomNumber(1000));
-        Transaction transaction = transactionService.findByTransactionNumber(transactionNumber);
-        if(transaction==null){
-            return transactionNumber;
-
-        }
-        else{
-            generateTransationNumber(transactionService);
+        String accountNumber = GenerateRandomStuff.getRandomNumber(9)
+                + GenerateRandomStuff.getRandomString(5) + GenerateRandomStuff.getRandomNumber(9);
+        boolean numberISTaken = accountRepository.findByPhoneNumber(accountNumber).isPresent();
+        if (!numberISTaken) {
+            return accountNumber;
+        } else {
+            generateAccountNumber(accountRepository);
         }
         return null;
     }
-
 }

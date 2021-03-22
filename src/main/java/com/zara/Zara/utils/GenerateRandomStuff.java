@@ -14,7 +14,7 @@ public class GenerateRandomStuff {
 
     public static String getRandomString(int count) {
 
-      final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
         StringBuilder builder = new StringBuilder();
         while (count-- != 0) {
             int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
